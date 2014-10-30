@@ -1,0 +1,5 @@
+StepperMotor	KEYWORD1
+setPeriod	KEYWORD2
+move	KEYWORD2
+stop	KEYWORD2
+reset	KEYWORD2
