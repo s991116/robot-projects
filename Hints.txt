@@ -1,0 +1,15 @@
+Git:
+Remember Git password, when pushing changes to google.code
+
+run the cmd type this:
+setx HOME %USERPROFILE% 
+and the %HOME% will be set to 'C:\Users\"username"'
+
+then go to it and make a file called '_netrc'
+Note: for Windows, you need a '_netrc' file, not a '.netrc'.
+
+Its content is quite standard (Replace the with your values):
+
+machine code.google.com 
+login philip.juhl@gmail.com 
+password <Google generated>
