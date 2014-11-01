@@ -10,8 +10,7 @@ public class Main {
 		System.out.println("");
 		System.out.println("Hello Test");
 		System.out.println("ESC. to quit");
-		while(Button.ESCAPE.isUp()) {
-            
+		while(Button.ESCAPE.isUp()) { 
         }
 	}
 }

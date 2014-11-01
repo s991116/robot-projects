@@ -1,0 +1,6 @@
+EV3
+
+Eclipse:
+Select Import from Project Explorer. Select LeJOS project.
+
+Eclipse project Java version should match leJOS java version (1.7)

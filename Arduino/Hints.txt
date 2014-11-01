@@ -1,0 +1,3 @@
+Arduino Hints
+
+If Arduino program is slow (for Windows), change driver rxtxSerial.dll with the one from the extra-folder.
