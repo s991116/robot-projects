@@ -22,6 +22,6 @@ public class NoseSensor extends UARTSensor implements SensorMode {
  
     @Override
     public String getName() {
-        return "Smelly";
+        return "ArduinoTest";
     }
 }

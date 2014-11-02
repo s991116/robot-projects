@@ -15,10 +15,12 @@ public class Main {
     public static void main(String[] args) {
         NoseSensor nose = new NoseSensor(SensorPort.S1);
         float[] sample = new float[nose.sampleSize()];
-         
+        LCD.drawString("SensorValue: ", 0, 3);
+        
         while(Button.ESCAPE.isUp()) {
             nose.fetchSample(sample,0);
-            System.out.println("Smelliness: " + sample[0]);
+            LCD.drawInt((int)sample[0],0,4);
+            Delay.msDelay(500);
         }   
         nose.close();
     }
