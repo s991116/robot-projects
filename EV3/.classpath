@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="GyroSensor/" kind="src" path="Hello LejOS/src"/>
+	<classpathentry excluding="Main.java" kind="src" path="LejosTest/src"/>
+	<classpathentry kind="lib" path="Hello LejOS/Main.jar"/>
+	<classpathentry kind="lib" path="LejosTest/Main.jar"/>
+	<classpathentry kind="lib" path="LejosTest/Test.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="LejosTest/bin"/>
+</classpath>
