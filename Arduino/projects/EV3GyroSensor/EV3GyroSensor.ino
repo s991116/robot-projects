@@ -48,8 +48,12 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 #define UART_TX (6)
 #define UART_TYPE (99)
 #define UART_BITRATE (38400)
+#define EV3_SAMPLING_PERIOD (50)
 //EV3UARTEmulation sensor(UART_RX, UART_TX, UART_TYPE, UART_BITRATE);
 EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
+short sensorValue[8];
+short oldSensorValue[3];
+
 
 long last_reading ;
 bool LEDMode;
@@ -104,17 +108,14 @@ void setup() {
 
         // get expected DMP packet size for later comparison
         packetSize = mpu.dmpGetFIFOPacketSize();
-    } else {
     }
     
- //      Serial.begin(9600);
     Serial.begin(UART_BITRATE);
     while(!Serial);
 
     LEDMode = true;
     digitalWrite(LED_PIN, LEDMode);
-    sensor.create_mode("YPR", true, DATA16, 3, 5, 0);
-//    sensor.create_mode("YPR", true, DATA16, 1, 3, 0);
+    sensor.create_mode("YPR", true, DATA16, 6, 5, 0);
     sensor.reset();
     LEDMode = false;
     digitalWrite(LED_PIN, LEDMode);
@@ -127,7 +128,6 @@ void setup() {
 // ================================================================
 // ===                    MAIN PROGRAM LOOP                     ===
 // ================================================================
-short sensorValue[4];
 void loop() {
     // if programming failed, don't try to do anything
     if (!dmpReady) return;
@@ -137,14 +137,22 @@ void loop() {
         // other program behavior stuff here
         
         sensor.heart_beat();
-        if (millis() - last_reading > 100)
+        if (millis() - last_reading > EV3_SAMPLING_PERIOD)
         {
           CalculateOrientation();
           sensorValue[0] = ypr[0]*GYRO_VALUE_FACTOR;
           sensorValue[1] = ypr[1]*GYRO_VALUE_FACTOR;
           sensorValue[2] = ypr[2]*GYRO_VALUE_FACTOR;
-          sensor.send_data16(sensorValue,4);
-//          sensor.send_data16(666);
+          
+          sensorValue[4] = sensorValue[0] - oldSensorValue[0];
+          sensorValue[4] = sensorValue[1] - oldSensorValue[1];
+          sensorValue[4] = sensorValue[2] - oldSensorValue[2];
+
+          oldSensorValue[0] = sensorValue[0];
+          oldSensorValue[1] = sensorValue[1];
+          oldSensorValue[2] = sensorValue[2];
+
+          sensor.send_data16(sensorValue,8);
           last_reading = millis();
           LEDMode = !LEDMode;
           digitalWrite(LED_PIN, LEDMode);

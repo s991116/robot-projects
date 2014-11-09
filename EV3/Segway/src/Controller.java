@@ -2,20 +2,32 @@ import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.Motor;
+import lejos.hardware.motor.NXTMotor;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 
 public class Controller {
 
 	private IState stateView;
 	private boolean quitProgram = false;
-	private Model model;
+//	private BalanceModel model;
+	private Segoway model;
+	private long time;
+	private long updateTime;
 
 	public Controller()
 	{
+		NXTMotor leftMotor = new NXTMotor(MotorPort.C);
+		NXTMotor rightMotor = new NXTMotor(MotorPort.B);
+		
 		LCD.drawString("*", 1,2);
 		MPU6050GyroSensor gyroSensor = new MPU6050GyroSensor(SensorPort.S2);		
+
 		LCD.drawString("**", 1,2);
-		model = new Model(gyroSensor, Motor.C, Motor.B);
+//		model = new BalanceModel(gyroSensor, Motor.C, Motor.B);
+		model = new Segoway(leftMotor, rightMotor, gyroSensor, 5.6);		
+
+
 		LCD.drawString("***", 1,2);		
 		this.SwitchState(new Paused(this));
 		LCD.drawString("****", 1,2);
@@ -35,9 +47,19 @@ public class Controller {
 	public void Run() {
     	while(!quitProgram)
     	{
-    		stateView.Display();
-    		model.Balance();
+    		updateDisplay();
+//    		model.Balance();
     	}
+	}
+	
+	public void updateDisplay() {
+		time = java.lang.System.currentTimeMillis();
+		
+		if(time - updateTime > 200)
+		{
+    		stateView.Display();
+    		updateTime = time;			
+		}
 	}
 
 	public IState getState() {
@@ -59,14 +81,55 @@ public class Controller {
 	}
 		
 	public void Adjust() {
-		this.model.AdjustCenterValue();
+//		this.model.AdjustCenterValue();
 	}
 	
 	public int getCenterValue() {
-		return this.model.getCenterValue();
+//		return this.model.getCurrentPosition();
+		return 0;
 	}
 
 	public int getCurrentValue() {
-		return this.model.getCurrentPosition();
+		return this.model.getCurrentAngle();
+	}
+
+	public void DCorrDown() {
+	//	int adjust = this.model.getDCorr()-1;
+	//	this.model.setDCorr(adjust);		
+	}
+
+	public void DCorrUp() {
+	//	int adjust = this.model.getDCorr()+1;
+	//	this.model.setDCorr(adjust);
+	}
+
+	public void PCorrUp() {
+	//	int adjust = this.model.getPCorr()+1;
+	//	this.model.setPCorr(adjust);
+	}
+
+	public void PCorrDown() {
+	//	int adjust = this.model.getPCorr()-1;
+	//	this.model.setPCorr(adjust);
+	}
+
+	public int getPValue() {
+	//	return this.model.getPCorr();
+		return 0;
+	}
+
+	public int getDValue() {
+	//	return this.model.getDCorr();
+		return 0;
+	}
+
+	public int getCorrection() {
+	//	return this.model.getCorrection();
+		return 0;
+	}
+
+	public int getCurrentAccelration() {
+	//	return this.model.getCurrentAccelration();
+		return 0;
 	}
 }
