@@ -192,7 +192,14 @@ public class Segoway extends Thread { // TODO: Thread should be a private inner 
 		//left_motor.flt(); // TODO: This didn't seem to make a bit of difference with GyroSensor calibration.
 		//right_motor.flt();
 		
-		gyro.recalibrateOffset();
+		int measureCount = 20;
+		int gyroSum = 0;
+		for(int i=0; i<measureCount; i++)
+		{
+			gyroSum += gyro.getAngular();
+			
+		}
+		gAngleGlobal = gyroSum/measureCount;		
 	}
 
 	/**
@@ -222,14 +229,22 @@ public class Segoway extends Thread { // TODO: Thread should be a private inner 
 	private void updateGyroData() {
 		// TODO: The GyroSensor class actually rebaselines for drift ever 5 seconds. This not needed? Or is this method better?
 		// Some of this fine tuning may actually interfere with fine-tuning happening in the hardcoded dIMU and GyroScope code.
+		
+		gyroSpeed = gyro.getAngularVelocity();
+		gyroAngle = gyro.getAngular() - gAngleGlobal;
+		/*
+		
 		float gyroRaw;
 
 		gyroRaw = gyro.getAngularVelocity();
+		
+		
 		gOffset = EMAOFFSET * gyroRaw + (1-EMAOFFSET) * gOffset;
 		gyroSpeed = gyroRaw - gOffset; // Angular velocity (degrees/sec)
 
 		gAngleGlobal += gyroSpeed*tInterval;
 		gyroAngle = gAngleGlobal; // Absolute angle (degrees)
+		*/
 	}
 
 	/**
@@ -408,17 +423,20 @@ public class Segoway extends Thread { // TODO: Thread should be a private inner 
 
 			// Check if robot has fallen by detecting that motorPos is being limited
 			// for an extended amount of time.
-			if ((System.currentTimeMillis() - tMotorPosOK) > TIME_FALL_LIMIT) break;
+//			if ((System.currentTimeMillis() - tMotorPosOK) > TIME_FALL_LIMIT) break;
 			
 			try {Thread.sleep(WAIT_TIME);} catch (InterruptedException e) {}
 		} // end of while() loop
 		
-		left_motor.flt();
+/*
+  		left_motor.flt();
+ 
 		right_motor.flt();
 
 		System.out.println("Oops... I fell");
 		System.out.println("tInt ms:");
 		System.out.println((int)tInterval*1000);
+*/
 	} // END OF BALANCING THREAD CODE
 
 	/**

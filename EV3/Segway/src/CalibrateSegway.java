@@ -2,11 +2,11 @@ import lejos.hardware.Key;
 import lejos.hardware.lcd.LCD;
 
 
-public class Adjust implements IState {
+public class CalibrateSegway implements IState {
 
 	private Controller controller;
 
-	public Adjust(Controller controller) {
+	public CalibrateSegway(Controller controller) {
 		this.controller = controller;
 		
 	}
@@ -22,7 +22,7 @@ public class Adjust implements IState {
 		switch(keyCode)
 		{
 		  case Key.ENTER:
-			this.controller.Adjust();
+			this.controller.Calibrate();
 			this.controller.SwitchState(new Balance(this.controller));
 			break;
 		}

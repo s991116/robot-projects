@@ -15,7 +15,7 @@ public class Paused implements IState {
 		switch(keyCode)
 		{
 		  case Key.ENTER:
-			IState nextState = new Adjust(this.controller);
+			IState nextState = new CalibrateSegway(this.controller);
 			this.controller.SwitchState(nextState);
 			break;
 		}

@@ -47,8 +47,8 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 #define UART_RX (7)
 #define UART_TX (6)
 #define UART_TYPE (99)
-#define UART_BITRATE (38400)
-#define EV3_SAMPLING_PERIOD (50)
+#define UART_BITRATE (115200)
+#define EV3_SAMPLING_PERIOD (25)
 //EV3UARTEmulation sensor(UART_RX, UART_TX, UART_TYPE, UART_BITRATE);
 EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
 short sensorValue[8];

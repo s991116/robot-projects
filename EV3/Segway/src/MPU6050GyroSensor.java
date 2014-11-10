@@ -1,6 +1,4 @@
 import lejos.hardware.port.Port;
-import lejos.hardware.sensor.SensorMode;
-import lejos.hardware.sensor.UARTSensor;
 
 public class MPU6050GyroSensor {
  
