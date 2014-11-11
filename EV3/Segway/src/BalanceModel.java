@@ -16,14 +16,15 @@ public class BalanceModel extends Thread {
 
 	private int MIN_CORRECTION;
 	private int MAX_CORRECTION;
-	private double D_CORR = 2;
+	private double D_CORR = 0.4;
 	private double P_CORR = 1.5;
-	private float speedCorr = 3;
+	private double speedCorr = 0.1;
 
 	private int correction;
-	private int sampleTimeInMS = 50;
+	private int sampleTimeInMS = 40;
 	private MotorSpeedControl speedControl;
 	private long StartTime;
+	private volatile boolean Paused;
 	
 		
 	public BalanceModel(EncoderMotor left, EncoderMotor right, MPU6050GyroSensor gyro) {
@@ -34,6 +35,8 @@ public class BalanceModel extends Thread {
 		
 		MAX_CORRECTION = 1000;
 		MIN_CORRECTION = -1000;
+		
+		Paused = true;
 		
 		this.setDaemon(true);
 	}
@@ -48,7 +51,7 @@ public class BalanceModel extends Thread {
 		this.setCalibartedCenterAngle(sampleSum / AdjustLoopCount);
 	}
 	
-	public int getCalibartedCenterAngle() {
+	public int getCalibratedCenterAngle() {
 		return calibartedCenterAngle;
 	}
 
@@ -68,16 +71,22 @@ public class BalanceModel extends Thread {
 		StartTime = System.currentTimeMillis();
 
 		while(true) {
-			
-			this.correction = GetCorrectionBalance();
-			this.speedControl.UpdateMotorSpeed(correction);
+			if(!Paused)
+			{
+				this.correction = GetCorrectionBalance();
+				this.speedControl.UpdateMotorSpeed(correction);
+			}
+			else
+			{
+				this.speedControl.Stop();
+			}
 			WaitForNextSample();
 		}
 	}
 
 	private int GetCorrectionBalance() {
 		currentPosition = this.gyroSensor.getAngular();
-		int anglePositionError = currentPosition - this.getCalibartedCenterAngle();
+		int anglePositionError = currentPosition - this.getCalibratedCenterAngle();
 		
 		int corr = (int) (anglePositionError * this.P_CORR + this.gyroSensor.getAngularVelocity() * this.D_CORR);
 		
@@ -122,12 +131,19 @@ public class BalanceModel extends Thread {
 		return this.correction;
 	}
 
-	public float getSpeedCorr() {
+	public double getSpeedCorr() {
 		return speedCorr;
 	}
 
-	public void setSpeedCorr(float speedCorr) {
+	public void setSpeedCorr(double speedCorr) {
 		this.speedCorr = speedCorr;
 	}
-	
+
+	public void pauseBalancing() {
+		Paused = true;
+	}
+
+	public void startBalancing() {
+		Paused = false;		
+	}
 }

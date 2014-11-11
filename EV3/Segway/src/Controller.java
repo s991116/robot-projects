@@ -24,11 +24,12 @@ public class Controller {
 
 		LCD.drawString("**", 1,2);
 		model = new BalanceModel(leftMotor, rightMotor, gyroSensor);
+		model.start();
 //		model = new Segoway(leftMotor, rightMotor, gyroSensor, 5.6);		
 
 
 		LCD.drawString("***", 1,2);		
-		this.SwitchState(new Paused(this));
+		this.SwitchState(new CalibrateSegway(this));
 		LCD.drawString("****", 1,2);
 		AddKeyListeners();
 		LCD.drawString("*****", 1,2);
@@ -50,7 +51,7 @@ public class Controller {
 //    		model.Balance();
     	}
 	}
-	
+		
 	public void updateDisplay() {
 		time = java.lang.System.currentTimeMillis();
 		
@@ -84,30 +85,20 @@ public class Controller {
 	}
 	
 	public int getCenterValue() {
-		return this.model.getCalibartedCenterAngle();
+		return this.model.getCalibratedCenterAngle();
 	}
 
 	public int getCurrentValue() {
 		return this.model.getCurrentPosition();
 	}
 
-	public void DCorrDown() {
-		double adjust = this.model.getDCorr()-0.1;
+	public void DCorrAdjust(double stepSize) {
+		double adjust = this.model.getDCorr() + stepSize;
 		this.model.setDCorr(adjust);		
 	}
 
-	public void DCorrUp() {
-		double adjust = this.model.getDCorr()+0.1;
-		this.model.setDCorr(adjust);
-	}
-
-	public void PCorrUp() {
-		double adjust = this.model.getPCorr()+0.1;
-		this.model.setPCorr(adjust);
-	}
-
-	public void PCorrDown() {
-		double adjust = this.model.getPCorr()-0.1;
+	public void PCorrAdjust(double stepSize) {
+		double adjust = this.model.getPCorr() + stepSize;
 		this.model.setPCorr(adjust);
 	}
 
@@ -127,8 +118,12 @@ public class Controller {
 		return this.model.getCurrentAccelration();
 	}
 
-	public void StartBalancing() {
-		this.model.start();
-		
+	public void PauseBalancing() {
+		this.model.pauseBalancing();
 	}
+	
+	public void StartBalancing() {
+		this.model.startBalancing();
+	}
+
 }
