@@ -56,8 +56,7 @@ public class MotorSpeedControl {
 	}
 
 	private void AdjustMotorSpeed(long currentMotorSpeed, int targetSpeed) {
-		int power = this.getMotorPower();
-		power += (int) ((targetSpeed - currentMotorSpeed) * this.pSpeedCorr );
+		int power = (int) ((currentMotorSpeed - targetSpeed) * this.pSpeedCorr );
 		this.setMotorPower(power);				
 	}
 
@@ -69,10 +68,10 @@ public class MotorSpeedControl {
 		
 		this.motorPower = power;
 
-		this.leftMotor.setPower(Math.abs(motorPower));
-		this.rightMotor.setPower(Math.abs(motorPower));
+		this.leftMotor.setPower(Math.abs(this.motorPower));
+		this.rightMotor.setPower(Math.abs(this.motorPower));
 
-		if(motorPower > 0)
+		if(this.motorPower > 0)
 		{
 			this.leftMotor.forward();
 			this.rightMotor.forward();
@@ -89,7 +88,8 @@ public class MotorSpeedControl {
 	}
 
 	private void UpdateDeltaAverage(long deltaDistanceSample) {
-
+		this.deltaDistanceAverage = deltaDistanceSample;	
+/*
 		this.deltaDistanceAverage += (deltaDistanceSample-averageDistanceSamples[averageDistanceUpdateIndex]);	
 		averageDistanceSamples[averageDistanceUpdateIndex] = deltaDistanceSample;
 		if(averageDistanceUpdateIndex < averageDistanceCount-1)
@@ -100,14 +100,15 @@ public class MotorSpeedControl {
 		{
 			averageDistanceUpdateIndex = 0;						
 		}
+*/
 	}
 
 	public double getPSpeedCorr() {
 		return pSpeedCorr;
 	}
 
-	public void setPSpeedCorr(double pSpeedCorr2) {
-		this.pSpeedCorr = pSpeedCorr2;
+	private void setPSpeedCorr(double pSpeedCorr) {
+		this.pSpeedCorr = pSpeedCorr;
 	}
 	
 	public void Stop()

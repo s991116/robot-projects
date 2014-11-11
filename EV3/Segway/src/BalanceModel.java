@@ -18,7 +18,7 @@ public class BalanceModel extends Thread {
 	private int MAX_CORRECTION;
 	private double D_CORR = 0.4;
 	private double P_CORR = 1.5;
-	private double speedCorr = 0.1;
+	private double speedCorr = 0.3;
 
 	private int correction;
 	private int sampleTimeInMS = 40;
@@ -31,7 +31,7 @@ public class BalanceModel extends Thread {
 
 		this.gyroSensor = gyro;
 		
-		speedControl = new MotorSpeedControl(left, right, sampleTimeInMS, getSpeedCorr());
+		speedControl = new MotorSpeedControl(left, right, sampleTimeInMS, this.speedCorr);
 		
 		MAX_CORRECTION = 1000;
 		MIN_CORRECTION = -1000;
@@ -129,14 +129,6 @@ public class BalanceModel extends Thread {
 
 	public int getCorrection() {
 		return this.correction;
-	}
-
-	public double getSpeedCorr() {
-		return speedCorr;
-	}
-
-	public void setSpeedCorr(double speedCorr) {
-		this.speedCorr = speedCorr;
 	}
 
 	public void pauseBalancing() {

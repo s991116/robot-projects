@@ -44,6 +44,8 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 #include <EV3UARTEmulationHard.h>
 #include <Serial.h>
 
+#define GYRO_VALUE_FACTOR (800)
+
 #define UART_RX (7)
 #define UART_TX (6)
 #define UART_TYPE (99)
@@ -58,7 +60,6 @@ short oldSensorValue[3];
 long last_reading ;
 bool LEDMode;
 
-#define GYRO_VALUE_FACTOR (200)
 
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
