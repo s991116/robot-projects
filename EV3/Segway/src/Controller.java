@@ -25,8 +25,6 @@ public class Controller {
 		LCD.drawString("**", 1,2);
 		model = new BalanceModel(leftMotor, rightMotor, gyroSensor);
 		model.start();
-//		model = new Segoway(leftMotor, rightMotor, gyroSensor, 5.6);		
-
 
 		LCD.drawString("***", 1,2);		
 		this.SwitchState(new CalibrateSegway(this));
@@ -89,28 +87,37 @@ public class Controller {
 	}
 
 	public int getCurrentValue() {
-		return this.model.getCurrentPosition();
+		return this.model.getCurrentAngel();
 	}
 
-	public void DCorrAdjust(double stepSize) {
-		double adjust = this.model.getDCorr() + stepSize;
+	public void DCorrAdjust(int stepSize) {
+		int adjust = this.model.getDCorr() + stepSize;
 		this.model.setDCorr(adjust);		
 	}
 
-	public void PCorrAdjust(double stepSize) {
-		double adjust = this.model.getPCorr() + stepSize;
+	public void ICorrAdjust(int stepSize) {
+		int adjust = this.model.getICorr() + stepSize;
+		this.model.setICorr(adjust);		
+	}
+	
+	public void PCorrAdjust(int stepSize) {
+		int adjust = this.model.getPCorr() + stepSize;
 		this.model.setPCorr(adjust);
 	}
 
-	public double getPValue() {
+	public int getPValue() {
 		return this.model.getPCorr();
 	}
 
-	public double getDValue() {
+	public int getIValue() {
+		return this.model.getICorr();
+	}
+
+	public int getDValue() {
 		return this.model.getDCorr();
 	}
 
-	public double getCorrection() {
+	public int getCorrection() {
 		return this.model.getCorrection();
 	}
 
@@ -124,6 +131,10 @@ public class Controller {
 	
 	public void StartBalancing() {
 		this.model.startBalancing();
+	}
+	
+	public long GetLoopRunTime() {
+		return this.model.getLoopRunTime();
 	}
 
 }

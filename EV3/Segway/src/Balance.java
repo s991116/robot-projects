@@ -13,7 +13,7 @@ public class Balance extends EV3View implements IState {
 
 	@Override
 	public void Display() {		
-		LCD.drawString("Balancing", 1,1);
+		LCD.drawString("Balancing", 1,1);		
 		DisplayBalanceSettings(this.controller);
 	}
 

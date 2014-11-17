@@ -1,41 +1,38 @@
 import lejos.robotics.EncoderMotor;
 import lejos.utility.Delay;
 
-
 public class BalanceModel extends Thread {
-
 
 	private final int AdjustLoopCount = 20;
 	private static final int AdjustLoopDelay = 100;
 	private static final long LoopTime = 10;
-
+	private int kAng = 79;
+	private int kAngRate = 74;
+	private int kIntAng = 12;
+	private int intAngleMax = 1500;
+	
 	private int calibartedCenterAngle;
 	private MPU6050GyroSensor gyroSensor;
 	private int currentPosition;
 	private int currentAccelration;
 
-	private int MIN_CORRECTION;
-	private int MAX_CORRECTION;
-	private double D_CORR = 0.4;
-	private double P_CORR = 1.5;
-	private double speedCorr = 0.3;
 
 	private int correction;
-	private int sampleTimeInMS = 40;
 	private MotorSpeedControl speedControl;
 	private long StartTime;
 	private volatile boolean Paused;
+	private long LoopRunTime;
+	private int intAngle;
+	private int angle;
+	private int rate;
+	private long CalculationTime;
 	
 		
 	public BalanceModel(EncoderMotor left, EncoderMotor right, MPU6050GyroSensor gyro) {
-
 		this.gyroSensor = gyro;
 		
-		speedControl = new MotorSpeedControl(left, right, sampleTimeInMS, this.speedCorr);
-		
-		MAX_CORRECTION = 1000;
-		MIN_CORRECTION = -1000;
-		
+		speedControl = new MotorSpeedControl(left, right);
+				
 		Paused = true;
 		
 		this.setDaemon(true);
@@ -49,6 +46,7 @@ public class BalanceModel extends Thread {
 			Delay.msDelay(AdjustLoopDelay);
 		}
 		this.setCalibartedCenterAngle(sampleSum / AdjustLoopCount);
+		this.speedControl.ResetPosition();
 	}
 	
 	public int getCalibratedCenterAngle() {
@@ -59,8 +57,8 @@ public class BalanceModel extends Thread {
 		this.calibartedCenterAngle = angle;
 	}
 
-	public int getCurrentPosition() {
-		return currentPosition;
+	public int getCurrentAngel() {
+		return this.angle;
 	}
 
 	public int getCurrentAccelration() {
@@ -69,38 +67,58 @@ public class BalanceModel extends Thread {
 
 	public void run() {
 		StartTime = System.currentTimeMillis();
-
+		
 		while(true) {
-			if(!Paused)
-			{
-				this.correction = GetCorrectionBalance();
-				this.speedControl.UpdateMotorSpeed(correction);
-			}
-			else
+			long StartLoopRunTime = System.currentTimeMillis();
+			this.correction = GetCorrectionBalance();
+
+			if(Paused)
 			{
 				this.speedControl.Stop();
 			}
+			else
+			{
+				try {
+					this.speedControl.UpdateMotorSpeed(this.correction, 0);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+//				DataLogging.addData(new int[] {this.angle, this.rate, this.speedControl.getPosition(), this.speedControl.getSpeed(), (int)this.CalculationTime});
+				
+			}
 			WaitForNextSample();
+			setLoopRunTime(System.currentTimeMillis() - StartLoopRunTime);
 		}
 	}
 
 	private int GetCorrectionBalance() {
+		
+        // Calculate the PID value
+				
 		currentPosition = this.gyroSensor.getAngular();
-		int anglePositionError = currentPosition - this.getCalibratedCenterAngle();
+		angle = currentPosition - this.getCalibratedCenterAngle();
+		rate = this.gyroSensor.getAngularVelocity();
+        intAngle += angle;
+        intAngle = limit(intAngle, this.intAngleMax);
+        
+        int corr = kAng*angle - kAngRate*rate + kIntAng*intAngle;
 		
-		int corr = (int) (anglePositionError * this.P_CORR + this.gyroSensor.getAngularVelocity() * this.D_CORR);
-		
-		if(corr > this.MAX_CORRECTION)
-			corr = this.MAX_CORRECTION;
-		else if(corr < this.MIN_CORRECTION)
-			corr = this.MIN_CORRECTION;
-		
+		return corr;
+	}
+
+	private int limit(int corr, int maxValue) {
+		if(corr > maxValue)
+			corr = maxValue;
+		else if(corr < -maxValue)
+			corr = -maxValue;
 		return corr;
 	}
 	
 	private void WaitForNextSample() {
 		long CurrentTime = System.currentTimeMillis();
-		long WaitTime = (LoopTime - CurrentTime - StartTime);
+		CalculationTime = (CurrentTime - StartTime);
+		long WaitTime = (LoopTime - CalculationTime);
 		if(WaitTime > 0)
 		{
 			try {
@@ -111,20 +129,28 @@ public class BalanceModel extends Thread {
 	}
 
 	
-	public double getDCorr() {
-		return D_CORR;
+	public int getDCorr() {
+		return this.kAngRate;
 	}
 
-	public void setDCorr(double d_CORR) {
-		D_CORR = d_CORR;
+	public void setDCorr(int d_CORR) {
+		this.kAngRate = d_CORR;
 	}
 
-	public double getPCorr() {
-		return P_CORR;
+	public int getICorr() {
+		return this.kIntAng;
 	}
 
-	public void setPCorr(double p_CORR) {
-		P_CORR = p_CORR;
+	public void setICorr(int I_CORR) {
+		this.kIntAng = I_CORR;
+	}
+	
+	public int getPCorr() {
+		return this.kAng;
+	}
+
+	public void setPCorr(int p_CORR) {
+		this.kAng = p_CORR;
 	}
 
 	public int getCorrection() {
@@ -133,9 +159,18 @@ public class BalanceModel extends Thread {
 
 	public void pauseBalancing() {
 		Paused = true;
+//		DataLogging.printLog();
 	}
 
 	public void startBalancing() {
 		Paused = false;		
+	}
+
+	public long getLoopRunTime() {
+		return LoopRunTime;
+	}
+
+	private void setLoopRunTime(long loopRunTime) {
+		LoopRunTime = loopRunTime;
 	}
 }

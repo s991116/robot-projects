@@ -19,13 +19,13 @@ public class MPU6050GyroSensor {
 	}
 
 	public int getAngularVelocity() {
-		sensor.fetchSample(sample, 0);
-		return (int)sample[ROLL_ACCELRATION];
+//		sensor.fetchSample(sample, 0);
+		return (int)(sample[ROLL_ACCELRATION]);
 	}
 
 
 	public int getAngular() {
 		sensor.fetchSample(sample, 0);
-		return (int)sample[ROLL];
+		return (int)(sample[ROLL]);
 	}
 }

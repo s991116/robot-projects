@@ -37,14 +37,15 @@ VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measure
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-
+int16_t gyroAcc[3];       // [x, y, z]            gyroscopic output
 
 //#include <SoftwareSerial.h>
 //#include <EV3UARTEmulation.h>
 #include <EV3UARTEmulationHard.h>
 #include <Serial.h>
 
-#define GYRO_VALUE_FACTOR (800)
+#define GYRO_VALUE_FACTOR (1600)
+#define GYRO_ACC_VALUE_FACTOR (5)
 
 #define UART_RX (7)
 #define UART_TX (6)
@@ -116,7 +117,7 @@ void setup() {
 
     LEDMode = true;
     digitalWrite(LED_PIN, LEDMode);
-    sensor.create_mode("YPR", true, DATA16, 6, 5, 0);
+    sensor.create_mode("YPR", true, DATA16, 6, 6, 0);
     sensor.reset();
     LEDMode = false;
     digitalWrite(LED_PIN, LEDMode);
@@ -145,13 +146,9 @@ void loop() {
           sensorValue[1] = ypr[1]*GYRO_VALUE_FACTOR;
           sensorValue[2] = ypr[2]*GYRO_VALUE_FACTOR;
           
-          sensorValue[4] = sensorValue[0] - oldSensorValue[0];
-          sensorValue[4] = sensorValue[1] - oldSensorValue[1];
-          sensorValue[4] = sensorValue[2] - oldSensorValue[2];
-
-          oldSensorValue[0] = sensorValue[0];
-          oldSensorValue[1] = sensorValue[1];
-          oldSensorValue[2] = sensorValue[2];
+          sensorValue[3] = gyroAcc[0]*GYRO_ACC_VALUE_FACTOR;
+          sensorValue[4] = gyroAcc[1]*GYRO_ACC_VALUE_FACTOR;
+          sensorValue[5] = gyroAcc[2]*GYRO_ACC_VALUE_FACTOR;
 
           sensor.send_data16(sensorValue,8);
           last_reading = millis();
@@ -190,6 +187,7 @@ void loop() {
 void CalculateOrientation() {
    // display Euler angles in degrees
    mpu.dmpGetQuaternion(&q, fifoBuffer);
+   mpu.dmpGetGyro(gyroAcc, fifoBuffer);
    mpu.dmpGetGravity(&gravity, &q);
    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 }
