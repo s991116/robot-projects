@@ -44,7 +44,8 @@ int16_t gyroAcc[3];       // [x, y, z]            gyroscopic output
 #include <EV3UARTEmulationHard.h>
 #include <Serial.h>
 
-#define GYRO_VALUE_FACTOR (1600)
+#define GYRO_VALUE_FACTOR (4800)
+
 #define GYRO_ACC_VALUE_FACTOR (5)
 
 #define UART_RX (7)

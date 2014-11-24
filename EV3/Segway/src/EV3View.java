@@ -17,8 +17,8 @@ public class EV3View {
 		LCD.drawInt(c.getPValue(), 5, 8, 3);
 		LCD.drawString("ICorr:", 1,4);
 		LCD.drawInt(c.getIValue(), 5, 8, 4);
-		LCD.drawString("DCorr:", 1,5);
-		LCD.drawInt(c.getDValue(), 5, 8, 5);
+		LCD.drawString("C. Ang.:", 1,5);
+		LCD.drawInt(c.getCenterValue(), 5, 8, 5);
 		LCD.drawString("Corr.:", 1,6);
 		LCD.drawInt(c.getCorrection(), 7, 6, 6);
 	}

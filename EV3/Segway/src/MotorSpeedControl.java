@@ -12,14 +12,19 @@ public class MotorSpeedControl {
 	private double pSpeedCorr;
 	private int posOffset;
 	private int prevPos;
-	private int kPos = 0;
-	private int kPosRate = 0;
+	private int kPos = 10;
+	private int kPosRate = 400;
 	private int motorPowerOffset = 4;
 
 	private int prevTorque;
 	private int lastTorque;
 	private int speed;
 	private int pos;
+	
+	private int nrOfSpeedMeasures = 4;
+	private int[] speedMeasures = new int[nrOfSpeedMeasures];
+	private int speedMeasureIndex = 0;
+	private int averageSpeed;
 
 	public MotorSpeedControl(EncoderMotor left, EncoderMotor right)
 	{
@@ -41,7 +46,7 @@ public class MotorSpeedControl {
 	public void UpdateMotorSpeed(int angleCorrection, int turn) throws InterruptedException {
 		
         pos = -((leftMotor.getTachoCount() + rightMotor.getTachoCount())/2 - posOffset);
-        speed = pos - prevPos;
+        speed = this.GetAverageSpeed(pos - prevPos);
         prevPos = pos;
 
 		int torque = angleCorrection + kPos*pos + kPosRate*speed;
@@ -53,8 +58,8 @@ public class MotorSpeedControl {
 	        torque = -MaxMotorPower;
 
 	    //Smooth the shift from one power setting to the next
-	    torque = (torque + prevTorque)/2;
-	    prevTorque = torque;
+//	    torque = (torque + prevTorque)/2;
+//	    prevTorque = torque;
 	    
 	    // Allow for motor power offset
 	    if (torque > 0)
@@ -76,6 +81,23 @@ public class MotorSpeedControl {
         pSpeedCorr = torque;
         leftMotor.setPower(-torque + turn);
         rightMotor.setPower(-torque - turn);		
+	}
+	
+	private int GetAverageSpeed(int speedMeasure) {
+		
+		if(speedMeasureIndex == nrOfSpeedMeasures-1)
+		{
+			speedMeasureIndex = 0;
+		}
+		else {
+			speedMeasureIndex++;
+		}
+		
+		averageSpeed += (speedMeasure - speedMeasures[speedMeasureIndex]); 
+		
+		speedMeasures[speedMeasureIndex] = speedMeasure;
+		
+		return averageSpeed;
 	}
 	
 	public double getPSpeedCorr() {

@@ -5,11 +5,12 @@ public class BalanceModel extends Thread {
 
 	private final int AdjustLoopCount = 20;
 	private static final int AdjustLoopDelay = 100;
-	private static final long LoopTime = 10;
-	private int kAng = 79;
-	private int kAngRate = 74;
-	private int kIntAng = 12;
-	private int intAngleMax = 1500;
+	private static final long LoopTime = 12;
+	private int kAng = 20;//20;
+	
+	private int kAngRate = 40;//60;
+	private int kIntAng = 0;//16;//13;//8;
+	private int intAngleMax = 1200;
 	
 	private int calibartedCenterAngle;
 	private MPU6050GyroSensor gyroSensor;
@@ -34,6 +35,8 @@ public class BalanceModel extends Thread {
 		speedControl = new MotorSpeedControl(left, right);
 				
 		Paused = true;
+		
+		DataLogging.addSetting(this.kAng, this.kIntAng, this.kAngRate);
 		
 		this.setDaemon(true);
 	}
@@ -83,8 +86,7 @@ public class BalanceModel extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
-//				DataLogging.addData(new int[] {this.angle, this.rate, this.speedControl.getPosition(), this.speedControl.getSpeed(), (int)this.CalculationTime});
+				DataLogging.addData(new int[] {this.angle, this.rate, this.speedControl.getPosition(), this.speedControl.getSpeed(), (int)this.CalculationTime});
 				
 			}
 			WaitForNextSample();
@@ -159,7 +161,7 @@ public class BalanceModel extends Thread {
 
 	public void pauseBalancing() {
 		Paused = true;
-//		DataLogging.printLog();
+		DataLogging.WriteLogToFile("GyroData.txt");
 	}
 
 	public void startBalancing() {
