@@ -6,9 +6,9 @@ public class BalanceModel extends Thread {
 	private final int AdjustLoopCount = 20;
 	private static final int AdjustLoopDelay = 100;
 	private static final long LoopTime = 12;
-	private int kAng = 20;//20;
+	private int kAng = 30;//20;
 	
-	private int kAngRate = 40;//60;
+	private int kAngRate = 60;//60;
 	private int kIntAng = 0;//16;//13;//8;
 	private int intAngleMax = 1200;
 	

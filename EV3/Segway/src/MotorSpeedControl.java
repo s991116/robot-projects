@@ -12,7 +12,7 @@ public class MotorSpeedControl {
 	private double pSpeedCorr;
 	private int posOffset;
 	private int prevPos;
-	private int kPos = 10;
+	private int kPos = 20;
 	private int kPosRate = 400;
 	private int motorPowerOffset = 4;
 
