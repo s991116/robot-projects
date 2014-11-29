@@ -52,7 +52,7 @@ int16_t gyroAcc[3];       // [x, y, z]            gyroscopic output
 #define UART_TX (6)
 #define UART_TYPE (99)
 #define UART_BITRATE (115200)
-#define EV3_SAMPLING_PERIOD (25)
+#define EV3_SAMPLING_PERIOD (13)
 //EV3UARTEmulation sensor(UART_RX, UART_TX, UART_TYPE, UART_BITRATE);
 EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
 short sensorValue[8];

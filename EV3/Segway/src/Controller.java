@@ -134,7 +134,7 @@ public class Controller {
 	}
 	
 	public long GetLoopRunTime() {
-		return this.model.getLoopRunTime();
+		return this.model.getCalculationTime();
 	}
 
 }

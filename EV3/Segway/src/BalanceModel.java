@@ -5,10 +5,10 @@ public class BalanceModel extends Thread {
 
 	private final int AdjustLoopCount = 20;
 	private static final int AdjustLoopDelay = 100;
-	private static final long LoopTime = 12;
-	private int kAng = 30;//20;
+	private static final long LoopTime = 15;
+	private int kAng = 38;//20;	
+	private int kAngRate = 70;//60;
 	
-	private int kAngRate = 60;//60;
 	private int kIntAng = 0;//16;//13;//8;
 	private int intAngleMax = 1200;
 	
@@ -22,7 +22,7 @@ public class BalanceModel extends Thread {
 	private MotorSpeedControl speedControl;
 	private long StartTime;
 	private volatile boolean Paused;
-	private long LoopRunTime;
+	private long calculationTime;
 	private int intAngle;
 	private int angle;
 	private int rate;
@@ -72,7 +72,7 @@ public class BalanceModel extends Thread {
 		StartTime = System.currentTimeMillis();
 		
 		while(true) {
-			long StartLoopRunTime = System.currentTimeMillis();
+			long StartCaluclationTime = System.currentTimeMillis();
 			this.correction = GetCorrectionBalance();
 
 			if(Paused)
@@ -89,8 +89,8 @@ public class BalanceModel extends Thread {
 				DataLogging.addData(new int[] {this.angle, this.rate, this.speedControl.getPosition(), this.speedControl.getSpeed(), (int)this.CalculationTime});
 				
 			}
+			setCalculationTime(System.currentTimeMillis() - StartCaluclationTime);
 			WaitForNextSample();
-			setLoopRunTime(System.currentTimeMillis() - StartLoopRunTime);
 		}
 	}
 
@@ -168,11 +168,11 @@ public class BalanceModel extends Thread {
 		Paused = false;		
 	}
 
-	public long getLoopRunTime() {
-		return LoopRunTime;
+	public long getCalculationTime() {
+		return calculationTime;
 	}
 
-	private void setLoopRunTime(long loopRunTime) {
-		LoopRunTime = loopRunTime;
+	private void setCalculationTime(long time) {
+		calculationTime = time;
 	}
 }

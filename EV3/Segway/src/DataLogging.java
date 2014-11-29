@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
 
 public class DataLogging {
 
