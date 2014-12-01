@@ -18,7 +18,7 @@ public class DataLogging {
 
     private static boolean dataWraparound = false;
    
-    public static void addSetting(int p, int i, int d)
+    public static void setSetting(int p, int i, int d)
     {
     	pCorr = p;
     	iCorr = i;

@@ -26,6 +26,15 @@ public class Balance extends EV3View implements IState {
 			case Key.ENTER:
 				this.controller.PauseBalancing();
 				this.controller.SwitchState(new Paused(this.controller));
+				break;
+				
+			case Key.DOWN:
+				this.controller.AdjustCalibratedOffset(-1);
+				break;
+				
+			case Key.UP:
+				this.controller.AdjustCalibratedOffset(1);
+				break;				
 		}
 	}
 

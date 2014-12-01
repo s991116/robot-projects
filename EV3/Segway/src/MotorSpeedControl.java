@@ -12,15 +12,13 @@ public class MotorSpeedControl {
 	private double pSpeedCorr;
 	private int posOffset;
 	private int prevPos;
-	private int kPos = 10;
-	private int kPosRate = 350;
 	private int motorPowerOffset = 4;
+	private int nrOfSpeedMeasures = 4;
 
 	private int lastTorque;
 	private int speed;
 	private int pos;
 	
-	private int nrOfSpeedMeasures = 4;
 	private int[] speedMeasures = new int[nrOfSpeedMeasures];
 	private int speedMeasureIndex = 0;
 	private int averageSpeed;
@@ -42,7 +40,7 @@ public class MotorSpeedControl {
         posOffset = (leftMotor.getTachoCount() + rightMotor.getTachoCount())/2;
 	}
 	
-	public void UpdateMotorSpeed(int angleCorrection, int turn) throws InterruptedException {
+	public void UpdateMotorSpeed(int angleCorrection, int turn, int kPos, int kPosRate) throws InterruptedException {
 		
         pos = -((leftMotor.getTachoCount() + rightMotor.getTachoCount())/2 - posOffset);
         speed = this.GetAverageSpeed(pos - prevPos);

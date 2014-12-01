@@ -1,3 +1,8 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import lejos.robotics.EncoderMotor;
 import lejos.utility.Delay;
 
@@ -5,14 +10,17 @@ public class BalanceModel extends Thread {
 
 	private final int AdjustLoopCount = 20;
 	private static final int AdjustLoopDelay = 100;
-	private static final long LoopTime = 15;
-	private int kAng = 38;//20;	
-	private int kAngRate = 70;//60;
+	private long LoopTime;
+	private int kAng;
+	private int kAngRate;
 	
 	private int kIntAng = 0;//16;//13;//8;
 	private int intAngleMax = 1200;
 	
 	private int calibartedCenterAngle;
+	private int manualCenterAngle;
+	private int CalibrationOffset;
+
 	private MPU6050GyroSensor gyroSensor;
 	private int currentPosition;
 	private int currentAccelration;
@@ -27,18 +35,50 @@ public class BalanceModel extends Thread {
 	private int angle;
 	private int rate;
 	private long CalculationTime;
-	
+	private int kPos;
+	private int kPosRate;	
 		
 	public BalanceModel(EncoderMotor left, EncoderMotor right, MPU6050GyroSensor gyro) {
 		this.gyroSensor = gyro;
-		
-		speedControl = new MotorSpeedControl(left, right);
 				
+		speedControl = new MotorSpeedControl(left, right);
 		Paused = true;
 		
-		DataLogging.addSetting(this.kAng, this.kIntAng, this.kAngRate);
+		getPropertiesFromFile();	 		
 		
+		DataLogging.setSetting(this.kAng, this.kIntAng, this.kAngRate);
 		this.setDaemon(true);
+	}
+
+	private void getPropertiesFromFile() {
+		Properties properties = new Properties();
+		InputStream input = null;
+	 
+		try {
+	 
+			input = new FileInputStream("config.properties");
+	 
+			// load a properties file
+			properties.load(input);
+	 
+			// get the property value
+			this.kAng = Integer.parseInt(properties.getProperty("angleFactor"));
+			this.kAngRate = Integer.parseInt(properties.getProperty("angleRateFactor"));
+			this.kPos = Integer.parseInt(properties.getProperty("positionFactor"));
+			this.kPosRate = Integer.parseInt(properties.getProperty("speedFactor"));
+			this.LoopTime = (long)Integer.parseInt(properties.getProperty("LoopTime"));
+			this.speedControl.ResetPosition();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void CalibrateCenterValue() {
@@ -48,7 +88,8 @@ public class BalanceModel extends Thread {
 			sampleSum += this.gyroSensor.getAngular();
 			Delay.msDelay(AdjustLoopDelay);
 		}
-		this.setCalibartedCenterAngle(sampleSum / AdjustLoopCount);
+		manualCenterAngle = sampleSum / AdjustLoopCount;
+		this.setCalibartedCenterAngle(this.manualCenterAngle);
 		this.speedControl.ResetPosition();
 	}
 	
@@ -82,7 +123,7 @@ public class BalanceModel extends Thread {
 			else
 			{
 				try {
-					this.speedControl.UpdateMotorSpeed(this.correction, 0);
+					this.speedControl.UpdateMotorSpeed(this.correction, 0, this.kPos, this.kPosRate);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -165,6 +206,7 @@ public class BalanceModel extends Thread {
 	}
 
 	public void startBalancing() {
+		getPropertiesFromFile();
 		Paused = false;		
 	}
 
@@ -174,5 +216,9 @@ public class BalanceModel extends Thread {
 
 	private void setCalculationTime(long time) {
 		calculationTime = time;
+	}
+
+	public void AdjustCalibratedOffset(int offset) {
+		this.setCalibartedCenterAngle(this.getCalibratedCenterAngle() + offset);
 	}
 }

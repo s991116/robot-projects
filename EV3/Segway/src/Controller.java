@@ -137,4 +137,8 @@ public class Controller {
 		return this.model.getCalculationTime();
 	}
 
+	public void AdjustCalibratedOffset(int offset) {
+		this.model.AdjustCalibratedOffset(offset);
+	}
+
 }
