@@ -2,8 +2,8 @@ import lejos.hardware.port.Port;
 
 public class MPU6050GyroSensor {
  
-    private static final int ROLL = 1;
-	private static final int ROLL_ACCELRATION = 4;
+    private static final int ROLL = 2;//1;
+	private static final int ROLL_ACCELRATION = 5;//4;
 	private static final int SAMPLE_SIZE = 6;
 	private SimpleArduinoSensor sensor;
 	private float[] sample = new float[SAMPLE_SIZE];
@@ -13,7 +13,6 @@ public class MPU6050GyroSensor {
     	sensor = new SimpleArduinoSensor(port, SAMPLE_SIZE);
     }
  
-
 	public void recalibrateOffset() {
 		
 	}

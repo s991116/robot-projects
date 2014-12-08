@@ -64,6 +64,7 @@ public class BalanceModel extends Thread {
 			// get the property value
 			this.kAng = Integer.parseInt(properties.getProperty("angleFactor"));
 			this.kAngRate = Integer.parseInt(properties.getProperty("angleRateFactor"));
+			this.kIntAng = Integer.parseInt(properties.getProperty("angleIntFactor"));
 			this.kPos = Integer.parseInt(properties.getProperty("positionFactor"));
 			this.kPosRate = Integer.parseInt(properties.getProperty("speedFactor"));
 			this.LoopTime = (long)Integer.parseInt(properties.getProperty("LoopTime"));
