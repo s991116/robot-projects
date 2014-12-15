@@ -33,7 +33,7 @@
 #define   MAX_MODES                     10
 
 // Set for message debugging
-//#define DEBUG
+#define DEBUG
 
 /**
 * Represent a specific sensor mode
