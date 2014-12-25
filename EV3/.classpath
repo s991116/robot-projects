@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="GyroSensor/" kind="src" path="Hello LejOS/src"/>
-	<classpathentry excluding="Main.java" kind="src" path="LejosTest/src"/>
-	<classpathentry kind="lib" path="Hello LejOS/Main.jar"/>
-	<classpathentry kind="lib" path="LejosTest/Main.jar"/>
-	<classpathentry kind="lib" path="LejosTest/Test.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="LejosTest/bin"/>
+	<classpathentry kind="src" path="MPU6050Test"/>
+	<classpathentry kind="src" path="Segway"/>
+	<classpathentry kind="con" path="org.lejos.ev3.ldt.LEJOS_EV3_LIBRARY_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

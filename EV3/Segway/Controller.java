@@ -10,7 +10,6 @@ public class Controller {
 	private IState stateView;
 	private boolean quitProgram = false;
 	private BalanceModel model;
-//	private Segoway model;
 	private long time;
 	private long updateTime;
 
@@ -20,7 +19,8 @@ public class Controller {
 		NXTMotor rightMotor = new NXTMotor(MotorPort.B);
 		
 		LCD.drawString("*", 1,2);
-		MPU6050GyroSensor gyroSensor = new MPU6050GyroSensor(SensorPort.S2);		
+		//MPU6050GyroSensor gyroSensor = new MPU6050GyroSensor(SensorPort.S3);		
+		ArduinoMPU6050 gyroSensor = new ArduinoMPU6050(SensorPort.S3);
 
 		LCD.drawString("**", 1,2);
 		model = new BalanceModel(leftMotor, rightMotor, gyroSensor);
@@ -95,11 +95,6 @@ public class Controller {
 		this.model.setDCorr(adjust);		
 	}
 
-	public void ICorrAdjust(int stepSize) {
-		int adjust = this.model.getICorr() + stepSize;
-		this.model.setICorr(adjust);		
-	}
-	
 	public void PCorrAdjust(int stepSize) {
 		int adjust = this.model.getPCorr() + stepSize;
 		this.model.setPCorr(adjust);
@@ -107,10 +102,6 @@ public class Controller {
 
 	public int getPValue() {
 		return this.model.getPCorr();
-	}
-
-	public int getIValue() {
-		return this.model.getICorr();
 	}
 
 	public int getDValue() {

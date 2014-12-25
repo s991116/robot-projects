@@ -33,7 +33,7 @@ public class MPU6050Test {
 
 
 	public static void main(String[] args) {
-		LCD.drawString("I2C Test", 1,1);
+		LCD.drawString("MPU6050 Test", 1,1);
 
 		ArduinoMPU6050 gyro = new ArduinoMPU6050(SensorPort.S2);
 		

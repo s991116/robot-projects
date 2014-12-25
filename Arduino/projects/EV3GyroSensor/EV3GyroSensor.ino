@@ -7,7 +7,7 @@
 // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
 // is used in I2Cdev.h
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-    #include "Wire.h"
+    #include <Wire.h>
 #endif
 
 // class default I2C address is 0x68
@@ -37,11 +37,10 @@ VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measure
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-int16_t gyroAcc[3];       // [x, y, z]            gyroscopic output
 
 //#include <SoftwareSerial.h>
 //#include <EV3UARTEmulation.h>
-#include <EV3UARTEmulationHard.h>
+#include "EV3UARTEmulationHard.h"
 #include <Serial.h>
 
 #define GYRO_VALUE_FACTOR (4800)
@@ -52,12 +51,12 @@ int16_t gyroAcc[3];       // [x, y, z]            gyroscopic output
 #define UART_TX (6)
 #define UART_TYPE (99)
 #define UART_BITRATE (115200)
-#define EV3_SAMPLING_PERIOD (13)
+#define EV3_SAMPLING_PERIOD (10)
 //EV3UARTEmulation sensor(UART_RX, UART_TX, UART_TYPE, UART_BITRATE);
 EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
 short sensorValue[8];
 short oldSensorValue[3];
-
+short sensorValueOld;
 
 long last_reading ;
 bool LEDMode;
@@ -118,7 +117,7 @@ void setup() {
 
     LEDMode = true;
     digitalWrite(LED_PIN, LEDMode);
-    sensor.create_mode("YPR", true, DATA16, 6, 6, 0);
+    sensor.create_mode("YPR", true, DATA16, 2, 6, 0);
     sensor.reset();
     LEDMode = false;
     digitalWrite(LED_PIN, LEDMode);
@@ -132,31 +131,29 @@ void setup() {
 // ===                    MAIN PROGRAM LOOP                     ===
 // ================================================================
 void loop() {
-    // if programming failed, don't try to do anything
-    if (!dmpReady) return;
 
-    // wait for MPU interrupt or extra packet(s) available
-    while (!mpuInterrupt && fifoCount < packetSize) {
+  // wait for MPU interrupt or extra packet(s) available
+//    while (!mpuInterrupt && fifoCount < packetSize) {
+//    if (fifoCount > packetSize) {
+      
         // other program behavior stuff here
-        
-        sensor.heart_beat();
         if (millis() - last_reading > EV3_SAMPLING_PERIOD)
         {
           CalculateOrientation();
-          sensorValue[0] = ypr[0]*GYRO_VALUE_FACTOR;
-          sensorValue[1] = ypr[1]*GYRO_VALUE_FACTOR;
-          sensorValue[2] = ypr[2]*GYRO_VALUE_FACTOR;
+//          sensorValue[0] = ypr[0]*GYRO_VALUE_FACTOR;
+//          sensorValue[0] = ypr[1]*GYRO_VALUE_FACTOR;
+          sensorValue[0] = ypr[2]*GYRO_VALUE_FACTOR;
           
-          sensorValue[3] = gyroAcc[0]*GYRO_ACC_VALUE_FACTOR;
-          sensorValue[4] = gyroAcc[1]*GYRO_ACC_VALUE_FACTOR;
-          sensorValue[5] = gyroAcc[2]*GYRO_ACC_VALUE_FACTOR;
+          sensorValue[1] = sensorValueOld - sensorValue[0];
+          sensorValueOld = sensorValue[0];
 
           sensor.send_data16(sensorValue,8);
           last_reading = millis();
           LEDMode = !LEDMode;
           digitalWrite(LED_PIN, LEDMode);
         }
-    }
+//    }
+      sensor.heart_beat();
 
     // reset interrupt flag and get INT_STATUS byte
     mpuInterrupt = false;
@@ -174,8 +171,8 @@ void loop() {
     // otherwise, check for DMP data ready interrupt (this should happen frequently)
     } else if (mpuIntStatus & 0x02) {
         // wait for correct available data length, should be a VERY short wait
-        while (fifoCount < packetSize) fifoCount = mpu.getFIFOCount();
-
+        while (fifoCount < packetSize) 
+          fifoCount = mpu.getFIFOCount();
         // read a packet from FIFO
         mpu.getFIFOBytes(fifoBuffer, packetSize);
         
@@ -188,7 +185,6 @@ void loop() {
 void CalculateOrientation() {
    // display Euler angles in degrees
    mpu.dmpGetQuaternion(&q, fifoBuffer);
-   mpu.dmpGetGyro(gyroAcc, fifoBuffer);
    mpu.dmpGetGravity(&gravity, &q);
    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 }

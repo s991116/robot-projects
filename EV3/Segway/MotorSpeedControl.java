@@ -2,7 +2,7 @@ import lejos.robotics.EncoderMotor;
 
 public class MotorSpeedControl {
 
-	private static final int deadSpeed = 70;
+	private static final int deadSpeed = 50;
 	private static final long deadTime = 1;
 	private static final int PIDOffset = 256;
 	private EncoderMotor leftMotor;
@@ -59,18 +59,22 @@ public class MotorSpeedControl {
 //	    prevTorque = torque;
 	    
 	    // Allow for motor power offset
+/*
 	    if (torque > 0)
 	        torque = motorPowerOffset + (torque*(100-motorPowerOffset) + (MaxMotorPower)/2)/(MaxMotorPower);
 	    else if (torque < 0)
 	        torque = -motorPowerOffset + (torque*(100-motorPowerOffset) - (MaxMotorPower)/2)/(MaxMotorPower);
+*/
+        torque = (torque*100)/(MaxMotorPower);
+	    
 	    
         // Allow for backlash in the gear system
         if (torque != 0 && ((lastTorque ^ torque) & 0x80000000) != 0)
         {
             lastTorque = torque;
-            int t = (torque < 0 ? -deadSpeed : deadSpeed);
-            leftMotor.setPower(-t);
-            rightMotor.setPower(-t);
+            int t = (torque < 0 ? deadSpeed : -deadSpeed);
+            leftMotor.setPower(t);
+            rightMotor.setPower(t);
             Thread.sleep(deadTime);
         }
 	            

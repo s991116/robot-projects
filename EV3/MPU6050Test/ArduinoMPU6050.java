@@ -11,10 +11,10 @@ public class ArduinoMPU6050 {
 		sensor = new SimpleArduinoSensor(port, SAMPLE_SIZE);
 	}
 	
-	public GyroData ReadGyro() {
-		
-		sensor.fetchSample(sample, 0);		
-		return new GyroData((int)sample[0], (int)sample[1]);				
+	public GyroData ReadGyro() {		
+		sensor.fetchSample(sample, 0);
+		int angle = (int)sample[0];
+				
+		return new GyroData(angle, (int)sample[1]);
 	}
-	
 }

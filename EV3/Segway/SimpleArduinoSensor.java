@@ -21,7 +21,7 @@ public class SimpleArduinoSensor extends UARTSensor implements SensorMode {
     @Override
     public void fetchSample(float[] sample, int offset) {
         port.getShorts(samples, 0 ,sampleSize);
-        for(int i=0;i<sampleSize();i++)
+        for(int i=0;i<this.sampleSize;i++)
         {
         	sample[offset+i] = samples[i];        	
         }

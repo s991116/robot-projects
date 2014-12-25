@@ -14,14 +14,10 @@ public class BalanceModel extends Thread {
 	private int kAng;
 	private int kAngRate;
 	
-	private int kIntAng = 0;//16;//13;//8;
-	private int intAngleMax = 1200;
-	
 	private int calibartedCenterAngle;
 	private int manualCenterAngle;
-	private int CalibrationOffset;
 
-	private MPU6050GyroSensor gyroSensor;
+	private ArduinoMPU6050 gyroSensor;
 	private int currentPosition;
 	private int currentAccelration;
 
@@ -31,22 +27,23 @@ public class BalanceModel extends Thread {
 	private long StartTime;
 	private volatile boolean Paused;
 	private long calculationTime;
-	private int intAngle;
 	private int angle;
 	private int rate;
 	private long CalculationTime;
 	private int kPos;
-	private int kPosRate;	
+	private int kPosRate;
+	private int AngleCorr;	
+	
 		
-	public BalanceModel(EncoderMotor left, EncoderMotor right, MPU6050GyroSensor gyro) {
-		this.gyroSensor = gyro;
+	public BalanceModel(EncoderMotor left, EncoderMotor right, ArduinoMPU6050 gyroSensor) {
+		this.gyroSensor = gyroSensor;
 				
 		speedControl = new MotorSpeedControl(left, right);
 		Paused = true;
 		
 		getPropertiesFromFile();	 		
 		
-		DataLogging.setSetting(this.kAng, this.kIntAng, this.kAngRate);
+		DataLogging.setSetting(this.kAng, 0, this.kAngRate);
 		this.setDaemon(true);
 	}
 
@@ -62,9 +59,9 @@ public class BalanceModel extends Thread {
 			properties.load(input);
 	 
 			// get the property value
+			this.AngleCorr = Integer.parseInt(properties.getProperty("angleCorr"));
 			this.kAng = Integer.parseInt(properties.getProperty("angleFactor"));
 			this.kAngRate = Integer.parseInt(properties.getProperty("angleRateFactor"));
-			this.kIntAng = Integer.parseInt(properties.getProperty("angleIntFactor"));
 			this.kPos = Integer.parseInt(properties.getProperty("positionFactor"));
 			this.kPosRate = Integer.parseInt(properties.getProperty("speedFactor"));
 			this.LoopTime = (long)Integer.parseInt(properties.getProperty("LoopTime"));
@@ -85,8 +82,8 @@ public class BalanceModel extends Thread {
 	public void CalibrateCenterValue() {
 		int sampleSum = 0;
 		for(int i=0; i< this.AdjustLoopCount; i++) {
-			
-			sampleSum += this.gyroSensor.getAngular();
+			GyroData data = this.gyroSensor.ReadGyro();
+			sampleSum += data.angle;
 			Delay.msDelay(AdjustLoopDelay);
 		}
 		manualCenterAngle = sampleSum / AdjustLoopCount;
@@ -129,36 +126,27 @@ public class BalanceModel extends Thread {
 					e.printStackTrace();
 				}
 				DataLogging.addData(new int[] {this.angle, this.rate, this.speedControl.getPosition(), this.speedControl.getSpeed(), (int)this.CalculationTime});
-				
 			}
 			setCalculationTime(System.currentTimeMillis() - StartCaluclationTime);
 			WaitForNextSample();
 		}
 	}
 
+	private GyroData data;
+	
 	private int GetCorrectionBalance() {
 		
         // Calculate the PID value
-				
-		currentPosition = this.gyroSensor.getAngular();
-		angle = currentPosition - this.getCalibratedCenterAngle();
-		rate = this.gyroSensor.getAngularVelocity();
-        intAngle += angle;
-        intAngle = limit(intAngle, this.intAngleMax);
+		data = this.gyroSensor.ReadGyro();		
+		currentPosition = this.data.angle;
+		angle = currentPosition - this.getCalibratedCenterAngle() + this.AngleCorr;
+		rate = this.data.accelration;
         
-        int corr = kAng*angle - kAngRate*rate + kIntAng*intAngle;
+        int corr = kAng*angle - kAngRate*rate;
 		
 		return corr;
 	}
 
-	private int limit(int corr, int maxValue) {
-		if(corr > maxValue)
-			corr = maxValue;
-		else if(corr < -maxValue)
-			corr = -maxValue;
-		return corr;
-	}
-	
 	private void WaitForNextSample() {
 		long CurrentTime = System.currentTimeMillis();
 		CalculationTime = (CurrentTime - StartTime);
@@ -179,14 +167,6 @@ public class BalanceModel extends Thread {
 
 	public void setDCorr(int d_CORR) {
 		this.kAngRate = d_CORR;
-	}
-
-	public int getICorr() {
-		return this.kIntAng;
-	}
-
-	public void setICorr(int I_CORR) {
-		this.kIntAng = I_CORR;
 	}
 	
 	public int getPCorr() {

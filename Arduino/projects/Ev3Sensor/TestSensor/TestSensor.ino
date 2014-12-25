@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
-//#include <EV3UARTEmulation.h>
-#include <EV3UARTEmulationHard.h>
+//#include "EV3UARTEmulation.h"
+#include "EV3UARTEmulationHard.h"
 #include <Serial.h>
 
 #define UART_TYPE (99)
@@ -15,15 +15,19 @@ EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
 unsigned long last_reading = 0;
   
 void setup() {
-  Serial.begin(9600);
-  sensor.create_mode("TEST", true, DATA16, 1, 3, 0);
+  Serial.begin(2400);
+  sensor.create_mode("TEST", true, DATA16, 2, 3, 0);
   sensor.reset(); 
 }
+
+short data[2];
   
 void loop() {
   sensor.heart_beat();
   if (millis() - last_reading > 100) {
-    sensor.send_data16(123);
+    data[0] = 123;
+    data[1] = 222;
+    sensor.send_data16(data, 2);
     last_reading = millis();
   }
 }

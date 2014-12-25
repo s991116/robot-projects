@@ -1,15 +1,15 @@
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.SensorMode;
+import lejos.hardware.sensor.UARTSensor;
 
 
-public class GyroMode implements SensorMode {
+public class GyroMode extends UARTSensor implements SensorMode {
 	
 	private short[] samples;
 	private final int sampleSize = 2;
-	private Port port;
 
 	public GyroMode(Port port) {
-		this.port = port;
+		super(port);
 		samples = new short[sampleSize()];
 	}
 	
@@ -20,7 +20,7 @@ public class GyroMode implements SensorMode {
  
     @Override
     public void fetchSample(float[] sample, int offset) {
-        this.port.getShorts(samples, 0 ,sampleSize);
+        port.getShorts(samples, 0 ,sampleSize);
         for(int i=0;i<sampleSize();i++)
         {
         	sample[offset+i] = samples[i];        	

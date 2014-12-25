@@ -4,19 +4,11 @@
 #define UART_BITRATE (38400)
 #define UART_TYPE (99)
 #define LED_PIN 13
-#define EV3_SAMPLING_PERIOD (100)
+#define EV3_SAMPLING_PERIOD (8)
 
-  #include <SoftwareSerial.h>
-  #include <EV3UARTEmulation.h>
-  #define UART_RX (7)
-  #define UART_TX (6)
-  EV3UARTEmulation sensor(UART_RX, UART_TX, UART_TYPE, UART_BITRATE);
+#include "EV3UARTEmulationHard.h"
+EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
 
-
-//  #include <EV3UARTEmulationHard.h>
-//  #include <Serial.h>
-//  EV3UARTEmulation sensor(&Serial, UART_TYPE, UART_BITRATE);
-  
 short sensorValue[2];
 
 #define RESTRICT_PITCH // Comment out to restrict roll to ±90deg instead - please read: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
@@ -32,6 +24,12 @@ int16_t tempRaw;
 double gyroXangle, gyroYangle; // Angle calculate using the gyro only
 double compAngleX, compAngleY; // Calculated angle using a complementary filter
 double kalAngleX, kalAngleY; // Calculated angle using a Kalman filter
+double compAngleXOld_1;
+double compAngleXOld_2;
+double compAngleXOld_3;
+
+double compAngleRateFactor = 25;
+double compAngleFactor = 25;
 
 uint32_t timer;
 long last_reading;
@@ -45,7 +43,6 @@ void setup() {
 
   digitalWrite(LED_PIN, true);
   
-  Serial.begin(UART_BITRATE);
   Wire.begin();
   TWBR = ((F_CPU / 400000L) - 16) / 2; // Set I2C frequency to 400kHz
 
@@ -89,8 +86,6 @@ void setup() {
   
   digitalWrite(LED_PIN, true);
 
-  Serial.begin(2400);
-  while(!Serial);
   digitalWrite(LED_PIN, false);
 
   sensor.create_mode("GYRO", true, DATA16, 2, 6, 0);
@@ -108,10 +103,14 @@ void ToggleLED() {
 void loop() {
   CalculateAngle();
 
-  sensorValue[1] = sensorValue[0] - compAngleX;
-  sensorValue[0] = compAngleX;  
+  sensorValue[0] = compAngleX * compAngleFactor;  
+  sensorValue[1] = (compAngleX - compAngleXOld_1) * compAngleRateFactor;
+  compAngleXOld_1 = compAngleX;
+//  compAngleXOld_2 = compAngleXOld_1;
+//  compAngleXOld_3 = compAngleXOld_2;
 
   Ev3SendData();
+  WaitTime();
 }
 
 void Ev3SendData()
@@ -123,6 +122,18 @@ void Ev3SendData()
     last_reading = millis();
     ToggleLED();
   }
+}
+
+long EndTime;
+long StartTime;
+
+void WaitTime()
+{
+  EndTime = millis();
+  long waitTime = EV3_SAMPLING_PERIOD - (EndTime - StartTime);
+  if(waitTime > 0)
+    delay(waitTime);
+  StartTime = millis();
 }
 
 double roll, pitch;
