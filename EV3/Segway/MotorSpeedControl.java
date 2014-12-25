@@ -81,7 +81,7 @@ public class MotorSpeedControl {
         // Set the power output
         pSpeedCorr = torque;
         leftMotor.setPower(-torque + turn);
-        rightMotor.setPower(-torque - turn);		
+        rightMotor.setPower(-torque - turn);
 	}
 	
 	private int GetAverageSpeed(int speedMeasure) {
