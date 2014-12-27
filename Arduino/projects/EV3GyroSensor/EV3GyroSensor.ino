@@ -132,11 +132,6 @@ void setup() {
 // ================================================================
 void loop() {
 
-  // wait for MPU interrupt or extra packet(s) available
-//    while (!mpuInterrupt && fifoCount < packetSize) {
-//    if (fifoCount > packetSize) {
-      
-        // other program behavior stuff here
         if (millis() - last_reading > EV3_SAMPLING_PERIOD)
         {
           CalculateOrientation();
@@ -152,11 +147,11 @@ void loop() {
           LEDMode = !LEDMode;
           digitalWrite(LED_PIN, LEDMode);
         }
-//    }
-      sensor.heart_beat();
-
-    // reset interrupt flag and get INT_STATUS byte
-    mpuInterrupt = false;
+        else
+        {
+          sensor.heart_beat();
+        }
+    // {reset interrupt flag and get INT_STATUS byte
     mpuIntStatus = mpu.getIntStatus();
 
     // get current FIFO count
