@@ -1,2 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
+include_directories(include)
 subdirs(src)
+file (GLOB ALL_SOURCE src/*.cpp)
+add_executable (RemoteControl ${ALL_SOURCE})
