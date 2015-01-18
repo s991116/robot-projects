@@ -3,8 +3,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/lib/cmake/)
 
 include_directories(include)
 
-project (RemoteControl)
+project (StringUtil)
 
 file (GLOB ALL_SOURCE src/*.cpp)
-add_executable (RemoteControl ${ALL_SOURCE})
-
+add_library (StringUtil ${ALL_SOURCE})
