@@ -1,8 +1,8 @@
 #include <iostream>
-#include "ComController.h"
-#include "ComMessage.h"
+#include <ComController.h>
+#include <ComMessage.h>
 #define RESPONSELENGTH
-#include "MotorControllerCmd.h"
+#include <MotorControllerCmd.h>
 
 ComController::ComController(ComPort* comPort, map<string, int> commands) {
   m_ComPort = comPort;

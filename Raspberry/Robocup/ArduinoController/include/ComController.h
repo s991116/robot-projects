@@ -1,8 +1,8 @@
 #ifndef COMCONTROLLER_H
 #define	COMCONTROLLER_H
 
-#include "ComPort.h"
-#include "Direction.h"
+#include <ComPort.h>
+#include <Direction.h>
 #include <string>
 #include <map>
 using namespace std;

@@ -1,7 +1,7 @@
 #ifndef PROXYLOG_H
 #define	PROXYLOG_H
 
-#include "Logging.h"
+#include <Logging.h>
 
 class ProxyLog  : public Logging {
 public:

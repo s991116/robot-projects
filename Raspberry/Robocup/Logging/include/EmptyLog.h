@@ -1,7 +1,7 @@
 #ifndef EMPTYLOG_H
 #define	EMPTYLOG_H
 
-#include "Logging.h"
+#include <Logging.h>
 
 class EmptyLog : public Logging {
 public:

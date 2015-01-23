@@ -1,4 +1,4 @@
-#include "ComMessage.h"
+#include <ComMessage.h>
 
 void ComMessage::GenerateMessage(char command, short data, char* message)
 {

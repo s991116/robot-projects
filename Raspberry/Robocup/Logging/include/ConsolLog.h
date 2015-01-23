@@ -1,7 +1,7 @@
 #ifndef CONSOLLOG_H
 #define	CONSOLLOG_H
 
-#include "Logging.h"
+#include <Logging.h>
 
 class ConsolLog : public Logging {
 public:

@@ -1,4 +1,4 @@
-#include "EmptyLog.h"
+#include <EmptyLog.h>
 
 EmptyLog::EmptyLog() {
   

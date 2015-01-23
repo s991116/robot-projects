@@ -1,10 +1,9 @@
 cmake_minimum_required (VERSION 2.8)
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/lib/cmake/)
 
-include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/RemoteControl/include) 
+include_directories(${CMAKE_SOURCE_DIR}/Logging/include) 
 
-project (RemoteControl)
+add_executable (RemoteControl src/RemoteControl.cpp src/View.cpp)
 
-file (GLOB ALL_SOURCE src/*.cpp)
-add_executable (RemoteControl ${ALL_SOURCE})
+target_link_libraries(RemoteControl Logging)
 

@@ -1,3 +1,6 @@
+#ifndef MOTORCONTROLLERCMD_H
+#define MOTORCONTROLLERCMD_H
+
 #define CMD_SET_MOTOR_A_KP   (4)
 #define CMD_SET_MOTOR_A_KI   (5)
 #define CMD_SET_MOTOR_A_KD   (6)
@@ -79,3 +82,5 @@ char ResponseLength[] = {0,
 0, //Not used
 };
 #endif
+
+#endif //MOTORCONTROLLERCMD_H

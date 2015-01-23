@@ -1,4 +1,4 @@
-#include "ProxyLog.h"
+#include <ProxyLog.h>
 
 ProxyLog::ProxyLog(Logging* logging) {
   this->ChangeLog(logging);

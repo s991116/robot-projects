@@ -1,6 +1,6 @@
 #ifndef FILELOGGER_H
 #define	FILELOGGER_H
-#include "Logging.h"
+#include <Logging.h>
 #include <iostream>
 #include <fstream>
 

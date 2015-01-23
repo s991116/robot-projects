@@ -1,8 +1,8 @@
-#include "ConsolLog.h"
-#include "ConsolePrint.h"
+#include <ConsolLog.h>
+#include <ConsolePrint.h>
 #include <iostream>
 #include <sstream>
-#include "Convert.h"
+#include <Convert.h>
 
 ConsolLog::ConsolLog()
 {

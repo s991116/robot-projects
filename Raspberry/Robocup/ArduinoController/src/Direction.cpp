@@ -1,4 +1,4 @@
-#include "Direction.h"
+#include <Direction.h>
 
 Direction::Direction(int direction, int rotation, int speed)
 {
