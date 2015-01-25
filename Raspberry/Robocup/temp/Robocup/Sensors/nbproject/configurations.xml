@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="94">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>AddDistanceCommand.h</itemPath>
+      <itemPath>Check.h</itemPath>
+      <itemPath>CheckWithBreak.h</itemPath>
+      <itemPath>Command.h</itemPath>
+      <itemPath>DirectComCommand.h</itemPath>
+      <itemPath>DistanceCheck.h</itemPath>
+      <itemPath>DistanceSensorCheck.h</itemPath>
+      <itemPath>LineCheck.h</itemPath>
+      <itemPath>LoggingSetting.h</itemPath>
+      <itemPath>MoveFixedDirCommand.h</itemPath>
+      <itemPath>PortCheck.h</itemPath>
+      <itemPath>ResetMoveCommand.h</itemPath>
+      <itemPath>SensorFactory.h</itemPath>
+      <itemPath>SensorInfo.h</itemPath>
+      <itemPath>Setting.h</itemPath>
+      <itemPath>SnapshotCommand.h</itemPath>
+      <itemPath>SpeedCommand.h</itemPath>
+      <itemPath>StartDistanceCommand.h</itemPath>
+      <itemPath>SwitchCheck.h</itemPath>
+      <itemPath>WaitCommand.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>AddDistanceCommand.cpp</itemPath>
+      <itemPath>CheckWithBreak.cpp</itemPath>
+      <itemPath>Command.cpp</itemPath>
+      <itemPath>DirectComCommand.cpp</itemPath>
+      <itemPath>DistanceCheck.cpp</itemPath>
+      <itemPath>DistanceSensorCheck.cpp</itemPath>
+      <itemPath>LineCheck.cpp</itemPath>
+      <itemPath>LoggingSetting.cpp</itemPath>
+      <itemPath>MoveFixedDirCommand.cpp</itemPath>
+      <itemPath>PortCheck.cpp</itemPath>
+      <itemPath>ResetMoveCommand.cpp</itemPath>
+      <itemPath>SensorFactory.cpp</itemPath>
+      <itemPath>SensorInfo.cpp</itemPath>
+      <itemPath>Setting.cpp</itemPath>
+      <itemPath>SnapshotCommand.cpp</itemPath>
+      <itemPath>SpeedCommand.cpp</itemPath>
+      <itemPath>StartDistanceCommand.cpp</itemPath>
+      <itemPath>SwitchCheck.cpp</itemPath>
+      <itemPath>WaitCommand.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../Logging</pElem>
+            <pElem>../ArduinoController</pElem>
+            <pElem>../CameraDetector</pElem>
+            <pElem>../StringLibrary</pElem>
+            <pElem>../VisionNavigation</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../ArduinoController</pElem>
+            <pElem>../CameraDetector</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../StringLibrary"
+                            CT="3"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../StringLibrary"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstringlibrary.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../VisionNavigation"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../VisionNavigation"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libVisionNavigation.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="AddDistanceCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AddDistanceCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Check.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CheckWithBreak.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CheckWithBreak.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Command.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Command.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DirectComCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DirectComCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DistanceCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DistanceCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DistanceSensorCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DistanceSensorCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LineCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LineCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LoggingSetting.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LoggingSetting.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MoveFixedDirCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MoveFixedDirCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PortCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PortCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ResetMoveCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ResetMoveCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SensorFactory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SensorFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SensorInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SensorInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Setting.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Setting.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SnapshotCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SnapshotCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpeedCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpeedCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StartDistanceCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StartDistanceCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SwitchCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SwitchCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="AddDistanceCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AddDistanceCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Check.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CheckWithBreak.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CheckWithBreak.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Command.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Command.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DirectComCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DirectComCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DistanceCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DistanceCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DistanceSensorCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DistanceSensorCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LineCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LineCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LoggingSetting.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LoggingSetting.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MoveFixedDirCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MoveFixedDirCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PortCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PortCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ResetMoveCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ResetMoveCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SensorFactory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SensorFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SensorInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SensorInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Setting.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Setting.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SnapshotCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SnapshotCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpeedCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpeedCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StartDistanceCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StartDistanceCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SwitchCheck.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SwitchCheck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

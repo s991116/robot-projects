@@ -1,0 +1,20 @@
+#include <cstdlib>
+#include "ArduinoCommand.h"
+#include "ComController.h"
+#include "CommandFactory.h"
+
+using namespace std;
+
+int main(int argc, char** argv) {
+
+    ComPort* comPort = new ComPort();     
+    ComController* comController = new ComController(comPort);
+    ParseCommandLine* parseCommandLine = new ParseCommandLine();
+    CommandFactory* commandFactory = new CommandFactory(comController);
+    ArduinoCommand* arduinoCommand = new ArduinoCommand(parseCommandLine, commandFactory->_commands);
+    
+    arduinoCommand->RunFileScript("TestScript.txt");
+    
+    return 0;
+}
+

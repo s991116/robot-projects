@@ -1,0 +1,17 @@
+#include "LineInfo.h"
+
+
+LineInfo::LineInfo(bool detected, int position) {
+    this->LineDetected = detected;
+    this->Position = position;
+}
+
+int LineInfo::GetPosition()
+{
+    return this->Position;
+}
+
+bool LineInfo::LneDetected()
+{
+    return this->LineDetected;
+}

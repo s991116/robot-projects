@@ -1,0 +1,17 @@
+#ifndef COMPORT_H
+#define	COMPORT_H
+
+class ComPort {
+public:
+    ComPort();
+    virtual ~ComPort();
+    
+    void Send(char* command);
+    char ReceiveChar(void);
+    
+private:
+        int uart0_filestream;
+};
+
+#endif	/* COMPORT_H */
+

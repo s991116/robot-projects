@@ -1,0 +1,21 @@
+#ifndef COMCONTROLLER_H
+#define	COMCONTROLLER_H
+
+#include "ComPort.h"
+
+class ComController {
+public:
+    ComController(ComPort* comport);    
+    virtual ~ComController();
+    long SendCommand(int command, short data);
+    
+private:
+    ComPort* m_ComPort;
+    long m_ReceivedData;   
+    
+    void SendMessage(char command, short data);
+    long GetMessage(char command);
+};
+
+#endif	/* COMCONTROLLER_H */
+

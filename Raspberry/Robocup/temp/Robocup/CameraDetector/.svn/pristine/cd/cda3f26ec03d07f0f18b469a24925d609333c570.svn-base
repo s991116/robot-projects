@@ -1,0 +1,17 @@
+#ifndef LINEINFO_H
+#define	LINEINFO_H
+
+class LineInfo {
+public:
+    
+    LineInfo(bool detected, int position);
+    int GetPosition();
+    bool LneDetected();
+private:
+    int Position;
+    bool LineDetected;
+
+};
+
+#endif	/* LINEINFO_H */
+

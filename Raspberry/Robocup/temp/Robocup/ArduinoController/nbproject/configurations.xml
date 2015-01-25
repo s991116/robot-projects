@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <itemPath>ArduinoControllerTest.cpp</itemPath>
+    <itemPath>ComController.cpp</itemPath>
+    <itemPath>ComController.h</itemPath>
+    <itemPath>ComMessage.cpp</itemPath>
+    <itemPath>ComMessage.h</itemPath>
+    <itemPath>ComPort.cpp</itemPath>
+    <itemPath>ComPort.h</itemPath>
+    <itemPath>Direction.cpp</itemPath>
+    <itemPath>Direction.h</itemPath>
+    <itemPath>MotorControllerCmd.h</itemPath>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../Logging</pElem>
+          </incDir>
+        </ccTool>
+      </compileType>
+      <item path="ArduinoControllerTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComController.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComController.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ComMessage.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComMessage.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ComPort.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComPort.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Direction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Direction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorControllerCmd.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="ArduinoControllerTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComController.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComController.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ComMessage.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComMessage.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ComPort.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComPort.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Direction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Direction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorControllerCmd.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

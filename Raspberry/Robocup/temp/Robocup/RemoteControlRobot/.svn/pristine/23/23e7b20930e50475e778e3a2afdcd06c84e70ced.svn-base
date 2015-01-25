@@ -1,0 +1,196 @@
+#include "Common.h"
+#include "View.h"
+#include "Controller.h"
+#include <ncurses.h>
+#include "KeyCodes.h"
+
+void View::AddListener(Controller* controller)
+{
+    _controller = controller;
+}
+
+void View::InitializeView()
+{
+    initscr();
+    nocbreak();
+    //timeout(0);
+    noecho();
+}
+
+void View::GetMoveCommand(int keyCode)
+{
+    switch (keyCode) {        
+        case KEYCODE_w:
+            this->_controller->SetMoveCommand(MoveForward);
+            return;
+
+        case KEYCODE_q:
+            this->_controller->SetMoveCommand(MoveLeft);
+            return;
+                    
+        case KEYCODE_a:
+            this->_controller->SetMoveCommand(TurnLeft);
+            return;
+
+        case KEYCODE_e:
+            this->_controller->SetMoveCommand(MoveRight);
+            return;
+            
+        case KEYCODE_d:
+            this->_controller->SetMoveCommand(TurnRight);
+            return;
+                
+        case KEYCODE_s:
+            this->_controller->SetMoveCommand(MoveBack);
+            return;
+
+        default:
+            this->_controller->SetMoveCommand(Stop);
+            return;
+    }
+}
+
+void View::GetCommand()
+{
+    int keyCode = getch();
+    this->GetMoveCommand(keyCode);
+    switch(keyCode)
+    {            
+        case KEYCODE_m:
+            this->SetMaxSpeed();
+            break;
+            
+        case KEYCODE_p:
+            this->SetPID();
+            break;
+                    
+        case KEYCODE_c:
+            this->SendCommandDirect();
+            break;
+            
+        case KEYCODE_r:
+            this->_controller->RunScript("TestScript.txt");
+            break;
+          
+        case KEYCODE_ESC:
+        case KEYCODE_x:
+            this->_controller->QuitProgram = true;            
+            break;
+            
+        case KEYCODE_b:
+            this->_controller->SavePicture();
+            break;
+    }
+}
+
+void View::UpdateView()
+{
+    clear();
+    
+    int rotationsLeft = this->_controller->GetDistanceLeft();
+    printw("Distance Left: %d\n", rotationsLeft);
+    int rotationsRight = this->_controller->GetDistanceRight();
+    printw("Distance Right: %d\n", rotationsRight);
+    
+    this->_controller->SavePosition();
+    int positionX = this->_controller->GetPositionX();
+    printw("Position X: %d\n", positionX);
+    int positionY = this->_controller->GetPositionY();
+    printw("Position Y: %d\n", positionY);
+    
+    MoveCommand command;
+    command = this->_controller->GetMoveCommand();
+
+    switch(command)
+    {
+        case Stop:
+                printw("Stopped\n");
+                break;
+        case MoveForward:
+                printw("Move Forward\n");
+                break;
+        case MoveBack:
+                printw("Move Back\n");
+                break;
+        case MoveLeft:
+                printw("Move Left\n");
+                break;
+        case MoveRight:
+                printw("Move Right\n");
+                break;
+        case TurnLeft:
+                printw("Turn left\n");
+                break;
+        case TurnRight:
+                printw("Turn Right\n");
+                break;
+    }    
+    refresh();
+}
+
+void View::PrintHelp()
+{
+    printw("Robot Manual Move program started.\n");
+    printw("Quit: ESC / 'X'\n");
+    printw("Move: 'Q','W','E','A','S','D'\n");
+    printw("RunCommand: 'C' \n");
+    printw("RunScript: 'R' \n");
+    printw("PID: 'P' , PID setup\n");
+    printw("MaxSpeed: 'M' \n");
+    printw("Save picture: 'B' \n");
+}
+
+void View::SendCommandDirect()
+{
+    char inputCommand[] = "Enter Command number:";
+    short command = ReadInteger(inputCommand);
+
+    char inputData[] = "Enter Command data::";
+    short data = ReadInteger(inputData);    
+
+    long output = this->_controller->SendCommandDirect(command, data);
+    printw("Command returns: %d\n", output);
+    scanw( "%d",&output);
+    
+    
+}
+
+void View::SetMaxSpeed(void)
+{
+    echo();
+    nodelay(stdscr,0);
+    printw("Enter integer number for max speed [0; 40] \n");
+    char inputString[] = "Maxspeed:";
+    short speed = this->ReadInteger(inputString);    
+    this->_controller->SetMaxSpeed(speed);
+    this->InitializeView();                
+}
+
+void View::SetPID(void)
+{
+    echo();
+    nodelay(stdscr,0);
+    printw("Enter integer number in milli x = 1/1000 \n");
+    char inputStringP[] = "P:";
+    short P = this->ReadInteger(inputStringP);
+    char inputStringI[] = "I:";
+    short I = this->ReadInteger(inputStringI);
+    char inputStringD[] = "D:";
+    short D = this->ReadInteger(inputStringD);
+    
+    this->_controller->UpdatePID(P,I,D);        
+    this->InitializeView();            
+}
+
+int View::ReadInteger(char* inputString)
+{
+    int i;
+    printw(inputString);
+    scanw( "%d",&i);    
+    return i; 
+}
+
+void View::RestoreView()
+{
+    endwin();
+}

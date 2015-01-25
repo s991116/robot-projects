@@ -1,0 +1,20 @@
+#include <cstdlib>
+#include "extensions/TestFactoryRegistry.h"
+#include "extensions/HelperMacros.h"
+#include "ui/text/TestRunner.h"
+
+//#include "FactorTest.h"
+
+using namespace std;
+using namespace CppUnit;
+
+//CPPUNIT_TEST_SUITE_REGISTRATION(FactorTest);
+
+int main(int argc, char** argv) {
+    TextUi::TestRunner runner;
+    TestFactoryRegistry &registry = TestFactoryRegistry::getRegistry();
+    runner.addTest(registry.makeTest());
+    runner.run();
+    return 0;
+}
+

@@ -1,0 +1,32 @@
+#ifndef ARDUINO_H
+#define	ARDUINO_H
+
+#include <ComController.h>
+#include <ComPort.h>
+#include <ArduinoCommand.h>
+
+class Arduino {
+public:
+    Arduino(void);    
+    void Move(MoveCommand _command);
+    int DistanceLeft(void);
+    int DistanceRight(void);
+    void SavePosition(void);
+    int GetPositionX(void);    
+    int GetPositionY(void);    
+    void SetPID(short P, short I, short D);
+    static const int MotorStop = 0;
+    void SetMaxSpeed(short speed);
+    long SendCommandDirect(short command, short data);
+    void RunScript(std::string filename);
+    
+private:
+    ComController* comController;    
+    ComPort* comPort;
+    short _LeftSideForward;
+    short _RightSideForward;
+    ArduinoCommand* _ArduinoCommand;
+};
+
+#endif	/* ARDUINO_H */
+

@@ -1,0 +1,29 @@
+#ifndef CAMERADETECTOR_H
+#define	CAMERADETECTOR_H
+
+#include "opencv/cv.h"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "RaspiCamCV.h"
+#include <string.h>
+#include "LineDetect.h"
+
+class CameraDetector {
+public:
+    LineDetect* LineDetector;
+    
+    CameraDetector();
+    void IndicateSearchArea(cv::Mat frame);
+    void SavePicture(std::string filename);
+    ~CameraDetector();
+    
+private:
+    RaspiCamCvCapture* capture;
+    IplImage* image;
+    cv::Mat imageMat;
+    void UpdateFrame(RaspiCamCvCapture* capture);
+};
+
+#endif	/* CAMERADETECTOR_H */
+

@@ -1,0 +1,72 @@
+#include "Command.h"
+#include "MotorControllerCmd.h"
+#include <string>
+
+
+Command::~Command() {}
+
+DirectCommand::DirectCommand(int command, int data, ComController* comController)
+{
+    this->_command = command;
+    this->_data = data;
+    this->_ComController = comController;
+}
+
+void DirectCommand::Execute()
+{
+    this->_ComController->SendCommand(this->_command, this->_data);
+}
+
+DelayCommand::DelayCommand(int delay)
+{
+    this->_delay = delay;
+}
+
+void DelayCommand::Execute()
+{
+    usleep(1000 * this->_delay);
+}
+
+AddMoveCommand::AddMoveCommand(int distance, Direction* direction, int speed, ComController* comController)
+{
+    this->_Distance = distance;
+    this->_Direction = direction;
+    this->_Speed = speed;
+    this->_ComController = comController;
+}
+
+void AddMoveCommand::Execute()
+{
+    this->_ComController->SendCommand(CMD_SET_DIR, this->_Direction->GetDirection());
+    this->_ComController->SendCommand(CMD_SET_DIR_FACTOR, this->_Direction->GetDirectionFactor());
+    this->_ComController->SendCommand(CMD_SET_DIR_TICKSPEED, this->_Speed);
+    this->_ComController->SendCommand(CMD_SET_MOVE_DISTANCE, this->_Distance);
+    this->_ComController->SendCommand(CMD_ADD_MOVE_DISTANCE_TO_LIST, 1);
+}    
+
+Direction::Direction(int direction, int directionFactor)
+{
+    this->_Direction = direction;
+    this->_DirectionFactor = directionFactor;
+}
+
+int Direction::GetDirection()
+{
+    return this->_Direction;
+}
+
+int Direction::GetDirectionFactor()
+{
+    return this->_DirectionFactor;
+}
+
+RunMoveCommand::RunMoveCommand(ComController* comController)
+{
+    this->_ComController = comController;
+}
+
+void RunMoveCommand::Execute()
+{
+    this->_ComController->SendCommand(CMD_START_MOVE_DISTANCE_LIST, 1);
+    this->_ComController->SendCommand(CMD_SET_MOVE_BY_DIR, 1);
+}

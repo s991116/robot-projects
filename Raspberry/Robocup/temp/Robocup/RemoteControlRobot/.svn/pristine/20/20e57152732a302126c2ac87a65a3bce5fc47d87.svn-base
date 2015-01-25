@@ -1,0 +1,34 @@
+#ifndef CONTROLLER_H
+#define	CONTROLLER_H
+
+#include <string>
+#include "CameraDetector.h"
+class Arduino;
+class View;
+
+class Controller {
+public:
+  Controller(Arduino* model, CameraDetector* camera, View* view);    
+  void Start(void);  
+  void SetMoveCommand(MoveCommand);
+  MoveCommand GetMoveCommand(void);
+  int GetDistanceLeft(void);
+  int GetDistanceRight(void);
+  void SavePosition(void);
+  int GetPositionX(void);
+  int GetPositionY(void);
+  bool QuitProgram;
+  void UpdatePID(short P, short I, short D);
+  void SetMaxSpeed(short speed);
+  long SendCommandDirect(short command, short data);
+  void RunScript(std::string filename);
+  void SavePicture(void);
+private:
+    Arduino* model;
+    CameraDetector* cameraDetector;
+    View* view;
+    MoveCommand _moveCommand;
+};
+
+#endif	/* CONTROLLER_H */
+

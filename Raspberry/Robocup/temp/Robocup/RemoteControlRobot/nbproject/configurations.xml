@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="94">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>Common.h</itemPath>
+      <itemPath>Controller.h</itemPath>
+      <itemPath>SpeedControl.h</itemPath>
+      <itemPath>View.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>FindBallScript.txt</itemPath>
+      <itemPath>FindLineScript.txt</itemPath>
+      <itemPath>LineSetupScript.txt</itemPath>
+      <itemPath>MotorPIDScript.txt</itemPath>
+      <itemPath>TestScript.txt</itemPath>
+      <itemPath>TurnRightOnLine.txt</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>Controller.cpp</itemPath>
+      <itemPath>View.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <itemPath>TurnLeftOnLine.txt</itemPath>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>../ArduinoController</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>../ArduinoController</pElem>
+            <pElem>../CameraDetector</pElem>
+            <pElem>../Logging</pElem>
+            <pElem>../Sensors</pElem>
+            <pElem>../CommandScript</pElem>
+            <pElem>../StringLibrary</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrolrobot</output>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../CameraDetector"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../CameraDetector"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libCameraDetector.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../Sensors"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../Sensors"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libSensors.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../CommandScript"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../CommandScript"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libCommandScript.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../ArduinoController"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../ArduinoController"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libArduinoController.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../Logging"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../Logging"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libLogging.${CND_DLIB_EXT}">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../StringLibrary"
+                            CT="3"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../StringLibrary"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstringlibrary.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-L$(HOME)/git/raspberrypi/userland/build/lib -lmmal_core -lmmal -l mmal_util -lvcos -lbcm_host -I/usr/include/opencv -lopencv_highgui -lopencv_core -lopencv_legacy -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_imgproc</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="Common.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Controller.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Controller.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FindBallScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FindLineScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LineSetupScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorPIDScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpeedControl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TestScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurnLeftOnLine.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurnRightOnLine.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="View.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="View.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="Common.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Controller.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Controller.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FindBallScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FindLineScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LineSetupScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorPIDScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpeedControl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TestScript.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurnLeftOnLine.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurnRightOnLine.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="View.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="View.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
