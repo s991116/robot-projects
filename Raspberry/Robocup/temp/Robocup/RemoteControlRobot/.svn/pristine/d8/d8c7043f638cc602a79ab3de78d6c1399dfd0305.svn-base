@@ -1,0 +1,106 @@
+#include "Common.h"
+#include "Arduino.h"
+#include "../ArduinoController/MotorControllerCmd.h"
+Arduino::Arduino()
+{
+    this->comPort = new ComPort();     
+    this->comController = new ComController(comPort);
+    this->SetMaxSpeed(40);    
+    this->_ArduinoCommand = new ArduinoCommand(this->comController);
+}
+
+void Arduino::SetPID(short P, short I, short D)
+{
+    this->comController->SendCommand(CMD_SET_MOTOR_A_KP, P);
+    this->comController->SendCommand(CMD_SET_MOTOR_A_KI, I);
+    this->comController->SendCommand(CMD_SET_MOTOR_A_KD, D);        
+    
+    this->comController->SendCommand(CMD_SET_MOTOR_B_KP, P);
+    this->comController->SendCommand(CMD_SET_MOTOR_B_KI, I);
+    this->comController->SendCommand(CMD_SET_MOTOR_B_KD, D);            
+}
+
+void Arduino::SetMaxSpeed(short speed)
+{
+    this->_LeftSideForward = speed;
+    this->_RightSideForward = speed;
+}
+
+void Arduino::Move(MoveCommand _command)
+{
+    this->comController->SendCommand(CMD_SET_MOVE_BY_DIR, 0);
+    switch(_command)
+    {
+        case MoveForward:                
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, this->_LeftSideForward); //Left side
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, this->_RightSideForward);                
+                break;
+
+        case MoveBack:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, -this->_LeftSideForward);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, -this->_RightSideForward);
+                break;
+
+        case MoveRight:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, this->_LeftSideForward);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, MotorStop);
+                break;                
+
+        case TurnRight:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, this->_LeftSideForward);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, -this->_RightSideForward);
+                break;                
+                
+        case MoveLeft:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, MotorStop);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, this->_RightSideForward);
+                break;                
+
+        case TurnLeft:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED, -this->_LeftSideForward);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED, this->_RightSideForward);
+                break;                
+
+        default:
+                this->comController->SendCommand(CMD_SET_MOTOR_A_TICKSSPEED,MotorStop);
+                this->comController->SendCommand(CMD_SET_MOTOR_B_TICKSSPEED,MotorStop);
+                break;            
+    }    
+}
+
+int Arduino::DistanceLeft()
+{
+    int distance = this->comController->SendCommand(CMD_GET_MOTOR_A_DISTANCE, 0);
+    return distance;
+}
+
+int Arduino::DistanceRight()
+{
+    int distance = this->comController->SendCommand(CMD_GET_MOTOR_B_DISTANCE, 0);
+    return distance;
+}
+
+void Arduino::SavePosition()
+{
+    this->comController->SendCommand(CMD_START_POSITION, 0);
+}
+
+int Arduino::GetPositionX()
+{
+    return this->comController->SendCommand(CMD_GET_POSITION_X, 0);
+}
+
+int Arduino::GetPositionY()
+{
+    return this->comController->SendCommand(CMD_GET_POSITION_Y, 0);
+}
+
+long Arduino::SendCommandDirect(short command, short data)
+{
+    return this->comController->SendCommand(command, data);
+}
+
+void Arduino::RunScript(std::string filename)
+{
+        this->_ArduinoCommand->RunFileScript(filename);    
+}

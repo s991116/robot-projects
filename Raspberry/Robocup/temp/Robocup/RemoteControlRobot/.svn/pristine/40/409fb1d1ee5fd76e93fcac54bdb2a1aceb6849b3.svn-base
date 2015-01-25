@@ -1,0 +1,89 @@
+#include "Common.h"
+#include "View.h"
+#include "Arduino.h"
+#include "Controller.h"
+#include <sys/time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+Controller::Controller(Arduino* model, CameraDetector* cameraDetector, View* view)
+{
+    this->cameraDetector = cameraDetector;
+    this->model = model;
+    this->view = view;    
+    this->view->AddListener(this);
+}
+
+void Controller::Start()
+{
+    this->view->InitializeView();            
+    QuitProgram = false;    
+    while (!QuitProgram) {        
+        this->view->UpdateView();        
+        view->GetCommand();
+    }
+    
+    this->view->RestoreView();    
+}
+
+void Controller::SetMoveCommand(MoveCommand moveCommand)
+{
+    this->_moveCommand = moveCommand;
+    this->model->Move(_moveCommand);
+}
+
+MoveCommand Controller::GetMoveCommand()
+{
+    return _moveCommand;
+}
+
+int Controller::GetDistanceLeft()
+{
+    return this->model->DistanceLeft();
+}
+
+int Controller::GetDistanceRight()
+{
+    return this->model->DistanceRight();
+}
+
+void Controller::SavePosition()
+{
+    this->model->SavePosition();
+}
+
+int Controller::GetPositionX()
+{
+    return this->model->GetPositionX();
+}
+
+int Controller::GetPositionY()
+{
+    return this->model->GetPositionY();
+}
+
+void Controller::UpdatePID(short P, short I, short D)
+{
+    this->model->SetPID(P, I, D);
+}
+
+void Controller::SetMaxSpeed(short speed)
+{
+    this->model->SetMaxSpeed(speed);
+}
+
+long Controller::SendCommandDirect(short command, short data)
+{
+    return this->model->SendCommandDirect(command, data);
+}
+
+void Controller::RunScript(std::string filename)
+{
+    this->model->RunScript(filename);
+}
+
+void Controller::SavePicture()
+{
+    this->cameraDetector->SavePicture("TestPicture.jpg");
+}

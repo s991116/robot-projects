@@ -1,0 +1,5 @@
+Chess.o: Chess.cpp Chess.h BoardGame.h
+
+Chess.h:
+
+BoardGame.h:

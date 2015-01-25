@@ -1,0 +1,35 @@
+#include "CameraDetector.h"
+#include "LineDetect.h"
+
+using namespace cv;
+using namespace std;
+
+CameraDetector::CameraDetector() {
+    int imageWidth = 640;
+    this->capture = raspiCamCvCreateCameraCapture(320,240,1);
+    CvMemStorage* pStorage = cvCreateMemStorage(0);
+    this->LineDetector = new LineDetect(cv::Rect(0,0,imageWidth, 10), 15, 10);
+}
+
+void CameraDetector::IndicateSearchArea(cv::Mat frame)
+{   
+    rectangle(frame, LineDetector->LineDetectSetup->ROI, cv::Scalar(100,100,200), 2, 8, 0);
+}
+
+void CameraDetector::SavePicture(std::string filename)
+{
+    this->UpdateFrame(this->capture);
+    IndicateSearchArea(this->imageMat);
+    imwrite( filename.c_str(), this->imageMat );
+}
+
+void CameraDetector::UpdateFrame(RaspiCamCvCapture* capture)
+{
+    this->image = raspiCamCvQueryFrame(capture);
+    this->imageMat = cv::Mat(this->image);    
+}
+
+CameraDetector::~CameraDetector()
+{
+    raspiCamCvReleaseCapture(&this->capture);        
+}

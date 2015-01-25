@@ -1,0 +1,22 @@
+#ifndef ARDUINOCOMMAND_H
+#define	ARDUINOCOMMAND_H
+
+#include <ComController.h>
+#include <ComPort.h>
+#include "Command.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+
+class ArduinoCommand {
+public:
+    ArduinoCommand(ComController* comController);
+    void RunFileScript(std::string scriptFilename);
+    
+private:
+    ComController* _ComController;
+    std::string TrimLine(std::string line);
+    Command* CreateCommand(std::string line);
+    int GetNumber(std::string line, char delimitter);
+};
+#endif	/* ARDUINOCOMMAND_H */

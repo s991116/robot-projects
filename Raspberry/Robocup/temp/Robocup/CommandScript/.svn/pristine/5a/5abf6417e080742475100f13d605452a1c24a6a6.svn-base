@@ -1,0 +1,69 @@
+#ifndef COMMAND_H
+#define	COMMAND_H
+
+#include <ComController.h>
+
+class Command {
+public:
+    virtual void Execute() = 0;
+    virtual ~Command() = 0;
+    
+private:
+
+};
+
+
+class DirectCommand : public Command {
+public:
+    DirectCommand(int command, int data, ComController* comController);
+    void Execute();    
+    
+private:
+    int _command;
+    int _data;
+    ComController* _ComController;
+};
+
+class DelayCommand : public Command {
+public:
+    DelayCommand(int delay);
+    void Execute();
+    
+private:
+    int _delay;
+};
+
+class Direction {
+public:
+    Direction(int direction, int directionFactor);
+    int GetDirection(void);
+    int GetDirectionFactor(void);
+    
+private:
+    int _Direction;
+    int _DirectionFactor;
+};
+
+class AddMoveCommand : public Command {
+public:
+    AddMoveCommand(int distance, Direction* direction, int speed, ComController* comController);
+    void Execute();
+    
+private:
+    int _Distance;
+    Direction* _Direction;
+    int _Speed;
+    ComController* _ComController;
+};
+
+class RunMoveCommand : public Command {
+public:
+    RunMoveCommand(ComController* comController);
+    void Execute();
+    
+private:    
+    ComController* _ComController;
+};
+
+#endif	/* COMMAND_H */
+
