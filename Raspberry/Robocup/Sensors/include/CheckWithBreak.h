@@ -1,8 +1,8 @@
 #ifndef CHECKWITHBREAK_H
 #define	CHECKWITHBREAK_H
 
-#include "Check.h"
-#include "ComController.h"
+#include <Check.h>
+#include <ComController.h>
 
 class CheckWithBreak : public Check{
 public:

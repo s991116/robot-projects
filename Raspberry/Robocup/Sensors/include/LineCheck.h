@@ -1,11 +1,11 @@
 #ifndef LINECHECK_H
 #define	LINECHECK_H
 
-#include "Check.h"
-#include "Setting.h"
-#include "LineDetect.h"
-#include "CameraDetector.h"
-#include "SensorInfo.h"
+#include <Check.h>
+#include <Setting.h>
+#include <LineDetect.h>
+#include <CameraDetector.h>
+#include <SensorInfo.h>
 
 class LineCheck : public Check, public Setting, public SensorInfo {
 public:

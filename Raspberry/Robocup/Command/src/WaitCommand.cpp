@@ -1,5 +1,5 @@
 #include "WaitCommand.h"
-
+#include <unistd.h>
 
 WaitCommand::WaitCommand(Check* check) {
     _Check = check;

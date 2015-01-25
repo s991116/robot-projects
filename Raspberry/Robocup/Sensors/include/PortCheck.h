@@ -1,9 +1,9 @@
 #ifndef PORTCHECK_H
 #define	PORTCHECK_H
 
-#include "Check.h"
-#include "Setting.h"
-#include "ComController.h"
+#include <Check.h>
+#include <Setting.h>
+#include <ComController.h>
 
 class PortCheck : public Check, public Setting {
 public:

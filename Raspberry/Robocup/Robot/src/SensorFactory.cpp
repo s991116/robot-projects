@@ -1,31 +1,30 @@
-#include "SensorFactory.h"
-#include "ParseCommandLine.h"
-
-#include "ComController.h"
-#include "DistanceCheck.h"
-#include "PortCheck.h"
-#include "SwitchCheck.h"
-#include "LineCheck.h"
-#include "DistanceSensorCheck.h"
-#include "WaitCommand.h"
-#include "FollowLineSetting.h"
-#include "FollowLineCommand.h"
-#include "DirectComCommand.h"
-#include "MoveFixedDirCommand.h"
-#include "SpeedCommand.h"
-#include "AddDistanceCommand.h"
-#include "ResetMoveCommand.h"
-#include "SnapshotCommand.h"
-#include "StartDistanceCommand.h"
-#include "EmptyLog.h"
-#include "ConsolLog.h"
-#include "FileLogger.h"
-#include "LoggingSetting.h"
-#include "NavigateToLine.h"
-#include "SearchForLine.h"
-#include "TurnToCenterLine.h"
-#include "NavigateToBall.h"
-#include "DetectObject.h"
+#include <SensorFactory.h>
+#include <ParseCommandLine.h>
+#include <ComController.h>
+#include <DistanceCheck.h>
+#include <PortCheck.h>
+#include <SwitchCheck.h>
+#include <LineCheck.h>
+#include <DistanceSensorCheck.h>
+#include <WaitCommand.h>
+#include <FollowLineSetting.h>
+#include <FollowLineCommand.h>
+#include <DirectComCommand.h>
+#include <MoveFixedDirCommand.h>
+#include <SpeedCommand.h>
+#include <AddDistanceCommand.h>
+#include <ResetMoveCommand.h>
+#include <SnapshotCommand.h>
+#include <StartDistanceCommand.h>
+#include <EmptyLog.h>
+#include <ConsolLog.h>
+#include <FileLogger.h>
+#include <LoggingSetting.h>
+#include <NavigateToLine.h>
+#include <SearchForLine.h>
+#include <TurnToCenterLine.h>
+#include <NavigateToBall.h>
+#include <DetectObject.h>
 
 SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   ComPort* comPort = new ComPort();
@@ -102,7 +101,6 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _commands["SETDISTANCE"] = new AddDistanceCommand(comController);
   _commands["RESETMOVEMENT"] = new ResetMoveCommand(comController);
   _commands["STARTDISTANCE"] = new StartDistanceCommand(comController);
-  _commands["DISTANCESENSOR"] = new DistanceSensorCheck(comController);
   _commands["SEARCHFORLINE"] = searchForLine;
   _commands["NAVIGATETOLINE"] = navigateToLine;
   _commands["TURNTOLINE"] = turnToLine;

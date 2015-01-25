@@ -1,9 +1,9 @@
 #ifndef SWITCHCHECK_H
 #define	SWITCHCHECK_H
-#include "Check.h"
-#include "CheckWithBreak.h"
-#include "Setting.h"
-#include "ComController.h"
+#include <Check.h>
+#include <CheckWithBreak.h>
+#include <Setting.h>
+#include <ComController.h>
 
 class SwitchCheck : public Check, public Setting {
 public:

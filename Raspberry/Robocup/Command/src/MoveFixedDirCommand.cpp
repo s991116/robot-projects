@@ -1,4 +1,5 @@
-#include "MoveFixedDirCommand.h"
+#include <MoveFixedDirCommand.h>
+#include <unistd.h>
 
 MoveFixedDirCommand::MoveFixedDirCommand(ComController* comController, Check* check) {
   this->_ComController = comController;

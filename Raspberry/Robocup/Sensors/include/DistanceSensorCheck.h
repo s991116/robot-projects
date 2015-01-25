@@ -1,9 +1,9 @@
 #ifndef DISTANCESENSORCHECK_H
 #define	DISTANCESENSORCHECK_H
 
-#include "Check.h"
-#include "ComController.h"
-#include "Setting.h"
+#include <Check.h>
+#include <ComController.h>
+#include <Setting.h>
 
 class DistanceSensorCheck : public Check, public Setting {
 public:
