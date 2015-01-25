@@ -13,5 +13,5 @@ include_directories(/opt/local/include)
 file (GLOB ALL_SOURCE src/*.cpp)
 add_library (CommandScript ${ALL_SOURCE})
 
-#target_link_libraries(CommandScript Logging Setting)
+#target_link_libraries(CommandScript Logging Setting Command)
 

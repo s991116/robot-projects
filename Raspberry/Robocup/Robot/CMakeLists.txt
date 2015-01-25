@@ -12,3 +12,5 @@ include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
 
 file (GLOB ALL_SOURCE src/*.cpp)
 add_library (Robot ${ALL_SOURCE})
+
+#target_link_libraries(Robot Vision Logging)

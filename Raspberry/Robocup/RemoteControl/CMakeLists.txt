@@ -6,8 +6,23 @@ include_directories(${CMAKE_SOURCE_DIR}/CommandScript/include)
 include_directories(${CMAKE_SOURCE_DIR}/Command/include) 
 include_directories(${CMAKE_SOURCE_DIR}/Sensors/include)
 include_directories(${CMAKE_SOURCE_DIR}/Setting/include)
+include_directories(${CMAKE_SOURCE_DIR}/StringUtil/include)
+include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
+include_directories(${CMAKE_SOURCE_DIR}/Robot/include)
 
-add_executable (RemoteControl src/RemoteControl.cpp src/View.cpp)
 
-target_link_libraries(RemoteControl Logging CommandScript)
+file (GLOB ALL_SOURCE src/*.cpp)
+add_executable (RemoteControl ${ALL_SOURCE})
+
+target_link_libraries(RemoteControl 
+  Logging 
+  CommandScript 
+  Setting 
+  Robot 
+  Vision 
+  Sensors 
+  Command 
+  ArduinoController 
+  RaspiCamera
+  )
 
