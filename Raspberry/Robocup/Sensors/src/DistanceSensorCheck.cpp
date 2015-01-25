@@ -15,12 +15,6 @@ DistanceSensorCheck::DistanceSensorCheck(ComController* comController) {
   SettingsInt["RECHECK"] = &ReCheck;
 }
 
-std::string DistanceSensorCheck::Execute(vector<int> input)
-{
-  int distance = _ComController->GetDistanceSensor();
-  return "Distance: " + Convert::IntToString(distance);
-}
-
 void DistanceSensorCheck::Prepare() {
   PositiveCheck = 0;
 }

@@ -57,6 +57,7 @@ int ComPort::ReceiveChar(unsigned char* rx_buffer_ptr) {
             return rx_length; //Bytes received
         }
     }
+    return 0;
 }
 
 int ComPort::Send(char* command) {

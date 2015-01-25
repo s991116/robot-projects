@@ -11,5 +11,6 @@ subdirs(
   CommandScript
   Sensors
   Command
+  Setting
   )
 

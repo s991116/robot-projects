@@ -5,6 +5,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Logging/include)
 include_directories(${CMAKE_SOURCE_DIR}/CommandScript/include) 
 include_directories(${CMAKE_SOURCE_DIR}/Command/include) 
 include_directories(${CMAKE_SOURCE_DIR}/Sensors/include)
+include_directories(${CMAKE_SOURCE_DIR}/Setting/include)
 
 add_executable (RemoteControl src/RemoteControl.cpp src/View.cpp)
 

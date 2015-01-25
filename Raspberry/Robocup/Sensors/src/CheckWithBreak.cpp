@@ -38,4 +38,5 @@ bool CheckWithBreak::Test() {
   {
     return _Check->Test();
   }
+  return false;
 }
