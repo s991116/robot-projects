@@ -16,7 +16,6 @@ subdirs(
   Setting
   RaspiCamera
   Vision
-  RaspiCamCV
   Robot
   )
 
