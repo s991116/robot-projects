@@ -26,7 +26,6 @@ target_link_libraries(RemoteControl
   Command 
   ArduinoController 
   RaspiCamera
-#  raspicamcv
-raspicamcv mmal_core mmal mmal_util vcos bcm_host
+# raspicamcv mmal_core mmal mmal_util vcos bcm_host
   )
 

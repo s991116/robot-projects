@@ -7,6 +7,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Setting/include)
 include_directories(${CMAKE_SOURCE_DIR}/Vision/include)
 include_directories(${CMAKE_SOURCE_DIR}/Logging/include)
 include_directories(${CMAKE_SOURCE_DIR}/RaspiCamera/include)
+include_directories(${CMAKE_SOURCE_DIR}/RaspiCamCV/include)
 
 include_directories(/usr/local/include)
 

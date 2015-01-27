@@ -74,5 +74,7 @@ void Controller::Stop() {
 }
 
 void Controller::SavePicture() {
-//  this->cameraDetector->SavePicture("TestPicture.jpg");
+  Command* speedCmd = this->_commands["SNAPSHOT"];
+  std::vector<int> data;
+  speedCmd->Execute(data);
 }
