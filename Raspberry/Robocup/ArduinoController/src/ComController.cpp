@@ -116,5 +116,23 @@ int ComController::GetDistanceSensor() {
   return this->SendCommand(m_Commands["GET_DISTANCESENSOR"], 0);
 }
 
+void ComController::SetServoPosition(int servoNr, int position)
+{
+	short data = (servoNr << 8) + position;
+	this->SendCommand(m_Commands["CMD_SET_SERVO_POSITION"], data);
+}
+
+void ComController::SetServoMaxPosition(int servoNr, int position)
+{
+	short data = (servoNr << 8) + position;
+	this->SendCommand(m_Commands["CMD_SET_SERVO_MAX_POSITION"], data);	
+}
+
+void ComController::SetServoMinPosition(int servoNr, int position)
+{
+	short data = (servoNr << 8) + position;
+	this->SendCommand(m_Commands["CMD_SET_SERVO_MIN_POSITION"], data);	
+}
+
 ComController::~ComController() {
 }

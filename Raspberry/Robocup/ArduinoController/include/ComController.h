@@ -26,6 +26,10 @@ public:
 
     int GetPortCount();
     int GetDistanceSensor();
+	
+	void SetServoPosition(int servoNr, int position);
+	void SetServoMaxPosition(int servoNr, int position);
+	void SetServoMinPosition(int servoNr, int position);
 
 private:
     ComPort* m_ComPort;

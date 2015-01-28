@@ -15,6 +15,8 @@ Controller::Controller(View* view, CommandScript* commandScript, map<string, Com
   this->_commandScript = commandScript;
   this->_commands = commands;
   Stop();
+  this->Servo0Position = 90;
+  this->Servo1Position = 90;
 }
 
 void Controller::Start() {
@@ -77,4 +79,40 @@ void Controller::SavePicture() {
   Command* speedCmd = this->_commands["SNAPSHOT"];
   std::vector<int> data;
   speedCmd->Execute(data);
+}
+
+void Controller::StepServoUp() {
+    Command* servoCmd = this->_commands["SERVO"];
+    std::vector<int> data;
+    this->Servo0Position++;
+    data.push_back(0);  
+    data.push_back(this->Servo0Position);		
+	servoCmd->Execute(data);
+}
+
+void Controller::StepServoDown() {
+    Command* servoCmd = this->_commands["SERVO"];
+    std::vector<int> data;
+    this->Servo0Position--;
+    data.push_back(0);  
+    data.push_back(this->Servo0Position);	
+	servoCmd->Execute(data);
+}
+
+void Controller::StepServoLeft() {
+    Command* servoCmd = this->_commands["SERVO"];
+    std::vector<int> data;
+    this->Servo1Position++;
+    data.push_back(1);  
+    data.push_back(this->Servo1Position);
+	servoCmd->Execute(data);
+}
+
+void Controller::StepServoRight() {
+    Command* servoCmd = this->_commands["SERVO"];
+    std::vector<int> data;
+    this->Servo1Position--;
+    data.push_back(1);  
+    data.push_back(this->Servo1Position);		
+	servoCmd->Execute(data);
 }

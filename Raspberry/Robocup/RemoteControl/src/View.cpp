@@ -20,6 +20,7 @@ void View::PrintHelp() {
   cout << "Robot Manual Move program started." << std::endl;
   cout << "Quit: ESC / 'X" << std::endl;
   cout << "Move: 'Q','W','E','A','S','D'" << std::endl;
+  cout << "Servo: 'U','J','H','K'" << std::endl;
   cout << "RunScript: 'R'" << std::endl;
   cout << "Save picture: 'B'" << std::endl;
 }
@@ -49,7 +50,7 @@ void View::GetMoveCommand(int keyCode) {
     case KEYCODE_s:
       this->_controller->SetMoveCommand(MoveBack);
       return;
-
+	  
     default:
       this->_controller->SetMoveCommand(Stop);
       return;
@@ -75,6 +76,23 @@ void View::GetCommand() {
     case KEYCODE_b:
       this->_controller->SavePicture();
       break;
+	  
+    case KEYCODE_h:
+      this->_controller->StepServoLeft();
+      return;
+	  
+    case KEYCODE_k:
+      this->_controller->StepServoRight();
+      return;
+	
+	case KEYCODE_u:
+	  this->_controller->StepServoUp();
+	  return;
+	
+	case KEYCODE_j:
+	  this->_controller->StepServoDown();
+	  return;
+	
   }
 }
 

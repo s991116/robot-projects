@@ -16,6 +16,7 @@
 #include <ResetMoveCommand.h>
 #include <SnapshotCommand.h>
 #include <StartDistanceCommand.h>
+#include <ServoCommand.h>
 #include <EmptyLog.h>
 #include <ConsolLog.h>
 #include <FileLogger.h>
@@ -105,6 +106,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _commands["NAVIGATETOLINE"] = navigateToLine;
   _commands["TURNTOLINE"] = turnToLine;
   _commands["NAVIGATETOBALL"] = navigateToBall;
+  _commands["SERVO"] = new ServoCommand(comController);
 
   _settings["SNAPSHOT"] = snapshotCommand;
   _settings["LOGGING"] = loggingSetting;

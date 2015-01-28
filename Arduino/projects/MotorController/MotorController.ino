@@ -31,6 +31,9 @@
    
  Digital PIN 13
  - Switch
+
+ Analog PIN 3 (PIN 16)
+ - Servo-1 PWM
  */
 
 #include <PID_v1.h>
@@ -53,6 +56,7 @@
 #define DISTANCE_SENSOR_TRIG   (10) // Distance sensor Trigger
 #define DISTANCE_SENSOR_ECHO   (11) // Distance sensor Echo
 #define SERVO_0_PIN            (12) // Signal for Servo-0 on DIGITAL PIN 12
+#define SERVO_1_PIN            (16) // Signal for Servo-1 on ANALOG PIN 3
 #define SWITCH_PIN             (13) // Port Switch
 
 #define MOTOR_FORWARD (0)
@@ -121,7 +125,16 @@ int totalTicks;
 int (*CurrentDistanceCalculator)(void);
 
 Servo servo0; // Define Servo-0
-#define SERVO_0_STARTPOSITION (70)
+Servo servo1; //Define Servo-1
+#define SERVO_0_STARTPOSITION (90)
+#define SERVO_1_STARTPOSITION (90)
+byte Servo_0_Min = 0;
+byte Servo_0_Max = 180;
+byte Servo_0_Pos = SERVO_0_STARTPOSITION;
+
+byte Servo_1_Min = 0;
+byte Servo_1_Max = 180;
+byte Servo_1_Pos = SERVO_1_STARTPOSITION;
 
 Ultrasonic distanceSensor(DISTANCE_SENSOR_TRIG,DISTANCE_SENSOR_ECHO);
 
@@ -158,7 +171,10 @@ void setup()
 
   //Servo setup
   servo0.attach(SERVO_0_PIN);
-  servo0.write(SERVO_0_STARTPOSITION);
+  servo0.write(Servo_0_Pos);
+  servo1.attach(SERVO_1_PIN);
+  servo1.write(Servo_1_Pos);
+
 
   //Serial Setup
   Serial.begin(9600);           // set up Serial library at 9600 bps  
@@ -304,6 +320,8 @@ void UpdateSampleTime(int sampleTime)
 
 long ExecuteCmd(int cmd, int data)
 {
+  byte index, position;
+  
   switch(cmd)
   {
   case CMD_SET_DIRECTION:
@@ -347,6 +365,24 @@ long ExecuteCmd(int cmd, int data)
 
   case CMD_RESET_MOTOR_DISTANCE:
     ResetTotalTicks();
+    return 0;
+	
+  case CMD_SET_SERVO_POSITION:
+    index = data >> 8;
+    position = data & 0x00FF;
+    SetServoPosition(index, position);	 
+    return 0;
+
+  case CMD_SET_SERVO_MAX_POSITION:
+    index = data >> 8;
+    position = data & 0x00FF;
+    SetServoMaxPosition(index, position);	 
+    return 0;
+
+  case CMD_SET_SERVO_MIN_POSITION:
+    index = data >> 8;
+    position = data & 0x00FF;
+    SetServoMinPosition(index, position);	 
     return 0;
 
   case CMD_SET_MOTOR_A_KP:
@@ -565,7 +601,6 @@ void SetTargetMotorSpeed()
   }
 }
 
-
 void AdjustDirection()
 {
   CurrentDir = (LastEncoder0TickSpeed - LastEncoder1TickSpeed) >> 1;
@@ -573,4 +608,42 @@ void AdjustDirection()
   
   MotorATargetTickSpeed = MotorATargetDirTickSpeed - CorrectionDir;
   MotorBTargetTickSpeed = MotorBTargetDirTickSpeed + CorrectionDir;
+}
+
+void SetServoPosition(byte servoIndex, byte position)
+{
+	if(servoIndex == 0)
+	{
+		Servo_0_Pos = LimitServoPosition(position, Servo_0_Min, Servo_0_Max);
+		servo0.write(Servo_0_Pos);
+	}
+	else
+	{
+		Servo_1_Pos = LimitServoPosition(position, Servo_1_Min, Servo_1_Max);
+		servo1.write(Servo_1_Pos);
+	}
+}
+
+void SetServoMaxPosition(byte servoIndex, byte position)
+{
+	if(servoIndex == 0)
+	{
+		Servo_0_Max = position;
+	}
+	else
+	{
+		Servo_1_Max = position;
+	}	
+}
+
+void SetServoMinPosition(byte servoIndex, byte position)
+{
+	if(servoIndex == 0)
+	{
+		Servo_0_Min = position;
+	}
+	else
+	{
+		Servo_1_Min = position;
+	}	
 }

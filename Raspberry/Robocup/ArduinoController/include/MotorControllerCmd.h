@@ -40,6 +40,10 @@
 #define CMD_GET_PORT_COUNT (34)
 #define CMD_RESET_PORT_COUNT (35)
 
+#define CMD_SET_SERVO_POSITION (36)
+#define CMD_SET_SERVO_MAX_POSITION (37)
+#define CMD_SET_SERVO_MIN_POSITION (38)
+
 #ifndef RESPONSELENGTH
 extern char ResponseLength[];
 #else
@@ -79,7 +83,9 @@ char ResponseLength[] = {0,
 0, //CMD_RESET_MOTOR_DISTANCE (33)
 4, //CMD_GET_PORT_COUNT (34)
 0, //CMD_RESET_PORT_COUNT (35)
-0, //Not used
+0, //CMD_SET_SERVO_POSITION(36)
+0, //CMD_SET_SERVO_MAX_POSITION(37)
+0, //CMD_SET_SERVO_MIN_POSITION(38)
 };
 #endif
 
