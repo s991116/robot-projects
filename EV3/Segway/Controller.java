@@ -132,4 +132,12 @@ public class Controller {
 		this.model.AdjustCalibratedOffset(offset);
 	}
 
+	public int getPMotorCorr() {
+		return this.model.getPMotorCorr();
+	}
+
+	public int getDMotorCorr() {
+		return this.model.getDMotorCorr();
+	}
+
 }

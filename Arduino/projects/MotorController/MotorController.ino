@@ -373,6 +373,13 @@ long ExecuteCmd(int cmd, int data)
     SetServoPosition(index, position);	 
     return 0;
 
+  case CMD_GET_SERVO_POSITION:
+    index = data;
+    if(index == 0)
+      return Servo_0_Pos;
+    else
+      return Servo_1_Pos;	
+
   case CMD_SET_SERVO_MAX_POSITION:
     index = data >> 8;
     position = data & 0x00FF;
@@ -647,3 +654,17 @@ void SetServoMinPosition(byte servoIndex, byte position)
 		Servo_1_Min = position;
 	}	
 }
+
+byte LimitServoPosition(byte value, byte min_value, byte max_value)
+{
+  if(value >= max_value)
+  {
+    return max_value;
+  }
+  if(value <= min_value)
+  {
+    return min_value;
+  }
+  return value;
+}
+

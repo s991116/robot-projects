@@ -202,4 +202,12 @@ public class BalanceModel extends Thread {
 	public void AdjustCalibratedOffset(int offset) {
 		this.setCalibartedCenterAngle(this.getCalibratedCenterAngle() + offset);
 	}
+
+	public int getPMotorCorr() {
+		return this.kPos;
+	}
+
+	public int getDMotorCorr() {
+		return this.kPosRate;
+	}
 }

@@ -17,10 +17,12 @@ public class EV3View {
 		LCD.drawInt(c.getPValue(), 5, 8, 3);
 		LCD.drawString("DCorr:", 1,4);
 		LCD.drawInt(c.getDValue(), 5, 8, 4);
-		LCD.drawString("C. Ang.:", 1,5);
-		LCD.drawInt(c.getCenterValue(), 5, 8, 5);
-		LCD.drawString("Corr.:", 1,6);
-		LCD.drawInt(c.getCorrection(), 7, 6, 6);
+		LCD.drawString("PCorr:", 1,5);
+		LCD.drawInt(c.getPMotorCorr(), 5, 8, 5);
+		LCD.drawString("DCorr:", 1,6);
+		LCD.drawInt(c.getDMotorCorr(), 5, 8, 6);
+		LCD.drawString("Corr.:", 1,7);
+		LCD.drawInt(c.getCorrection(), 7, 6, 7);
 	}
 	
 	protected void AdjustBalanceModel(Controller c, int keyCode) {
