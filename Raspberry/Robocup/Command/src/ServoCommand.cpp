@@ -15,7 +15,7 @@ std::string ServoCommand::Execute(vector<int> data)
     int position = data[1];
     int min = data[2];
     int max = data[3];
-	
+
 	if(this->initialized[servoNr])
 	{
 		if(position != this->position[servoNr])
@@ -32,17 +32,17 @@ std::string ServoCommand::Execute(vector<int> data)
 		{
 			this->maxPosition[servoNr] = max;
 			this->_ComController->SetServoMaxPosition(servoNr, max);
-		}		
+		}
 	}
 	else
-	{		
+	{
 		this->position[servoNr] = position;
 		this->maxPosition[servoNr] = max;
 		this->minPosition[servoNr] = min;
 		this->initialized[servoNr] = true;
-		this->_ComController->SetServoPosition(servoNr, position);
 		this->_ComController->SetServoMaxPosition(servoNr, max);
 		this->_ComController->SetServoMinPosition(servoNr, min);
+		this->_ComController->SetServoPosition(servoNr, position);
 	}
 
     return "";

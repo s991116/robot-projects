@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
   ParseCommandLine* parseCommandLine = new ParseCommandLine(ScriptCommands::CreateCommands());
   CommandScript* commandScript = new CommandScript(parseCommandLine, sensorFactory->GetCommands(), sensorFactory->GetSettings(), sensorFactory->GetSensors());
   
-  controller = new Controller(view, commandScript, sensorFactory->GetCommands());
+  controller = new Controller(view, commandScript, sensorFactory->GetCommands(), sensorFactory->GetSensors());
 
   controller->Start();
 

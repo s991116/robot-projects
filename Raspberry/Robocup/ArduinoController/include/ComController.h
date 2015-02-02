@@ -30,6 +30,7 @@ public:
 	void SetServoPosition(int servoNr, int position);
 	void SetServoMaxPosition(int servoNr, int position);
 	void SetServoMinPosition(int servoNr, int position);
+    int GetServoPosition(int servoNr);
 
 private:
     ComPort* m_ComPort;

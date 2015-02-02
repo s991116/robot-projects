@@ -1,5 +1,5 @@
-#include "DistanceCheck.h"
-#include "Convert.h"
+#include <DistanceCheck.h>
+#include <Convert.h>
 
 DistanceCheck::DistanceCheck(ComController* comController, int distance)
 {
