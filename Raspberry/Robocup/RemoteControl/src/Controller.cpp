@@ -9,14 +9,19 @@
 #include <SpeedControl.h>
 #include <ConsolePrint.h>
 
-Controller::Controller(View* view, CommandScript* commandScript, map<string, Command*> commands) {
+Controller::Controller(View* view, CommandScript* commandScript, map<string, Command*> commands, map<string, SensorInfo*> sensorInfo) {
   this->view = view;
   this->view->AddListener(this);
   this->_commandScript = commandScript;
   this->_commands = commands;
+  this->_sensorInfo = sensorInfo;
   Stop();
   this->Servo0Position = 90;
   this->Servo1Position = 90;
+  this->Servo0MinPosition = 0;
+  this->Servo0MaxPosition = 180;
+  this->Servo1MinPosition = 0;
+  this->Servo1MaxPosition = 180;
 }
 
 void Controller::Start() {
@@ -32,19 +37,19 @@ void Controller::SetMoveCommand(MoveCommand moveCommand) {
   this->_moveCommand = moveCommand;
   Command* speedCmd = this->_commands["SETSPEEDDIR"];
   std::vector<int> data;
-  
+
   map<MoveCommand, int> dirCommand = SpeedControl::CreateDirCommands();
   map<MoveCommand, int> rotationCommand = SpeedControl::CreateRotationCommands();
   map<MoveCommand, int> speedCommand = SpeedControl::CreateSpeedCommands();
-  
+
   int dir = dirCommand[moveCommand];
   int rotation = rotationCommand[moveCommand];
   int speed = speedCommand[moveCommand];
-  
-  data.push_back(dir);  
+
+  data.push_back(dir);
   data.push_back(rotation);
   data.push_back(speed);
-  
+
   speedCmd->Execute(data);
 }
 
@@ -54,7 +59,7 @@ MoveCommand Controller::GetMoveCommand() {
 
 void Controller::RunScript(std::string filename) {
   try {
-    this->_commandScript->RunFileScript(filename); 
+    this->_commandScript->RunFileScript(filename);
   }
   catch(string error)
   {
@@ -67,12 +72,12 @@ void Controller::RunScript(std::string filename) {
 void Controller::Stop() {
   Command* speedCmd = this->_commands["SETSPEEDDIR"];
   std::vector<int> data;
-  
-  data.push_back(0);  
+
   data.push_back(0);
   data.push_back(0);
-  
-  speedCmd->Execute(data);  
+  data.push_back(0);
+
+  speedCmd->Execute(data);
 }
 
 void Controller::SavePicture() {
@@ -82,37 +87,42 @@ void Controller::SavePicture() {
 }
 
 void Controller::StepServoUp() {
-    Command* servoCmd = this->_commands["SERVO"];
-    std::vector<int> data;
     this->Servo0Position++;
-    data.push_back(0);  
-    data.push_back(this->Servo0Position);		
-	servoCmd->Execute(data);
+    this->SetServo(0, this->Servo0Position, this->Servo0MinPosition, this->Servo0MaxPosition); 
 }
 
 void Controller::StepServoDown() {
-    Command* servoCmd = this->_commands["SERVO"];
-    std::vector<int> data;
     this->Servo0Position--;
-    data.push_back(0);  
-    data.push_back(this->Servo0Position);	
-	servoCmd->Execute(data);
+    this->SetServo(0, this->Servo0Position, this->Servo0MinPosition, this->Servo0MaxPosition); 
 }
 
 void Controller::StepServoLeft() {
-    Command* servoCmd = this->_commands["SERVO"];
-    std::vector<int> data;
     this->Servo1Position++;
-    data.push_back(1);  
-    data.push_back(this->Servo1Position);
-	servoCmd->Execute(data);
+    this->SetServo(1, this->Servo1Position, this->Servo1MinPosition, this->Servo1MaxPosition); 
 }
 
 void Controller::StepServoRight() {
-    Command* servoCmd = this->_commands["SERVO"];
-    std::vector<int> data;
     this->Servo1Position--;
-    data.push_back(1);  
-    data.push_back(this->Servo1Position);		
-	servoCmd->Execute(data);
+    this->SetServo(1, this->Servo1Position, this->Servo1MinPosition, this->Servo1MaxPosition); 
+}
+
+std::string Controller::GetServoLeftRightPosition() {
+    SensorInfo* servo = this->_sensorInfo["SERVO1"];
+	return servo->GetStatus();
+}
+
+std::string Controller::GetServoUpDownPosition() {
+    SensorInfo* servo = this->_sensorInfo["SERVO0"];
+	return servo->GetStatus();
+}
+
+void Controller::SetServo(int servoIndex, int position, int minPosition, int maxPosition)
+{
+  Command* servoCmd = this->_commands["SERVO"];
+  std::vector<int> data;
+  data.push_back(servoIndex);
+  data.push_back(position);
+  data.push_back(minPosition);
+  data.push_back(maxPosition);
+  servoCmd->Execute(data);
 }

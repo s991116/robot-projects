@@ -1,5 +1,5 @@
-#ifndef ARDUINOCOMMAND_H
-#define	ARDUINOCOMMAND_H
+#ifndef COMMANDSCRIPT_H
+#define	COMMANDSCRIPT_H
 
 #include <Command.h>
 #include <iostream>
@@ -24,4 +24,4 @@ private:
     std::string ExecuteCommand(CommandData* commandData);
     void PrintToConsole(CommandData* commandData, string line);
 };
-#endif	/* ARDUINOCOMMAND_H */
+#endif	/* COMMANDSCRIPT_H */

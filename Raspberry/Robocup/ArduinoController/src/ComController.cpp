@@ -134,5 +134,9 @@ void ComController::SetServoMinPosition(int servoNr, int position)
 	this->SendCommand(m_Commands["CMD_SET_SERVO_MIN_POSITION"], data);	
 }
 
+int ComController::GetServoPosition(int servoNr) {
+  return this->SendCommand(m_Commands["CMD_SET_SERVO_POSITION"], servoNr);
+}
+
 ComController::~ComController() {
 }

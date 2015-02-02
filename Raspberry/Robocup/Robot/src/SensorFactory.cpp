@@ -3,6 +3,7 @@
 #include <ComController.h>
 #include <DistanceCheck.h>
 #include <PortCheck.h>
+#include <Servo.h>
 #include <SwitchCheck.h>
 #include <LineCheck.h>
 #include <DistanceSensorCheck.h>
@@ -59,6 +60,9 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
 
   PortCheck* portCheck = new PortCheck(comController, 2);
 
+  Servo* Servo0 = new Servo(comController, 0);
+  Servo* Servo1 = new Servo(comController, 1);
+  
   CameraDetector* cameraDetector = new CameraDetector();
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, cameraDetector, 1, true);
@@ -90,6 +94,8 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _sensors["BOTTOMLINE"] = bottomLineCheck;
   _sensors["LEFTLINE"] = leftLineCheck;
   _sensors["RIGHTLINE"] = rightLineCheck;
+  _sensors["SERVO0"] = Servo0;
+  _sensors["SERVO1"] = Servo1;
   
   _commands["DELAY"] = new DelayCommand();
   _commands["WAIT"] = new WaitCommand(switchCheck);

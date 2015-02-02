@@ -43,6 +43,7 @@
 #define CMD_SET_SERVO_POSITION (36)
 #define CMD_SET_SERVO_MAX_POSITION (37)
 #define CMD_SET_SERVO_MIN_POSITION (38)
+#define CMD_GET_SERVO_POSITION (39)
 
 #ifndef RESPONSELENGTH
 extern char ResponseLength[];
@@ -86,6 +87,7 @@ char ResponseLength[] = {0,
 0, //CMD_SET_SERVO_POSITION(36)
 0, //CMD_SET_SERVO_MAX_POSITION(37)
 0, //CMD_SET_SERVO_MIN_POSITION(38)
+4, //CMD_GET_SERVO_POSITION (39)
 };
 #endif
 
