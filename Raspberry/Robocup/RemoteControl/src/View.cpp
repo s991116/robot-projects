@@ -79,22 +79,22 @@ void View::GetCommand() {
 	  
     case KEYCODE_h:
       this->_controller->StepServoLeft();
-      std::cout << "Servo Left:" <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Left. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
       return;
 	  
     case KEYCODE_k:
       this->_controller->StepServoRight();
-      std::cout << "Servo Right:" <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Right. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
 	  return;
 	
 	case KEYCODE_u:
 	  this->_controller->StepServoUp();
-      std::cout << "Servo Up:" <<  this->_controller->GetServoUpDownPosition() << std::endl;
+      std::cout << "Servo Up. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
 	  return;
 	
 	case KEYCODE_j:
 	  this->_controller->StepServoDown();
-	  std::cout << "Servo Down:" <<  this->_controller->GetServoUpDownPosition() << std::endl;
+	  std::cout << "Servo Down. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
 	  return;
 	
   }
