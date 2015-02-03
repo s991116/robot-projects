@@ -8,8 +8,6 @@
 #define CMD_SET_MOTOR_B_KI   (9)
 #define CMD_SET_MOTOR_B_KD   (10)
   
-#define CMD_SET_SERVO_0_POSITION (12)
-
 #define CMD_GET_MOTOR_A_DISTANCE (14)
 #define CMD_GET_MOTOR_B_DISTANCE (15)
 
@@ -54,7 +52,7 @@ char ResponseLength[] = {0,
 0,//CMD_SET_MOTOR_B_KI   (9)
 0,//CMD_SET_MOTOR_B_KD   (10)
 0,//Not used
-0,//CMD_SET_SERVO_0_POSITION (12)
+0,//Not used
 0,//Not used
 4,//CMD_GET_MOTOR_A_DISTANCE (14)
 4,//CMD_GET_MOTOR_B_DISTANCE (15)

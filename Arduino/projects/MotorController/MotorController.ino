@@ -441,10 +441,6 @@ long ExecuteCmd(int cmd, int data)
     DirPID.SetTunings(Dir_Kp, Dir_Ki, Dir_Kd);
     return 0;
 
-  case CMD_SET_SERVO_0_POSITION:
-    servo0.write(data);
-    return 0; 
-
   case CMD_GET_DISTANCESENSOR_MEASURE:
     return distanceSensor.Ranging(CM);
 
