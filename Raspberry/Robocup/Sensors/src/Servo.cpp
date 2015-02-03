@@ -9,5 +9,5 @@ Servo::Servo(ComController* comController, int servoNr) {
 std::string Servo::GetStatus()
 {
 	int position = this->_ComController->GetServoPosition(this->servoNr);
-	return Convert::IntToString(position);
+	return "Servo-" + Convert::IntToString(this->servoNr) + " Position: " + Convert::IntToString(position);
 }
