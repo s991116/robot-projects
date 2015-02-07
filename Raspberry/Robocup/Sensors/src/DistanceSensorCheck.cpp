@@ -3,12 +3,12 @@
 
 DistanceSensorCheck::DistanceSensorCheck(ComController* comController) {
   _ComController = comController;
-  
+
   MinDistance = 15;
   MaxDistance = 25;
   CheckInRange = 1;
   ReCheck = 1;
-  
+
   SettingsInt["MINDISTANCE"] = &MinDistance;
   SettingsInt["MAXDISTANCE"] = &MaxDistance;
   SettingsBool["CHECKINRANGE"] = &CheckInRange;
@@ -17,6 +17,11 @@ DistanceSensorCheck::DistanceSensorCheck(ComController* comController) {
 
 void DistanceSensorCheck::Prepare() {
   PositiveCheck = 0;
+}
+
+std::string DistanceSensorCheck::GetStatus() {
+  int distance = _ComController->GetDistanceSensor();
+  return Convert::IntToString(distance);
 }
 
 bool DistanceSensorCheck::Test() {
@@ -43,6 +48,6 @@ bool DistanceSensorCheck::Test() {
 	  PositiveCheck = 0;
 	}
   }
-  
+
   return (PositiveCheck <= ReCheck);
 }

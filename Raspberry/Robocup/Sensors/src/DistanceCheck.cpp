@@ -5,7 +5,7 @@ DistanceCheck::DistanceCheck(ComController* comController, int distance)
 {
   _ComController = comController;
   _TargetDistance = distance;
-  
+
   SettingsInt["DISTANCE"] = &_TargetDistance;
 }
 

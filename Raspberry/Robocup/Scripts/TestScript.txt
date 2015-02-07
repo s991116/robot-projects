@@ -1,4 +1,4 @@
-#LED 0, 1
+?DISTANCEHEAD
 
 #QUIT
 
