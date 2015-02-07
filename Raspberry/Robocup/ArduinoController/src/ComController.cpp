@@ -10,6 +10,9 @@ ComController::ComController(ComPort* comPort, map<string, int> commands) {
 }
 
 int ComController::SendCommand(int command, short data) {
+	//Test---
+	std::cout << "Command: " << command << " , Data: " << data << std::endl;
+	//-------
   SendMessage((char) command, data);
   return GetMessage((char) command);
 }
@@ -18,6 +21,7 @@ void ComController::SendMessage(char command, short data) {
 
   char* message = new char[3];
   this->CleanReceivedData();
+
   ComMessage::GenerateMessage(command, data, message);
   char result;
   unsigned char receivebuffer1[1];
@@ -126,17 +130,22 @@ void ComController::SetServoPosition(int servoNr, int position)
 void ComController::SetServoMaxPosition(int servoNr, int position)
 {
 	short data = (servoNr << 8) | position;
-	this->SendCommand(m_Commands["CMD_SET_SERVO_MAX_POSITION"], data);	
+	this->SendCommand(m_Commands["CMD_SET_SERVO_MAX_POSITION"], data);
 }
 
 void ComController::SetServoMinPosition(int servoNr, int position)
 {
 	short data = (servoNr << 8) | position;
-	this->SendCommand(m_Commands["CMD_SET_SERVO_MIN_POSITION"], data);	
+	this->SendCommand(m_Commands["CMD_SET_SERVO_MIN_POSITION"], data);
 }
 
 int ComController::GetServoPosition(int servoNr) {
-  return this->SendCommand(m_Commands["CMD_SET_SERVO_POSITION"], servoNr);
+  return this->SendCommand(m_Commands["CMD_GET_SERVO_POSITION"], servoNr);
+}
+
+void ComController::SetLEDMode(int LEDnr, int mode) {
+	short data = (LEDnr << 8) | mode;
+	this->SendCommand(m_Commands["CMD_SET_LED_MODE"], data);
 }
 
 ComController::~ComController() {

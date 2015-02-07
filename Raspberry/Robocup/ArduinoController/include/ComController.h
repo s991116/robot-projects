@@ -31,6 +31,7 @@ public:
 	void SetServoMaxPosition(int servoNr, int position);
 	void SetServoMinPosition(int servoNr, int position);
     int GetServoPosition(int servoNr);
+	void SetLEDMode(int LEDnr, int mode);
 
 private:
     ComPort* m_ComPort;
