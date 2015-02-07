@@ -40,6 +40,8 @@
 #define CMD_SET_SERVO_MIN_POSITION (38)
 #define CMD_GET_SERVO_POSITION (39)
 
+#define CMD_SET_LED_MODE (40)
+
 char ResponseLength[] = {0,
 0,//Not used
 0,//Not used
@@ -80,4 +82,5 @@ char ResponseLength[] = {0,
 0, //CMD_SET_SERVO_MAX_POSITION(37)
 0, //CMD_SET_SERVO_MIN_POSITION(38)
 4, //CMD_GET_SERVO_POSITION (39)
-};
+0, //CMD_SET_LED_MODE (40)
+};  

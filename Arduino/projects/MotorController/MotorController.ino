@@ -4,37 +4,7 @@
  Motor-speed is based on a PID-controller (input from Encoder and output to PWM-speed)
  Motor-speed is set/read with COM-interface
  PID-constants are set with COM-interface
- 
- Digital PIN 0, 1
- - COM RX/TX
- 
- Digital PIN 2
- - Interrupt 0 is used for Encoder-B
- 
- Digital PIN 3
- - Interrupt 1 is used for Encoder-A
- 
- Digital PIN 4, 5, 6, 7
- - MotorShield PWM control (Motor A and Motor B)
- 
- Digital PIN 8
- - Encoder-B direction
- 
- Digital PIN 9
- - Encoder-A direction
- 
- Digital PIN 10, 11
- Ultrasonic DistanceSensor (Echo Pin 11, Trigger Pin 10)
- 
- Digital PIN 12
- - Servo-0 PWM
-   
- Digital PIN 13
- - Switch
-
- Analog PIN 3 (PIN 16)
- - Servo-1 PWM
- */
+*/
 
 #include <PID_v1.h>
 #include <Servo.h>
@@ -55,12 +25,22 @@
 #define ENCODER_A_DIRECTION_PIN (8) // Encoder-1 Direction is on DIGITAL PIN 8
 #define DISTANCE_SENSOR_TRIG   (10) // Distance sensor Trigger
 #define DISTANCE_SENSOR_ECHO   (11) // Distance sensor Echo
-#define SERVO_0_PIN            (12) // Signal for Servo-0 on DIGITAL PIN 12
-#define SERVO_1_PIN            (16) // Signal for Servo-1 on ANALOG PIN 3
 #define SWITCH_PIN             (13) // Port Switch
+//Analog pins 
+#define LED_0_PIN              (19) // LED 0 (Analog 5)
+#define LED_1_PIN              (18) // LED 1 (Analog 4)
+#define SERVO_0_PIN            (17) // Signal for Servo-0 (Analog 3)
+#define SERVO_1_PIN            (16) // Signal for Servo-1 (Analog 2)
 
 #define MOTOR_FORWARD (0)
 #define MOTOR_REVERSE (1)
+
+#define LEDMODE_OFF    (0)
+#define LEDMODE_ON     (1)
+#define LEDMODE_BLINK  (2)
+
+#define LED_BLINK_SPEED (100)
+short LED_Blink_Counter = 0;
 
 volatile int Encoder0TickSpeed = 0;
 volatile int Encoder1TickSpeed = 0;
@@ -142,6 +122,9 @@ int SwitchCount = 0;
 int SwitchChangeCount = 0;
 bool LastSwitchLow = true;
 
+byte LED_0_mode = LEDMODE_ON;
+byte LED_1_mode = LEDMODE_ON;
+
 void setup() 
 { 
   //Arduino Switch setup
@@ -166,6 +149,10 @@ void setup()
   motorAPID.SetMode(AUTOMATIC);
   motorBPID.SetMode(AUTOMATIC);
   DirPID.SetMode(AUTOMATIC);
+
+  //LED Setup
+  pinMode(LED_0_PIN, OUTPUT);
+  pinMode(LED_1_PIN, OUTPUT);
 
   UpdateSampleTime(SampleTime);
 
@@ -213,6 +200,8 @@ void loop()
   if(CalculationEndTime > cycleStartTime + SampleTime)
     SampleTimeToSmall = true;
 
+  UpdateLEDMode();
+  
   CalculationTime = CalculationEndTime - cycleStartTime;
 }
 
@@ -320,7 +309,7 @@ void UpdateSampleTime(int sampleTime)
 
 long ExecuteCmd(int cmd, int data)
 {
-  byte index, position;
+  byte index, position, mode;
   
   switch(cmd)
   {
@@ -392,6 +381,12 @@ long ExecuteCmd(int cmd, int data)
     SetServoMinPosition(index, position);	 
     return 0;
 
+  case CMD_SET_LED_MODE:
+    index = data >> 8;
+    mode = data & 0x00FF;
+    SetLEDMode(index, mode);	 
+    return 0;
+  
   case CMD_SET_MOTOR_A_KP:
     MotorA_Kp = data / PID_DIVISION_FACTOR;
     motorAPID.SetTunings(MotorA_Kp, MotorA_Ki, MotorA_Kd);
@@ -664,3 +659,48 @@ byte LimitServoPosition(byte value, byte min_value, byte max_value)
   return value;
 }
 
+void SetLEDMode(byte index, byte mode)
+{
+  if(index = 0)
+    LED_0_mode = mode;
+  else
+    LED_1_mode = mode;
+}
+
+void UpdateLEDMode()
+{
+  digitalWriteFast(LED_0_PIN, GetLEDValue(LED_0_mode));
+  digitalWriteFast(LED_1_PIN, GetLEDValue(LED_1_mode));
+}
+
+byte GetLEDValue(byte mode)
+{
+  switch(mode)
+  {
+    case LEDMODE_OFF:
+      return LOW;
+     break;
+     
+    case LEDMODE_ON:
+      return HIGH;
+      break;
+      
+    case LEDMODE_BLINK:
+      if(LED_Blink_Counter < LED_BLINK_SPEED)
+      {
+        return LOW;
+      }
+      else if(LED_Blink_Counter < 2*LED_BLINK_SPEED)
+      {
+        return HIGH;
+      }
+      else
+      {
+        LED_Blink_Counter = 0;
+        return LOW;
+      }
+      break;
+  }
+  LED_Blink_Counter++;  
+  return LOW;
+}
