@@ -25,7 +25,7 @@ public:
 
 private:
     void Stop();
-	void SetServo(int servoIndex, int position, int minPosition, int maxPosition);
+	void SetServo(int servoIndex, int position);
 
 	View* view;
     MoveCommand _moveCommand;
@@ -34,8 +34,6 @@ private:
 	map<string, SensorInfo*> _sensorInfo;
 	short Servo0Position;
 	short Servo1Position;
-	short Servo0MinPosition, Servo0MaxPosition;
-	short Servo1MinPosition, Servo1MaxPosition;
 };
 
 #endif	/* CONTROLLER_H */
