@@ -39,7 +39,7 @@
 #define LEDMODE_ON     (1)
 #define LEDMODE_BLINK  (2)
 
-#define LED_BLINK_SPEED (100)
+#define LED_BLINK_SPEED (50)
 short LED_Blink_Counter = 0;
 
 volatile int Encoder0TickSpeed = 0;
@@ -108,12 +108,12 @@ Servo servo0; // Define Servo-0
 Servo servo1; //Define Servo-1
 #define SERVO_0_STARTPOSITION (90)
 #define SERVO_1_STARTPOSITION (90)
-byte Servo_0_Min = 0;
-byte Servo_0_Max = 180;
+byte Servo_0_Min = 45;
+byte Servo_0_Max = 166;
 byte Servo_0_Pos = SERVO_0_STARTPOSITION;
 
-byte Servo_1_Min = 0;
-byte Servo_1_Max = 180;
+byte Servo_1_Min = 30;
+byte Servo_1_Max = 170;
 byte Servo_1_Pos = SERVO_1_STARTPOSITION;
 
 Ultrasonic distanceSensor(DISTANCE_SENSOR_TRIG,DISTANCE_SENSOR_ECHO);
@@ -122,8 +122,8 @@ int SwitchCount = 0;
 int SwitchChangeCount = 0;
 bool LastSwitchLow = true;
 
-byte LED_0_mode = LEDMODE_ON;
-byte LED_1_mode = LEDMODE_ON;
+byte LED_0_mode = LEDMODE_BLINK;
+byte LED_1_mode = LEDMODE_BLINK;
 
 void setup() 
 { 
@@ -661,7 +661,7 @@ byte LimitServoPosition(byte value, byte min_value, byte max_value)
 
 void SetLEDMode(byte index, byte mode)
 {
-  if(index = 0)
+  if(index == 0)
     LED_0_mode = mode;
   else
     LED_1_mode = mode;
@@ -686,6 +686,7 @@ byte GetLEDValue(byte mode)
       break;
       
     case LEDMODE_BLINK:
+      LED_Blink_Counter++;
       if(LED_Blink_Counter < LED_BLINK_SPEED)
       {
         return LOW;
@@ -700,7 +701,6 @@ byte GetLEDValue(byte mode)
         return LOW;
       }
       break;
-  }
-  LED_Blink_Counter++;  
+  }  
   return LOW;
 }
