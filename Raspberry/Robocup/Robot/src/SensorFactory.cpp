@@ -31,12 +31,12 @@
 
 SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   ComPort* comPort = new ComPort();
-  
+
   EmptyLog* emptyLog = new EmptyLog();
   Logging* fileLog = new FileLogger("ScriptLog.txt");
-  
+
   LoggingSetting* loggingSetting = new LoggingSetting(emptyLog, logger, fileLog);
-  
+
   cv::Rect topRoi(0, 40, 320, 2);
   LineDetectSetting* topLineDetectSetting = new LineDetectSetting(topRoi, 10, 300, LineDetectSetting::CENTER, LineDetectSetting::VERTICAL, false);
   LineDetect* topLineDetect = new LineDetect(topLineDetectSetting, loggingSetting->GetLogging());
@@ -63,7 +63,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
 
   Servo* Servo0 = new Servo(comController, 0);
   Servo* Servo1 = new Servo(comController, 1);
-  
+
   CameraDetector* cameraDetector = new CameraDetector();
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, cameraDetector, 1, true);
@@ -79,17 +79,17 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   FollowLineSetting* followLineSetting = new FollowLineSetting(12, 100, 20, 10);
 
   ParseCommandLine* parseCommandLine = new ParseCommandLine(commands);
-  
+
   SnapshotCommand* snapshotCommand = new SnapshotCommand(cameraDetector, bottomLineDetectSetting, topLineDetectSetting, leftLineDetectSetting, rightLineDetectSetting);
-  
+
   FindLineSetting* findLineSetting = new FindLineSetting(leftLineDetect, rightLineDetect, topLineDetect);
   SearchForLine* searchForLine = new SearchForLine(findLineSetting, comController, cameraDetector);
   NavigateToLine* navigateToLine = new NavigateToLine(findLineSetting, comController, cameraDetector);
   TurnToCenterLine* turnToLine = new TurnToCenterLine(cameraDetector, comController, bottomLineDetect);
-  
+
   DetectObject* detectObject = new DetectObject();
   NavigateToBall* navigateToBall = new NavigateToBall(cameraDetector, detectObject, comController);
-  
+
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
   _sensors["BOTTOMLINE"] = bottomLineCheck;
@@ -97,7 +97,8 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _sensors["RIGHTLINE"] = rightLineCheck;
   _sensors["SERVO0"] = Servo0;
   _sensors["SERVO1"] = Servo1;
-  
+  _sensors["DISTANCEHEAD"] = distanceSensorCheck;
+
   _commands["DELAY"] = new DelayCommand();
   _commands["WAIT"] = new WaitCommand(switchCheck);
   _commands["SENDDATA"] = new DirectComCommand(comController);

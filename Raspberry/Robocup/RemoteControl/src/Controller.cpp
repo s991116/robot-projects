@@ -18,10 +18,6 @@ Controller::Controller(View* view, CommandScript* commandScript, map<string, Com
   Stop();
   this->Servo0Position = 90;
   this->Servo1Position = 90;
-  this->Servo0MinPosition = 0;
-  this->Servo0MaxPosition = 180;
-  this->Servo1MinPosition = 0;
-  this->Servo1MaxPosition = 180;
 }
 
 void Controller::Start() {
@@ -88,22 +84,22 @@ void Controller::SavePicture() {
 
 void Controller::StepServoUp() {
     this->Servo0Position++;
-    this->SetServo(0, this->Servo0Position, this->Servo0MinPosition, this->Servo0MaxPosition); 
+    this->SetServo(0, this->Servo0Position); 
 }
 
 void Controller::StepServoDown() {
     this->Servo0Position--;
-    this->SetServo(0, this->Servo0Position, this->Servo0MinPosition, this->Servo0MaxPosition); 
+    this->SetServo(0, this->Servo0Position); 
 }
 
 void Controller::StepServoLeft() {
     this->Servo1Position++;
-    this->SetServo(1, this->Servo1Position, this->Servo1MinPosition, this->Servo1MaxPosition); 
+    this->SetServo(1, this->Servo1Position); 
 }
 
 void Controller::StepServoRight() {
     this->Servo1Position--;
-    this->SetServo(1, this->Servo1Position, this->Servo1MinPosition, this->Servo1MaxPosition); 
+    this->SetServo(1, this->Servo1Position); 
 }
 
 std::string Controller::GetServoLeftRightPosition() {
@@ -116,13 +112,11 @@ std::string Controller::GetServoUpDownPosition() {
 	return servo->GetStatus();
 }
 
-void Controller::SetServo(int servoIndex, int position, int minPosition, int maxPosition)
+void Controller::SetServo(int servoIndex, int position)
 {
   Command* servoCmd = this->_commands["SERVO"];
   std::vector<int> data;
   data.push_back(servoIndex);
   data.push_back(position);
-  data.push_back(minPosition);
-  data.push_back(maxPosition);
   servoCmd->Execute(data);
 }

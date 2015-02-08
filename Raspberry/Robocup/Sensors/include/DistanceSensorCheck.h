@@ -4,13 +4,15 @@
 #include <Check.h>
 #include <ComController.h>
 #include <Setting.h>
+#include <SensorInfo.h>
 
-class DistanceSensorCheck : public Check, public Setting {
+class DistanceSensorCheck : public Check, public Setting, public SensorInfo {
 public:
     DistanceSensorCheck(ComController* comController);
 
     void Prepare();
     bool Test();
+    std::string GetStatus();
 
 private:
     ComController* _ComController;
