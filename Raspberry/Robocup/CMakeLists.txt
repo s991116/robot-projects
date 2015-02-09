@@ -17,5 +17,6 @@ subdirs(
   RaspiCamera
   Vision
   Robot
+  temp
   )
 
