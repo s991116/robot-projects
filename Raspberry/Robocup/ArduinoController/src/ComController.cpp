@@ -10,9 +10,6 @@ ComController::ComController(ComPort* comPort, map<string, int> commands) {
 }
 
 int ComController::SendCommand(int command, short data) {
-	//Test---
-	std::cout << "Command: " << command << " , Data: " << data << std::endl;
-	//-------
   SendMessage((char) command, data);
   return GetMessage((char) command);
 }

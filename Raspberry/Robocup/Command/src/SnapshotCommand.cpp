@@ -26,10 +26,6 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   if(_GrayMode)
   {
     image = _CameraDetector->GetNextFrame();
-    _CameraDetector->IndicateSearchArea(image, _BottomDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _TopDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _LeftDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _RightDetectSetting->ROI);
   }
   else
   {

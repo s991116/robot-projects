@@ -1,10 +1,10 @@
-#include <DetectObject.h>
+#include <DetectColoredObject.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
 using namespace cv;
 
-DetectObject::DetectObject() {
+DetectColoredObject::DetectColoredObject() {
   _HighH = 5;
   _LowH = 0;
 
@@ -17,7 +17,7 @@ DetectObject::DetectObject() {
   _MorphSize = 5;
 }
 
-void DetectObject::GetPosition(cv::Mat image, Position* position) {
+void DetectColoredObject::GetPosition(cv::Mat image, Position* position) {
   Mat imgHSV;
 
   cvtColor(image, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV

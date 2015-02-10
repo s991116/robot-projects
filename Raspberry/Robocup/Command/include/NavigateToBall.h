@@ -1,13 +1,13 @@
 #ifndef NAVIGATETOBALL_H
 #define	NAVIGATETOBALL_H
 
-#include "CameraDetector.h"
-#include "DetectObject.h"
-#include "Position.h"
-#include "Direction.h"
-#include "ComController.h"
-#include "Command.h"
-#include "Setting.h"
+#include <CameraDetector.h>
+#include <DetectObject.h>
+#include <Position.h>
+#include <Direction.h>
+#include <ComController.h>
+#include <Command.h>
+#include <Setting.h>
 
 class NavigateToBall : public Command , public Setting {
 public:

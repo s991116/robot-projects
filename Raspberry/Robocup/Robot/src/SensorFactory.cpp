@@ -28,6 +28,7 @@
 #include <TurnToCenterLine.h>
 #include <NavigateToBall.h>
 #include <DetectObject.h>
+#include <DetectColoredObject.h>
 
 SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   ComPort* comPort = new ComPort();
@@ -87,7 +88,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   NavigateToLine* navigateToLine = new NavigateToLine(findLineSetting, comController, cameraDetector);
   TurnToCenterLine* turnToLine = new TurnToCenterLine(cameraDetector, comController, bottomLineDetect);
 
-  DetectObject* detectObject = new DetectObject();
+  DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(cameraDetector, detectObject, comController);
 
   _sensors["DISTANCE"] = distanceCheck;

@@ -1,4 +1,4 @@
-#include "NavigateToBall.h"
+#include <NavigateToBall.h>
 
 NavigateToBall::NavigateToBall(CameraDetector* cameraDetector, DetectObject* detectObject, ComController* comController) {
   _CameraDetector = cameraDetector;
