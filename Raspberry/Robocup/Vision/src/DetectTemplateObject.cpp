@@ -35,18 +35,11 @@ void DetectTemplateObject::GetPosition(cv::Mat image, Position* position) {
   else
     { matchLoc = maxLoc; }
 
-  /// Show me what you got
-//  rectangle( img_display, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
-//  rectangle( result, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
-
   Point center = Point(matchLoc.x + _template.cols/2 ,matchLoc.y + _template.rows/2);
 
   position->Detected = true;
   position->PositionX = (center.x) / (float) result_cols;
   position->PositionY = (center.y) / (float) result_rows;  
   
-//  std::string filename = "Result.jpg";
-//  imwrite( filename.c_str(), img_display );
- 
   return;
 }

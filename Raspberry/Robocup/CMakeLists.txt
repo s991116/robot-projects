@@ -18,5 +18,6 @@ subdirs(
   Vision
   Robot
   temp
+  tests/Vision
   )
 

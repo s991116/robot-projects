@@ -7,6 +7,11 @@ public:
     float PositionY;
     bool Detected;
     
+	void SetNormalizedPosition(int imageX, int imageY, int width, int height);
+	
+	int GetImagePositionX(int width);
+	int GetImagePositionY(int height);
+	
 private:
 
 };
