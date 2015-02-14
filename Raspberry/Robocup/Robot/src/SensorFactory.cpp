@@ -27,8 +27,10 @@
 #include <SearchForLine.h>
 #include <TurnToCenterLine.h>
 #include <NavigateToBall.h>
+#include <NavigateToBook.h>
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
+#include <DetectSurfObject.h>
 
 SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   ComPort* comPort = new ComPort();
@@ -90,7 +92,11 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
 
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(cameraDetector, detectObject, comController);
-
+  
+  int hesianValue = 400;
+  DetectSurfObject* detectSurfObject = new DetectSurfObject(hesianValue);
+  NavigateToBook* navigateToBook = new NavigateToBook(cameraDetector, detectSurfObject, comController);
+  
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
   _sensors["BOTTOMLINE"] = bottomLineCheck;

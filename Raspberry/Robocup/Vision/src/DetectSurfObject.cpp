@@ -1,11 +1,14 @@
 #include <DetectSurfObject.h>
 using namespace cv;
 
-DetectSurfObject::DetectSurfObject(cv::Mat object, int hessianValue) {
+DetectSurfObject::DetectSurfObject(int hessianValue) {
   this->nndrRatio = 0.7f;
   obj_corners = std::vector< Point2f >(4);
   
   this->surf = SurfFeatureDetector(hessianValue);
+}
+
+void DetectSurfObject::SetTemplate(cv::Mat object) {
   this->objectMat = object;
   
   surf.detect(objectMat,keypointsO);

@@ -13,9 +13,10 @@
 class DetectSurfObject : public DetectObject {
   
   public:
-    DetectSurfObject(cv::Mat imageTemplate, int hessianValue);    
+    DetectSurfObject(int hessianValue);    
     void GetPosition(cv::Mat image, Position* position);
-    
+    void SetTemplate(cv::Mat object);
+	
   private:
     cv::Mat _template, objectMat;
     float nndrRatio;
