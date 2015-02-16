@@ -4,6 +4,14 @@ project(Robocup)
 option(MyOption "CAMERA_MOCK" OFF)
 include_directories(/usr/local/include)
 
+################################
+# GTest
+################################
+ADD_SUBDIRECTORY (gtest-1.7.0)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+
 subdirs(
   RemoteControl 
   Logging 
@@ -19,5 +27,6 @@ subdirs(
   Robot
   temp
   tests/Vision
+  tests
   )
 

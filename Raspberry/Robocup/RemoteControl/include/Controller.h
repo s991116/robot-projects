@@ -3,6 +3,7 @@
 
 #include <string>
 #include <CommandScript.h>
+#include <MoveCommand.h>
 #include <map>
 
 class View;
