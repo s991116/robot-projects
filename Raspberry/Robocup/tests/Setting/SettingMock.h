@@ -7,11 +7,8 @@ class SettingMock : public Setting
 {
   public:
   SettingMock();
- 
+
   int valueInt;
-  float valueFloat;
-  bool valueBool;
-  std::string valueString;
 
   std::string name;
 };

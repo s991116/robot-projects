@@ -7,21 +7,11 @@
 TEST(Set_Int_Setting, Setting)
 {
     int testValue = 123;
-	SettingMock* setting = new SettingMock();
-	setting->Set(setting->name, testValue);
-	
-	int result = setting->valueInt;
-	
-	EXPECT_EQ(testValue, result);
-}
+    SettingMock* setting = new SettingMock();
 
-TEST(Set_String_Setting, Setting)
-{
-    std::string testValue = "123";
-	SettingMock* setting = new SettingMock();
-	setting->Set(setting->name, testValue);
-	
-	std::string result = setting->valueString;
-	
-	EXPECT_EQ(testValue.compare(result), 0);
+    setting->Set(setting->name, testValue);
+
+    int result = setting->valueInt;
+
+    EXPECT_EQ(testValue, result);
 }

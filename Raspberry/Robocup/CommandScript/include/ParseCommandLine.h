@@ -1,7 +1,6 @@
 #ifndef PARSECOMMANDLINE_H
 #define	PARSECOMMANDLINE_H
 
-#include <MoveCommand.h>
 #include <string>
 #include <vector>
 #include <map>
