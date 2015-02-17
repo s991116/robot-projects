@@ -15,9 +15,8 @@ FollowLineCommand::~FollowLineCommand() {
 
 std::string FollowLineCommand::Execute(vector<int> input) {
 
-  float position;
-  float lastKnownedPosition = 0;
   _Check->Prepare();
+  _CameraDetector->SetCameraPosition(CameraPosition::FOLLOW_LINE);
 
   while (_Check->Test()) {
     cv::Mat imageMat = this->_CameraDetector->GetNextFrame();

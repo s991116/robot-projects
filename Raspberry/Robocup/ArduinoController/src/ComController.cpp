@@ -20,8 +20,6 @@ void ComController::SendMessage(char command, short data) {
   this->CleanReceivedData();
 
   ComMessage::GenerateMessage(command, data, message);
-  char result;
-  unsigned char receivebuffer1[1];
 
   m_ComPort->Send(message);
   delete message;
@@ -29,7 +27,7 @@ void ComController::SendMessage(char command, short data) {
 
 int ComController::GetMessage(char command) {
   const int MaxRetryCount = 50000;
-  char responseLength = ResponseLength[command];
+  char responseLength = ResponseLength[(int)command];
   int receivedData = 0;
   if (responseLength != 0) {
     char bitShift[4] = {24, 16, 8, 0};
@@ -46,7 +44,7 @@ int ComController::GetMessage(char command) {
       if (retry >= MaxRetryCount)
         std::cout << "ERROR: No data received. " << " , Retry(" << retry << ")" << std::endl;
 
-      receivedData |= int(receivebuffer[0] << bitShift[i]);
+      receivedData |= int(receivebuffer[0] << bitShift[(int)i]);
     }
   }
   return receivedData;

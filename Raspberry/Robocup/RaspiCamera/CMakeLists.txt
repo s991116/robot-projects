@@ -6,6 +6,7 @@ find_package(raspicam)
 
 include_directories(${CMAKE_SOURCE_DIR}/RaspiCamera/include)
 include_directories(${CMAKE_SOURCE_DIR}/RaspiCamCV/include)
+include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
 
 link_directories(~/git/robidouille/raspicam_cv)
 link_directories(~/git/raspberrypi/userland/build/lib)
@@ -19,5 +20,5 @@ endif(CAMERA_MOCK)
 add_library (RaspiCamera ${ALL_SOURCE})
 
 if(NOT CAMERA_MOCK)
-    target_link_libraries (RaspiCamera ${raspicam_LIBS} raspicamcv mmal_core mmal mmal_util vcos bcm_host)
+    target_link_libraries (RaspiCamera ${raspicam_LIBS} ArduinoController raspicamcv mmal_core mmal mmal_util vcos bcm_host)
 endif(CAMERA_MOCK)

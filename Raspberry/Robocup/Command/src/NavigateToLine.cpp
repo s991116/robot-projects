@@ -64,7 +64,7 @@ void NavigateToLine::GetCrossValues(float* leftSide, float* rightSide, LinePosit
   if (linePosition->LineDetected == LinePosition::CrosRight) {
     float YLeft = linePosition->Left;
     float X = linePosition->Top;
-    float YRight;
+    float YRight = 0;
     if (X != 1)
       YRight = 2 * (YLeft - 1) / (1 + X);
     else

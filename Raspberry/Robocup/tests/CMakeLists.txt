@@ -1,6 +1,7 @@
 include_directories(${CMAKE_SOURCE_DIR}/Setting/include)
 include_directories(${CMAKE_SOURCE_DIR}/tests/Setting)
 include_directories(${CMAKE_SOURCE_DIR}/CommandScript/include)
+include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
 
 ################################
 # Unit Tests

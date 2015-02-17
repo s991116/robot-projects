@@ -5,7 +5,7 @@
 using namespace cv;
 using namespace std;
 
-CameraDetector::CameraDetector() {
+CameraDetector::CameraDetector(ComController* comController) {
 }
 
 void CameraDetector::IndicateSearchArea(cv::Mat frame, cv::Rect region) {

@@ -67,7 +67,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   Servo* Servo0 = new Servo(comController, 0);
   Servo* Servo1 = new Servo(comController, 1);
 
-  CameraDetector* cameraDetector = new CameraDetector();
+  CameraDetector* cameraDetector = new CameraDetector(comController);
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, cameraDetector, 1, true);
 
@@ -80,8 +80,6 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, bottomLineCheck, distanceSensorCheck);
 
   FollowLineSetting* followLineSetting = new FollowLineSetting(12, 100, 20, 10);
-
-  ParseCommandLine* parseCommandLine = new ParseCommandLine(commands);
 
   SnapshotCommand* snapshotCommand = new SnapshotCommand(cameraDetector, bottomLineDetectSetting, topLineDetectSetting, leftLineDetectSetting, rightLineDetectSetting);
 
@@ -121,6 +119,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _commands["NAVIGATETOLINE"] = navigateToLine;
   _commands["TURNTOLINE"] = turnToLine;
   _commands["NAVIGATETOBALL"] = navigateToBall;
+  _commands["NAVIGATETOBOOK"] = navigateToBook;
   _commands["SERVO"] = new ServoCommand(comController);
   _commands["LED"] = new LEDCommand(comController);
 
@@ -141,6 +140,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _settings["NAVIGATETOLINE"] = navigateToLine;
   _settings["TURNTOLINE"] = turnToLine;
   _settings["NAVIGATETOBALL"] = navigateToBall;
+  _settings["NAVIGATETOBOOK"] = navigateToBook;
 }
 
 map<string, Command*> SensorFactory::GetCommands() {

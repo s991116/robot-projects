@@ -8,6 +8,7 @@ include_directories(${CMAKE_SOURCE_DIR}/RaspiCamCV/include)
 include_directories(${CMAKE_SOURCE_DIR}/Logging/include)
 include_directories(${CMAKE_SOURCE_DIR}/Setting/include)
 include_directories(${CMAKE_SOURCE_DIR}/StringUtil/include)
+include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 file (GLOB ALL_SOURCE src/*.cpp)
