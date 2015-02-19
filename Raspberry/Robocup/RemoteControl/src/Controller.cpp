@@ -102,14 +102,9 @@ void Controller::StepServoRight() {
     this->SetServo(1, this->Servo1Position); 
 }
 
-std::string Controller::GetServoLeftRightPosition() {
-    SensorInfo* servo = this->_sensorInfo["SERVO1"];
-	return servo->GetStatus();
-}
-
-std::string Controller::GetServoUpDownPosition() {
-    SensorInfo* servo = this->_sensorInfo["SERVO0"];
-	return servo->GetStatus();
+std::string Controller::GetSensorInfo(std::string sensorName) {
+    SensorInfo* sensor = this->_sensorInfo[sensorName];
+	return sensor->GetStatus();
 }
 
 void Controller::SetServo(int servoIndex, int position)

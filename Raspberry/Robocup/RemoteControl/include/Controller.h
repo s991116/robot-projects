@@ -21,8 +21,7 @@ public:
 	void StepServoUp(void);
 	void StepServoLeft(void);	
 	void StepServoRight(void);
-	std::string GetServoLeftRightPosition();
-	std::string GetServoUpDownPosition();
+    std::string GetSensorInfo(std::string sensorName);
 
 private:
     void Stop();

@@ -1,10 +1,13 @@
-#include "SwitchCheck.h"
+#include <SwitchCheck.h>
+#include <iostream>
 
-SwitchCheck::SwitchCheck(ComController* comController, Check* portCheck, Check* distanceCheck, Check* leftLineCheck, Check* bottomLineCheck, Check* distanceSensorCheck)
+SwitchCheck::SwitchCheck(ComController* comController, Check* portCheck, Check* distanceCheck, Check* leftLineCheck, Check* rightLineCheck, Check* bottomLineCheck, Check* topLineCheck, Check* distanceSensorCheck)
 {
   _PortCheck = portCheck;
   _DistanceCheck = distanceCheck;
   _LeftLineCheck = leftLineCheck;
+  _RightLineCheck = bottomLineCheck;
+  _TopLineCheck = leftLineCheck;
   _BottomLineCheck = bottomLineCheck;
   _DistanceSensorCheck = distanceSensorCheck;
   
@@ -12,6 +15,7 @@ SwitchCheck::SwitchCheck(ComController* comController, Check* portCheck, Check* 
   _CurrentCheckWithBreak = new CheckWithBreak(_CurrentCheck, comController);
   
   SettingsInt["MODE"] = &_CheckValue;
+
 }
 
 
@@ -38,17 +42,25 @@ Check* SwitchCheck::GetCheck(CheckEnum check)
     case Port:
       return _PortCheck;
 
+    case Distance:
+      return _DistanceCheck;
+
     case LeftLine:
       return _LeftLineCheck;
-	  
+
+    case RightLine:
+      return _RightLineCheck;
+
     case BottomLine:
       return _BottomLineCheck;
-	 
+
+    case TopLine:
+      return _TopLineCheck;
+
     case DistanceSensor:
       return _DistanceSensorCheck;	
-	   
-    case Distance:
+
     default:
-    return _DistanceCheck;  
+      return _DistanceCheck;
   }
 }

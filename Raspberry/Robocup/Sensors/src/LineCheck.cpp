@@ -60,6 +60,5 @@ LineInfo* LineCheck::GetLinePosition() {
 std::string LineCheck::GetStatus() {
   LineInfo* lineInfo = GetLinePosition();
   std::string result = lineInfo->ToString() + "\n";
-  result += _LineDetect->ToString();
   return result;
 }

@@ -18,6 +18,7 @@ private:
     LineDetectSetting* _LeftDetectSetting;
     LineDetectSetting* _RightDetectSetting;
     bool _GrayMode;
+	bool _DisplayLineSearch;
 };
 
 #endif	/* SNAPSHOTCOMMAND_H */

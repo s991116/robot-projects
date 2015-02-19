@@ -20,6 +20,7 @@ void View::PrintHelp() {
   cout << "Robot Manual Move program started." << std::endl;
   cout << "Quit: ESC / 'X" << std::endl;
   cout << "Move: 'Q','W','E','A','S','D'" << std::endl;
+  cout << "Sensor info: 'I'" << std::endl;
   cout << "Servo: 'U','J','H','K'" << std::endl;
   cout << "RunScript: 'R'" << std::endl;
   cout << "Save picture: 'B'" << std::endl;
@@ -79,24 +80,31 @@ void View::GetCommand() {
 	  
     case KEYCODE_h:
       this->_controller->StepServoLeft();
-      std::cout << "Servo Left. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Left. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
       return;
 	  
     case KEYCODE_k:
       this->_controller->StepServoRight();
-      std::cout << "Servo Right. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Right. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
 	  return;
 	
 	case KEYCODE_u:
 	  this->_controller->StepServoUp();
-      std::cout << "Servo Up. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
+      std::cout << "Servo Up. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
 	  return;
 	
 	case KEYCODE_j:
 	  this->_controller->StepServoDown();
-	  std::cout << "Servo Down. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
+	  std::cout << "Servo Down. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
 	  return;
-	
+
+	case KEYCODE_i:
+	  std::cout << "Average distance:  " <<  this->_controller->GetSensorInfo("DISTANCE") << std::endl;
+	  std::cout << "Top line:  " <<  this->_controller->GetSensorInfo("TOPLINE") << std::endl;
+	  std::cout << "Bottom line:  " <<  this->_controller->GetSensorInfo("BOTTOMLINE") << std::endl;
+	  std::cout << "Left side:  " <<  this->_controller->GetSensorInfo("LEFTLINE") << std::endl;
+	  std::cout << "Right side:  " <<  this->_controller->GetSensorInfo("RIGHTLINE") << std::endl;
+	  return;
   }
 }
 

@@ -77,7 +77,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
 
   LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, cameraDetector, 1, false);
 
-  SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, bottomLineCheck, distanceSensorCheck);
+  SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, rightLineCheck, bottomLineCheck, topLineCheck, distanceSensorCheck);
 
   FollowLineSetting* followLineSetting = new FollowLineSetting(12, 100, 20, 10);
 
@@ -133,6 +133,9 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _settings["CHECK"] = switchCheck;
   _settings["BOTTOMLINECHECK"] = bottomLineCheck;
   _settings["LEFTLINECHECK"] = leftLineCheck;
+  _settings["RIGHTLINECHECK"] = rightLineCheck;
+  _settings["TOPLINECHECK"] = topLineCheck;
+
   _settings["DISTANCESENSOR"] = distanceSensorCheck;
   _settings["DISTANCE"] = distanceCheck;
   _settings["PORT"] = portCheck;

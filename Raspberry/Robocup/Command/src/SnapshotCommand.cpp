@@ -6,8 +6,12 @@ SnapshotCommand::SnapshotCommand(CameraDetector* cameraDetector, LineDetectSetti
   _TopDetectSetting = topDetectSetting;
   _LeftDetectSetting = leftDetectSetting;
   _RightDetectSetting = rightDetectSetting;
+  
   _GrayMode = true;
   SettingsBool["GRAYMODE"] = &_GrayMode;
+  
+  _DisplayLineSearch = true;
+  SettingsBool["DISPLINESEARCH"] = &_DisplayLineSearch;
 }
 
 std::string SnapshotCommand::Execute(vector<int> data) {
@@ -21,7 +25,6 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   }
   filename += ".jpg";
 
-  
   cv::Mat image;
   if(_GrayMode)
   {
@@ -30,6 +33,14 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   else
   {
     image = _CameraDetector->GetNextFrameColor();
+  }
+  
+  if(_DisplayLineSearch)
+  {
+    _CameraDetector->IndicateSearchArea(image, _BottomDetectSetting->ROI);
+    _CameraDetector->IndicateSearchArea(image, _TopDetectSetting->ROI);
+    _CameraDetector->IndicateSearchArea(image, _LeftDetectSetting->ROI);
+    _CameraDetector->IndicateSearchArea(image, _RightDetectSetting->ROI);
   }
  
   _CameraDetector->SavePicture(filename, image);
