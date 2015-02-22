@@ -1,7 +1,7 @@
 #ifndef NAVIGATETOBALL_H
 #define	NAVIGATETOBALL_H
 
-#include <CameraDetector.h>
+#include <PiCamera.h>
 #include <DetectObject.h>
 #include <Position.h>
 #include <Direction.h>
@@ -11,13 +11,13 @@
 
 class NavigateToBall : public Command , public Setting {
 public:
-    NavigateToBall(CameraDetector* cameraDetector, DetectObject* detectObject, ComController* comController);
+    NavigateToBall(PiCamera* piCamera, DetectObject* detectObject, ComController* comController);
     std::string Execute(std::vector<int> input);
     
 private:
     void SetDirection(Direction* dir, float angle, float distance);
     bool WithinThresshold(float distance, float angle);
-    CameraDetector* _CameraDetector;
+    PiCamera* _PiCamera;
     DetectObject* _DetectObject;
     Position* _Position;
     Direction* _Direction;

@@ -1,7 +1,6 @@
 #ifndef DETECTTEMPLATEOBJECT_H
 #define	DETECTTEMPLATEOBJECT_H
 
-#include <CameraDetector.h>
 #include <Position.h>
 #include <DetectObject.h>
 

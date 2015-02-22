@@ -1,7 +1,6 @@
 #ifndef DETECTSURFOBJECT_H
 #define	DETECTSURFOBJECT_H
 
-#include <CameraDetector.h>
 #include <Position.h>
 #include <DetectObject.h>
 #include <opencv2/features2d/features2d.hpp>

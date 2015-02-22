@@ -2,7 +2,10 @@
 #define	DETECTOBJECT_H
 
 #include <Position.h>
-#include <CameraDetector.h>
+#include <opencv/cv.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 class DetectObject {
 public:

@@ -1,7 +1,7 @@
 #ifndef NAVIGATETOBOOK_H
 #define	NAVIGATETOBOOK_H
 
-#include <CameraDetector.h>
+#include <PiCamera.h>
 #include <DetectSurfObject.h>
 #include <Position.h>
 #include <Direction.h>
@@ -11,12 +11,12 @@
 
 class NavigateToBook : public Command , public Setting {
 public:
-    NavigateToBook(CameraDetector* cameraDetector, DetectSurfObject* detectObject, ComController* comController);
+    NavigateToBook(PiCamera* piCamera, DetectSurfObject* detectObject, ComController* comController);
     std::string Execute(std::vector<int> input);
     
 private:
     void SetNavigation(Position* pos);
-    CameraDetector* _CameraDetector;
+    PiCamera* _PiCamera;
     DetectSurfObject* _DetectObject;
     Position* _Position;
     Direction* _Direction;

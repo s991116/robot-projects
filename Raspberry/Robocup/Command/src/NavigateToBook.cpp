@@ -1,7 +1,7 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(CameraDetector* cameraDetector, DetectSurfObject* detectObject, ComController* comController) {
-  _CameraDetector = cameraDetector;
+NavigateToBook::NavigateToBook(PiCamera* piCamera, DetectSurfObject* detectObject, ComController* comController) {
+  _PiCamera = piCamera;
   _DetectObject = detectObject;
   _ComController = comController;
   _Position = new Position();
@@ -13,7 +13,7 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   cv::Mat object = cv::imread("template.jpg", CV_LOAD_IMAGE_GRAYSCALE );
   _DetectObject->SetTemplate(object);
 
-  cv::Mat image = _CameraDetector->GetNextFrame();  
+  cv::Mat image = _PiCamera->GetNextFrame();  
   _DetectObject->GetPosition(image, _Position);
     
   SetNavigation(_Position);

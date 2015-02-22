@@ -1,17 +1,17 @@
 #ifndef NAVIGATETOLINE_H
 #define	NAVIGATETOLINE_H
 
-#include "FindLineSetting.h"
-#include "LinePosition.h"
-#include "Direction.h"
-#include "CameraDetector.h"
-#include "ComController.h"
-#include "Command.h"
-#include "Setting.h"
+#include <FindLineSetting.h>
+#include <LinePosition.h>
+#include <Direction.h>
+#include <PiCamera.h>
+#include <ComController.h>
+#include <Command.h>
+#include <Setting.h>
 
 class NavigateToLine : public Command, public Setting{
 public:
-    NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, CameraDetector* cameraDetector);
+    NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, PiCamera* piCamera);
     
     std::string Execute(std::vector<int> input);
         
@@ -26,7 +26,7 @@ private:
     FindLineSetting* _FindLineSetting;
     LinePosition* _LinePosition;
     ComController* _ComController;
-    CameraDetector* _CameraDetector;
+    PiCamera* _PiCamera;
     float _DistanceThresshold;
     float _AngleThresshold;
     int _NavigateSpeed;
@@ -37,4 +37,3 @@ private:
 };
 
 #endif	/* NAVIGATETOLINE_H */
-

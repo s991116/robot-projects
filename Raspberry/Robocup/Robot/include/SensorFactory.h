@@ -1,9 +1,10 @@
 #ifndef SENSORFACTORY_H
 #define	SENSORFACTORY_H
-#include "Logging.h"
-#include "Command.h"
-#include "Setting.h"
-#include "SensorInfo.h"
+
+#include <Logging.h>
+#include <Command.h>
+#include <Setting.h>
+#include <SensorInfo.h>
 #include <string>
 #include <map>
 
@@ -21,4 +22,3 @@ private:
 };
 
 #endif	/* SENSORFACTORY_H */
-

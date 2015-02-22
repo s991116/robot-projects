@@ -1,7 +1,7 @@
 #include "SnapshotCommand.h"
 
-SnapshotCommand::SnapshotCommand(CameraDetector* cameraDetector, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
-  _CameraDetector = cameraDetector;
+SnapshotCommand::SnapshotCommand(PiCamera* piCamera, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
+  _PiCamera = piCamera;
   _BottomDetectSetting = bottomDetectSetting;
   _TopDetectSetting = topDetectSetting;
   _LeftDetectSetting = leftDetectSetting;
@@ -28,22 +28,21 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   cv::Mat image;
   if(_GrayMode)
   {
-    image = _CameraDetector->GetNextFrame();
+    image = _PiCamera->GetNextFrame();
   }
   else
   {
-    image = _CameraDetector->GetNextFrameColor();
+    image = _PiCamera->GetNextFrameColor();
   }
   
   if(_DisplayLineSearch)
   {
-    _CameraDetector->IndicateSearchArea(image, _BottomDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _TopDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _LeftDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _RightDetectSetting->ROI);
+    _PiCamera->IndicateSearchArea(image, _BottomDetectSetting->ROI);
+    _PiCamera->IndicateSearchArea(image, _TopDetectSetting->ROI);
+    _PiCamera->IndicateSearchArea(image, _LeftDetectSetting->ROI);
+    _PiCamera->IndicateSearchArea(image, _RightDetectSetting->ROI);
   }
  
-  _CameraDetector->SavePicture(filename, image);
-
+  _PiCamera->SavePicture(filename, image);
   return "";
 }
