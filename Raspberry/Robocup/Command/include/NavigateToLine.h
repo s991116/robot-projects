@@ -4,14 +4,14 @@
 #include <FindLineSetting.h>
 #include <LinePosition.h>
 #include <Direction.h>
-#include <PiCamera.h>
+#include <RobotCamera.h>
 #include <ComController.h>
 #include <Command.h>
 #include <Setting.h>
 
 class NavigateToLine : public Command, public Setting{
 public:
-    NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, PiCamera* piCamera);
+    NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, RobotCamera* robotCamera);
     
     std::string Execute(std::vector<int> input);
         
@@ -26,7 +26,7 @@ private:
     FindLineSetting* _FindLineSetting;
     LinePosition* _LinePosition;
     ComController* _ComController;
-    PiCamera* _PiCamera;
+    RobotCamera* _RobotCamera;
     float _DistanceThresshold;
     float _AngleThresshold;
     int _NavigateSpeed;

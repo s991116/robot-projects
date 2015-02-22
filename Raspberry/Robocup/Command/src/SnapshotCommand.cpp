@@ -1,15 +1,12 @@
 #include "SnapshotCommand.h"
 
-SnapshotCommand::SnapshotCommand(PiCamera* piCamera, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
-  _PiCamera = piCamera;
+SnapshotCommand::SnapshotCommand(RobotCamera* robotCamera, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
+  _RobotCamera = robotCamera;
   _BottomDetectSetting = bottomDetectSetting;
   _TopDetectSetting = topDetectSetting;
   _LeftDetectSetting = leftDetectSetting;
   _RightDetectSetting = rightDetectSetting;
-  
-  _GrayMode = true;
-  SettingsBool["GRAYMODE"] = &_GrayMode;
-  
+    
   _DisplayLineSearch = true;
   SettingsBool["DISPLINESEARCH"] = &_DisplayLineSearch;
 }
@@ -26,23 +23,26 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   filename += ".jpg";
 
   cv::Mat image;
-  if(_GrayMode)
-  {
-    image = _PiCamera->GetNextFrame();
-  }
-  else
-  {
-    image = _PiCamera->GetNextFrameColor();
-  }
+  
+  image = _RobotCamera->GetNextFrontLineFrame();
   
   if(_DisplayLineSearch)
   {
-    _PiCamera->IndicateSearchArea(image, _BottomDetectSetting->ROI);
-    _PiCamera->IndicateSearchArea(image, _TopDetectSetting->ROI);
-    _PiCamera->IndicateSearchArea(image, _LeftDetectSetting->ROI);
-    _PiCamera->IndicateSearchArea(image, _RightDetectSetting->ROI);
+    IndicateSearchArea(image, _BottomDetectSetting->ROI);
+    IndicateSearchArea(image, _TopDetectSetting->ROI);
+    IndicateSearchArea(image, _LeftDetectSetting->ROI);
+    IndicateSearchArea(image, _RightDetectSetting->ROI);
   }
  
-  _PiCamera->SavePicture(filename, image);
+  SavePicture(filename, image);
   return "";
+}
+
+void SnapshotCommand::SavePicture(std::string filename, cv::Mat frame) {
+    imwrite( filename.c_str(), frame );
+}
+
+void SnapshotCommand::IndicateSearchArea(cv::Mat frame, cv::Rect region)
+{
+    rectangle(frame, region, cv::Scalar(100,100,80), 2, 8, 0);
 }

@@ -12,9 +12,9 @@ link_directories(~/git/robidouille/raspicam_cv)
 link_directories(~/git/raspberrypi/userland/build/lib)
 
 if(CAMERA_MOCK)
-    file (GLOB ALL_SOURCE src/PiCameraMock.cpp)
+    file (GLOB ALL_SOURCE src/PiCameraMock.cpp src/RobotCamera.cpp)
 else(CAMERA_MOCK)
-    file (GLOB ALL_SOURCE src/PiCamera.cpp)
+    file (GLOB ALL_SOURCE src/PiCamera.cpp src/RobotCamera.cpp)
 endif(CAMERA_MOCK)
 
 add_library (RaspiCamera ${ALL_SOURCE})

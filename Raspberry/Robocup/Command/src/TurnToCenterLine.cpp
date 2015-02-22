@@ -1,7 +1,7 @@
 #include <TurnToCenterLine.h>
 
-TurnToCenterLine::TurnToCenterLine(PiCamera* piCamera, ComController* comController, LineDetect* bottomLineDetect) {
-  _PiCamera = piCamera;
+TurnToCenterLine::TurnToCenterLine(RobotCamera* robotCamera, ComController* comController, LineDetect* bottomLineDetect) {
+  _RobotCamera = robotCamera;
   _ComController = comController;
   _BottomLineDetect = bottomLineDetect;
   _Direction = new Direction(0, 0, 0);
@@ -19,7 +19,7 @@ std::string TurnToCenterLine::Execute(std::vector<int> input) {
 
   LineInfo* bottomLineInfo;
   do{
-    cv::Mat image = _PiCamera->GetNextFrame();  
+    cv::Mat image = _RobotCamera->GetNextFrontLineFrame();  
     bottomLineInfo = _BottomLineDetect->DetectLine(image);
     TurnRobot(bottomLineInfo, _ComController);
   }while(LineNotInCenter(bottomLineInfo));

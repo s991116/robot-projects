@@ -1,8 +1,8 @@
 #include<FollowLineCommand.h>
 #include <LineDetect.h>
 
-FollowLineCommand::FollowLineCommand(PiCamera* piCamera, ComController* comController, FollowLineSetting* followLineSetting, Check* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect) {
-  this->_PiCamera = piCamera;
+FollowLineCommand::FollowLineCommand(RobotCamera* robotCamera, ComController* comController, FollowLineSetting* followLineSetting, Check* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect) {
+  this->_RobotCamera = robotCamera;
   this->_ComController = comController;
   this->_FollowLineSetting = followLineSetting;
   this->_Check = check;
@@ -16,14 +16,13 @@ FollowLineCommand::~FollowLineCommand() {
 std::string FollowLineCommand::Execute(vector<int> input) {
 
   _Check->Prepare();
-  _PiCamera->SetCameraPosition(CameraPosition::FOLLOW_LINE);
 
   while (_Check->Test()) {
-    cv::Mat imageMat = this->_PiCamera->GetNextFrame();
-    LineInfo* bottomLine = this->_BottomLineDetect->DetectLine(imageMat);
-    LineInfo* topLine = this->_TopLineDetect->DetectLine(imageMat);
+    cv::Mat imageMat = _RobotCamera->GetNextFrontLineFrame();
+    LineInfo* bottomLine = _BottomLineDetect->DetectLine(imageMat);
+    LineInfo* topLine = _TopLineDetect->DetectLine(imageMat);
 
-    Direction* direction = this->_FollowLineSetting->GetDirection(bottomLine, topLine);
+    Direction* direction = _FollowLineSetting->GetDirection(bottomLine, topLine);
 
     this->_ComController->SetDirection(direction);
   }

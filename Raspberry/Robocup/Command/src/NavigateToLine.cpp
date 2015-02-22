@@ -1,9 +1,9 @@
 #include "NavigateToLine.h"
 
-NavigateToLine::NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, PiCamera* piCamera) {
+NavigateToLine::NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, RobotCamera* robotCamera) {
   _FindLineSetting = findLineSetting;
   _ComController = comController;
-  _PiCamera = piCamera;
+  _RobotCamera = robotCamera;
   _LinePosition = new LinePosition();
   _DistanceThresshold = 0.1;
   _AngleThresshold = 0.05;
@@ -25,7 +25,7 @@ std::string NavigateToLine::Execute(std::vector<int> input) {
   float rightSide;
   float angle, distance;  
   do{
-    cv::Mat image = _PiCamera->GetNextFrame();
+    cv::Mat image = _RobotCamera->GetNextFrontLineFrame();
     _FindLineSetting->GetLinePosition(image, _LinePosition);
 
     GetCrossValues(&leftSide, &rightSide, _LinePosition);

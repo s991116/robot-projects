@@ -1,9 +1,9 @@
 #include <LineCheck.h>
 #include <LineInfo.h>
 
-LineCheck::LineCheck(LineDetect* lineDetect, PiCamera* piCamera, int recheck, bool noLineCheck) {
+LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int recheck, bool noLineCheck) {
   _LineDetect = lineDetect;
-  _PiCamera = piCamera;
+  _RobotCamera = robotCamera;
   _Recheck = recheck;
   _NoLineCheck = noLineCheck;
   
@@ -53,7 +53,7 @@ bool LineCheck::Test()
 }
 
 LineInfo* LineCheck::GetLinePosition() {
-  cv::Mat image = _PiCamera->GetNextFrame();
+  cv::Mat image = _RobotCamera->GetNextFrontLineFrame();
   return _LineDetect->DetectLine(image);
 }
 

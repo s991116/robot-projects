@@ -7,35 +7,24 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <RaspiCamCV.h>
 #include <string.h>
-#include <ComController.h>
-#include <map>
-
-enum class CameraPosition {FOLLOW_LINE=0, FIND_BOOK=1};
 
 class PiCamera {
 public:
-    PiCamera(ComController* comController);
-	void SetCameraPosition(CameraPosition pos);
+    PiCamera();
 	void SetFrameSize(int width, int height);
+    void SetGrayMode(bool colorEnabled);
     cv::Mat GetNextFrame();
-    void IndicateSearchArea(cv::Mat frame, cv::Rect region);
-    void SavePicture(std::string filename, cv::Mat frame);
-    cv::Mat GetNextFrameColor();
     ~PiCamera();
 
 private:
-    RaspiCamCvCapture* capture;
-	
-	ComController* _ComController;
-    IplImage* image;
-    cv::Mat imageMat;
-	int _width;
-	int _height;
     void UpdateFrame();
+
+    RaspiCamCvCapture* _Capture;
+    IplImage* _Image;
+    cv::Mat _ImageMat;
+	int _Width;
+	int _Height;
     bool _GrayEnabled;
-    void SetGrayMode(bool colorEnabled);
-	std::map<CameraPosition, int> _Servo0Position;
-	std::map<CameraPosition, int> _Servo1Position;
 };
 
 #endif	/* PICAMERA_H */

@@ -3,7 +3,7 @@
 
 #include <Command.h>
 #include <ComController.h>
-#include <PiCamera.h>
+#include <RobotCamera.h>
 #include <FollowLineSetting.h>
 #include <SwitchCheck.h>
 #include <LineDetect.h>
@@ -11,13 +11,13 @@
 class FollowLineCommand  : public Command {
 
 public:
-    FollowLineCommand(PiCamera* piCamera, ComController* comController, FollowLineSetting* _FollowLineSetting, Check* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect);
+    FollowLineCommand(RobotCamera* robotCamera, ComController* comController, FollowLineSetting* _FollowLineSetting, Check* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect);
     virtual ~FollowLineCommand();
     
     std::string Execute(vector<int>);
     
 private:
-    PiCamera* _PiCamera;
+    RobotCamera* _RobotCamera;
     ComController* _ComController;
     FollowLineSetting* _FollowLineSetting;
     Check* _Check;

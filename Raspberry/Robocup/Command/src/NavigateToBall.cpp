@@ -1,7 +1,7 @@
 #include <NavigateToBall.h>
 
-NavigateToBall::NavigateToBall(PiCamera* piCamera, DetectObject* detectObject, ComController* comController) {
-  _PiCamera = piCamera;
+NavigateToBall::NavigateToBall(RobotCamera* robotCamera, DetectObject* detectObject, ComController* comController) {
+  _RobotCamera = robotCamera;
   _DetectObject = detectObject;
   _ComController = comController;
   _Position = new Position();
@@ -24,7 +24,7 @@ std::string NavigateToBall::Execute(std::vector<int> input) {
 
   float angle, distance;  
   do{
-    cv::Mat image = _PiCamera->GetNextFrameColor();
+    cv::Mat image = _RobotCamera->GetNextFrontBallFrame();
     
     _DetectObject->GetPosition(image, _Position);
     
