@@ -136,7 +136,6 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _settings["LEFTLINECHECK"] = leftLineCheck;
   _settings["RIGHTLINECHECK"] = rightLineCheck;
   _settings["TOPLINECHECK"] = topLineCheck;
-
   _settings["DISTANCESENSOR"] = distanceSensorCheck;
   _settings["DISTANCE"] = distanceCheck;
   _settings["PORT"] = portCheck;

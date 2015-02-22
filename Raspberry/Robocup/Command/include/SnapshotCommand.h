@@ -18,6 +18,7 @@ private:
     LineDetectSetting* _LeftDetectSetting;
     LineDetectSetting* _RightDetectSetting;
 	bool _DisplayLineSearch;
+	int _RobotCameraMode;
 	
 	void SavePicture(std::string filename, cv::Mat frame);
     void IndicateSearchArea(cv::Mat frame, cv::Rect region);

@@ -24,7 +24,7 @@ std::string NavigateToBall::Execute(std::vector<int> input) {
 
   float angle, distance;  
   do{
-    cv::Mat image = _RobotCamera->GetNextFrontBallFrame();
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BALL);
     
     _DetectObject->GetPosition(image, _Position);
     

@@ -53,7 +53,7 @@ bool LineCheck::Test()
 }
 
 LineInfo* LineCheck::GetLinePosition() {
-  cv::Mat image = _RobotCamera->GetNextFrontLineFrame();
+  cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
   return _LineDetect->DetectLine(image);
 }
 

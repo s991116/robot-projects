@@ -19,7 +19,7 @@ std::string SearchForLine::Execute(std::vector<int> input) {
   _ComController->SetDirection(_Direction);
 
   do{
-    cv::Mat image = _RobotCamera->GetNextFrontLineFrame();
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
     _FindLineSetting->GetLinePosition(image, _LinePosition);
   }while(_LinePosition->LineDetected == LinePosition::NoLine);
   

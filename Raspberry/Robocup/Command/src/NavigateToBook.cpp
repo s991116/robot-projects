@@ -13,7 +13,7 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   cv::Mat object = cv::imread("template.jpg", CV_LOAD_IMAGE_GRAYSCALE );
   _DetectObject->SetTemplate(object);
 
-  cv::Mat image = _RobotCamera->GetNextBookFrame();  
+  cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
   _DetectObject->GetPosition(image, _Position);
     
   SetNavigation(_Position);

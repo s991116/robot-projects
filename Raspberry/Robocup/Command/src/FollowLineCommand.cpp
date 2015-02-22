@@ -18,7 +18,7 @@ std::string FollowLineCommand::Execute(vector<int> input) {
   _Check->Prepare();
 
   while (_Check->Test()) {
-    cv::Mat imageMat = _RobotCamera->GetNextFrontLineFrame();
+    cv::Mat imageMat = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
     LineInfo* bottomLine = _BottomLineDetect->DetectLine(imageMat);
     LineInfo* topLine = _TopLineDetect->DetectLine(imageMat);
 

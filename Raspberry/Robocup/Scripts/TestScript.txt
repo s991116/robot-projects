@@ -3,6 +3,9 @@
 !RIGHTLINEDETECT  -BLACKLINE 1
 !LEFTLINEDETECT   -BLACKLINE 1
 
+>Snapshot.txt
+#QUIT
+
 >MotorPIDScript.txt
 >LineSetupScript.txt
 
