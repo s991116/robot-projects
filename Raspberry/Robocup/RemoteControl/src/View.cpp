@@ -23,7 +23,7 @@ void View::PrintHelp() {
   cout << "Sensor info: 'I'" << std::endl;
   cout << "Servo: 'U','J','H','K'" << std::endl;
   cout << "RunScript: 'R'" << std::endl;
-  cout << "Save picture: 'B'" << std::endl;
+  cout << "Save picture: 'B'(Line), 'N'(Ball), 'M'(Book)" << std::endl;
 }
 
 void View::GetMoveCommand(int keyCode) {
@@ -51,7 +51,7 @@ void View::GetMoveCommand(int keyCode) {
     case KEYCODE_s:
       this->_controller->SetMoveCommand(MoveBack);
       return;
-	  
+
     default:
       this->_controller->SetMoveCommand(Stop);
       return;
@@ -61,7 +61,7 @@ void View::GetMoveCommand(int keyCode) {
 void View::GetCommand() {
   BufferedInput bufInput;
   bufInput.off();
-  int keyCode = getchar();  
+  int keyCode = getchar();
   bufInput.on();
   this->GetMoveCommand(keyCode);
   switch (keyCode) {
@@ -75,24 +75,33 @@ void View::GetCommand() {
       break;
 
     case KEYCODE_b:
-      this->_controller->SavePicture();
+      this->_controller->SavePicture(0);
       break;
+
+    case KEYCODE_n:
+      this->_controller->SavePicture(1);
+      break;
+    
+	case KEYCODE_m:
+      this->_controller->SavePicture(2);
+      break;
+
 	  
     case KEYCODE_h:
       this->_controller->StepServoLeft();
       std::cout << "Servo Left. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
       return;
-	  
+
     case KEYCODE_k:
       this->_controller->StepServoRight();
       std::cout << "Servo Right. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
 	  return;
-	
+
 	case KEYCODE_u:
 	  this->_controller->StepServoUp();
       std::cout << "Servo Up. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
 	  return;
-	
+
 	case KEYCODE_j:
 	  this->_controller->StepServoDown();
 	  std::cout << "Servo Down. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
@@ -145,6 +154,6 @@ string View::GetScript() {
   std::getline(cin,scriptName);
   if(!scriptName.empty())
     this->_currentScript = scriptName;
-  
+
   return this->_currentScript;
 }

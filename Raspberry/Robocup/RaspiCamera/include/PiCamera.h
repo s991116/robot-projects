@@ -5,7 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <RaspiCamCV.h>
+#include <raspicam/raspicam_cv.h>
 #include <string.h>
 
 class PiCamera {
@@ -17,10 +17,7 @@ public:
     ~PiCamera();
 
 private:
-    void UpdateFrame();
-
-    RaspiCamCvCapture* _Capture;
-    IplImage* _Image;
+    raspicam::RaspiCam_Cv _Camera;
     cv::Mat _ImageMat;
 	int _Width;
 	int _Height;

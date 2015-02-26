@@ -6,10 +6,10 @@ SnapshotCommand::SnapshotCommand(RobotCamera* robotCamera, LineDetectSetting* bo
   _TopDetectSetting = topDetectSetting;
   _LeftDetectSetting = leftDetectSetting;
   _RightDetectSetting = rightDetectSetting;
-    
+
   _DisplayLineSearch = true;
   SettingsBool["DISP_INFO"] = &_DisplayLineSearch;
-  SettingsInt["CAMERA_MODE"] = &_RobotCameraMode;  
+  SettingsInt["CAMERA_MODE"] = &_RobotCameraMode;
 }
 
 std::string SnapshotCommand::Execute(vector<int> data) {
@@ -24,9 +24,9 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   filename += ".jpg";
 
   cv::Mat image;
-  
+
   image = _RobotCamera->GetNextFrame(static_cast<CameraPosition>(_RobotCameraMode));
-  
+
   if(_DisplayLineSearch)
   {
     IndicateSearchArea(image, _BottomDetectSetting->ROI);
@@ -34,7 +34,7 @@ std::string SnapshotCommand::Execute(vector<int> data) {
     IndicateSearchArea(image, _LeftDetectSetting->ROI);
     IndicateSearchArea(image, _RightDetectSetting->ROI);
   }
- 
+
   SavePicture(filename, image);
   return "";
 }

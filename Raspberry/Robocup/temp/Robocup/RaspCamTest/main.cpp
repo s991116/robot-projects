@@ -10,7 +10,7 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    RaspiCamCvCapture* capture = raspiCamCvCreateCameraCapture(320,240,0);
+    RaspiCamCvCapture* capture = raspiCamCvCreateCameraCapture(640,480,0);
     IplImage* frame;
     CvMemStorage* pStorage = cvCreateMemStorage(0);
 

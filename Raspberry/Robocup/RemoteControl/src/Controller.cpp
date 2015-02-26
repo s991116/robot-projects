@@ -8,13 +8,15 @@
 #include <vector>
 #include <SpeedControl.h>
 #include <ConsolePrint.h>
+#include <Setting.h>
 
-Controller::Controller(View* view, CommandScript* commandScript, map<string, Command*> commands, map<string, SensorInfo*> sensorInfo) {
+Controller::Controller(View* view, CommandScript* commandScript, map<string, Command*> commands, map<string, SensorInfo*> sensorInfo, map<string, Setting*> settings) {
   this->view = view;
   this->view->AddListener(this);
   this->_commandScript = commandScript;
   this->_commands = commands;
   this->_sensorInfo = sensorInfo;
+  this->_settings = settings;
   Stop();
   this->Servo0Position = 90;
   this->Servo1Position = 90;
@@ -76,10 +78,11 @@ void Controller::Stop() {
   speedCmd->Execute(data);
 }
 
-void Controller::SavePicture() {
-  Command* speedCmd = this->_commands["SNAPSHOT"];
+void Controller::SavePicture(int mode) {
+  this->_settings["SNAPSHOT"]->Set("CAMERA_MODE", mode);
+  Command* cmd = this->_commands["SNAPSHOT"];
   std::vector<int> data;
-  speedCmd->Execute(data);
+  cmd->Execute(data);
 }
 
 void Controller::StepServoUp() {

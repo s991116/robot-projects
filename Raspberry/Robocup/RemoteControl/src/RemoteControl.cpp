@@ -20,8 +20,8 @@ int main(int argc, char** argv) {
   SensorFactory* sensorFactory = new SensorFactory(logger, ScriptCommands::CreateCommands());
   ParseCommandLine* parseCommandLine = new ParseCommandLine(ScriptCommands::CreateCommands());
   CommandScript* commandScript = new CommandScript(parseCommandLine, sensorFactory->GetCommands(), sensorFactory->GetSettings(), sensorFactory->GetSensors());
-  
-  controller = new Controller(view, commandScript, sensorFactory->GetCommands(), sensorFactory->GetSensors());
+
+  controller = new Controller(view, commandScript, sensorFactory->GetCommands(), sensorFactory->GetSensors(), sensorFactory->GetSettings());
 
   controller->Start();
 
