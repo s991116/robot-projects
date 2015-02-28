@@ -38,8 +38,8 @@ void DetectTemplateObject::GetPosition(cv::Mat image, Position* position) {
   Point center = Point(matchLoc.x + _template.cols/2 ,matchLoc.y + _template.rows/2);
 
   position->Detected = true;
-  position->PositionX = (center.x) / (float) result_cols;
-  position->PositionY = (center.y) / (float) result_rows;  
+  position->X = (center.x) / (float) result_cols;
+  position->Y = (center.y) / (float) result_rows;  
   
   return;
 }

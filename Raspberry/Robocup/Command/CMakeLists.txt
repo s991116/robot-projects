@@ -15,5 +15,5 @@ include_directories(/opt/local/include)
 file (GLOB ALL_SOURCE src/*.cpp)
 add_library (Command ${ALL_SOURCE})
 
-#target_link_libraries(CommandScript Logging Setting ArduinoController Vision)
+target_link_libraries(Command Vision)
 

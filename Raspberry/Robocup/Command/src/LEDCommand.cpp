@@ -8,8 +8,9 @@ LEDCommand::LEDCommand(ComController* comController)
 std::string LEDCommand::Execute(vector<int> data)
 {
     int LEDNr = data[0];
-    int mode = data[1];
-    this->_ComController->SetLEDMode(LEDNr, mode);
+    LEDMode mode = static_cast<LEDMode>(data[1]);
+	
+	this->_ComController->SetLEDMode(LEDNr, mode);
 
     return "";
 }

@@ -3,8 +3,8 @@
 
 class Position {
 public:
-    float PositionX;
-    float PositionY;
+    float X;
+    float Y;
     bool Detected;
     
 	void SetNormalizedPosition(int imageX, int imageY, int width, int height);

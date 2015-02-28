@@ -78,15 +78,14 @@ void View::GetCommand() {
       this->_controller->SavePicture(0);
       break;
 
-    case KEYCODE_n:
+	case KEYCODE_m:
       this->_controller->SavePicture(1);
       break;
-    
-	case KEYCODE_m:
+
+	  case KEYCODE_n:
       this->_controller->SavePicture(2);
       break;
-
-	  
+  
     case KEYCODE_h:
       this->_controller->StepServoLeft();
       std::cout << "Servo Left. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;

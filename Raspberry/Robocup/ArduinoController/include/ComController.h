@@ -8,6 +8,8 @@
 
 using namespace std;
 
+enum class LEDMode { Off = 0, On = 1, Blink = 2};
+
 class ComController {
 public:
     ComController(ComPort* comport, map<string, int> commands);
@@ -32,7 +34,7 @@ public:
 	void SetServoMaxPosition(int servoNr, int position);
 	void SetServoMinPosition(int servoNr, int position);
     int GetServoPosition(int servoNr);
-	void SetLEDMode(int LEDnr, int mode);
+	void SetLEDMode(int LEDnr, LEDMode mode);
 
 private:
     ComPort* m_ComPort;
@@ -40,7 +42,6 @@ private:
     Direction* _Direction;
 
     void SendMessage(char command, short data);
-
 };
 
 #endif	/* COMCONTROLLER_H */

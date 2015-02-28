@@ -30,7 +30,6 @@
 #include <NavigateToBook.h>
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
-#include <DetectSurfObject.h>
 
 SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   ComPort* comPort = new ComPort();
@@ -92,9 +91,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
   
-  int hesianValue = 400;
-  DetectSurfObject* detectSurfObject = new DetectSurfObject(hesianValue);
-  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, detectSurfObject, comController);
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController);
   
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;

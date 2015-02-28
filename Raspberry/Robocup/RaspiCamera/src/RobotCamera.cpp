@@ -10,8 +10,8 @@ RobotCamera::RobotCamera(PiCamera* piCamera, ComController* comController) {
   _ComController = comController;
 
   _Settings[CameraPosition::FOLLOW_LINE] = new RobotCameraSetting(56, 108, 320, 240, true);
-  _Settings[CameraPosition::FIND_BOOK] = new RobotCameraSetting(56, 80, 640, 480, false);
-  _Settings[CameraPosition::FIND_BALL] = new RobotCameraSetting(56, 90, 320, 240, false);  
+  _Settings[CameraPosition::FIND_BOOK] = new RobotCameraSetting(101, 108, 640, 480, true);
+  _Settings[CameraPosition::FIND_BALL] = new RobotCameraSetting(56, 108, 320, 240, false);  
 }
 
 cv::Mat RobotCamera::GetNextFrame(CameraPosition cameraPosition)

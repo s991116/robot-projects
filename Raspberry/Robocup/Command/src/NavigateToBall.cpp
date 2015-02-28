@@ -28,8 +28,8 @@ std::string NavigateToBall::Execute(std::vector<int> input) {
     
     _DetectObject->GetPosition(image, _Position);
     
-    angle = _Position->PositionX;
-    distance = _Position->PositionY - _DistanceOffset;
+    angle = _Position->X;
+    distance = _Position->Y - _DistanceOffset;
 
     SetDirection(_Direction, angle, distance);
     _ComController->SetDirection(_Direction);

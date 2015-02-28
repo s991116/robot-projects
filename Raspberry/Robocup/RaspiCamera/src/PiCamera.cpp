@@ -6,14 +6,10 @@ using namespace cv;
 using namespace std;
 
 PiCamera::PiCamera() {
-
+  
   _GrayEnabled = false;
   SetGrayMode(true);
   SetFrameSize(640, 480);
-  if (!_Camera.open())
-  {
-    cerr << "Error opening the camera" << endl;
-  }
 }
 
 void PiCamera::SetGrayMode(bool grayEnabled) {
