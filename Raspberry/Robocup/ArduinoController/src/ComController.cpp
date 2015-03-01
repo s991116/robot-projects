@@ -138,8 +138,8 @@ int ComController::GetServoPosition(int servoNr) {
   return this->SendCommand(m_Commands["CMD_GET_SERVO_POSITION"], servoNr);
 }
 
-void ComController::SetLEDMode(int LEDnr, LEDMode mode) {
-	short data = (LEDnr << 8) | (static_cast<int> (mode));
+void ComController::SetLEDMode(LEDColor LEDnr, LEDMode mode) {
+	short data = (static_cast<int> (LEDnr) << 8) | (static_cast<int> (mode));
 	this->SendCommand(m_Commands["CMD_SET_LED_MODE"], data);
 }
 

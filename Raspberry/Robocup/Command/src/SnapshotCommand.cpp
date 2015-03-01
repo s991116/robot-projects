@@ -1,5 +1,5 @@
-#include "SnapshotCommand.h"
-
+#include <SnapshotCommand.h>
+#include <unistd.h>
 SnapshotCommand::SnapshotCommand(RobotCamera* robotCamera, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
   _RobotCamera = robotCamera;
   _BottomDetectSetting = bottomDetectSetting;
@@ -7,7 +7,7 @@ SnapshotCommand::SnapshotCommand(RobotCamera* robotCamera, LineDetectSetting* bo
   _LeftDetectSetting = leftDetectSetting;
   _RightDetectSetting = rightDetectSetting;
 
-  _DisplayLineSearch = true;
+  _DisplayLineSearch = false;
   SettingsBool["DISP_INFO"] = &_DisplayLineSearch;
   SettingsInt["CAMERA_MODE"] = &_RobotCameraMode;
 }
@@ -22,9 +22,8 @@ std::string SnapshotCommand::Execute(vector<int> data) {
     filename += str;
   }
   filename += ".jpg";
-
+  
   cv::Mat image;
-
   image = _RobotCamera->GetNextFrame(static_cast<CameraPosition>(_RobotCameraMode));
 
   if(_DisplayLineSearch)

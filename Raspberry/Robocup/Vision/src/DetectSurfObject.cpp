@@ -16,7 +16,8 @@ void DetectSurfObject::SetTemplate(cv::Mat object) {
 }
 
 void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position) {
-    surf.detect(sceneMat,keypointsS);
+    keypointsS.clear();
+	surf.detect(sceneMat,keypointsS);
 	
 	if(keypointsS.size() < 7 ||   keypointsO.size() < 7) //Not enough keypoints, object not found 
 	{
@@ -25,6 +26,8 @@ void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position) {
 	}
 	
 	extractor.compute( sceneMat, keypointsS, descriptors_scene );
+	matches.clear();
+	good_matches.clear();
 	
 	matcher.knnMatch( descriptors_object, descriptors_scene, matches, 2 );
 	

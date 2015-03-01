@@ -1,6 +1,7 @@
 #include <RobotCamera.h>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 
 using namespace cv;
 using namespace std;
@@ -16,9 +17,18 @@ RobotCamera::RobotCamera(PiCamera* piCamera, ComController* comController) {
 
 cv::Mat RobotCamera::GetNextFrame(CameraPosition cameraPosition)
 {
-  SetCameraPosition(_Settings[cameraPosition]->Servo0Position, _Settings[cameraPosition]->Servo1Position);
-  _PiCamera->SetFrameSize(_Settings[cameraPosition]->FrameWidth, _Settings[cameraPosition]->FrameHeight);
-  _PiCamera->SetGrayMode(_Settings[cameraPosition]->GrayMode);
+  if(cameraPosition != _CurrentCameraPosition)
+  {
+    SetCameraPosition(_Settings[cameraPosition]->Servo0Position, _Settings[cameraPosition]->Servo1Position);
+    _PiCamera->SetFrameSize(_Settings[cameraPosition]->FrameWidth, _Settings[cameraPosition]->FrameHeight);
+    _PiCamera->SetGrayMode(_Settings[cameraPosition]->GrayMode);
+	_CurrentCameraPosition = cameraPosition;
+	usleep(300000);
+	image = _PiCamera->GetNextFrame();
+    usleep(400000);
+	image = _PiCamera->GetNextFrame();
+	return image;
+  }
   return _PiCamera->GetNextFrame();
 }
 

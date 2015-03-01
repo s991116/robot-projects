@@ -19,8 +19,10 @@ public:
 private:
   PiCamera* _PiCamera;
   ComController* _ComController;
+  CameraPosition _CurrentCameraPosition;
   void SetCameraPosition(int servo0, int servo1);
   std::map<CameraPosition, RobotCameraSetting*> _Settings;
+  cv::Mat image;
 };
 
 #endif	/* ROBOTCAMERA_H */

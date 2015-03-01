@@ -9,6 +9,7 @@
 using namespace std;
 
 enum class LEDMode { Off = 0, On = 1, Blink = 2};
+enum class LEDColor { Green = 0, Red = 1};
 
 class ComController {
 public:
@@ -34,7 +35,7 @@ public:
 	void SetServoMaxPosition(int servoNr, int position);
 	void SetServoMinPosition(int servoNr, int position);
     int GetServoPosition(int servoNr);
-	void SetLEDMode(int LEDnr, LEDMode mode);
+	void SetLEDMode(LEDColor LEDnr, LEDMode mode);
 
 private:
     ComPort* m_ComPort;

@@ -22,22 +22,47 @@ DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
 }
 
 std::string NavigateToBook::Execute(std::vector<int> input) {
-  _ComController->SetLEDMode(0, LEDMode::Blink);
-  _ComController->SetLEDMode(1, LEDMode::Off);
+  _ComController->SetLEDMode(LEDColor::Green, LEDMode::Blink);
+  _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
+  _Book1Found = false;
+  _Book2Found = false;
   
   _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
 
-  cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
-  _DetectBook1->GetPosition(image, _Position);
+  FindBook();
   
-  if(_Position->Detected)
+  if(_Book1Found || _Book2Found)
   {
-    _ComController->SetLEDMode(0, LEDMode::On);
+    _ComController->SetLEDMode(LEDColor::Green, LEDMode::On);
   }
   else
   {
-    _ComController->SetLEDMode(0, LEDMode::Off);
+    _ComController->SetLEDMode(LEDColor::Green, LEDMode::Off);
   }
   
  return "";
+}
+
+void NavigateToBook::FindBook()
+{
+  _Book1Found = false;
+  _Book2Found = false;
+
+  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
+
+  _DetectBook1->GetPosition(_image, _Position);
+  if(_Position->Detected)
+  {
+	std::cout << "Book 1 found." << std::endl;
+    _Book1Found = true;
+  }
+  else
+  {
+    _DetectBook2->GetPosition(_image, _Position);
+	if(_Position->Detected)
+    {
+      std::cout << "Book 2 found." << std::endl;
+      _Book2Found = true;
+	}
+  }
 }
