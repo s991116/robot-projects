@@ -47,6 +47,9 @@ void DetectColoredObject::GetPosition(cv::Mat image, Position* position) {
   int width = image.cols;
   int height = image.rows;
   position->Detected = true;
-  position->PositionX = (2*posX- width) / (float) width;
-  position->PositionY = (2*posY- height) / (float) height;  
+  
+  float normX = (2*posX- width) / (float) width;
+  float normY = (2*posY- height) / (float) height;
+
+  position->SetNormalizedPosition(normX, normY, width, height);
 }

@@ -1,7 +1,6 @@
 #ifndef SENSORFACTORY_H
 #define	SENSORFACTORY_H
 
-#include <Logging.h>
 #include <Command.h>
 #include <Setting.h>
 #include <SensorInfo.h>
@@ -10,7 +9,7 @@
 
 class SensorFactory {
 public:
-    SensorFactory(Logging* logging, map<string, int> commands);
+    SensorFactory(map<string, int> commands);
     map<string, Command*> GetCommands();
     map<string, Setting*> GetSettings();
     map<string, SensorInfo*> GetSensors();

@@ -3,17 +3,25 @@
 
 class Position {
 public:
-    float X;
-    float Y;
-    bool Detected;
-    
-	void SetNormalizedPosition(int imageX, int imageY, int width, int height);
-	
-	int GetImagePositionX(int width);
-	int GetImagePositionY(int height);
-	
-private:
+  bool Detected;
+  
+void SetImagePosition(int imageX, int imageY, int width, int height);
+void SetNormalizedPosition(float x, float y, int width, int height);
 
+int GetImageX();
+int GetImageY();
+
+float GetNormalizedX();
+float GetNormalizedY();
+
+int GetHeight();
+int GetWidth();
+
+private:
+  float _X;
+  float _Y;  
+  int _Width;
+  int _Height;
 };
 
 #endif	/* POSITION_H */

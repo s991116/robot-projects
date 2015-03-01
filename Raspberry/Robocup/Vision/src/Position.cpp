@@ -1,14 +1,40 @@
 #include <Position.h>
 
-void Position::SetNormalizedPosition(int imageX, int imageY, int width, int height) {
-  	this->X = ((2.0 * imageX) / width) - 1.0;
-	this->Y = 1.0 - ((2.0 * imageY) / height);
+void Position::SetImagePosition(int imageX, int imageY, int width, int height) {
+  	_Width = width;
+	_Height = height;
+	this->_X = ((2.0 * imageX) / _Width) - 1.0;
+	this->_Y = 1.0 - ((2.0 * imageY) / _Height);
 }
 
-int Position::GetImagePositionX(int width) {
-  return width * ((this->X+1.0)/2.0);
+void Position::SetNormalizedPosition(float x, float y, int width, int height) {
+  	_Width = width;
+	_Height = height;
+
+  	this->_X = x;
+	this->_Y = y;
 }
 
-int Position::GetImagePositionY(int height) {
-  return height * ((-this->Y+1.0)/2.0);
+int Position::GetImageX() {
+  return _Width * ((_X+1.0)/2.0);
+}
+
+int Position::GetImageY() {
+  return _Height * ((-_Y+1.0)/2.0);
+}
+
+float Position::GetNormalizedX() {
+  return _X;
+}
+
+float Position::GetNormalizedY() {
+  return _Y;
+}
+
+int Position::GetHeight() {
+  return _Height;
+}
+
+int Position::GetWidth() {
+  return _Width;
 }

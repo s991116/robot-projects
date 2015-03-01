@@ -1,5 +1,5 @@
 //Navigate to book test
-
+!LOGGING -TYPE 1
 //!NAVIGATETOBOOK
 
 #NAVIGATETOBOOK

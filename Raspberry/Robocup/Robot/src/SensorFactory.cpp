@@ -31,11 +31,12 @@
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
 
-SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
+SensorFactory::SensorFactory(map<string, int> commands) {
   ComPort* comPort = new ComPort();
 
   EmptyLog* emptyLog = new EmptyLog();
   Logging* fileLog = new FileLogger("ScriptLog.txt");
+  Logging* logger = new ConsolLog();
 
   LoggingSetting* loggingSetting = new LoggingSetting(emptyLog, logger, fileLog);
 
@@ -91,7 +92,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
   
-  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController);
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, loggingSetting);
   
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;

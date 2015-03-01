@@ -1,12 +1,13 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController) {
+NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, LoggingSetting* loggingSetting) {
   _RobotCamera = robotCamera;
   _ComController = comController;
   _Position = new Position();
   _Direction = new Direction(0, 0, 0);
   _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
   _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
+  _LoggingSetting = loggingSetting;
 }
 
 DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
@@ -24,12 +25,12 @@ DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
 std::string NavigateToBook::Execute(std::vector<int> input) {
   _ComController->SetLEDMode(LEDColor::Green, LEDMode::Blink);
   _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
-  _Book1Found = false;
-  _Book2Found = false;
   
   _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
 
   FindBook();
+  
+  LogResult();
   
   if(_Book1Found || _Book2Found)
   {
@@ -47,22 +48,34 @@ void NavigateToBook::FindBook()
 {
   _Book1Found = false;
   _Book2Found = false;
-
+  _LoggingSetting->GetLogging()->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
 
   _DetectBook1->GetPosition(_image, _Position);
-  if(_Position->Detected)
-  {
-	std::cout << "Book 1 found." << std::endl;
-    _Book1Found = true;
-  }
-  else
+  if(!_Position->Detected)
   {
     _DetectBook2->GetPosition(_image, _Position);
 	if(_Position->Detected)
-    {
-      std::cout << "Book 2 found." << std::endl;
-      _Book2Found = true;
+	{
+		_Book2Found = true;
 	}
   }
+  else{
+	  _Book1Found = true;
+  }
+}
+
+void NavigateToBook::LogResult() {
+	if(_Book1Found)
+	{
+		_LoggingSetting->GetLogging()->Log("Book 1 found");
+	}
+	if(_Book2Found)
+	{
+		_LoggingSetting->GetLogging()->Log("Book 2 found");
+	}
+	if(!_Book1Found && !_Book2Found)
+	{
+		_LoggingSetting->GetLogging()->Log("No book found");
+	}		
 }
