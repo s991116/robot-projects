@@ -26,6 +26,7 @@ private:
   bool _Book1Found;
   bool _Book2Found;
   cv::Mat _image;
+  std::vector< cv::Point2f > _Scene_corners;
   Position* _Position;
   Direction* _Direction;
   ComController* _ComController;

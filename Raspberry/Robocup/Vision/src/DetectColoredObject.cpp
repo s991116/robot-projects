@@ -17,7 +17,7 @@ DetectColoredObject::DetectColoredObject() {
   _MorphSize = 5;
 }
 
-void DetectColoredObject::GetPosition(cv::Mat image, Position* position) {
+void DetectColoredObject::GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f > scene_corners) {
   Mat imgHSV;
 
   cvtColor(image, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV

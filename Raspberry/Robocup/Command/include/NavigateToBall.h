@@ -21,6 +21,8 @@ private:
     DetectObject* _DetectObject;
     Position* _Position;
     Direction* _Direction;
+	std::vector< cv::Point2f > _Scene_corners;
+	
     ComController* _ComController;
     
     float _DistanceThresshold;

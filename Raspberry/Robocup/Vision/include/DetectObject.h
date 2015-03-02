@@ -10,7 +10,7 @@
 class DetectObject {
 public:
     
-    virtual void GetPosition(cv::Mat image, Position* position) = 0;
+    virtual void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f > scene_corners) = 0;
 	
 	void DrawPositionOnImage(cv::Mat image, Position* position);
 };

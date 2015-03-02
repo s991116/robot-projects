@@ -11,7 +11,7 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
 }
 
 DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
-  int hesianValue = 400;
+  int hesianValue = 200;
   DetectSurfObject* detectObject = new DetectSurfObject(hesianValue);    
   cv::Mat templateImage = cv::imread(templateName, CV_LOAD_IMAGE_GRAYSCALE );
   if(! templateImage.data )                              // Check for invalid input
@@ -50,11 +50,11 @@ void NavigateToBook::FindBook()
   _Book2Found = false;
   _LoggingSetting->GetLogging()->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
-
-  _DetectBook1->GetPosition(_image, _Position);
+  
+  _DetectBook1->GetPosition(_image, _Position, _Scene_corners);
   if(!_Position->Detected)
   {
-    _DetectBook2->GetPosition(_image, _Position);
+    _DetectBook2->GetPosition(_image, _Position, _Scene_corners);
 	if(_Position->Detected)
 	{
 		_Book2Found = true;

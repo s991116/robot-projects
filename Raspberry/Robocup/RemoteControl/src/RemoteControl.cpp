@@ -11,14 +11,14 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-
+  std::string scriptPath = "../Scripts/";
   View* view;
   Controller* controller;
   view = new View();
   map<string, int> commands = ScriptCommands::CreateCommands();
   SensorFactory* sensorFactory = new SensorFactory(commands);
   ParseCommandLine* parseCommandLine = new ParseCommandLine(ScriptCommands::CreateCommands());
-  CommandScript* commandScript = new CommandScript(parseCommandLine, sensorFactory->GetCommands(), sensorFactory->GetSettings(), sensorFactory->GetSensors());
+  CommandScript* commandScript = new CommandScript(parseCommandLine, sensorFactory->GetCommands(), sensorFactory->GetSettings(), sensorFactory->GetSensors(), scriptPath);
 
   controller = new Controller(view, commandScript, sensorFactory->GetCommands(), sensorFactory->GetSensors(), sensorFactory->GetSettings());
 

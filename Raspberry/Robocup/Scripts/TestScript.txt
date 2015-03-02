@@ -3,7 +3,7 @@
 !RIGHTLINEDETECT  -BLACKLINE 1
 !LEFTLINEDETECT   -BLACKLINE 1
 
->Snapshot.txt
+>NavigateToBook.txt
 #QUIT
 
 >MotorPIDScript.txt

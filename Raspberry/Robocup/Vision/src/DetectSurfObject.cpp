@@ -15,7 +15,7 @@ void DetectSurfObject::SetTemplate(cv::Mat object) {
   extractor.compute( objectMat, keypointsO, descriptors_object );
 }
 
-void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position) {
+void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position, std::vector< Point2f > scene_corners) {
     keypointsS.clear();
 	surf.detect(sceneMat,keypointsS);
 	
@@ -67,7 +67,6 @@ void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position) {
 	obj_corners[1] = cvPoint( objectMat.cols, 0 );
     obj_corners[2] = cvPoint( objectMat.cols, objectMat.rows ); 
 	obj_corners[3] = cvPoint( 0, objectMat.rows );
-    std::vector< Point2f > scene_corners(4);
     
     perspectiveTransform( obj_corners, scene_corners, H);
 	
