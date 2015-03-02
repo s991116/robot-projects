@@ -11,6 +11,15 @@ std::string Convert::IntToString(int number)
   return numberString;
 }
 
+std::string Convert::FloatToString(float number)
+{
+  std::string numberString;
+  std::stringstream out;
+  out << static_cast<float> (number);
+  numberString = out.str();
+  return numberString;
+}
+
 std::string Convert::IntVectorToString(std::vector<int> result)
 {
   std::string resultString = "[";

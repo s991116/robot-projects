@@ -66,16 +66,21 @@ void NavigateToBook::FindBook()
 }
 
 void NavigateToBook::LogResult() {
-	if(_Book1Found)
-	{
-		_LoggingSetting->GetLogging()->Log("Book 1 found");
-	}
-	if(_Book2Found)
-	{
-		_LoggingSetting->GetLogging()->Log("Book 2 found");
-	}
-	if(!_Book1Found && !_Book2Found)
-	{
-		_LoggingSetting->GetLogging()->Log("No book found");
-	}		
+  if(_Book1Found)
+  {
+    _LoggingSetting->GetLogging()->Log("Book 1 found");
+  }
+  if(_Book2Found)
+  {
+    _LoggingSetting->GetLogging()->Log("Book 2 found");
+  }
+  if(!_Book1Found && !_Book2Found)
+  {
+    _LoggingSetting->GetLogging()->Log("No book found");
+  }
+  else
+  {
+    _LoggingSetting->GetLogging()->Log("Position X:", _Position->GetNormalizedX());
+    _LoggingSetting->GetLogging()->Log("Position Y:", _Position->GetNormalizedY());
+  }
 }

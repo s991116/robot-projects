@@ -10,5 +10,12 @@ void EmptyLog::Log(std::string message) {
 void EmptyLog::Log(int value) {
 }
 
+void EmptyLog::Log(float value) {
+}
+
 void EmptyLog::Log(std::string message, int value) {
 }
+
+void EmptyLog::Log(std::string message, float value)
+{
+ }
