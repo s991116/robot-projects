@@ -16,7 +16,7 @@ DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
   cv::Mat templateImage = cv::imread(templateName, CV_LOAD_IMAGE_GRAYSCALE );
   if(! templateImage.data )                              // Check for invalid input
   {
-        std::cerr <<  "Could not open or find the image: '" <<  templateName << "'." << ::endl ;
+        std::cerr <<  "Could not open or find the template image: '" <<  templateName << "'." << ::endl ;
   }
   detectObject->SetTemplate(templateImage);
   return detectObject;
@@ -28,59 +28,63 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   
   _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
 
-  FindBook();
+  BookSearchResult searchResult = FindBook();
   
-  LogResult();
-  
-  if(_Book1Found || _Book2Found)
-  {
-    _ComController->SetLEDMode(LEDColor::Green, LEDMode::On);
-  }
-  else
-  {
-    _ComController->SetLEDMode(LEDColor::Green, LEDMode::Off);
-  }
-  
+  ShowResult(searchResult);  
  return "";
 }
 
-void NavigateToBook::FindBook()
+BookSearchResult NavigateToBook::FindBook()
 {
-  _Book1Found = false;
-  _Book2Found = false;
   _LoggingSetting->GetLogging()->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
   
   _DetectBook1->GetPosition(_image, _Position, _Scene_corners);
-  if(!_Position->Detected)
+  if(_Position->Detected)
   {
-    _DetectBook2->GetPosition(_image, _Position, _Scene_corners);
-	if(_Position->Detected)
-	{
-		_Book2Found = true;
-	}
+    return BookSearchResult::Book1;
   }
-  else{
-	  _Book1Found = true;
+  
+  _DetectBook2->GetPosition(_image, _Position, _Scene_corners);
+  if(_Position->Detected)
+  {
+    return BookSearchResult::Book2;
   }
+  return BookSearchResult::NoBook;
 }
 
-void NavigateToBook::LogResult() {
-  if(_Book1Found)
+void NavigateToBook::ShowResult(BookSearchResult result) {
+  LogResult(result);
+  LEDResult(result);
+}
+
+void NavigateToBook::LogResult(BookSearchResult result) {
+  if(result == BookSearchResult::Book1)
   {
     _LoggingSetting->GetLogging()->Log("Book 1 found");
   }
-  if(_Book2Found)
+  if(result == BookSearchResult::Book2)
   {
     _LoggingSetting->GetLogging()->Log("Book 2 found");
   }
-  if(!_Book1Found && !_Book2Found)
+  if(result == BookSearchResult::NoBook)
   {
-    _LoggingSetting->GetLogging()->Log("No book found");
+	_LoggingSetting->GetLogging()->Log("No book found");
   }
   else
   {
     _LoggingSetting->GetLogging()->Log("Position X:", _Position->GetNormalizedX());
     _LoggingSetting->GetLogging()->Log("Position Y:", _Position->GetNormalizedY());
+  }
+}
+
+void NavigateToBook::LEDResult(BookSearchResult result) {
+  if(result == BookSearchResult::NoBook)
+  {
+    _ComController->SetLEDMode(LEDColor::Green, LEDMode::Off);
+  }
+  else
+  {
+    _ComController->SetLEDMode(LEDColor::Green, LEDMode::On);
   }
 }

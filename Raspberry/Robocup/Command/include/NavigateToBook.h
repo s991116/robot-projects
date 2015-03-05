@@ -10,6 +10,8 @@
 #include <Setting.h>
 #include <LoggingSetting.h>
 
+enum class BookSearchResult {NoBook, Book1, Book2 }; 
+
 class NavigateToBook : public Command , public Setting {
 public:
   NavigateToBook(RobotCamera* robotCamera, ComController* comController, LoggingSetting* loggingSetting);
@@ -18,13 +20,13 @@ public:
 private:
   void SetNavigation(Position* pos);
   DetectSurfObject* CreateDetectObject(std::string templateName);
-  void FindBook();
-  void LogResult();
+  BookSearchResult FindBook();
+  void ShowResult(BookSearchResult result);
+  void LogResult(BookSearchResult result);
+  void LEDResult(BookSearchResult result);
   RobotCamera* _RobotCamera;
   DetectSurfObject* _DetectBook1;
   DetectSurfObject* _DetectBook2;
-  bool _Book1Found;
-  bool _Book2Found;
   cv::Mat _image;
   std::vector< cv::Point2f > _Scene_corners;
   Position* _Position;
