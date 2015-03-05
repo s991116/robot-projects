@@ -8,7 +8,7 @@ class DetectColoredObject : public DetectObject {
 public:
     DetectColoredObject();
     
-    void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f > scene_corners);
+    void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f >* scene_corners);
     cv::Mat ImgThresholded;
     cv::Mat ImgOpenClose;
 

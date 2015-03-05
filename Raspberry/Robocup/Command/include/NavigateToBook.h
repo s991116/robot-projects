@@ -24,6 +24,9 @@ private:
   void ShowResult(BookSearchResult result);
   void LogResult(BookSearchResult result);
   void LEDResult(BookSearchResult result);
+  void SetSearchArea();
+  cv::Rect SetSearchArea(std::vector< cv::Point2f > cornors);
+  
   RobotCamera* _RobotCamera;
   DetectSurfObject* _DetectBook1;
   DetectSurfObject* _DetectBook2;

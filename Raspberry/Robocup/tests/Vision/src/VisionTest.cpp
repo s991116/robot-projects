@@ -30,7 +30,7 @@ int main( int argc, char** argv )
   start = std::clock();
   std::vector< cv::Point2f > _Scene_corners;
   for(int i=0; i<10; ++i)
-    detectObject->GetPosition(img_scene, pos, _Scene_corners);
+    detectObject->GetPosition(img_scene, pos, &_Scene_corners);
   
   duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
   std::cout<<"Duration time: "<< duration <<'\n';

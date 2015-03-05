@@ -10,7 +10,7 @@ DetectTemplateObject::DetectTemplateObject(cv::Mat imageTemplate) {
 	this->_match_method = 0;
 }
 
-void DetectTemplateObject::GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f > scene_corners) {
+void DetectTemplateObject::GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f >* scene_corners) {
   Mat result;
   
   /// Create the result matrix

@@ -8,6 +8,7 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
   _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
   _LoggingSetting = loggingSetting;
+  _Scene_corners = std::vector< cv::Point2f >(4);
 }
 
 DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
@@ -27,9 +28,9 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
   
   _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
-
   BookSearchResult searchResult = FindBook();
-  
+  cv::Rect ROI = SetSearchArea(_Scene_corners);
+
   ShowResult(searchResult);  
  return "";
 }
@@ -39,13 +40,15 @@ BookSearchResult NavigateToBook::FindBook()
   _LoggingSetting->GetLogging()->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
   
-  _DetectBook1->GetPosition(_image, _Position, _Scene_corners);
+  _DetectBook1->GetPosition(_image, _Position, &_Scene_corners);
   if(_Position->Detected)
   {
     return BookSearchResult::Book1;
   }
   
-  _DetectBook2->GetPosition(_image, _Position, _Scene_corners);
+  _DetectBook2->GetPosition(_image, _Position, &_Scene_corners);
+  	std::cout << "Found..." << std::endl;
+	std::cout << _Scene_corners[0].x << std::endl;
   if(_Position->Detected)
   {
     return BookSearchResult::Book2;
@@ -73,9 +76,16 @@ void NavigateToBook::LogResult(BookSearchResult result) {
   }
   else
   {
-    _LoggingSetting->GetLogging()->Log("Position X:", _Position->GetNormalizedX());
-    _LoggingSetting->GetLogging()->Log("Position Y:", _Position->GetNormalizedY());
-  }
+    _LoggingSetting->GetLogging()->Log("Position1 X:", _Scene_corners[0].x);
+    _LoggingSetting->GetLogging()->Log("Position1 Y:", _Scene_corners[0].y);
+    _LoggingSetting->GetLogging()->Log("Position2 X:", _Scene_corners[1].x);
+    _LoggingSetting->GetLogging()->Log("Position2 Y:", _Scene_corners[1].y);
+    _LoggingSetting->GetLogging()->Log("Position3 X:", _Scene_corners[2].x);
+    _LoggingSetting->GetLogging()->Log("Position3 Y:", _Scene_corners[2].y);
+    _LoggingSetting->GetLogging()->Log("Position4 X:", _Scene_corners[3].x);
+    _LoggingSetting->GetLogging()->Log("Position4 Y:", _Scene_corners[3].y);
+
+	}
 }
 
 void NavigateToBook::LEDResult(BookSearchResult result) {
@@ -87,4 +97,9 @@ void NavigateToBook::LEDResult(BookSearchResult result) {
   {
     _ComController->SetLEDMode(LEDColor::Green, LEDMode::On);
   }
+}
+
+cv::Rect NavigateToBook::SetSearchArea(std::vector< cv::Point2f > cornors) {
+	cv::Rect result(0,0,0,0);
+	return result;
 }
