@@ -35,6 +35,14 @@ int Position::GetHeight() {
   return _Height;
 }
 
+void Position::SetHeight(int height) {
+  _Height = height;
+}
+
 int Position::GetWidth() {
   return _Width;
+}
+
+void Position::SetWidth(int width) {
+  _Width = width;
 }

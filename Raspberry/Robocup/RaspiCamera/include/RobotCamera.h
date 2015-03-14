@@ -6,7 +6,7 @@
 #include <ComController.h>
 #include <map>
 
-enum class CameraPosition {FOLLOW_LINE=0, FIND_BOOK=1, FIND_BALL=2};
+enum class CameraPosition {FOLLOW_LINE=0, FIND_BOOK=1, FIND_BALL=2,  NAVIGATE_TO_BOOK=3};
 
 class RobotCamera {
 public:

@@ -15,7 +15,9 @@ float GetNormalizedX();
 float GetNormalizedY();
 
 int GetHeight();
+void SetHeight(int height);
 int GetWidth();
+void SetWidth(int width);
 
 private:
   float _X;

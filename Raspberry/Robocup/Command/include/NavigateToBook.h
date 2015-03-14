@@ -25,7 +25,9 @@ private:
   void LogResult(BookSearchResult result);
   void LEDResult(BookSearchResult result);
   void SetSearchArea();
-  cv::Rect SetSearchArea(std::vector< cv::Point2f > cornors);
+  cv::Rect SetSearchArea(std::vector< cv::Point2f > corners);
+  void Turn(int angle);
+  void MoveToNextPosition(int distance);
   
   RobotCamera* _RobotCamera;
   DetectSurfObject* _DetectBook1;
@@ -33,10 +35,14 @@ private:
   cv::Mat _image;
   std::vector< cv::Point2f > _Scene_corners;
   Position* _Position;
+  Position* _Position1_ROI;
+  Position* _Position2_ROI;
+  
   Direction* _Direction;
+  int _angleToDistance;
+  bool _Book1Finished, _Book2Finished;
   ComController* _ComController;
   LoggingSetting* _LoggingSetting;
 };
 
 #endif	/* NAVIGATETOBOOK_H */
-
