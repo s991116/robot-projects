@@ -2,6 +2,7 @@
 #define	DETECTSURFOBJECT_H
 
 #include <Position.h>
+#include <Logging.h>
 #include <DetectObject.h>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
@@ -12,13 +13,14 @@
 class DetectSurfObject : public DetectObject {
   
   public:
-    DetectSurfObject(int hessianValue);    
+    DetectSurfObject(int hessianValue, int minGoodMatches, Logging* logging);
     void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f >* scene_corners);
     void SetTemplate(cv::Mat object);
 	
   private:
     cv::Mat _template, objectMat;
     float nndrRatio;
+	int _minGoodMatches;
 	std::vector< cv::Point2f > obj_corners;
     std::vector< cv::KeyPoint > keypointsO;
     std::vector< cv::KeyPoint > keypointsS;
@@ -30,7 +32,7 @@ class DetectSurfObject : public DetectObject {
 	std::vector< cv::DMatch > good_matches;
 	std::vector< cv::Point2f > obj;
     std::vector< cv::Point2f > scene;
- 
+    Logging* _Logging;
 };
 
 #endif	/* DETECTSURFOBJECT_H */

@@ -1,11 +1,13 @@
 #include <DetectSurfObject.h>
 using namespace cv;
 
-DetectSurfObject::DetectSurfObject(int hessianValue) {
+DetectSurfObject::DetectSurfObject(int hessianValue, int minGoodMatches, Logging* logging) {
   this->nndrRatio = 0.7f;
+  _minGoodMatches = minGoodMatches;
   obj_corners = std::vector< Point2f >(4);
 
   this->surf = SurfFeatureDetector(hessianValue);
+  _Logging = logging;
 }
 
 void DetectSurfObject::SetTemplate(cv::Mat object) {
@@ -19,8 +21,8 @@ void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position, std::ve
     keypointsS.clear();
 	surf.detect(sceneMat,keypointsS);
 
-	if(keypointsS.size() < 7 ||   keypointsO.size() < 7) //Not enough keypoints, object not found 
-	{
+	if((int)keypointsS.size() < _minGoodMatches ||   (int)keypointsO.size() < _minGoodMatches) //Not enough keypoints, object not found 
+	{	
 		position->Detected = false;
 		return;
 	}
@@ -45,7 +47,8 @@ void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position, std::ve
         good_matches.push_back(m1);
     }
 
-    if( (good_matches.size() <7))
+	_Logging->Log("Good matches: ", (int)(good_matches.size()));
+    if((int)good_matches.size() < _minGoodMatches)
 	{
 		position->Detected = false;
 		return;

@@ -28,10 +28,14 @@ private:
   cv::Rect SetSearchArea(std::vector< cv::Point2f > corners);
   void Turn(int angle);
   void MoveToNextPosition(int distance);
+  void CenterBook();  
   
   RobotCamera* _RobotCamera;
   DetectSurfObject* _DetectBook1;
   DetectSurfObject* _DetectBook2;
+  DetectSurfObject* _NavigateBook1;
+  DetectSurfObject* _NavigateBook2;
+  
   cv::Mat _image;
   std::vector< cv::Point2f > _Scene_corners;
   Position* _Position;

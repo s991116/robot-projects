@@ -3,24 +3,27 @@
 NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, LoggingSetting* loggingSetting) {
   _RobotCamera = robotCamera;
   _ComController = comController;
+  _LoggingSetting = loggingSetting;
+
   _Position = new Position();
   _Position1_ROI = new Position();
   _Position2_ROI = new Position();
   _Direction = new Direction(0, 0, 0);
   _angleToDistance = 100;
+
   _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
   _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
-  _LoggingSetting = loggingSetting;
   _Scene_corners = std::vector< cv::Point2f >(4);
 }
 
 DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
-  int hesianValue = 200;
-  DetectSurfObject* detectObject = new DetectSurfObject(hesianValue);    
+  int hesianValue = 100;
+  int minGoodMatches = 5;
+  DetectSurfObject* detectObject = new DetectSurfObject(hesianValue, minGoodMatches, _LoggingSetting->GetLogging());
   cv::Mat templateImage = cv::imread(templateName, CV_LOAD_IMAGE_GRAYSCALE );
-  if(! templateImage.data )                              // Check for invalid input
+  if(! templateImage.data ) // Check for invalid input
   {
-        std::cerr <<  "Could not open or find the template image: '" <<  templateName << "'." << ::endl ;
+    std::cerr <<  "Could not open or find the template image: '" <<  templateName << "'." << ::endl ;
   }
   detectObject->SetTemplate(templateImage);
   return detectObject;
@@ -32,13 +35,15 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   _Book1Finished = false;
   _Book2Finished = false;
   int booksTurned = 0;
-  for(int bookPlaceNr = 0; bookPlaceNr < 4; bookPlaceNr++)
+
+  int nrOfBooksCandidates = 1;
+  for(int bookPlaceNr = 0; bookPlaceNr < nrOfBooksCandidates; bookPlaceNr++)
   {
     if(booksTurned < 2)
     {
-      //  this->Turn(90);
-      _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
-      BookSearchResult searchResult = FindBook();
+      //  this->Turn(90);	  
+	  BookSearchResult searchResult = FindBook();
+	  
       if(searchResult == BookSearchResult::NoBook)
       {
         //this->Turn(-90);
@@ -48,25 +53,35 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
 		this->_Position1_ROI->SetImagePosition(_Scene_corners[0].x, _Scene_corners[0].y, _image.cols, _image.rows);
 		this->_Position2_ROI->SetImagePosition(_Scene_corners[2].x, _Scene_corners[2].y, _image.cols, _image.rows);
 
-        _RobotCamera->GetNextFrame(CameraPosition::NAVIGATE_TO_BOOK);
+        _image = _RobotCamera->GetNextFrame(CameraPosition::NAVIGATE_TO_BOOK);
 		
 		this->_Position1_ROI->SetWidth(_image.cols);
 		this->_Position1_ROI->SetHeight(_image.rows);
 		this->_Position2_ROI->SetWidth(_image.cols);
 		this->_Position2_ROI->SetHeight(_image.rows);
 		
+		cv::Mat imageRoi = _image(cv::Rect(
+		  cv::Point(_Position1_ROI->GetImageX(),_Position1_ROI->GetImageY()), 
+		  cv::Point(_Position2_ROI->GetImageX(),_Position2_ROI->GetImageY()))
+		);
+
+		cv::imwrite("BOOK_Found.jpg", imageRoi);
+		_NavigateBook1 = CreateDetectObject("BOOK_Found.jpg");
+		
         ShowResult(searchResult);
+		for(int i = 0; i<100; i++)
+          CenterBook();
       }
-    }
-	//this->MoveToNextPosition(200);
+      //this->MoveToNextPosition(200);
+	}
   }
   return "";
 }
 
 BookSearchResult NavigateToBook::FindBook() {
   _LoggingSetting->GetLogging()->Log("Searching for book...");
-  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);  
-  
+  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
+
   if(!_Book1Finished)
   {
     _DetectBook1->GetPosition(_image, _Position, &_Scene_corners);
@@ -79,13 +94,33 @@ BookSearchResult NavigateToBook::FindBook() {
   if(!_Book2Finished)
   {
     _DetectBook2->GetPosition(_image, _Position, &_Scene_corners);
-  
+
     if(_Position->Detected)
     {
       return BookSearchResult::Book2;
     }
   }
   return BookSearchResult::NoBook;
+}
+
+void NavigateToBook::CenterBook() {
+  _LoggingSetting->GetLogging()->Log("Centering to book...");
+  _image = _RobotCamera->GetNextFrame(CameraPosition::NAVIGATE_TO_BOOK);
+
+  cv::Mat imageDetect = _image(cv::Rect(
+    cv::Point(0  , _Position1_ROI->GetImageY()), 
+    cv::Point(319, _Position2_ROI->GetImageY()))
+  );
+
+  _NavigateBook1->GetPosition(imageDetect, _Position, &_Scene_corners);
+
+  if(_Position->Detected)
+  {
+    _LoggingSetting->GetLogging()->Log("Book found.");
+  }
+  else{
+    _LoggingSetting->GetLogging()->Log("Book not found.");
+  }
 }
 
 void NavigateToBook::Turn(int angle) {
@@ -127,15 +162,10 @@ void NavigateToBook::LogResult(BookSearchResult result) {
   }
   else
   {
-    _LoggingSetting->GetLogging()->Log("Position1 X:", _Scene_corners[0].x);
-    _LoggingSetting->GetLogging()->Log("Position1 Y:", _Scene_corners[0].y);
-    _LoggingSetting->GetLogging()->Log("Position2 X:", _Scene_corners[1].x);
-    _LoggingSetting->GetLogging()->Log("Position2 Y:", _Scene_corners[1].y);
-    _LoggingSetting->GetLogging()->Log("Position3 X:", _Scene_corners[2].x);
-    _LoggingSetting->GetLogging()->Log("Position3 Y:", _Scene_corners[2].y);
-    _LoggingSetting->GetLogging()->Log("Position4 X:", _Scene_corners[3].x);
-    _LoggingSetting->GetLogging()->Log("Position4 Y:", _Scene_corners[3].y);
-
+    _LoggingSetting->GetLogging()->Log("Position1 X:", _Position1_ROI->GetImageX());
+    _LoggingSetting->GetLogging()->Log("Position1 Y:", _Position1_ROI->GetImageY());
+    _LoggingSetting->GetLogging()->Log("Position2 X:", _Position2_ROI->GetImageX());
+    _LoggingSetting->GetLogging()->Log("Position2 Y:", _Position2_ROI->GetImageY());
 	}
 }
 

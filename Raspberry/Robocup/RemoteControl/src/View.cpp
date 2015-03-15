@@ -23,7 +23,7 @@ void View::PrintHelp() {
   cout << "Sensor info: 'I'" << std::endl;
   cout << "Servo: 'U','J','H','K'" << std::endl;
   cout << "RunScript: 'R'" << std::endl;
-  cout << "Save picture: 'B'(Line), 'N'(Ball), 'M'(Book)" << std::endl;
+  cout << "Save picture: 'V'(Line), 'B'(Ball), 'N'(Book), 'M'(Book low res.)" << std::endl;
 }
 
 void View::GetMoveCommand(int keyCode) {
@@ -74,15 +74,19 @@ void View::GetCommand() {
       this->_controller->QuitProgram = true;
       break;
 
-    case KEYCODE_b:
+    case KEYCODE_v:
       this->_controller->SavePicture(0);
       break;
 
-	case KEYCODE_m:
+	case KEYCODE_n:
       this->_controller->SavePicture(1);
       break;
 
-	  case KEYCODE_n:
+	case KEYCODE_m:
+      this->_controller->SavePicture(3);
+      break;
+
+	  case KEYCODE_b:
       this->_controller->SavePicture(2);
       break;
   

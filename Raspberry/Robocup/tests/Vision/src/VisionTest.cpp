@@ -8,6 +8,7 @@
 #include <opencv2/calib3d/calib3d.hpp>
 //#include <opencv2/nonfree/nonfree.hpp>
 #include <ctime>
+#include <EmptyLog.h>
 
 using namespace cv;
 using namespace std;
@@ -21,7 +22,8 @@ int main( int argc, char** argv )
  
   Mat img_object = imread( argv[1], CV_LOAD_IMAGE_GRAYSCALE );
   Mat img_scene = imread( argv[2], CV_LOAD_IMAGE_GRAYSCALE );
-  DetectSurfObject* detectObject = new DetectSurfObject(400);
+  Logging* log = new EmptyLog();
+  DetectSurfObject* detectObject = new DetectSurfObject(400, 7, log);
   detectObject->SetTemplate(img_object);
   Position* pos = new Position(); 
   
