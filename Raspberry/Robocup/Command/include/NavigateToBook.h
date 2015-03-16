@@ -20,6 +20,7 @@ public:
 private:
   void SetNavigation(Position* pos);
   DetectSurfObject* CreateDetectObject(std::string templateName);
+  DetectSurfObject* CreateDetectObject(cv::Mat templateImage);
   BookSearchResult FindBook();
   void ShowResult(BookSearchResult result);
   void LogResult(BookSearchResult result);
@@ -29,6 +30,7 @@ private:
   void Turn(int angle);
   void MoveToNextPosition(int distance);
   void CenterBook();  
+  cv::Mat CreateBookTemplate(Position* position1_ROI, Position* position2_ROI, cv::Mat image);
   
   RobotCamera* _RobotCamera;
   DetectSurfObject* _DetectBook1;
