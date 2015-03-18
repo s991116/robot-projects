@@ -56,16 +56,16 @@ int MotorASpeed = 0; //PWM value in range [-255 ; +255]
 int MotorBSpeed = 0; //PWM value in range [-255 ; +255]
 
 float MotorA_Kp = 26;
-float MotorA_Ki = 3;
+float MotorA_Ki = 16;
 float MotorA_Kd = 0;
 
 float MotorB_Kp = 25;
-float MotorB_Ki = 3;
+float MotorB_Ki = 15;
 float MotorB_Kd = 0;
 
 #define PID_DIVISION_FACTOR (100.0)
-float Dir_Kp = 8;
-float Dir_Ki = 1;
+float Dir_Kp = 0.8;
+float Dir_Ki = 0;
 float Dir_Kd = 0;
 
 int CorrectionDir = 0;
