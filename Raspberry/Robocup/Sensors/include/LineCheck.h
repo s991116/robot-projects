@@ -4,12 +4,12 @@
 #include <Check.h>
 #include <Setting.h>
 #include <LineDetect.h>
-#include <CameraDetector.h>
+#include <RobotCamera.h>
 #include <SensorInfo.h>
 
 class LineCheck : public Check, public Setting, public SensorInfo {
 public:
-  LineCheck(LineDetect* lineDetect, CameraDetector* cameraDetector, int reCheck, bool noLineCheck);
+  LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reCheck, bool noLineCheck);
   void Prepare();
   bool Test();
   std::string GetInfo();
@@ -18,7 +18,7 @@ public:
 private:
   LineInfo* GetLinePosition();
   LineDetect* _LineDetect;
-  CameraDetector* _CameraDetector;
+  RobotCamera* _RobotCamera;
   int _PositiveTest;
   int _Recheck;
   bool _NoLineCheck;

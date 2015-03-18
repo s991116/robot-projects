@@ -6,8 +6,9 @@
 
 class Convert {
 public:
-    static std::string IntToString(int number);
-    static std::string IntVectorToString(std::vector<int> result);
+  static std::string IntToString(int number);
+  static std::string FloatToString(float number);
+  static std::string IntVectorToString(std::vector<int> result);
 
 };
 

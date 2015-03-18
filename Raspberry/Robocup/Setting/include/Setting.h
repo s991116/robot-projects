@@ -7,6 +7,7 @@ class Setting {
 public:
     Setting();
     void Set(std::string name, int value);
+	virtual void   UpdatedSetting(std::string name);
 
     std::map<std::string, float*> SettingsFloat;
     std::map<std::string, int*> SettingsInt;

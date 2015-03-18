@@ -1,26 +1,28 @@
 #ifndef NAVIGATETOBALL_H
 #define	NAVIGATETOBALL_H
 
-#include "CameraDetector.h"
-#include "DetectObject.h"
-#include "Position.h"
-#include "Direction.h"
-#include "ComController.h"
-#include "Command.h"
-#include "Setting.h"
+#include <RobotCamera.h>
+#include <DetectObject.h>
+#include <Position.h>
+#include <Direction.h>
+#include <ComController.h>
+#include <Command.h>
+#include <Setting.h>
 
 class NavigateToBall : public Command , public Setting {
 public:
-    NavigateToBall(CameraDetector* cameraDetector, DetectObject* detectObject, ComController* comController);
+    NavigateToBall(RobotCamera* robotCamera, DetectObject* detectObject, ComController* comController);
     std::string Execute(std::vector<int> input);
     
 private:
     void SetDirection(Direction* dir, float angle, float distance);
     bool WithinThresshold(float distance, float angle);
-    CameraDetector* _CameraDetector;
+    RobotCamera* _RobotCamera;
     DetectObject* _DetectObject;
     Position* _Position;
     Direction* _Direction;
+	std::vector< cv::Point2f > _Scene_corners;
+	
     ComController* _ComController;
     
     float _DistanceThresshold;

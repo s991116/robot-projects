@@ -1,9 +1,9 @@
 #include "NavigateToLine.h"
 
-NavigateToLine::NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, CameraDetector* cameraDetector) {
+NavigateToLine::NavigateToLine(FindLineSetting* findLineSetting, ComController* comController, RobotCamera* robotCamera) {
   _FindLineSetting = findLineSetting;
   _ComController = comController;
-  _CameraDetector = cameraDetector;
+  _RobotCamera = robotCamera;
   _LinePosition = new LinePosition();
   _DistanceThresshold = 0.1;
   _AngleThresshold = 0.05;
@@ -25,7 +25,7 @@ std::string NavigateToLine::Execute(std::vector<int> input) {
   float rightSide;
   float angle, distance;  
   do{
-    cv::Mat image = _CameraDetector->GetNextFrame();
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
     _FindLineSetting->GetLinePosition(image, _LinePosition);
 
     GetCrossValues(&leftSide, &rightSide, _LinePosition);
@@ -64,7 +64,7 @@ void NavigateToLine::GetCrossValues(float* leftSide, float* rightSide, LinePosit
   if (linePosition->LineDetected == LinePosition::CrosRight) {
     float YLeft = linePosition->Left;
     float X = linePosition->Top;
-    float YRight;
+    float YRight = 0;
     if (X != 1)
       YRight = 2 * (YLeft - 1) / (1 + X);
     else

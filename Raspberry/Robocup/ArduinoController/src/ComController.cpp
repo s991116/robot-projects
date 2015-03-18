@@ -10,9 +10,6 @@ ComController::ComController(ComPort* comPort, map<string, int> commands) {
 }
 
 int ComController::SendCommand(int command, short data) {
-	//Test---
-	std::cout << "Command: " << command << " , Data: " << data << std::endl;
-	//-------
   SendMessage((char) command, data);
   return GetMessage((char) command);
 }
@@ -23,8 +20,6 @@ void ComController::SendMessage(char command, short data) {
   this->CleanReceivedData();
 
   ComMessage::GenerateMessage(command, data, message);
-  char result;
-  unsigned char receivebuffer1[1];
 
   m_ComPort->Send(message);
   delete message;
@@ -32,7 +27,7 @@ void ComController::SendMessage(char command, short data) {
 
 int ComController::GetMessage(char command) {
   const int MaxRetryCount = 50000;
-  char responseLength = ResponseLength[command];
+  char responseLength = ResponseLength[(int)command];
   int receivedData = 0;
   if (responseLength != 0) {
     char bitShift[4] = {24, 16, 8, 0};
@@ -49,7 +44,7 @@ int ComController::GetMessage(char command) {
       if (retry >= MaxRetryCount)
         std::cout << "ERROR: No data received. " << " , Retry(" << retry << ")" << std::endl;
 
-      receivedData |= int(receivebuffer[0] << bitShift[i]);
+      receivedData |= int(receivebuffer[0] << bitShift[(int)i]);
     }
   }
   return receivedData;
@@ -143,8 +138,8 @@ int ComController::GetServoPosition(int servoNr) {
   return this->SendCommand(m_Commands["CMD_GET_SERVO_POSITION"], servoNr);
 }
 
-void ComController::SetLEDMode(int LEDnr, int mode) {
-	short data = (LEDnr << 8) | mode;
+void ComController::SetLEDMode(LEDColor LEDnr, LEDMode mode) {
+	short data = (static_cast<int> (LEDnr) << 8) | (static_cast<int> (mode));
 	this->SendCommand(m_Commands["CMD_SET_LED_MODE"], data);
 }
 

@@ -5,17 +5,18 @@
 
 using namespace std;
 
-CommandScript::CommandScript(ParseCommandLine* parseCommandLine, map<string, Command*> commands, map<string, Setting*> settings, map<string, SensorInfo*> sensors) {
+CommandScript::CommandScript(ParseCommandLine* parseCommandLine, map<string, Command*> commands, map<string, Setting*> settings, map<string, SensorInfo*> sensors, std::string scriptPath) {
   this->_ParseCommandLine = parseCommandLine;
   this->_Commands = commands;
   this->_Settings = settings;
   this->_Sensors = sensors;
+  this->_ScriptPath = scriptPath;
 }
 
 void CommandScript::RunFileScript(string scriptFileName) {
   string line;
 
-  ifstream scriptFile(scriptFileName.c_str());
+  ifstream scriptFile(this->_ScriptPath + scriptFileName.c_str());
   if (scriptFile.is_open()) {
     while (getline(scriptFile, line)) {
 

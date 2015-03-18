@@ -20,9 +20,10 @@ void View::PrintHelp() {
   cout << "Robot Manual Move program started." << std::endl;
   cout << "Quit: ESC / 'X" << std::endl;
   cout << "Move: 'Q','W','E','A','S','D'" << std::endl;
+  cout << "Sensor info: 'I'" << std::endl;
   cout << "Servo: 'U','J','H','K'" << std::endl;
   cout << "RunScript: 'R'" << std::endl;
-  cout << "Save picture: 'B'" << std::endl;
+  cout << "Save picture: 'V'(Line), 'B'(Ball), 'N'(Book), 'M'(Book low res.)" << std::endl;
 }
 
 void View::GetMoveCommand(int keyCode) {
@@ -50,7 +51,7 @@ void View::GetMoveCommand(int keyCode) {
     case KEYCODE_s:
       this->_controller->SetMoveCommand(MoveBack);
       return;
-	  
+
     default:
       this->_controller->SetMoveCommand(Stop);
       return;
@@ -60,7 +61,7 @@ void View::GetMoveCommand(int keyCode) {
 void View::GetCommand() {
   BufferedInput bufInput;
   bufInput.off();
-  int keyCode = getchar();  
+  int keyCode = getchar();
   bufInput.on();
   this->GetMoveCommand(keyCode);
   switch (keyCode) {
@@ -73,30 +74,49 @@ void View::GetCommand() {
       this->_controller->QuitProgram = true;
       break;
 
-    case KEYCODE_b:
-      this->_controller->SavePicture();
+    case KEYCODE_v:
+      this->_controller->SavePicture(0);
       break;
-	  
+
+	case KEYCODE_n:
+      this->_controller->SavePicture(1);
+      break;
+
+	case KEYCODE_m:
+      this->_controller->SavePicture(3);
+      break;
+
+	  case KEYCODE_b:
+      this->_controller->SavePicture(2);
+      break;
+  
     case KEYCODE_h:
       this->_controller->StepServoLeft();
-      std::cout << "Servo Left. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Left. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
       return;
-	  
+
     case KEYCODE_k:
       this->_controller->StepServoRight();
-      std::cout << "Servo Right. " <<  this->_controller->GetServoLeftRightPosition() << std::endl;
+      std::cout << "Servo Right. " <<  this->_controller->GetSensorInfo("SERVO1") << std::endl;
 	  return;
-	
+
 	case KEYCODE_u:
 	  this->_controller->StepServoUp();
-      std::cout << "Servo Up. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
+      std::cout << "Servo Up. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
 	  return;
-	
+
 	case KEYCODE_j:
 	  this->_controller->StepServoDown();
-	  std::cout << "Servo Down. " <<  this->_controller->GetServoUpDownPosition() << std::endl;
+	  std::cout << "Servo Down. " <<  this->_controller->GetSensorInfo("SERVO0") << std::endl;
 	  return;
-	
+
+	case KEYCODE_i:
+	  std::cout << "Average distance:  " <<  this->_controller->GetSensorInfo("DISTANCE") << std::endl;
+	  std::cout << "Top line:  " <<  this->_controller->GetSensorInfo("TOPLINE") << std::endl;
+	  std::cout << "Bottom line:  " <<  this->_controller->GetSensorInfo("BOTTOMLINE") << std::endl;
+	  std::cout << "Left side:  " <<  this->_controller->GetSensorInfo("LEFTLINE") << std::endl;
+	  std::cout << "Right side:  " <<  this->_controller->GetSensorInfo("RIGHTLINE") << std::endl;
+	  return;
   }
 }
 
@@ -137,6 +157,6 @@ string View::GetScript() {
   std::getline(cin,scriptName);
   if(!scriptName.empty())
     this->_currentScript = scriptName;
-  
+
   return this->_currentScript;
 }

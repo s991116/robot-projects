@@ -1,12 +1,16 @@
-?DISTANCEHEAD
+!BOTTOMLINEDETECT -BLACKLINE 1
+!TOPLINEDETECT    -BLACKLINE 1
+!RIGHTLINEDETECT  -BLACKLINE 1
+!LEFTLINEDETECT   -BLACKLINE 1
 
+>NavigateToBook.txt
 #QUIT
 
 >MotorPIDScript.txt
-
 >LineSetupScript.txt
 
->FollowLine.txt
+>FollowLineToLeftLineCros.txt
+
 #QUIT
 
 >FindBallScript.txt

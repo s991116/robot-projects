@@ -12,11 +12,13 @@ public:
       Port,
       Distance,
       LeftLine,
-      BottomLine,
+      RightLine,
+	  BottomLine,
+	  TopLine,
       DistanceSensor,
     };
 	
-    SwitchCheck(ComController* comController, Check* portCheck, Check* distanceCheck, Check* leftLineCheck, Check* bottomLineCheck, Check* distanceSensorCheck);	
+    SwitchCheck(ComController* comController, Check* portCheck, Check* distanceCheck, Check* leftLineCheck, Check* rightLineCheck, Check* bottomLineCheck, Check* topLineCheck, Check* distanceSensorCheck);
     void SetCheck(CheckEnum check);
     void Prepare();
     bool Test();
@@ -25,6 +27,8 @@ private:
 	Check* _PortCheck;
 	Check* _DistanceCheck;
 	Check* _LeftLineCheck;
+	Check* _RightLineCheck;
+	Check* _TopLineCheck;
 	Check* _BottomLineCheck;
 	Check* _DistanceSensorCheck;
         Check* _CurrentCheck;

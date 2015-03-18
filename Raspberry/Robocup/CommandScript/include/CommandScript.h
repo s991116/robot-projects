@@ -13,13 +13,14 @@ using namespace std;
 
 class CommandScript {
 public:
-    CommandScript(ParseCommandLine* parseCommandLine, map<string, Command*> commands, map<string, Setting*> settings, map<string, SensorInfo*> sensors);
+    CommandScript(ParseCommandLine* parseCommandLine, map<string, Command*> commands, map<string, Setting*> settings, map<string, SensorInfo*> sensors, std::string scriptPath);
     void RunFileScript(string scriptFilename);
 
 private:
     map<string, Command*> _Commands;
     map<string, Setting*> _Settings;
     map<string, SensorInfo*> _Sensors;
+	std::string _ScriptPath;
     ParseCommandLine* _ParseCommandLine;
     std::string ExecuteCommand(CommandData* commandData);
     void PrintToConsole(CommandData* commandData, string line);

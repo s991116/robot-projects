@@ -17,4 +17,3 @@ std::string AddDistanceCommand::Execute(vector<int> data)
 
     return "";
 }
-

@@ -1,9 +1,9 @@
-#include "LineCheck.h"
-#include "LineInfo.h"
+#include <LineCheck.h>
+#include <LineInfo.h>
 
-LineCheck::LineCheck(LineDetect* lineDetect, CameraDetector* cameraDetector, int recheck, bool noLineCheck) {
+LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int recheck, bool noLineCheck) {
   _LineDetect = lineDetect;
-  _CameraDetector = cameraDetector;
+  _RobotCamera = robotCamera;
   _Recheck = recheck;
   _NoLineCheck = noLineCheck;
   
@@ -53,13 +53,12 @@ bool LineCheck::Test()
 }
 
 LineInfo* LineCheck::GetLinePosition() {
-  cv::Mat image = _CameraDetector->GetNextFrame();
+  cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
   return _LineDetect->DetectLine(image);
 }
 
 std::string LineCheck::GetStatus() {
   LineInfo* lineInfo = GetLinePosition();
   std::string result = lineInfo->ToString() + "\n";
-  result += _LineDetect->ToString();
   return result;
 }

@@ -1,7 +1,7 @@
-#include "NavigateToBall.h"
+#include <NavigateToBall.h>
 
-NavigateToBall::NavigateToBall(CameraDetector* cameraDetector, DetectObject* detectObject, ComController* comController) {
-  _CameraDetector = cameraDetector;
+NavigateToBall::NavigateToBall(RobotCamera* robotCamera, DetectObject* detectObject, ComController* comController) {
+  _RobotCamera = robotCamera;
   _DetectObject = detectObject;
   _ComController = comController;
   _Position = new Position();
@@ -24,12 +24,12 @@ std::string NavigateToBall::Execute(std::vector<int> input) {
 
   float angle, distance;  
   do{
-    cv::Mat image = _CameraDetector->GetNextFrameColor();
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BALL);
     
-    _DetectObject->GetPosition(image, _Position);
+    _DetectObject->GetPosition(image, _Position, &_Scene_corners);
     
-    angle = _Position->PositionX;
-    distance = _Position->PositionY - _DistanceOffset;
+    angle = _Position->GetNormalizedX();
+    distance = _Position->GetNormalizedY() - _DistanceOffset;
 
     SetDirection(_Direction, angle, distance);
     _ComController->SetDirection(_Direction);

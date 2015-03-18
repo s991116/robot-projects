@@ -27,13 +27,16 @@
 #include <SearchForLine.h>
 #include <TurnToCenterLine.h>
 #include <NavigateToBall.h>
+#include <NavigateToBook.h>
 #include <DetectObject.h>
+#include <DetectColoredObject.h>
 
-SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
+SensorFactory::SensorFactory(map<string, int> commands) {
   ComPort* comPort = new ComPort();
 
   EmptyLog* emptyLog = new EmptyLog();
   Logging* fileLog = new FileLogger("ScriptLog.txt");
+  Logging* logger = new ConsolLog();
 
   LoggingSetting* loggingSetting = new LoggingSetting(emptyLog, logger, fileLog);
 
@@ -64,32 +67,33 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   Servo* Servo0 = new Servo(comController, 0);
   Servo* Servo1 = new Servo(comController, 1);
 
-  CameraDetector* cameraDetector = new CameraDetector();
+  PiCamera* piCamera = new PiCamera();
+  RobotCamera* robotCamera = new RobotCamera(piCamera, comController);
 
-  LineCheck* leftLineCheck = new LineCheck(leftLineDetect, cameraDetector, 1, true);
+  LineCheck* leftLineCheck = new LineCheck(leftLineDetect, robotCamera, 1, true);
 
-  LineCheck* rightLineCheck = new LineCheck(rightLineDetect, cameraDetector, 1, true);
+  LineCheck* rightLineCheck = new LineCheck(rightLineDetect, robotCamera, 1, true);
 
-  LineCheck* topLineCheck = new LineCheck(topLineDetect, cameraDetector, 1, false);
+  LineCheck* topLineCheck = new LineCheck(topLineDetect, robotCamera, 1, false);
 
-  LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, cameraDetector, 1, false);
+  LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, robotCamera, 1, false);
 
-  SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, bottomLineCheck, distanceSensorCheck);
+  SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, rightLineCheck, bottomLineCheck, topLineCheck, distanceSensorCheck);
 
   FollowLineSetting* followLineSetting = new FollowLineSetting(12, 100, 20, 10);
 
-  ParseCommandLine* parseCommandLine = new ParseCommandLine(commands);
-
-  SnapshotCommand* snapshotCommand = new SnapshotCommand(cameraDetector, bottomLineDetectSetting, topLineDetectSetting, leftLineDetectSetting, rightLineDetectSetting);
+  SnapshotCommand* snapshotCommand = new SnapshotCommand(robotCamera, bottomLineDetectSetting, topLineDetectSetting, leftLineDetectSetting, rightLineDetectSetting);
 
   FindLineSetting* findLineSetting = new FindLineSetting(leftLineDetect, rightLineDetect, topLineDetect);
-  SearchForLine* searchForLine = new SearchForLine(findLineSetting, comController, cameraDetector);
-  NavigateToLine* navigateToLine = new NavigateToLine(findLineSetting, comController, cameraDetector);
-  TurnToCenterLine* turnToLine = new TurnToCenterLine(cameraDetector, comController, bottomLineDetect);
+  SearchForLine* searchForLine = new SearchForLine(findLineSetting, comController, robotCamera);
+  NavigateToLine* navigateToLine = new NavigateToLine(findLineSetting, comController, robotCamera);
+  TurnToCenterLine* turnToLine = new TurnToCenterLine(robotCamera, comController, bottomLineDetect);
 
-  DetectObject* detectObject = new DetectObject();
-  NavigateToBall* navigateToBall = new NavigateToBall(cameraDetector, detectObject, comController);
-
+  DetectObject* detectObject = new DetectColoredObject();
+  NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
+  
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, loggingSetting);
+  
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
   _sensors["BOTTOMLINE"] = bottomLineCheck;
@@ -103,7 +107,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _commands["WAIT"] = new WaitCommand(switchCheck);
   _commands["SENDDATA"] = new DirectComCommand(comController);
   _commands["SNAPSHOT"] = snapshotCommand;
-  _commands["LINE"] = new FollowLineCommand(cameraDetector, comController, followLineSetting, switchCheck, bottomLineDetect, topLineDetect);
+  _commands["LINE"] = new FollowLineCommand(robotCamera, comController, followLineSetting, switchCheck, bottomLineDetect, topLineDetect);
   _commands["KEYPRESS"] = new KeyPressCommand();
   _commands["SPEEDDIRECTION"] = new MoveFixedDirCommand(comController, switchCheck);
   _commands["SETSPEEDDIR"] = new SpeedCommand(comController);
@@ -114,6 +118,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _commands["NAVIGATETOLINE"] = navigateToLine;
   _commands["TURNTOLINE"] = turnToLine;
   _commands["NAVIGATETOBALL"] = navigateToBall;
+  _commands["NAVIGATETOBOOK"] = navigateToBook;
   _commands["SERVO"] = new ServoCommand(comController);
   _commands["LED"] = new LEDCommand(comController);
 
@@ -127,6 +132,8 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _settings["CHECK"] = switchCheck;
   _settings["BOTTOMLINECHECK"] = bottomLineCheck;
   _settings["LEFTLINECHECK"] = leftLineCheck;
+  _settings["RIGHTLINECHECK"] = rightLineCheck;
+  _settings["TOPLINECHECK"] = topLineCheck;
   _settings["DISTANCESENSOR"] = distanceSensorCheck;
   _settings["DISTANCE"] = distanceCheck;
   _settings["PORT"] = portCheck;
@@ -134,6 +141,7 @@ SensorFactory::SensorFactory(Logging* logger, map<string, int> commands) {
   _settings["NAVIGATETOLINE"] = navigateToLine;
   _settings["TURNTOLINE"] = turnToLine;
   _settings["NAVIGATETOBALL"] = navigateToBall;
+  _settings["NAVIGATETOBOOK"] = navigateToBook;
 }
 
 map<string, Command*> SensorFactory::GetCommands() {

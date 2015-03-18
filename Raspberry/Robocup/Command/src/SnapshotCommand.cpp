@@ -1,13 +1,15 @@
-#include "SnapshotCommand.h"
-
-SnapshotCommand::SnapshotCommand(CameraDetector* cameraDetector, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
-  _CameraDetector = cameraDetector;
+#include <SnapshotCommand.h>
+#include <unistd.h>
+SnapshotCommand::SnapshotCommand(RobotCamera* robotCamera, LineDetectSetting* bottomDetectSetting, LineDetectSetting* topDetectSetting, LineDetectSetting* leftDetectSetting, LineDetectSetting* rightDetectSetting) {
+  _RobotCamera = robotCamera;
   _BottomDetectSetting = bottomDetectSetting;
   _TopDetectSetting = topDetectSetting;
   _LeftDetectSetting = leftDetectSetting;
   _RightDetectSetting = rightDetectSetting;
-  _GrayMode = true;
-  SettingsBool["GRAYMODE"] = &_GrayMode;
+
+  _DisplayLineSearch = false;
+  SettingsBool["DISP_INFO"] = &_DisplayLineSearch;
+  SettingsInt["CAMERA_MODE"] = &_RobotCameraMode;
 }
 
 std::string SnapshotCommand::Execute(vector<int> data) {
@@ -20,23 +22,27 @@ std::string SnapshotCommand::Execute(vector<int> data) {
     filename += str;
   }
   filename += ".jpg";
-
   
   cv::Mat image;
-  if(_GrayMode)
-  {
-    image = _CameraDetector->GetNextFrame();
-    _CameraDetector->IndicateSearchArea(image, _BottomDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _TopDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _LeftDetectSetting->ROI);
-    _CameraDetector->IndicateSearchArea(image, _RightDetectSetting->ROI);
-  }
-  else
-  {
-    image = _CameraDetector->GetNextFrameColor();
-  }
- 
-  _CameraDetector->SavePicture(filename, image);
+  image = _RobotCamera->GetNextFrame(static_cast<CameraPosition>(_RobotCameraMode));
 
+  if(_DisplayLineSearch)
+  {
+    IndicateSearchArea(image, _BottomDetectSetting->ROI);
+    IndicateSearchArea(image, _TopDetectSetting->ROI);
+    IndicateSearchArea(image, _LeftDetectSetting->ROI);
+    IndicateSearchArea(image, _RightDetectSetting->ROI);
+  }
+
+  SavePicture(filename, image);
   return "";
+}
+
+void SnapshotCommand::SavePicture(std::string filename, cv::Mat frame) {
+    imwrite( filename.c_str(), frame );
+}
+
+void SnapshotCommand::IndicateSearchArea(cv::Mat frame, cv::Rect region)
+{
+    rectangle(frame, region, cv::Scalar(100,100,80), 2, 8, 0);
 }

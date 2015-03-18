@@ -1,3 +1,4 @@
+
+#SETDISTANCE 100, -4, 280, 0//dir, speed, distance, rotation
+#STARTDISTANCE
 ?DISTANCE
-//#SETDISTANCE 0, 7, 800, 0//dir, speed, distance, rotation
-//#STARTDISTANCE
