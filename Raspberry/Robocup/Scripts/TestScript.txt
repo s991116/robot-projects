@@ -3,11 +3,9 @@
 !RIGHTLINEDETECT  -BLACKLINE 1
 !LEFTLINEDETECT   -BLACKLINE 1
 
->MotorPIDScript.txt
 >LineSetupScript.txt
 
->DriveStraight.txt
-//>NavigateToBook.txt
+>NavigateToBook.txt
 #QUIT
 
 

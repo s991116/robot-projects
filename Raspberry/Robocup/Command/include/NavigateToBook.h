@@ -27,9 +27,9 @@ private:
   void LEDResult(BookSearchResult result);
   void SetSearchArea();
   cv::Rect SetSearchArea(std::vector< cv::Point2f > corners);
-  void Turn(int angle);
   void MoveToNextPosition(int distance);
-  void CenterBook();  
+  void CenterBook(); 
+  void UpdateBookPosition();
   cv::Mat CreateBookTemplate(Position* position1_ROI, Position* position2_ROI, cv::Mat image);
   
   RobotCamera* _RobotCamera;
@@ -45,7 +45,12 @@ private:
   Position* _Position2_ROI;
   
   Direction* _Direction;
-  int _angleToDistance;
+  int _NoBookDistance;
+  int _MoveBookDistanceFactor;
+  float _MoveBookDistanceOffset;
+  float _MoveBookDistanceMinError;
+  int _MoveAfterBook;
+  
   bool _Book1Finished, _Book2Finished;
   ComController* _ComController;
   LoggingSetting* _LoggingSetting;

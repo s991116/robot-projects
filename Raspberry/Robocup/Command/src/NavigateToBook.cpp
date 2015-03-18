@@ -9,7 +9,18 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   _Position1_ROI = new Position();
   _Position2_ROI = new Position();
   _Direction = new Direction(0, 0, 0);
-  _angleToDistance = 100;
+
+  _NoBookDistance = 400;
+  _MoveBookDistanceFactor = 200;
+  _MoveBookDistanceOffset = 0.0;
+  _MoveBookDistanceMinError = 0.1;
+  _MoveAfterBook = 20;
+
+  SettingsInt["DISTANCEFACTOR"]    = &_MoveBookDistanceFactor;
+  SettingsFloat["DISTANCEOFFSET"]  = &_MoveBookDistanceOffset;
+  SettingsFloat["MINERROR"]        = &_MoveBookDistanceMinError;
+  SettingsInt["NOBOOKDISTANCE"]    = &_NoBookDistance;
+  SettingsInt["AFTERBOOKDISTANCE"] = &_MoveAfterBook;
 
   _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
   _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
@@ -43,7 +54,7 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   BookSearchResult searchResult = FindBook();
 
   while(searchResult == BookSearchResult::NoBook) {
-    this->MoveToNextPosition(200);
+    this->MoveToNextPosition(_NoBookDistance);
     searchResult = FindBook();
   } 
 
@@ -57,6 +68,8 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   
   ShowResult(searchResult);
   CenterBook();
+
+  MoveToNextPosition(_MoveAfterBook);
 
   return "";
 }
@@ -104,57 +117,50 @@ BookSearchResult NavigateToBook::FindBook() {
 
 void NavigateToBook::CenterBook() {
   _LoggingSetting->GetLogging()->Log("Centering to book...");
-  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
 
-  cv::Mat imageDetect = _image(cv::Rect(
-    cv::Point(0  , _Position1_ROI->GetImageY()), 
-    cv::Point(639, _Position2_ROI->GetImageY()))
-  );
-
-  cv::imwrite("BookSearchTemplate.jpg", imageDetect );
-  
-  _NavigateBook1->GetPosition(imageDetect, _Position, &_Scene_corners);
-
-  int PositionMaxError = 0.1;
-  while(_Position->GetNormalizedX() > PositionMaxError || _Position->GetNormalizedX() < -PositionMaxError)
+  float error = _Position->GetNormalizedX() - _MoveBookDistanceOffset;
+  while(error > _MoveBookDistanceMinError || error < -_MoveBookDistanceMinError)
   {  
     if(_Position->Detected)
     {
       _LoggingSetting->GetLogging()->Log("Book found.");
-      int distance = _Position->GetNormalizedX() * 100;
-	  _LoggingSetting->GetLogging()->Log("Move distance: ", distance);
-	  this->MoveToNextPosition(distance);	
+      error = _Position->GetNormalizedX() - _MoveBookDistanceOffset;
+	  int correction = -error *_MoveBookDistanceFactor;
+	  
+	  _LoggingSetting->GetLogging()->Log("Move distance: ", correction);
+	  this->MoveToNextPosition(correction);	
     }
     else{
       _LoggingSetting->GetLogging()->Log("Book not found.");
     }
 	
-	_NavigateBook1->GetPosition(imageDetect, _Position, &_Scene_corners);
+	UpdateBookPosition();
   }
 }
 
-void NavigateToBook::Turn(int angle) {
-  _Direction->SetDirection(100);
-  _Direction->SetRotation(0);
-  _Direction->SetSpeed(5);
-
-  int distance = angle * _angleToDistance;
-
-  this->_ComController->AddDistanceCommand(_Direction, distance);
-  _ComController->StartDistanceCommand();
-  int moveDistance = _ComController->DistanceCommandRunning();
-  while (moveDistance == 1) {
-    usleep(300000);
-    moveDistance = _ComController->DistanceCommandRunning();
-  }
+void NavigateToBook::UpdateBookPosition() {
+  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
+  cv::Mat imageDetect = _image(cv::Rect(
+    cv::Point(0  , _Position1_ROI->GetImageY()), 
+    cv::Point(639, _Position2_ROI->GetImageY()))
+  );
+  cv::imwrite("BookSearchTemplate.jpg", imageDetect );  
+  _NavigateBook1->GetPosition(imageDetect, _Position, &_Scene_corners);
 }
 
 void NavigateToBook::MoveToNextPosition(int distance) {
   _Direction->SetDirection(0);
   _Direction->SetRotation(0);
-  _Direction->SetSpeed(5);
-
-  this->_ComController->AddDistanceCommand(_Direction, distance);
+  int speed = 5;
+  if(distance > 0) {
+    _Direction->SetSpeed(speed);
+    this->_ComController->AddDistanceCommand(_Direction, distance);
+  }
+  else {
+    _Direction->SetSpeed(-speed);
+    this->_ComController->AddDistanceCommand(_Direction, -distance);
+  }
+  
   _ComController->StartDistanceCommand();
   int moveDistance = _ComController->DistanceCommandRunning();
   while (moveDistance == 1) {
