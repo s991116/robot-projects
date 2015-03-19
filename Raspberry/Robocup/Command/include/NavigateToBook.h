@@ -46,6 +46,7 @@ private:
   
   Direction* _Direction;
   int _NoBookDistance;
+  float _MinDetectPosition;
   int _MoveBookDistanceFactor;
   float _MoveBookDistanceOffset;
   float _MoveBookDistanceMinError;

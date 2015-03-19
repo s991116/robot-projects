@@ -28,6 +28,7 @@
 #include <TurnToCenterLine.h>
 #include <NavigateToBall.h>
 #include <NavigateToBook.h>
+#include <TurnToBook.h>
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
 
@@ -93,6 +94,7 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
   
   NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, loggingSetting);
+  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, loggingSetting);
   
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
@@ -119,6 +121,7 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   _commands["TURNTOLINE"] = turnToLine;
   _commands["NAVIGATETOBALL"] = navigateToBall;
   _commands["NAVIGATETOBOOK"] = navigateToBook;
+  _commands["TURNTOBOOK"] = turnToBook;
   _commands["SERVO"] = new ServoCommand(comController);
   _commands["LED"] = new LEDCommand(comController);
 
@@ -142,6 +145,8 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   _settings["TURNTOLINE"] = turnToLine;
   _settings["NAVIGATETOBALL"] = navigateToBall;
   _settings["NAVIGATETOBOOK"] = navigateToBook;
+  _settings["TURNTOBOOK"] = turnToBook;
+
 }
 
 map<string, Command*> SensorFactory::GetCommands() {

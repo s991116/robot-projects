@@ -8,6 +8,9 @@
 !NAVIGATETOBOOK -AFTERBOOKDISTANCE 20
 
 #NAVIGATETOBOOK //Stop infront of first book
+#SETDISTANCE 100, 5, 240, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
 //#TURNTOBOOK   //Turn towards book 
 //#PUSHOVERBOOK //Move towards book and knock over book
 //#FINDBOOKLINE //Return to line

@@ -10,18 +10,24 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   _Position2_ROI = new Position();
   _Direction = new Direction(0, 0, 0);
 
+  _MinDetectPosition = 0.9;
   _NoBookDistance = 400;
   _MoveBookDistanceFactor = 200;
   _MoveBookDistanceOffset = 0.0;
   _MoveBookDistanceMinError = 0.1;
   _MoveAfterBook = 20;
+  _Book1Finished = false;
+  _Book2Finished = false;
 
+  SettingsFloat["MINPOSITION"]     = &_MinDetectPosition;
   SettingsInt["DISTANCEFACTOR"]    = &_MoveBookDistanceFactor;
   SettingsFloat["DISTANCEOFFSET"]  = &_MoveBookDistanceOffset;
   SettingsFloat["MINERROR"]        = &_MoveBookDistanceMinError;
   SettingsInt["NOBOOKDISTANCE"]    = &_NoBookDistance;
   SettingsInt["AFTERBOOKDISTANCE"] = &_MoveAfterBook;
-
+  SettingsBool["Book1Finished"]    = &_Book1Finished;
+  SettingsBool["Book2Finished"]    = &_Book2Finished;
+  
   _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
   _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
   _Scene_corners = std::vector< cv::Point2f >(4);
@@ -48,8 +54,6 @@ DetectSurfObject* NavigateToBook::CreateDetectObject(cv::Mat templateImage) {
 std::string NavigateToBook::Execute(std::vector<int> input) {
   _ComController->SetLEDMode(LEDColor::Green, LEDMode::Blink);
   _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
-  _Book1Finished = false;
-  _Book2Finished = false;
 
   BookSearchResult searchResult = FindBook();
 
@@ -97,7 +101,8 @@ BookSearchResult NavigateToBook::FindBook() {
   if(!_Book1Finished)
   {
     _DetectBook1->GetPosition(_image, _Position, &_Scene_corners);
-    if(_Position->Detected)
+    float position = _Position->GetNormalizedX();
+	if(_Position->Detected && position >= -_MinDetectPosition && position <= _MinDetectPosition)
     {
       return BookSearchResult::Book1;
     }
@@ -106,8 +111,8 @@ BookSearchResult NavigateToBook::FindBook() {
   if(!_Book2Finished)
   {
     _DetectBook2->GetPosition(_image, _Position, &_Scene_corners);
-
-    if(_Position->Detected)
+    float position = _Position->GetNormalizedX();
+    if(_Position->Detected && position >= -_MinDetectPosition && position <= _MinDetectPosition)
     {
       return BookSearchResult::Book2;
     }

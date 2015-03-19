@@ -88,7 +88,11 @@ void DetectSurfObject::GetPosition(cv::Mat sceneMat, Position* position, std::ve
 	}
 	center_x = center_x / 4.0;
     center_y = center_y / 4.0;
-
+	
     position->SetImagePosition(center_x, center_y, sceneMat.cols, sceneMat.rows);	
+
+	_Logging->Log("Detected position X: ", position->GetNormalizedX());
+	_Logging->Log("Detected position Y: ", position->GetNormalizedY());
+
     position->Detected = true;
 }
