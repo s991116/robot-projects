@@ -14,14 +14,15 @@ class DetectSurfObject : public DetectObject {
   
   public:
     DetectSurfObject(int hessianValue, int minGoodMatches, Logging* logging);
-    void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f >* scene_corners);
-    void SetTemplate(cv::Mat object);
+    void GetPosition(cv::Mat image, ObjectPosition* position);
+	void SetTemplate(cv::Mat object);
 	
   private:
     cv::Mat _template, objectMat;
     float nndrRatio;
 	int _minGoodMatches;
 	std::vector< cv::Point2f > obj_corners;
+	std::vector< cv::Point2f > scene_corners;
     std::vector< cv::KeyPoint > keypointsO;
     std::vector< cv::KeyPoint > keypointsS;
     cv::Mat descriptors_object, descriptors_scene;

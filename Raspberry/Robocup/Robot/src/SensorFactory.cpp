@@ -93,7 +93,7 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
   
-  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, loggingSetting);
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, loggingSetting->GetLogging());
   TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, loggingSetting);
   
   _sensors["DISTANCE"] = distanceCheck;

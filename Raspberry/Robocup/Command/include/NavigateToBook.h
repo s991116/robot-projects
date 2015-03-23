@@ -2,47 +2,40 @@
 #define	NAVIGATETOBOOK_H
 
 #include <RobotCamera.h>
-#include <DetectSurfObject.h>
+#include <DetectObject.h>
+#include <ObjectPosition.h>
 #include <Position.h>
 #include <Direction.h>
 #include <ComController.h>
 #include <Command.h>
 #include <Setting.h>
-#include <LoggingSetting.h>
+#include <Logging.h>
+#include <ObjectDetect.h>
 
 enum class BookSearchResult {NoBook, Book1, Book2 }; 
 
 class NavigateToBook : public Command , public Setting {
 public:
-  NavigateToBook(RobotCamera* robotCamera, ComController* comController, LoggingSetting* loggingSetting);
+  NavigateToBook(RobotCamera* robotCamera, ComController* comController, Logging* logging);
   std::string Execute(std::vector<int> input);
     
 private:
   void SetNavigation(Position* pos);
-  DetectSurfObject* CreateDetectObject(std::string templateName);
-  DetectSurfObject* CreateDetectObject(cv::Mat templateImage);
-  BookSearchResult FindBook();
-  void ShowResult(BookSearchResult result);
-  void LogResult(BookSearchResult result);
-  void LEDResult(BookSearchResult result);
+  ObjectPosition* FindBook();
   void SetSearchArea();
   cv::Rect SetSearchArea(std::vector< cv::Point2f > corners);
   void MoveToNextPosition(int distance);
-  void CenterBook(); 
-  void UpdateBookPosition();
-  cv::Mat CreateBookTemplate(Position* position1_ROI, Position* position2_ROI, cv::Mat image);
+  void CenterBook(int pointX1, int pointX2); 
+  void UpdateBookPosition(int pointX1, int pointX2);
+  cv::Mat CreateBookTemplate(ObjectPosition* position, cv::Mat image);
   
   RobotCamera* _RobotCamera;
-  DetectSurfObject* _DetectBook1;
-  DetectSurfObject* _DetectBook2;
-  DetectSurfObject* _NavigateBook1;
-  DetectSurfObject* _NavigateBook2;
+  ObjectDetect* _DetectBook1;
+  ObjectDetect* _DetectBook2;
+  ObjectDetect* _NavigateBook;
+  ObjectPosition* _ObjectPosition;
   
   cv::Mat _image;
-  std::vector< cv::Point2f > _Scene_corners;
-  Position* _Position;
-  Position* _Position1_ROI;
-  Position* _Position2_ROI;
   
   Direction* _Direction;
   int _NoBookDistance;
@@ -54,7 +47,7 @@ private:
   
   bool _Book1Finished, _Book2Finished;
   ComController* _ComController;
-  LoggingSetting* _LoggingSetting;
+  Logging* _Logging;
 };
 
 #endif	/* NAVIGATETOBOOK_H */

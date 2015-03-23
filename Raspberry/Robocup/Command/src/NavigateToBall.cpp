@@ -5,6 +5,7 @@ NavigateToBall::NavigateToBall(RobotCamera* robotCamera, DetectObject* detectObj
   _DetectObject = detectObject;
   _ComController = comController;
   _Position = new Position();
+  _ObjectPosition = new ObjectPosition();
   
   _DistanceThresshold = 0.1;
   _AngleThresshold = 0.1;
@@ -25,16 +26,16 @@ std::string NavigateToBall::Execute(std::vector<int> input) {
   float angle, distance;  
   do{
     cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BALL);
-    
-    _DetectObject->GetPosition(image, _Position, &_Scene_corners);
-    
-    angle = _Position->GetNormalizedX();
-    distance = _Position->GetNormalizedY() - _DistanceOffset;
+
+    _DetectObject->GetPosition(image, _ObjectPosition);
+
+    angle = _ObjectPosition->Center->GetNormalizedX();
+    distance = _ObjectPosition->Center->GetNormalizedY() - _DistanceOffset;
 
     SetDirection(_Direction, angle, distance);
     _ComController->SetDirection(_Direction);
   }while(!WithinThresshold(distance, angle));
-  
+
   return "";
 }
 

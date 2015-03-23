@@ -13,8 +13,8 @@ RobotCamera::RobotCamera(PiCamera* piCamera, ComController* comController) {
   _Settings[CameraPosition::FOLLOW_LINE] = new RobotCameraSetting(56, 60, 320, 240, true);
   _Settings[CameraPosition::FIND_BOOK] = new RobotCameraSetting(101, 158, 640, 480, true);
   _Settings[CameraPosition::FIND_BALL] = new RobotCameraSetting(56, 60, 320, 240, false);
-  //_Settings[CameraPosition::NAVIGATE_TO_BOOK] = new RobotCameraSetting(101, 158, 320, 240, true);
-  _Settings[CameraPosition::NAVIGATE_TO_BOOK] = new RobotCameraSetting(101, 158, 640, 480, true);
+  _Settings[CameraPosition::FIND_BOOK_FAST] = new RobotCameraSetting(101, 158, 320, 240, true);
+  _Settings[CameraPosition::NAVIGATE_TO_BOOK] = new RobotCameraSetting(104, 60, 640, 480, true);
 }
 
 cv::Mat RobotCamera::GetNextFrame(CameraPosition cameraPosition)

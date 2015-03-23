@@ -4,6 +4,7 @@
 #include <RobotCamera.h>
 #include <DetectObject.h>
 #include <Position.h>
+#include <ObjectPosition.h>
 #include <Direction.h>
 #include <ComController.h>
 #include <Command.h>
@@ -30,6 +31,7 @@ private:
     int _NavigateSpeed;
     int _AngleSpeed;
     float _DistanceOffset;
+	ObjectPosition* _ObjectPosition;
 };
 
 #endif	/* NAVIGATETOBALL_H */

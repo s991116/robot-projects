@@ -1,13 +1,10 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, LoggingSetting* loggingSetting) {
+NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, Logging* logging) {
   _RobotCamera = robotCamera;
   _ComController = comController;
-  _LoggingSetting = loggingSetting;
+  _Logging = logging;
 
-  _Position = new Position();
-  _Position1_ROI = new Position();
-  _Position2_ROI = new Position();
   _Direction = new Direction(0, 0, 0);
 
   _MinDetectPosition = 0.9;
@@ -27,130 +24,114 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   SettingsInt["AFTERBOOKDISTANCE"] = &_MoveAfterBook;
   SettingsBool["Book1Finished"]    = &_Book1Finished;
   SettingsBool["Book2Finished"]    = &_Book2Finished;
-  
-  _DetectBook1 = CreateDetectObject("TemplateBook_1.jpg");
-  _DetectBook2 = CreateDetectObject("TemplateBook_2.jpg");
-  _Scene_corners = std::vector< cv::Point2f >(4);
-}
 
-DetectSurfObject* NavigateToBook::CreateDetectObject(std::string templateName) {
-  cv::Mat templateImage = cv::imread(templateName, CV_LOAD_IMAGE_GRAYSCALE );
-  if(! templateImage.data ) // Check for invalid input
-  {
-    std::cerr <<  "Could not open or find the template image: '" <<  templateName << "'." << ::endl ;
-  }
+  _DetectBook1 = new ObjectDetect("TemplateBook_1.jpg", &_MinDetectPosition, _Logging);
+  _DetectBook2 = new ObjectDetect("TemplateBook_2.jpg", &_MinDetectPosition, _Logging);
 
-  return CreateDetectObject(templateImage);
-}
+  _ObjectPosition = new ObjectPosition();
 
-DetectSurfObject* NavigateToBook::CreateDetectObject(cv::Mat templateImage) {
-  int hesianValue = 100;
-  int minGoodMatches = 5;
-  DetectSurfObject* detectObject = new DetectSurfObject(hesianValue, minGoodMatches, _LoggingSetting->GetLogging());
-  detectObject->SetTemplate(templateImage);
-  return detectObject;
 }
 
 std::string NavigateToBook::Execute(std::vector<int> input) {
   _ComController->SetLEDMode(LEDColor::Green, LEDMode::Blink);
   _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
 
-  BookSearchResult searchResult = FindBook();
+  _ObjectPosition = FindBook();
 
-  while(searchResult == BookSearchResult::NoBook) {
+  while(!_ObjectPosition->Detected) {
     this->MoveToNextPosition(_NoBookDistance);
-    searchResult = FindBook();
-  } 
-
-  this->_Position1_ROI->SetImagePosition(_Scene_corners[0].x, _Scene_corners[0].y, _image.cols, _image.rows);
-  this->_Position2_ROI->SetImagePosition(_Scene_corners[2].x, _Scene_corners[2].y, _image.cols, _image.rows);
+		_ObjectPosition = FindBook();
+  }
   
-  _image = _RobotCamera->GetNextFrame(CameraPosition::NAVIGATE_TO_BOOK);
+  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK_FAST);
+  cv::Mat imageRoi = CreateBookTemplate(this->_ObjectPosition, _image);
+  _NavigateBook = new ObjectDetect(imageRoi, &_MinDetectPosition, _Logging);
   
-  cv::Mat imageRoi = CreateBookTemplate(this->_Position1_ROI, this->_Position2_ROI, _image);
-  _NavigateBook1 = CreateDetectObject(imageRoi);
-  
-  ShowResult(searchResult);
-  CenterBook();
+  CenterBook(_ObjectPosition->Corner1->GetImageY(), _ObjectPosition->Corner2->GetImageY());
 
   MoveToNextPosition(_MoveAfterBook);
 
   return "";
 }
 
-cv::Mat NavigateToBook::CreateBookTemplate(Position* position1_ROI, Position* position2_ROI, cv::Mat image) {
+cv::Mat NavigateToBook::CreateBookTemplate(ObjectPosition* position, cv::Mat image) {
   
-  position1_ROI->SetWidth(image.cols);
-  position1_ROI->SetHeight(image.rows);
-  position2_ROI->SetWidth(image.cols);
-  position2_ROI->SetHeight(image.rows);
+  //Resize
+  position->Corner1->SetWidth(image.cols);
+  position->Corner1->SetHeight(image.rows);
+  position->Corner2->SetWidth(image.cols);
+  position->Corner2->SetHeight(image.rows);
   
   cv::Mat imageRoi = image(cv::Rect(
-    cv::Point(position1_ROI->GetImageX(), position1_ROI->GetImageY()), 
-    cv::Point(position2_ROI->GetImageX(), position2_ROI->GetImageY()))
+    cv::Point(position->Corner1->GetImageX(), position->Corner1->GetImageY()), 
+    cv::Point(position->Corner2->GetImageX(), position->Corner2->GetImageY()))
   );
   cv::imwrite("BookTemplate.jpg", imageRoi );
   
   return imageRoi;
 }
 
-BookSearchResult NavigateToBook::FindBook() {
-  _LoggingSetting->GetLogging()->Log("Searching for book...");
+ObjectPosition* NavigateToBook::FindBook() {
+  _Logging->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
 
   if(!_Book1Finished)
   {
-    _DetectBook1->GetPosition(_image, _Position, &_Scene_corners);
-    float position = _Position->GetNormalizedX();
-	if(_Position->Detected && position >= -_MinDetectPosition && position <= _MinDetectPosition)
+	_DetectBook1->Detect(_image, _ObjectPosition);
+    if(_ObjectPosition->Detected)
     {
-      return BookSearchResult::Book1;
+	  _Logging->Log("Book-1 found.");
+      return _ObjectPosition;
     }
   }
 
   if(!_Book2Finished)
   {
-    _DetectBook2->GetPosition(_image, _Position, &_Scene_corners);
-    float position = _Position->GetNormalizedX();
-    if(_Position->Detected && position >= -_MinDetectPosition && position <= _MinDetectPosition)
+	_DetectBook1->Detect(_image, _ObjectPosition);
+    if(_ObjectPosition->Detected)
     {
-      return BookSearchResult::Book2;
+      _Logging->Log("Book-2 found.");
+    }
+    else
+    {
+      _Logging->Log("No book found.");
     }
   }
-  return BookSearchResult::NoBook;
+  return _ObjectPosition;  
 }
 
-void NavigateToBook::CenterBook() {
-  _LoggingSetting->GetLogging()->Log("Centering to book...");
+void NavigateToBook::CenterBook(int pointX1, int pointX2) {
+  _Logging->Log("Centering to book...");
 
-  float error = _Position->GetNormalizedX() - _MoveBookDistanceOffset;
+  float error = _ObjectPosition->Center->GetNormalizedX() - _MoveBookDistanceOffset;
+  _Logging->Log("Error X:", error);
   while(error > _MoveBookDistanceMinError || error < -_MoveBookDistanceMinError)
   {  
-    if(_Position->Detected)
+    if(_ObjectPosition->Detected)
     {
-      _LoggingSetting->GetLogging()->Log("Book found.");
-      error = _Position->GetNormalizedX() - _MoveBookDistanceOffset;
+      _Logging->Log("Book found.");
+      error = _ObjectPosition->Center->GetNormalizedX() - _MoveBookDistanceOffset;
 	  int correction = -error *_MoveBookDistanceFactor;
 	  
-	  _LoggingSetting->GetLogging()->Log("Move distance: ", correction);
+	  _Logging->Log("Move distance: ", correction);
 	  this->MoveToNextPosition(correction);	
     }
     else{
-      _LoggingSetting->GetLogging()->Log("Book not found.");
+      _Logging->Log("Book not found.");
     }
 	
-	UpdateBookPosition();
+	UpdateBookPosition(pointX1, pointX2);
   }
 }
 
-void NavigateToBook::UpdateBookPosition() {
-  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
+void NavigateToBook::UpdateBookPosition(int pointX1, int pointX2) {
+  _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK_FAST);
   cv::Mat imageDetect = _image(cv::Rect(
-    cv::Point(0  , _Position1_ROI->GetImageY()), 
-    cv::Point(639, _Position2_ROI->GetImageY()))
+    cv::Point(0  , pointX1), 
+    cv::Point(319, pointX2))
   );
   cv::imwrite("BookSearchTemplate.jpg", imageDetect );  
-  _NavigateBook1->GetPosition(imageDetect, _Position, &_Scene_corners);
+  _NavigateBook->Detect(imageDetect, _ObjectPosition);
 }
 
 void NavigateToBook::MoveToNextPosition(int distance) {
@@ -171,43 +152,5 @@ void NavigateToBook::MoveToNextPosition(int distance) {
   while (moveDistance == 1) {
     usleep(300000);
     moveDistance = _ComController->DistanceCommandRunning();
-  }
-}
-
-void NavigateToBook::ShowResult(BookSearchResult result) {
-  LogResult(result);
-  LEDResult(result);
-}
-
-void NavigateToBook::LogResult(BookSearchResult result) {
-  if(result == BookSearchResult::Book1)
-  {
-    _LoggingSetting->GetLogging()->Log("Book 1 found");
-  }
-  if(result == BookSearchResult::Book2)
-  {
-    _LoggingSetting->GetLogging()->Log("Book 2 found");
-  }
-  if(result == BookSearchResult::NoBook)
-  {
-	_LoggingSetting->GetLogging()->Log("No book found");
-  }
-  else
-  {
-    _LoggingSetting->GetLogging()->Log("Position1 X:", _Position1_ROI->GetImageX());
-    _LoggingSetting->GetLogging()->Log("Position1 Y:", _Position1_ROI->GetImageY());
-    _LoggingSetting->GetLogging()->Log("Position2 X:", _Position2_ROI->GetImageX());
-    _LoggingSetting->GetLogging()->Log("Position2 Y:", _Position2_ROI->GetImageY());
-	}
-}
-
-void NavigateToBook::LEDResult(BookSearchResult result) {
-  if(result == BookSearchResult::NoBook)
-  {
-    _ComController->SetLEDMode(LEDColor::Green, LEDMode::Off);
-  }
-  else
-  {
-    _ComController->SetLEDMode(LEDColor::Green, LEDMode::On);
   }
 }

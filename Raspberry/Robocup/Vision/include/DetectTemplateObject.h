@@ -6,8 +6,8 @@
 
 class DetectTemplateObject : public DetectObject {
 public:
-    DetectTemplateObject(cv::Mat imageTemplate);    
-    void GetPosition(cv::Mat image, Position* position, std::vector< cv::Point2f >* scene_corners);
+    DetectTemplateObject(cv::Mat imageTemplate);
+	void GetPosition(cv::Mat image, ObjectPosition* position);
     
     private:
 	cv::Mat _template;
