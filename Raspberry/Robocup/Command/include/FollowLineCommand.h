@@ -15,7 +15,8 @@ public:
     virtual ~FollowLineCommand();
     
     std::string Execute(vector<int>);
-    
+	std::string Execute();
+
 private:
     RobotCamera* _RobotCamera;
     ComController* _ComController;

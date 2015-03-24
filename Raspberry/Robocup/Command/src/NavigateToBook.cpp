@@ -1,9 +1,10 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, Logging* logging) {
+NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, Logging* logging) {
   _RobotCamera = robotCamera;
   _ComController = comController;
   _Logging = logging;
+  _FollowLineDistance = followLineDistance;
 
   _Direction = new Direction(0, 0, 0);
 
@@ -29,7 +30,6 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   _DetectBook2 = new ObjectDetect("TemplateBook_2.jpg", &_MinDetectPosition, _Logging);
 
   _ObjectPosition = new ObjectPosition();
-
 }
 
 std::string NavigateToBook::Execute(std::vector<int> input) {
@@ -135,22 +135,5 @@ void NavigateToBook::UpdateBookPosition(int pointX1, int pointX2) {
 }
 
 void NavigateToBook::MoveToNextPosition(int distance) {
-  _Direction->SetDirection(0);
-  _Direction->SetRotation(0);
-  int speed = 5;
-  if(distance > 0) {
-    _Direction->SetSpeed(speed);
-    this->_ComController->AddDistanceCommand(_Direction, distance);
-  }
-  else {
-    _Direction->SetSpeed(-speed);
-    this->_ComController->AddDistanceCommand(_Direction, -distance);
-  }
-  
-  _ComController->StartDistanceCommand();
-  int moveDistance = _ComController->DistanceCommandRunning();
-  while (moveDistance == 1) {
-    usleep(300000);
-    moveDistance = _ComController->DistanceCommandRunning();
-  }
+	_FollowLineDistance->MoveDistance(distance);
 }

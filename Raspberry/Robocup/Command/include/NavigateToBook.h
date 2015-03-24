@@ -11,12 +11,14 @@
 #include <Setting.h>
 #include <Logging.h>
 #include <ObjectDetect.h>
+#include <FollowLineDistance.h>
 
 enum class BookSearchResult {NoBook, Book1, Book2 }; 
 
 class NavigateToBook : public Command , public Setting {
 public:
-  NavigateToBook(RobotCamera* robotCamera, ComController* comController, Logging* logging);
+  NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, Logging* logging);
+
   std::string Execute(std::vector<int> input);
     
 private:
@@ -44,6 +46,7 @@ private:
   float _MoveBookDistanceOffset;
   float _MoveBookDistanceMinError;
   int _MoveAfterBook;
+  FollowLineDistance* _FollowLineDistance;
   
   bool _Book1Finished, _Book2Finished;
   ComController* _ComController;

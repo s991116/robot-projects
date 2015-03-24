@@ -14,6 +14,7 @@ public:
     bool Test();    
 
     std::string GetStatus();
+	void SetDistance(int distance);
     
 private:
     ComController* _ComController;

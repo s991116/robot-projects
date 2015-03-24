@@ -14,6 +14,10 @@ FollowLineCommand::~FollowLineCommand() {
 }
 
 std::string FollowLineCommand::Execute(vector<int> input) {
+	return this->Execute();
+}
+
+std::string FollowLineCommand::Execute() {
 
   _Check->Prepare();
 
