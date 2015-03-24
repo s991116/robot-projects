@@ -1,3 +1,0 @@
-BoardGame.o: BoardGame.cpp BoardGame.h
-
-BoardGame.h:
