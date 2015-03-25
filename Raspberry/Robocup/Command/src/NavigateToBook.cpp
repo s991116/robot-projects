@@ -71,6 +71,7 @@ cv::Mat NavigateToBook::CreateBookTemplate(ObjectPosition* position, cv::Mat ima
 ObjectPosition* NavigateToBook::FindBook() {
   _Logging->Log("Searching for book...");
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK);
+  cv::imwrite("SearchForBook.jpg", _image );
 
   if(!_Book1Finished)
   {
@@ -84,7 +85,7 @@ ObjectPosition* NavigateToBook::FindBook() {
 
   if(!_Book2Finished)
   {
-	_DetectBook1->Detect(_image, _ObjectPosition);
+	_DetectBook2->Detect(_image, _ObjectPosition);
     if(_ObjectPosition->Detected)
     {
       _Logging->Log("Book-2 found.");
