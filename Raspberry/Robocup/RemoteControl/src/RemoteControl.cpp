@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   Controller* controller;
   view = new View();
   map<string, int> commands = ScriptCommands::CreateCommands();
-  SensorFactory* sensorFactory = new SensorFactory(commands);
+  SensorFactory* sensorFactory = new SensorFactory(commands, scriptPath);
   ParseCommandLine* parseCommandLine = new ParseCommandLine(ScriptCommands::CreateCommands());
   CommandScript* commandScript = new CommandScript(parseCommandLine, sensorFactory->GetCommands(), sensorFactory->GetSettings(), sensorFactory->GetSensors(), scriptPath);
 

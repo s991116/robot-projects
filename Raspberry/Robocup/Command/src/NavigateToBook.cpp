@@ -1,6 +1,6 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, Logging* logging) {
+NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging) {
   _RobotCamera = robotCamera;
   _ComController = comController;
   _Logging = logging;
@@ -8,7 +8,6 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
 
   _Direction = new Direction(0, 0, 0);
 
-  _MinDetectPosition = 0.9;
   _NoBookDistance = 400;
   _MoveBookDistanceFactor = 200;
   _MoveBookDistanceOffset = 0.0;
@@ -17,7 +16,6 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   _Book1Finished = false;
   _Book2Finished = false;
 
-  SettingsFloat["MINPOSITION"]     = &_MinDetectPosition;
   SettingsInt["DISTANCEFACTOR"]    = &_MoveBookDistanceFactor;
   SettingsFloat["DISTANCEOFFSET"]  = &_MoveBookDistanceOffset;
   SettingsFloat["MINERROR"]        = &_MoveBookDistanceMinError;
@@ -26,10 +24,9 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
   SettingsBool["Book1Finished"]    = &_Book1Finished;
   SettingsBool["Book2Finished"]    = &_Book2Finished;
 
-  _DetectBook1 = new ObjectDetect("TemplateBook_1.jpg", &_MinDetectPosition, _Logging);
-  _DetectBook2 = new ObjectDetect("TemplateBook_2.jpg", &_MinDetectPosition, _Logging);
-
   _ObjectPosition = new ObjectPosition();
+  _DetectBook1 = detectBook1;
+  _DetectBook2 = detectBook2;
 }
 
 std::string NavigateToBook::Execute(std::vector<int> input) {
@@ -45,7 +42,7 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
   
   _image = _RobotCamera->GetNextFrame(CameraPosition::FIND_BOOK_FAST);
   cv::Mat imageRoi = CreateBookTemplate(this->_ObjectPosition, _image);
-  _NavigateBook = new ObjectDetect(imageRoi, &_MinDetectPosition, _Logging);
+  _NavigateBook = new ObjectDetect(imageRoi, 1.0, _Logging);
   
   CenterBook(_ObjectPosition->Corner1->GetImageY(), _ObjectPosition->Corner2->GetImageY());
 

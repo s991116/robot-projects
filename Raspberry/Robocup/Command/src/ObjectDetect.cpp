@@ -1,16 +1,16 @@
 #include <ObjectDetect.h>
 
-ObjectDetect::ObjectDetect(std::string templateName, float* minDetectPosition, Logging* logging) {
+ObjectDetect::ObjectDetect(std::string templateName, float minDetectPosition, Logging* logging) {
   Setting(minDetectPosition, logging);
   _DetectObject = CreateDetectObject(templateName);
 }
 
-ObjectDetect::ObjectDetect(cv::Mat templateImage, float* minDetectPosition, Logging* logging) {
+ObjectDetect::ObjectDetect(cv::Mat templateImage, float minDetectPosition, Logging* logging) {
   Setting(minDetectPosition, logging);
   _DetectObject = CreateDetectObject(templateImage);
 }
 
-void ObjectDetect::Setting(float* minDetectPosition, Logging* logging) {
+void ObjectDetect::Setting(float minDetectPosition, Logging* logging) {
   _Logging = logging;
   _Scene_corners = std::vector< cv::Point2f >(4);
   _MinDetectPosition = minDetectPosition;
@@ -40,8 +40,7 @@ bool ObjectDetect::Detect(cv::Mat image, ObjectPosition* position) {
   _DetectObject->GetPosition(image, position);
   
   float positionX = position->Center->GetNormalizedX();
-  float minPosition = * (float*) _MinDetectPosition;
-  if(_Position->Detected && positionX >= -minPosition && positionX <= minPosition)
+  if(_Position->Detected && positionX >= -_MinDetectPosition && positionX <= _MinDetectPosition)
   {
     return true;
   }

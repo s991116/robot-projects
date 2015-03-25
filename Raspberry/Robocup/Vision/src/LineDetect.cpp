@@ -20,9 +20,7 @@ LineDetect::LineDetect(LineDetectSetting* lineDetectSetting, Logging* logging) {
 
 LineInfo* LineDetect::DetectLine(cv::Mat imageMat) {
   cv::Mat detectImage = imageMat(_LineDetectSetting->ROI);
-  _logging->Log("IntensityLine\n");
   CalculateIntensityLine(detectImage, this->IntensityLine);
-  _logging->Log("EdgeFilter\n");
   LineInfo* lineInfo = EdgeFilter(this->IntensityLine);
   return lineInfo;
 }
@@ -42,7 +40,6 @@ void LineDetect::CalculateIntensityLine(cv::Mat detectImage, int* intensityLine)
 
 void LineDetect::CalculateIntensity(cv::Mat detectImage, int* intensityLine, int* intensityPosition, int position) {
   intensityLine[*intensityPosition] = CalculateIntensityAtPosition(detectImage, position);
-  _logging->Log(intensityLine[*intensityPosition]);
   (*intensityPosition)++;
 }
 
@@ -97,7 +94,6 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
     int FilterValue = sumFirstHalf - sumSecondHalf;
     FilterResult[start] = FilterValue;
     
-    _logging->Log(FilterValue);
     if (_LineDetectSetting->GetPosition() == LineDetectSetting::CENTER) {
       if (FilterValue > MaxFilterValue) {
         MaxFilterIndex = middle;
@@ -109,10 +105,10 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
     } else {
       if (std::abs(FilterValue) > _LineDetectSetting->FilterThresshold) {
         if (_LineDetectSetting->GetPosition() == LineDetectSetting::RIGHT) {
-          LogFilterResult(0, FilterValue, _SearchWidth - middle);
+          //LogFilterResult(0, FilterValue, _SearchWidth - middle);
           return new LineInfo(true, _SearchWidth - middle, _SearchWidth);
         } else {
-          LogFilterResult(0, FilterValue, middle);
+          //LogFilterResult(0, FilterValue, middle);
           return new LineInfo(true, middle, _SearchWidth);
         }
       }
@@ -123,7 +119,7 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
     if (MaxFilterValue > _LineDetectSetting->FilterThresshold || MinFilterValue < -_LineDetectSetting->FilterThresshold) {
       if (MaxFilterIndex > MinFilterIndex) {
         int centerIndex = MinFilterIndex + (MaxFilterIndex - MinFilterIndex) / 2;
-        LogFilterResult(MinFilterValue, MaxFilterValue, centerIndex);
+        //LogFilterResult(MinFilterValue, MaxFilterValue, centerIndex);
         return new LineInfo(true, centerIndex, _SearchWidth);
       }
 
@@ -134,7 +130,7 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
       }
     }
   }
-  LogFilterResult(MinFilterValue, MaxFilterValue, 0);
+  //LogFilterResult(MinFilterValue, MaxFilterValue, 0);
   return new LineInfo(false, 0, _SearchWidth);
 }
 
@@ -166,12 +162,6 @@ std::string LineDetect::ToString() {
   result += "MinFilterValue: " + Convert::IntToString(MinFilterValue) + "\n";
   result += "MaxFilterValue: " + Convert::IntToString(MaxFilterValue) + "\n";
   result += "FilterThresshold: " + Convert::IntToString(this->_LineDetectSetting->FilterThresshold) + "\n";
-
-  result += "Filter:";
-  for (int start = 0; start < _SearchWidth - 2 * _LineDetectSetting->FilterHalf; start++) {
-    result += Convert::IntToString(this->FilterResult[start]) + " , ";
-  }
-  result += "\n";
   
   return result;
 }

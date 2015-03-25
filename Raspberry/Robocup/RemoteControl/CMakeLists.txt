@@ -5,6 +5,8 @@ if(UNIX)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
 endif()
 
+file (GLOB ALL_SOURCE src/*.cpp)
+
 include_directories(${CMAKE_SOURCE_DIR}/RemoteControl/include) 
 include_directories(${CMAKE_SOURCE_DIR}/Logging/include) 
 include_directories(${CMAKE_SOURCE_DIR}/CommandScript/include) 
@@ -29,4 +31,3 @@ target_link_libraries(RemoteControl
   ArduinoController 
   RaspiCamera
 )
-

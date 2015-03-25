@@ -17,7 +17,7 @@ enum class BookSearchResult {NoBook, Book1, Book2 };
 
 class NavigateToBook : public Command , public Setting {
 public:
-  NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, Logging* logging);
+  NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging);
 
   std::string Execute(std::vector<int> input);
     
@@ -41,7 +41,6 @@ private:
   
   Direction* _Direction;
   int _NoBookDistance;
-  float _MinDetectPosition;
   int _MoveBookDistanceFactor;
   float _MoveBookDistanceOffset;
   float _MoveBookDistanceMinError;

@@ -32,8 +32,9 @@
 #include <TurnToBook.h>
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
+#include <ObjectDetect.h>
 
-SensorFactory::SensorFactory(map<string, int> commands) {
+SensorFactory::SensorFactory(map<string, int> commands, string path) {
   ComPort* comPort = new ComPort();
 
   EmptyLog* emptyLog = new EmptyLog();
@@ -73,11 +74,8 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   RobotCamera* robotCamera = new RobotCamera(piCamera, comController);
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, robotCamera, 1, true);
-
   LineCheck* rightLineCheck = new LineCheck(rightLineDetect, robotCamera, 1, true);
-
   LineCheck* topLineCheck = new LineCheck(topLineDetect, robotCamera, 1, false);
-
   LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, robotCamera, 1, false);
 
   SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, rightLineCheck, bottomLineCheck, topLineCheck, distanceSensorCheck);
@@ -94,8 +92,16 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
   FollowLineDistance* followLineDistance = new FollowLineDistance(robotCamera, comController, followLineSetting, distanceCheck, bottomLineDetect, topLineDetect);
-  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, followLineDistance, loggingSetting->GetLogging());
-  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, loggingSetting);
+  
+  float minDetectPosition = 0.9;
+  std::string templateBook1 = path + "TemplateBook_1.jpg";
+  std::string templateBook2 = path + "TemplateBook_2.jpg";
+
+  ObjectDetect* detectBook1 = new ObjectDetect(templateBook1, minDetectPosition, loggingSetting->GetLogging());
+  ObjectDetect* detectBook2 = new ObjectDetect(templateBook2, minDetectPosition, loggingSetting->GetLogging());
+
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, followLineDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
+  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, detectBook1, detectBook2, loggingSetting->GetLogging());
   
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
@@ -148,7 +154,6 @@ SensorFactory::SensorFactory(map<string, int> commands) {
   _settings["NAVIGATETOBALL"] = navigateToBall;
   _settings["NAVIGATETOBOOK"] = navigateToBook;
   _settings["TURNTOBOOK"] = turnToBook;
-
 }
 
 map<string, Command*> SensorFactory::GetCommands() {

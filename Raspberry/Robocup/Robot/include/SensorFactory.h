@@ -9,7 +9,7 @@
 
 class SensorFactory {
 public:
-    SensorFactory(map<string, int> commands);
+    SensorFactory(map<string, int> commands, string path);
     map<string, Command*> GetCommands();
     map<string, Setting*> GetSettings();
     map<string, SensorInfo*> GetSensors();

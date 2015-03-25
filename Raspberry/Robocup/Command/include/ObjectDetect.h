@@ -9,17 +9,17 @@
 class ObjectDetect {
 
 public:
-  ObjectDetect(std::string templateName, float* minDetectPosition, Logging* logging);
-  ObjectDetect(cv::Mat templateImage, float* minDetectPosition, Logging* logging);  
+  ObjectDetect(std::string templateName, float minDetectPosition, Logging* logging);
+  ObjectDetect(cv::Mat templateImage, float minDetectPosition, Logging* logging);  
   bool Detect(cv::Mat image, ObjectPosition* position);
 
 private:
-  void Setting(float* minDetectPosition, Logging* logging);
+  void Setting(float minDetectPosition, Logging* logging);
 
   DetectSurfObject* _DetectObject;
   Logging* _Logging;
   Position* _Position;
-  float* _MinDetectPosition;
+  float _MinDetectPosition;
   std::vector< cv::Point2f > _Scene_corners;
   DetectSurfObject* CreateDetectObject(std::string templateName);
   DetectSurfObject* CreateDetectObject(cv::Mat templateImage);

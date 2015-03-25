@@ -29,7 +29,6 @@ subdirs(
   RaspiCamera
   Vision
   Robot
-  temp
   tests/Vision
   tests
   )
