@@ -25,9 +25,8 @@ std::string FollowLineCommand::Execute() {
     cv::Mat imageMat = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
     LineInfo* bottomLine = _BottomLineDetect->DetectLine(imageMat);
     LineInfo* topLine = _TopLineDetect->DetectLine(imageMat);
-
+    
     Direction* direction = _FollowLineSetting->GetDirection(bottomLine, topLine);
-
     this->_ComController->SetDirection(direction);
   }
 

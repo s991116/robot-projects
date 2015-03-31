@@ -1,4 +1,5 @@
 #include <Direction.h>
+#include <Convert.h>
 
 Direction::Direction(int direction, int rotation, int speed)
 {
@@ -39,4 +40,9 @@ void Direction::SetSpeed(int speed)
 int Direction::GetSpeed()
 {
     return this->_Speed;
+}
+
+std::string Direction::Print()
+{
+  return "Dir: " + Convert::IntToString(_Direction) + " - Rot: " + Convert::IntToString(_Rotation) + " - Speed: " + Convert::IntToString(_Speed);	
 }

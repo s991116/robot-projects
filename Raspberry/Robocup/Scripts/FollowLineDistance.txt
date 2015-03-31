@@ -1,0 +1,6 @@
+!CHECK -MODE 1 //0 = port, 1 = distance, 2 = crosline
+!DISTANCE -DISTANCE 400
+
+#LINE
+
+#QUIT

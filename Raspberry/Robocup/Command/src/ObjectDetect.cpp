@@ -29,7 +29,7 @@ DetectSurfObject* ObjectDetect::CreateDetectObject(std::string templateName) {
 
 DetectSurfObject* ObjectDetect::CreateDetectObject(cv::Mat templateImage) {
   int hesianValue = 100;
-  int minGoodMatches = 5;
+  int minGoodMatches = 8;
   DetectSurfObject* detectObject = new DetectSurfObject(hesianValue, minGoodMatches, _Logging);
   detectObject->SetTemplate(templateImage);
   return detectObject;

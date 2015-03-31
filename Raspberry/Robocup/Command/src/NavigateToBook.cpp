@@ -1,10 +1,10 @@
 #include <NavigateToBook.h>
 
-NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging) {
+NavigateToBook::NavigateToBook(RobotCamera* robotCamera, FollowLineDistance* followLineDistance, MoveDistance* moveDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging) {
   _RobotCamera = robotCamera;
-  _ComController = comController;
   _Logging = logging;
   _FollowLineDistance = followLineDistance;
+  _MoveDistance = moveDistance;
 
   _Direction = new Direction(0, 0, 0);
 
@@ -30,8 +30,6 @@ NavigateToBook::NavigateToBook(RobotCamera* robotCamera, ComController* comContr
 }
 
 std::string NavigateToBook::Execute(std::vector<int> input) {
-  _ComController->SetLEDMode(LEDColor::Green, LEDMode::Blink);
-  _ComController->SetLEDMode(LEDColor::Red, LEDMode::Off);
 
   _ObjectPosition = FindBook();
 
@@ -52,7 +50,7 @@ std::string NavigateToBook::Execute(std::vector<int> input) {
 }
 
 cv::Mat NavigateToBook::CreateBookTemplate(ObjectPosition* position, cv::Mat image) {
-  
+
   //Resize
   position->Corner1->SetWidth(image.cols);
   position->Corner1->SetHeight(image.rows);
@@ -76,7 +74,7 @@ ObjectPosition* NavigateToBook::FindBook() {
   if(!_Book1Finished)
   {
 	_DetectBook1->Detect(_image, _ObjectPosition);
-    if(_ObjectPosition->Detected)
+    if(_ObjectPosition->WithinImage())
     {
 	  _Logging->Log("Book-1 found.");
       return _ObjectPosition;
@@ -86,7 +84,7 @@ ObjectPosition* NavigateToBook::FindBook() {
   if(!_Book2Finished)
   {
 	_DetectBook2->Detect(_image, _ObjectPosition);
-    if(_ObjectPosition->Detected)
+    if(_ObjectPosition->WithinImage())
     {
       _Logging->Log("Book-2 found.");
     }
@@ -109,10 +107,9 @@ void NavigateToBook::CenterBook(int pointX1, int pointX2) {
     {
       _Logging->Log("Book found.");
       error = _ObjectPosition->Center->GetNormalizedX() - _MoveBookDistanceOffset;
-	  int correction = -error *_MoveBookDistanceFactor;
-	  
+	  int correction = -error *_MoveBookDistanceFactor;	  
 	  _Logging->Log("Move distance: ", correction);
-	  this->MoveToNextPosition(correction);	
+      this->MoveToNextPosition(correction);	
     }
     else{
       _Logging->Log("Book not found.");
@@ -133,5 +130,15 @@ void NavigateToBook::UpdateBookPosition(int pointX1, int pointX2) {
 }
 
 void NavigateToBook::MoveToNextPosition(int distance) {
-	_FollowLineDistance->MoveDistance(distance);
+  if(distance > 0)
+  {
+    _FollowLineDistance->MoveDistance(distance);
+  }
+  else
+  {
+    _Direction->SetDirection(0);
+	_Direction->SetRotation(0);
+	_Direction->SetSpeed(-6);
+    _MoveDistance->Move(_Direction, -distance);
+  }
 }

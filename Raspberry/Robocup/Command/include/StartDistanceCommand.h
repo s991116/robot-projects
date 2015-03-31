@@ -7,7 +7,9 @@ class StartDistanceCommand : public Command
 {
 public:
   StartDistanceCommand(ComController* comController);
-  std::string Execute(vector<int> data);    
+  std::string Execute(vector<int> data);
+  void StartMoving();
+  
 private:
   ComController* _ComController;    
 };

@@ -33,6 +33,7 @@
 #include <DetectObject.h>
 #include <DetectColoredObject.h>
 #include <ObjectDetect.h>
+#include <MoveDistance.h>
 
 SensorFactory::SensorFactory(map<string, int> commands, string path) {
   ComPort* comPort = new ComPort();
@@ -100,9 +101,13 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   ObjectDetect* detectBook1 = new ObjectDetect(templateBook1, minDetectPosition, loggingSetting->GetLogging());
   ObjectDetect* detectBook2 = new ObjectDetect(templateBook2, minDetectPosition, loggingSetting->GetLogging());
 
-  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, comController, followLineDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
-  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, detectBook1, detectBook2, loggingSetting->GetLogging());
+  StartDistanceCommand* startDistanceCommand = new StartDistanceCommand(comController);
+  AddDistanceCommand* addDistanceCommand = new AddDistanceCommand(comController);
+  MoveDistance* moveDistance = new MoveDistance(addDistanceCommand, startDistanceCommand);
   
+  NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, followLineDistance, moveDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
+  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, detectBook1, detectBook2, loggingSetting->GetLogging());
+    
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
   _sensors["BOTTOMLINE"] = bottomLineCheck;
@@ -121,9 +126,9 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _commands["KEYPRESS"] = new KeyPressCommand();
   _commands["SPEEDDIRECTION"] = new MoveFixedDirCommand(comController, switchCheck);
   _commands["SETSPEEDDIR"] = new SpeedCommand(comController);
-  _commands["SETDISTANCE"] = new AddDistanceCommand(comController);
+  _commands["SETDISTANCE"] = addDistanceCommand;
   _commands["RESETMOVEMENT"] = new ResetMoveCommand(comController);
-  _commands["STARTDISTANCE"] = new StartDistanceCommand(comController);
+  _commands["STARTDISTANCE"] = startDistanceCommand;
   _commands["SEARCHFORLINE"] = searchForLine;
   _commands["NAVIGATETOLINE"] = navigateToLine;
   _commands["TURNTOLINE"] = turnToLine;

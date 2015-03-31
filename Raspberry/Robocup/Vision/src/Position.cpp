@@ -1,4 +1,5 @@
 #include <Position.h>
+#include <Convert.h>
 
 void Position::SetImagePosition(int imageX, int imageY, int width, int height) {
   	_Width = width;
@@ -45,4 +46,12 @@ int Position::GetWidth() {
 
 void Position::SetWidth(int width) {
   _Width = width;
+}
+
+bool Position::WithinImage() {
+  return (_X >= -1.0 && _X <= 1.0 && _Y >= -1.0 && _Y <= 1.0);
+}
+
+std::string Position::Print() {
+  return "(" + Convert::FloatToString(_X) + " ; " + Convert::FloatToString(_Y) + ")";
 }

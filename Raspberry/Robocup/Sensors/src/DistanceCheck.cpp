@@ -20,7 +20,14 @@ void DistanceCheck::Prepare()
 bool DistanceCheck::Test()
 {
   int currentDistance = _ComController->GetAverageDistanceCommand();
-  return(currentDistance < _TargetDistance);
+  if(_TargetDistance >= 0)
+  {
+    return(currentDistance < _TargetDistance);
+  }
+  else
+  {
+    return(currentDistance > _TargetDistance);
+  }
 }
 
 std::string DistanceCheck::GetStatus()

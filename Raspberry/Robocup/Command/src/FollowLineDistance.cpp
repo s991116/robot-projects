@@ -14,6 +14,7 @@ std::string FollowLineDistance::Execute(vector<int> input) {
 
 void FollowLineDistance::MoveDistance(int distance) {
   _DistanceCheck->SetDistance(distance);
+  _DistanceCheck->Prepare();
   _FollowLineCommand->Execute();
   Direction* dirSpeed = new Direction(0, 0, 0);
   _ComController->SetDirection(dirSpeed);

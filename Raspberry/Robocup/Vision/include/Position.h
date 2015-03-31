@@ -1,6 +1,8 @@
 #ifndef POSITION_H
 #define	POSITION_H
 
+#include <string>
+
 class Position {
 public:
   bool Detected;
@@ -18,6 +20,9 @@ int GetHeight();
 void SetHeight(int height);
 int GetWidth();
 void SetWidth(int width);
+bool WithinImage();
+
+std::string Print(void);
 
 private:
   float _X;

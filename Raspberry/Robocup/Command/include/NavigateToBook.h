@@ -6,18 +6,18 @@
 #include <ObjectPosition.h>
 #include <Position.h>
 #include <Direction.h>
-#include <ComController.h>
 #include <Command.h>
 #include <Setting.h>
 #include <Logging.h>
 #include <ObjectDetect.h>
 #include <FollowLineDistance.h>
+#include <MoveDistance.h>
 
 enum class BookSearchResult {NoBook, Book1, Book2 }; 
 
 class NavigateToBook : public Command , public Setting {
 public:
-  NavigateToBook(RobotCamera* robotCamera, ComController* comController, FollowLineDistance* followLineDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging);
+  NavigateToBook(RobotCamera* robotCamera, FollowLineDistance* followLineDistance, MoveDistance* moveDistance, ObjectDetect* detectBook1, ObjectDetect* detectBook2, Logging* logging);
 
   std::string Execute(std::vector<int> input);
     
@@ -48,7 +48,7 @@ private:
   FollowLineDistance* _FollowLineDistance;
   
   bool _Book1Finished, _Book2Finished;
-  ComController* _ComController;
+  MoveDistance* _MoveDistance;
   Logging* _Logging;
 };
 
