@@ -24,7 +24,7 @@ std::string SnapshotCommand::Execute(vector<int> data) {
   filename += ".jpg";
   
   cv::Mat image;
-  image = _RobotCamera->GetNextFrame(static_cast<CameraPosition>(_RobotCameraMode));
+  image = _RobotCamera->GetNextFrame(static_cast<CameraMode>(_RobotCameraMode));
 
   if(_DisplayLineSearch)
   {

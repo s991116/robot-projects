@@ -64,7 +64,6 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
 
   DistanceCheck* distanceCheck = new DistanceCheck(comController, 1000);
 
-  DistanceSensorCheck* distanceSensorCheck = new DistanceSensorCheck(comController);
 
   PortCheck* portCheck = new PortCheck(comController, 2);
 
@@ -72,7 +71,10 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   Servo* Servo1 = new Servo(comController, 1);
 
   PiCamera* piCamera = new PiCamera();
-  RobotCamera* robotCamera = new RobotCamera(piCamera, comController);
+  CameraNavigation* cameraNavigation = new CameraNavigation(comController);
+  RobotCamera* robotCamera = new RobotCamera(piCamera, cameraNavigation);
+
+  DistanceSensorCheck* distanceSensorCheck = new DistanceSensorCheck(comController, cameraNavigation);
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, robotCamera, 1, true);
   LineCheck* rightLineCheck = new LineCheck(rightLineDetect, robotCamera, 1, true);
@@ -106,7 +108,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   MoveDistance* moveDistance = new MoveDistance(addDistanceCommand, startDistanceCommand);
   
   NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, followLineDistance, moveDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
-  TurnToBook* turnToBook = new TurnToBook(robotCamera, comController, detectBook1, detectBook2, loggingSetting->GetLogging());
+  TurnToBook* turnToBook = new TurnToBook(robotCamera, moveDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
     
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;

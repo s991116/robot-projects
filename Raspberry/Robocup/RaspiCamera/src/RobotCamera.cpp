@@ -6,44 +6,39 @@
 using namespace cv;
 using namespace std;
 
-RobotCamera::RobotCamera(PiCamera* piCamera, ComController* comController) {
+RobotCamera::RobotCamera(PiCamera* piCamera, CameraNavigation* cameraNavigation) {
   _PiCamera = piCamera;
-  _ComController = comController;
+  _CameraNavigation = cameraNavigation;
+  _CurrentCameraMode = CameraMode::FOLLOW_LINE;
 
-  _Settings[CameraPosition::FOLLOW_LINE] = new RobotCameraSetting(45, 60, 320, 240, true);
-  _Settings[CameraPosition::FIND_BOOK] = new RobotCameraSetting(80, 154, 640, 480, true);
-  _Settings[CameraPosition::FIND_BALL] = new RobotCameraSetting(45, 60, 320, 240, false);
-  _Settings[CameraPosition::FIND_BOOK_FAST] = new RobotCameraSetting(80, 154, 320, 240, true);
-  _Settings[CameraPosition::NAVIGATE_TO_BOOK] = new RobotCameraSetting(80, 60, 640, 480, true);
-  
-  UpdateCameraPosition(CameraPosition::FOLLOW_LINE);
+  _CameraMode[CameraMode::FOLLOW_LINE]           = new RobotCameraSetting(CameraPosition::FOLLOW_LINE,      320, 240, true);
+  _CameraMode[CameraMode::FIND_BOOK]             = new RobotCameraSetting(CameraPosition::FIND_BOOK,        640, 480, true);
+  _CameraMode[CameraMode::FIND_BALL]             = new RobotCameraSetting(CameraPosition::FOLLOW_LINE,      320, 240, false);
+  _CameraMode[CameraMode::FIND_BOOK_FAST]        = new RobotCameraSetting(CameraPosition::FIND_BOOK,        320, 240, true);
+  _CameraMode[CameraMode::NAVIGATE_TO_BOOK]      = new RobotCameraSetting(CameraPosition::NAVIGATE_TO_BOOK, 640, 480, true);
+  _CameraMode[CameraMode::NAVIGATE_TO_BOOK_FAST] = new RobotCameraSetting(CameraPosition::NAVIGATE_TO_BOOK, 320, 240, true);
+	
+  UpdateCameraPosition(CameraMode::FOLLOW_LINE);
 }
 
-cv::Mat RobotCamera::GetNextFrame(CameraPosition cameraPosition)
+cv::Mat RobotCamera::GetNextFrame(CameraMode cameraMode)
 {
-  if(cameraPosition != _CurrentCameraPosition)
-  {
-    UpdateCameraPosition(cameraPosition);
-    usleep(300000);
-    image = _PiCamera->GetNextFrame();
-    usleep(400000);
-    image = _PiCamera->GetNextFrame();
-    return image;
-  }
+  UpdateCameraPosition(cameraMode);
   return _PiCamera->GetNextFrame();
 }
 
-void RobotCamera::UpdateCameraPosition(CameraPosition cameraPosition)
+void RobotCamera::UpdateCameraPosition(CameraMode cameraMode)
 {
-  SetCameraServoPosition(_Settings[cameraPosition]->Servo0Position, _Settings[cameraPosition]->Servo1Position);
-  _PiCamera->SetFrameSize(_Settings[cameraPosition]->FrameWidth, _Settings[cameraPosition]->FrameHeight);
-  _PiCamera->SetGrayMode(_Settings[cameraPosition]->GrayMode);
-  _CurrentCameraPosition = cameraPosition;
-}
-
-void RobotCamera::SetCameraServoPosition(int servo0Position, int servo1Position) {
-   _ComController->SetServoPosition(0, servo0Position);
-   _ComController->SetServoPosition(1, servo1Position);
+  RobotCameraSetting* cameraSetting = _CameraMode[cameraMode];
+  _CameraNavigation->SetPosition(cameraSetting->cameraPosition);
+  
+  if(cameraMode != _CurrentCameraMode)
+  {
+    _PiCamera->SetFrameSize(cameraSetting->FrameWidth, cameraSetting->FrameHeight);
+    _PiCamera->SetGrayMode(cameraSetting->GrayMode);
+    _PiCamera->GetNextFrame();
+    _CurrentCameraMode = cameraMode;
+  }
 }
 
 RobotCamera::~RobotCamera()

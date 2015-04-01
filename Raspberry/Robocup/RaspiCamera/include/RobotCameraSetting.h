@@ -1,17 +1,16 @@
 #ifndef ROBOTCAMERASETTING_H
 #define	ROBOTCAMERASETTING_H
 
+#include <CameraNavigation.h>
+
 class RobotCameraSetting {
 public:
-  RobotCameraSetting(int servo0Position, int servo1Position, int frameWidth, int frameHeight, bool grayMode);
-  int Servo0Position;
-  int Servo1Position;
-  
+  RobotCameraSetting(CameraPosition cameraPos, int frameWidth, int frameHeight, bool grayMode);
+
+  CameraPosition cameraPosition;
   int FrameWidth;
   int FrameHeight;
-  
   bool GrayMode;
-
 };
 
 #endif	/* ROBOTCAMERASETTING_H */

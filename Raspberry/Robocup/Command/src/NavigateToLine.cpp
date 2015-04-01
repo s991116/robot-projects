@@ -25,7 +25,7 @@ std::string NavigateToLine::Execute(std::vector<int> input) {
   float rightSide;
   float angle, distance;  
   do{
-    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraMode::FOLLOW_LINE);
     _FindLineSetting->GetLinePosition(image, _LinePosition);
 
     GetCrossValues(&leftSide, &rightSide, _LinePosition);

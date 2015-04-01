@@ -14,7 +14,6 @@ void ObjectDetect::Setting(float minDetectPosition, Logging* logging) {
   _Logging = logging;
   _Scene_corners = std::vector< cv::Point2f >(4);
   _MinDetectPosition = minDetectPosition;
-  _Position = new Position();
 }
 
 DetectSurfObject* ObjectDetect::CreateDetectObject(std::string templateName) {
@@ -38,11 +37,16 @@ DetectSurfObject* ObjectDetect::CreateDetectObject(cv::Mat templateImage) {
 bool ObjectDetect::Detect(cv::Mat image, ObjectPosition* position) {
 
   _DetectObject->GetPosition(image, position);
-  
+  return PositionWithinRange(position);  
+}
+
+bool ObjectDetect::Detect(cv::Mat image, ObjectPosition* position, cv::Rect roi) {
+  cv::Mat imageDetect = image(roi);
+  _DetectObject->GetPosition(imageDetect, position);
+  return PositionWithinRange(position);
+}
+
+bool ObjectDetect::PositionWithinRange(ObjectPosition* position) {
   float positionX = position->Center->GetNormalizedX();
-  if(_Position->Detected && positionX >= -_MinDetectPosition && positionX <= _MinDetectPosition)
-  {
-    return true;
-  }
-  return false;
+  return (position->Detected && positionX >= -_MinDetectPosition && positionX <= _MinDetectPosition);
 }

@@ -19,7 +19,7 @@ std::string TurnToCenterLine::Execute(std::vector<int> input) {
 
   LineInfo* bottomLineInfo;
   do{
-    cv::Mat image = _RobotCamera->GetNextFrame(CameraPosition::FOLLOW_LINE);  
+    cv::Mat image = _RobotCamera->GetNextFrame(CameraMode::FOLLOW_LINE);  
     bottomLineInfo = _BottomLineDetect->DetectLine(image);
     TurnRobot(bottomLineInfo, _ComController);
   }while(LineNotInCenter(bottomLineInfo));

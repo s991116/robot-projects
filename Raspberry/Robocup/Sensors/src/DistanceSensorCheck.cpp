@@ -1,22 +1,25 @@
 #include "DistanceSensorCheck.h"
 #include "Convert.h"
 
-DistanceSensorCheck::DistanceSensorCheck(ComController* comController) {
+DistanceSensorCheck::DistanceSensorCheck(ComController* comController, CameraNavigation* cameraNavigation) {
   _ComController = comController;
-
+  _CameraNavigation = cameraNavigation;
   MinDistance = 15;
   MaxDistance = 25;
   CheckInRange = 1;
   ReCheck = 1;
+  Position = 0;
 
   SettingsInt["MINDISTANCE"] = &MinDistance;
   SettingsInt["MAXDISTANCE"] = &MaxDistance;
   SettingsBool["CHECKINRANGE"] = &CheckInRange;
   SettingsInt["RECHECK"] = &ReCheck;
+  SettingsInt["POSITION"] = &Position;
 }
 
 void DistanceSensorCheck::Prepare() {
   PositiveCheck = 0;
+  _CameraNavigation->SetPosition(static_cast<CameraPosition>(Position));
 }
 
 std::string DistanceSensorCheck::GetStatus() {

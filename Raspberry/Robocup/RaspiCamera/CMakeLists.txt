@@ -26,7 +26,7 @@ include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
 if(CAMERA_MOCK)
     file (GLOB ALL_SOURCE src/PiCameraMock.cpp src/RobotCamera.cpp src/RobotCameraSetting.cpp)
 else(CAMERA_MOCK)
-    file (GLOB ALL_SOURCE src/PiCamera.cpp src/RobotCamera.cpp  src/RobotCameraSetting.cpp)
+    file (GLOB ALL_SOURCE src/PiCamera.cpp src/RobotCamera.cpp  src/RobotCameraSetting.cpp src/CameraNavigation.cpp src/CameraNavigationSetting.cpp)
 endif(CAMERA_MOCK)
 
 add_library (RaspiCamera ${ALL_SOURCE})
