@@ -24,6 +24,28 @@ int Position::GetImageY() {
   return _Height * ((-_Y+1.0)/2.0);
 }
 
+int Position::GetLimitedImageX() {
+  int x = GetImageX();
+  return LimitPoint(x, _Width);
+}
+
+int Position::GetLimitedImageY() {
+	int y = GetImageY();
+	return LimitPoint(y,_Height);
+}
+
+int Position::LimitPoint(int value, int maxValue) {
+  if(value < 0)
+  {
+    return 0;
+  }
+  else if(value > maxValue)
+  {  
+    return maxValue-1;
+  }
+  return value;
+}
+
 float Position::GetNormalizedX() {
   return _X;
 }

@@ -30,6 +30,8 @@ private:
   Logging* _Logging;
   ObjectPosition* _ObjectPosition;
   ObjectDetect* _NavigateBook;
+  int _TurnSpeed;
+  int _MinDistance;
 };
 
 #endif //TURNTOBOOK_H

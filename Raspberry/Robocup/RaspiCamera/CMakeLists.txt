@@ -22,6 +22,7 @@ MESSAGE( STATUS "TEST")
 include_directories(${CMAKE_SOURCE_DIR}/RaspiCamera/include)
 include_directories(${CMAKE_SOURCE_DIR}/RaspiCamCV/include)
 include_directories(${CMAKE_SOURCE_DIR}/ArduinoController/include)
+include_directories(${CMAKE_SOURCE_DIR}/Logging/include)
 
 if(CAMERA_MOCK)
     file (GLOB ALL_SOURCE src/PiCameraMock.cpp src/RobotCamera.cpp src/RobotCameraSetting.cpp)

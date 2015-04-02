@@ -16,6 +16,8 @@ public:
 
 private:
   void UpdateCameraPosition(CameraMode cameraMode);
+  void SetCameraMode(CameraMode cameraMode);
+
   PiCamera* _PiCamera;
   CameraNavigation* _CameraNavigation;
   CameraMode _CurrentCameraMode; 

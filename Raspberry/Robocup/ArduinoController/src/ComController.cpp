@@ -3,10 +3,12 @@
 #include <ComMessage.h>
 #define RESPONSELENGTH
 #include <MotorControllerCmd.h>
+#include <unistd.h>
 
-ComController::ComController(ComPort* comPort, map<string, int> commands) {
+ComController::ComController(ComPort* comPort, map<string, int> commands, Logging* logging) {
   m_ComPort = comPort;
   m_Commands = commands;
+  _Logging = logging;
 }
 
 int ComController::SendCommand(int command, short data) {
@@ -18,7 +20,6 @@ void ComController::SendMessage(char command, short data) {
 
   char* message = new char[3];
   this->CleanReceivedData();
-
   ComMessage::GenerateMessage(command, data, message);
 
   m_ComPort->Send(message);
@@ -39,10 +40,12 @@ int ComController::GetMessage(char command) {
       do {
         result = m_ComPort->ReceiveChar(receivebuffer);
         retry++;
+		if(command == CMD_GET_DISTANCESENSOR_MEASURE)
+			usleep(10000);
       } while (result != 1 && retry < MaxRetryCount);
 
       if (retry >= MaxRetryCount)
-        std::cout << "ERROR: No data received. " << " , Retry(" << retry << ")" << std::endl;
+        _Logging->Error("ERROR: No reply message data received from ArduinoController.");
 
       receivedData |= int(receivebuffer[0] << bitShift[(int)i]);
     }
@@ -59,7 +62,7 @@ void ComController::CleanReceivedData() {
     retry++;
   } while (result == 1 && retry < 10000);
   if (retry > 10000)
-    std::cout << "ERROR: No data received from comport." << std::endl;
+    _Logging->Error("ERROR: No data received from comport.");
 }
 
 void ComController::ResetMoveCommand() {

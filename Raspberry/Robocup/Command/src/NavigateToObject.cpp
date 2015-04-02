@@ -55,11 +55,21 @@ ObjectDetect* NavigateToObject::CreateBookTemplate(ObjectPosition* position, cv:
   position->Corner2->SetWidth(image.cols);
   position->Corner2->SetHeight(image.rows);
   
+  int x1 = position->Corner1->GetLimitedImageX();
+  int y1 = position->Corner1->GetLimitedImageY();
+  int x2 = position->Corner2->GetLimitedImageX();
+  int y2 = position->Corner2->GetLimitedImageY();
+  
+  _Logging->Log("X1:", x1);
+  _Logging->Log("Y1:", y1);
+  _Logging->Log("X2:", x2);
+  _Logging->Log("Y2:", y2);
+  
   cv::Mat imageRoi = image(cv::Rect(
-    cv::Point(position->Corner1->GetImageX(), position->Corner1->GetImageY()), 
-    cv::Point(position->Corner2->GetImageX(), position->Corner2->GetImageY()))
-  );
-  cv::imwrite("ObjectTemplate.jpg", imageRoi );
+    cv::Point(x1, y1), 
+    cv::Point(x2, y2)
+  ));
+  cv::imwrite("Fast_Object_Template.jpg", imageRoi );
   
   return new ObjectDetect(imageRoi, minDetectPosition, _Logging);
 }
@@ -69,9 +79,13 @@ void NavigateToObject::CenterObject(int pointY1, int pointY2, ObjectDetect* obje
 
   UpdateObjectPosition(pointY1, pointY2, objectDetect, cameraMode);
   float error = _ObjectPosition->Center->GetNormalizedX() - _MoveDistanceOffset;
-  _Logging->Log("Error X:", error);
+
+  _Logging->Log("Error: ", error);
+  
+  _Logging->Log("Min Error: ", _MoveDistanceMinError);
   while(error > _MoveDistanceMinError || error < -_MoveDistanceMinError)
   {
+    _Logging->Log("Error X:", error);
     if(_ObjectPosition->Detected)
     {
       _Logging->Log("Object found.");
@@ -91,5 +105,6 @@ void NavigateToObject::CenterObject(int pointY1, int pointY2, ObjectDetect* obje
 void NavigateToObject::UpdateObjectPosition(int pointY1, int pointY2, ObjectDetect* objectDetect, CameraMode cameraMode) {
   _image = _RobotCamera->GetNextFrame(cameraMode);
   cv::Rect roi = cv::Rect(cv::Point(0  , pointY1), cv::Point(_image.cols, pointY2));
+  cv::imwrite("Fast_Search_Image.jpg", _image(roi) );
   objectDetect->Detect(_image, _ObjectPosition, roi);
 }

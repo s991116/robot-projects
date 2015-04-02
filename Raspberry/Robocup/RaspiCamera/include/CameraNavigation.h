@@ -13,7 +13,7 @@ class CameraNavigation {
   void SetPosition(CameraPosition cameraPosition);
 
   private:
-  void SetCameraServoPosition(int servo0, int servo1);
+  void SetCameraServoPosition(CameraPosition cameraPosition);
   std::map<CameraPosition, CameraNavigationSetting*> _Settings;
 
   ComController* _ComController;

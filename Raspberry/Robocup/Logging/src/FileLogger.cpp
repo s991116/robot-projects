@@ -40,3 +40,10 @@ void FileLogger::Log(std::string message, float value)
   _filestream << message << ": " << strNumber << std::endl;
   _filestream.close();
 } 
+
+void FileLogger::Error(std::string message)
+{
+  _filestream.open(_filename.c_str(), std::ofstream::out | std::ofstream::app);
+  _filestream << "ERROR: " << message << std::endl;
+  _filestream.close();
+}

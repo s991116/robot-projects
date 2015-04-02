@@ -5,6 +5,7 @@
 #include <Direction.h>
 #include <string>
 #include <map>
+#include <Logging.h>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ enum class LEDColor { Green = 0, Red = 1};
 
 class ComController {
 public:
-    ComController(ComPort* comport, map<string, int> commands);
+    ComController(ComPort* comport, map<string, int> commands, Logging* logging);
     virtual ~ComController();
     int SendCommand(int command, short data);
     void ResetMoveCommand();
@@ -25,8 +26,6 @@ public:
     int DistanceCommandRunning();
     int GetAverageDistanceCommand();
     void ResetDistanceCommand();
-    int GetMessage(char command);
-    void CleanReceivedData();
 
     int GetPortCount();
     int GetDistanceSensor();
@@ -40,9 +39,13 @@ public:
 private:
     ComPort* m_ComPort;
     map<string, int> m_Commands;
+	Logging* _Logging;
     Direction* _Direction;
 
     void SendMessage(char command, short data);
+    int GetMessage(char command);
+    void CleanReceivedData();
+	
 };
 
 #endif	/* COMCONTROLLER_H */

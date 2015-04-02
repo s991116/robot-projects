@@ -29,16 +29,22 @@ cv::Mat RobotCamera::GetNextFrame(CameraMode cameraMode)
 
 void RobotCamera::UpdateCameraPosition(CameraMode cameraMode)
 {
-  RobotCameraSetting* cameraSetting = _CameraMode[cameraMode];
-  _CameraNavigation->SetPosition(cameraSetting->cameraPosition);
-  
   if(cameraMode != _CurrentCameraMode)
   {
-    _PiCamera->SetFrameSize(cameraSetting->FrameWidth, cameraSetting->FrameHeight);
-    _PiCamera->SetGrayMode(cameraSetting->GrayMode);
-    _PiCamera->GetNextFrame();
-    _CurrentCameraMode = cameraMode;
+    SetCameraMode(cameraMode);
   }
+}
+
+void RobotCamera::SetCameraMode(CameraMode cameraMode)
+{
+  RobotCameraSetting* cameraSetting = _CameraMode[cameraMode];
+  _PiCamera->SetFrameSize(cameraSetting->FrameWidth, cameraSetting->FrameHeight);
+  _PiCamera->SetGrayMode(cameraSetting->GrayMode);
+  _PiCamera->GetNextFrame();
+  usleep(300000);  
+  _CameraNavigation->SetPosition(cameraSetting->cameraPosition);
+  _PiCamera->GetNextFrame();
+  _CurrentCameraMode = cameraMode;
 }
 
 RobotCamera::~RobotCamera()

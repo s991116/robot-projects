@@ -20,9 +20,12 @@ void ProxyLog::Log(std::string message, int value) {
   this->_Logging->Log(message, value);
 }
 
-void ProxyLog::Log(std::string message, float value)
-{
+void ProxyLog::Log(std::string message, float value) {
   this->_Logging->Log(message, value);
+}
+
+void ProxyLog::Error(std::string message) {
+  this->_Logging->Error(message);
 }
 
 void ProxyLog::ChangeLog(Logging* logging) {

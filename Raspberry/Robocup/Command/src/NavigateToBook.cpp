@@ -10,7 +10,7 @@ NavigateToObject(robotCamera, detectBook1, detectBook2, logging) {
 
   _Direction = new Direction(0, 0, 0);
 
-  _NoBookDistance = 400;
+  _NoBookDistance = 250;
   _MoveAfterBook = 20;
   _Book1Finished = false;
   _Book2Finished = false;

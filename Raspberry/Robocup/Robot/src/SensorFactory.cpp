@@ -60,10 +60,9 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   LineDetectSetting* rightLineDetectSetting = new LineDetectSetting(rightRoi, 10, 300, LineDetectSetting::CENTER, LineDetectSetting::HORIZONTAL, false);
   LineDetect* rightLineDetect = new LineDetect(rightLineDetectSetting, loggingSetting->GetLogging());
 
-  ComController* comController = new ComController(comPort, commands);
+  ComController* comController = new ComController(comPort, commands, loggingSetting->GetLogging());
 
   DistanceCheck* distanceCheck = new DistanceCheck(comController, 1000);
-
 
   PortCheck* portCheck = new PortCheck(comController, 2);
 
@@ -74,7 +73,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   CameraNavigation* cameraNavigation = new CameraNavigation(comController);
   RobotCamera* robotCamera = new RobotCamera(piCamera, cameraNavigation);
 
-  DistanceSensorCheck* distanceSensorCheck = new DistanceSensorCheck(comController, cameraNavigation);
+  DistanceSensorCheck* distanceSensorCheck = new DistanceSensorCheck(comController, cameraNavigation, loggingSetting->GetLogging());
 
   LineCheck* leftLineCheck = new LineCheck(leftLineDetect, robotCamera, 1, true);
   LineCheck* rightLineCheck = new LineCheck(rightLineDetect, robotCamera, 1, true);
@@ -118,7 +117,8 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _sensors["SERVO0"] = Servo0;
   _sensors["SERVO1"] = Servo1;
   _sensors["DISTANCEHEAD"] = distanceSensorCheck;
-
+  _sensors["PORT"] = portCheck;
+  
   _commands["DELAY"] = new DelayCommand();
   _commands["WAIT"] = new WaitCommand(switchCheck);
   _commands["SENDDATA"] = new DirectComCommand(comController);
@@ -139,6 +139,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _commands["TURNTOBOOK"] = turnToBook;
   _commands["SERVO"] = new ServoCommand(comController);
   _commands["LED"] = new LEDCommand(comController);
+  _commands["MOVEDISTANCE"] = moveDistance;
 
   _settings["SNAPSHOT"] = snapshotCommand;
   _settings["LOGGING"] = loggingSetting;

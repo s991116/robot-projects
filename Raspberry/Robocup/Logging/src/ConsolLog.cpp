@@ -41,3 +41,8 @@ void ConsolLog::Log(std::string message, float value)
   ss << message << strNumber;
   ConsolePrint::PrintLog(ss.str());
 }
+
+void ConsolLog::Error(std::string message)
+{
+  ConsolePrint::PrintError(message);
+}

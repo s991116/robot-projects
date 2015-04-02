@@ -13,6 +13,9 @@ void SetNormalizedPosition(float x, float y, int width, int height);
 int GetImageX();
 int GetImageY();
 
+int GetLimitedImageX();
+int GetLimitedImageY();
+
 float GetNormalizedX();
 float GetNormalizedY();
 
@@ -25,6 +28,7 @@ bool WithinImage();
 std::string Print(void);
 
 private:
+  int LimitPoint(int value, int maxValue);
   float _X;
   float _Y;  
   int _Width;

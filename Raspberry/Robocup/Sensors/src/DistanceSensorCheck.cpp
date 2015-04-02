@@ -1,9 +1,10 @@
 #include "DistanceSensorCheck.h"
 #include "Convert.h"
 
-DistanceSensorCheck::DistanceSensorCheck(ComController* comController, CameraNavigation* cameraNavigation) {
+DistanceSensorCheck::DistanceSensorCheck(ComController* comController, CameraNavigation* cameraNavigation, Logging* logging) {
   _ComController = comController;
   _CameraNavigation = cameraNavigation;
+  _Logging = logging;
   MinDistance = 15;
   MaxDistance = 25;
   CheckInRange = 1;
@@ -24,7 +25,7 @@ void DistanceSensorCheck::Prepare() {
 
 std::string DistanceSensorCheck::GetStatus() {
   int distance = _ComController->GetDistanceSensor();
-  return Convert::IntToString(distance);
+  return "Distance: " + Convert::IntToString(distance);
 }
 
 bool DistanceSensorCheck::Test() {
