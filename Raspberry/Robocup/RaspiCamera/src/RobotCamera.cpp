@@ -19,6 +19,7 @@ RobotCamera::RobotCamera(PiCamera* piCamera, CameraNavigation* cameraNavigation)
   _CameraMode[CameraMode::NAVIGATE_TO_BOOK_FAST] = new RobotCameraSetting(CameraPosition::NAVIGATE_TO_BOOK, 320, 240, true);
 	
   UpdateCameraPosition(CameraMode::FOLLOW_LINE);
+  SetCameraMode(CameraMode::FOLLOW_LINE);
 }
 
 cv::Mat RobotCamera::GetNextFrame(CameraMode cameraMode)
@@ -29,6 +30,7 @@ cv::Mat RobotCamera::GetNextFrame(CameraMode cameraMode)
 
 void RobotCamera::UpdateCameraPosition(CameraMode cameraMode)
 {
+   _CameraNavigation->SetPosition(_CameraMode[cameraMode]->cameraPosition);
   if(cameraMode != _CurrentCameraMode)
   {
     SetCameraMode(cameraMode);
@@ -41,8 +43,7 @@ void RobotCamera::SetCameraMode(CameraMode cameraMode)
   _PiCamera->SetFrameSize(cameraSetting->FrameWidth, cameraSetting->FrameHeight);
   _PiCamera->SetGrayMode(cameraSetting->GrayMode);
   _PiCamera->GetNextFrame();
-  usleep(300000);  
-  _CameraNavigation->SetPosition(cameraSetting->cameraPosition);
+  usleep(300000);
   _PiCamera->GetNextFrame();
   _CurrentCameraMode = cameraMode;
 }

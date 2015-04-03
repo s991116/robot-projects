@@ -5,7 +5,7 @@ LoggingSetting::LoggingSetting(EmptyLog* emptyLog, Logging* logging, Logging* fi
   _Logging = logging;
   _FileLogging = fileLogging;  
   SettingsInt["TYPE"] = &_LogType;
-  _SelectedLog = new ProxyLog(_EmptyLog);
+  _SelectedLog = new ProxyLog(_Logging);
 }
 
 Logging* LoggingSetting::GetLogging() {
