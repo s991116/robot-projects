@@ -8,9 +8,9 @@ MoveFixedDirCommand::MoveFixedDirCommand(ComController* comController, Check* ch
 
 std::string MoveFixedDirCommand::Execute(vector<int> data) {
   int dir = data[0];
-  int directionFactor = data[1];
+  int rotation = data[1];
   int speed = data[2];
-  Direction* direction = new Direction(dir, directionFactor, speed);
+  Direction* direction = new Direction(dir, rotation, speed);
   this->_ComController->SetDirection(direction);
 
   this->_Check->Prepare();

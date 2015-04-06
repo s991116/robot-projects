@@ -21,6 +21,7 @@ DistanceSensorCheck::DistanceSensorCheck(ComController* comController, CameraNav
 void DistanceSensorCheck::Prepare() {
   PositiveCheck = 0;
   _CameraNavigation->SetPosition(static_cast<CameraPosition>(Position));
+  _Logging->Log("Preparing distance-sensor.");
 }
 
 std::string DistanceSensorCheck::GetStatus() {
@@ -53,5 +54,14 @@ bool DistanceSensorCheck::Test() {
 	}
   }
 
-  return (PositiveCheck <= ReCheck);
+  if(PositiveCheck <= ReCheck)
+  {
+    _Logging->Log("Distance sensor check running.");
+    return true;
+  }
+  else
+  {
+    _Logging->Log("Distance sensor check done.");
+    return false;
+  }
 }

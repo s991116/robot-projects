@@ -116,7 +116,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _sensors["RIGHTLINE"] = rightLineCheck;
   _sensors["SERVO0"] = Servo0;
   _sensors["SERVO1"] = Servo1;
-  _sensors["DISTANCEHEAD"] = distanceSensorCheck;
+  _sensors["DISTANCESENSOR"] = distanceSensorCheck;
   _sensors["PORT"] = portCheck;
   
   _commands["DELAY"] = new DelayCommand();

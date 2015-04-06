@@ -76,22 +76,22 @@ void View::GetCommand() {
 
     case KEYCODE_v:
       this->_controller->SavePicture(0);
-	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCEHEAD") << std::endl;
+	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCESENSOR") << std::endl;
       break;
 
 	case KEYCODE_n:
       this->_controller->SavePicture(1);
-	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCEHEAD") << std::endl;
+	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCESENSOR") << std::endl;
       break;
 
 	case KEYCODE_m:
       this->_controller->SavePicture(4);
-	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCEHEAD") << std::endl;
+	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCESENSOR") << std::endl;
       break;
 
 	  case KEYCODE_b:
       this->_controller->SavePicture(2);
-	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCEHEAD") << std::endl;
+	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCESENSOR") << std::endl;
       break;
   
     case KEYCODE_h:
