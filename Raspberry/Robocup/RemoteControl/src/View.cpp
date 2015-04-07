@@ -120,6 +120,7 @@ void View::GetCommand() {
 	  std::cout << "Bottom line:  " <<  this->_controller->GetSensorInfo("BOTTOMLINE") << std::endl;
 	  std::cout << "Left side:  " <<  this->_controller->GetSensorInfo("LEFTLINE") << std::endl;
 	  std::cout << "Right side:  " <<  this->_controller->GetSensorInfo("RIGHTLINE") << std::endl;
+	  std::cout << "Port switch: " << this->_controller->GetSensorInfo("PORT") << std::endl;
 	  return;
   }
 }
