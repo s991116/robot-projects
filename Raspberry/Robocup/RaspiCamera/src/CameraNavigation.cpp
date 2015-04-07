@@ -6,6 +6,8 @@ CameraNavigation::CameraNavigation(ComController* comController) {
   _Settings[CameraPosition::FOLLOW_LINE] =           new CameraNavigationSetting(45, 54);
   _Settings[CameraPosition::FIND_BOOK] =             new CameraNavigationSetting(80, 154);
   _Settings[CameraPosition::NAVIGATE_TO_BOOK] =      new CameraNavigationSetting(80, 54 ); 
+  _Settings[CameraPosition::FLOOR_DISTANCE] =        new CameraNavigationSetting(26, 54);
+  
   SetCameraServoPosition(CameraPosition::FOLLOW_LINE);
 }
 

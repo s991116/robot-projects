@@ -34,6 +34,7 @@
 #include <DetectColoredObject.h>
 #include <ObjectDetect.h>
 #include <MoveDistance.h>
+#include <MoveAroundCliff.h>
 
 SensorFactory::SensorFactory(map<string, int> commands, string path) {
   ComPort* comPort = new ComPort();
@@ -108,7 +109,8 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   
   NavigateToBook* navigateToBook = new NavigateToBook(robotCamera, followLineDistance, moveDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
   TurnToBook* turnToBook = new TurnToBook(robotCamera, moveDistance, detectBook1, detectBook2, loggingSetting->GetLogging());
-    
+  MoveAroundCliff* moveAroundCliff = new MoveAroundCliff(comController, cameraNavigation, loggingSetting->GetLogging());
+  
   _sensors["DISTANCE"] = distanceCheck;
   _sensors["TOPLINE"] = topLineCheck;
   _sensors["BOTTOMLINE"] = bottomLineCheck;
@@ -140,6 +142,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _commands["SERVO"] = new ServoCommand(comController);
   _commands["LED"] = new LEDCommand(comController);
   _commands["MOVEDISTANCE"] = moveDistance;
+  _commands["MOVEAROUNDCLIFF"] = moveAroundCliff;
 
   _settings["SNAPSHOT"] = snapshotCommand;
   _settings["LOGGING"] = loggingSetting;
@@ -162,6 +165,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _settings["NAVIGATETOBALL"] = navigateToBall;
   _settings["NAVIGATETOBOOK"] = navigateToBook;
   _settings["TURNTOBOOK"] = turnToBook;
+  _settings["MOVEAROUNDCLIFF"] = moveAroundCliff;
 }
 
 map<string, Command*> SensorFactory::GetCommands() {
