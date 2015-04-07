@@ -12,7 +12,8 @@ public:
 	std::string Execute(vector<int> data);
 	
 private:
-    void UpdateDirection(bool toClose);
+    int MeasureDistance();
+	void UpdateDirection(bool toClose);
     void SetDirection(int dir, int speed);
 	
 	CameraNavigation* _CameraNavigation;
@@ -26,5 +27,5 @@ private:
 	int _NormalSpeed;
 	int _CliffDirection;
 	int _CliffSpeed;
-
+    int _MaxErrorDistance;
 };

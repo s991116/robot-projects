@@ -4,6 +4,12 @@
 !LEFTLINEDETECT   -BLACKLINE 1
 !LOGGING -TYPE 1
 
+!CHECK -MODE 0 //PORT
+!PORT -COUNT 2 //One time on and off
+#WAIT
+
+#QUIT
+
 >LineSetupScript.txt
 
 >NavigateToBook.txt

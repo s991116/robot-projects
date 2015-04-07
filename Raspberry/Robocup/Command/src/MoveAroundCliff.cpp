@@ -7,6 +7,7 @@ MoveAroundCliff::MoveAroundCliff(ComController* comController, CameraNavigation*
 	_CameraNavigation = cameraNavigation;
 	_Logging = logging;
 	_Direction = new Direction(0,0,0);
+	_MaxErrorDistance = 100;
 	
 	SettingsInt["CIRCLE_DISTANCE"] = &_CircleDistance;
 	SettingsInt["CLIFF_DETECT_OFFSET"] = &_CliffDetect;
@@ -16,6 +17,8 @@ MoveAroundCliff::MoveAroundCliff(ComController* comController, CameraNavigation*
 	
 	SettingsInt["CLIFF_DIRECTION"] = &_CliffDirection;
 	SettingsInt["CLIFF_SPEED"] = &_CliffSpeed;
+	
+	SettingsInt["MAX_DISTANCE"] = &_MaxErrorDistance;
 }
 
 std::string MoveAroundCliff::Execute(vector<int> data)
@@ -24,7 +27,9 @@ std::string MoveAroundCliff::Execute(vector<int> data)
   _CameraNavigation->SetPosition(CameraPosition::FLOOR_DISTANCE);
 
   //Measure ground distance  
-  int groundDistance = _ComController->GetDistanceSensor();
+  int groundDistance = MeasureDistance();
+	  
+  _Logging->Log("Ground distance: ", groundDistance);
   
   _ComController->ResetDistanceCommand();
 
@@ -35,11 +40,23 @@ std::string MoveAroundCliff::Execute(vector<int> data)
   while(_ComController->GetAverageDistanceCommand() < _CircleDistance) 
   {
     //Test if edge is close
-	bool toCloseToEdge = (_ComController->GetDistanceSensor() - groundDistance > _CliffDetect);
+    int distance = MeasureDistance();
+    _Logging->Log("Current distance: ", distance);
+	bool toCloseToEdge = (distance - groundDistance > _CliffDetect);
 	UpdateDirection(toCloseToEdge);
+	distance = _ComController->GetAverageDistanceCommand();
   }
 
   return "";
+}
+
+int MoveAroundCliff::MeasureDistance()
+{
+  int distance;
+  do{
+    distance = _ComController->GetDistanceSensor();
+  } while(distance >= _MaxErrorDistance);
+  return distance;
 }
 
 void MoveAroundCliff::UpdateDirection(bool toClose)
@@ -48,11 +65,13 @@ void MoveAroundCliff::UpdateDirection(bool toClose)
   {
     if(toClose)
     {
-  	  SetDirection(_NormalDirection, _NormalSpeed);
+      _Logging->Log("Cliff to close now");
+      SetDirection(_NormalDirection, _NormalSpeed);
     }
     else
     {
-  	  SetDirection(_CliffDirection, _CliffSpeed);
+      _Logging->Log("No Cliff");
+      SetDirection(_CliffDirection, _CliffSpeed);
     }
     _CurrentState = toClose;
   }
