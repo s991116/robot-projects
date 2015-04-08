@@ -35,5 +35,9 @@ bool DistanceCheck::Test()
 std::string DistanceCheck::GetStatus()
 {
   int currentDistance = _ComController->GetAverageDistanceCommand();
-  return Convert::IntToString(currentDistance);
+  int leftDistance = _ComController->GetLeftDistanceCommand();
+  int rightDistance = _ComController->GetLeftDistanceCommand();
+  return "Left:" + Convert::IntToString(leftDistance) + 
+         " , Right:" + Convert::IntToString(rightDistance) +
+		 " , Avg.: " + Convert::IntToString(currentDistance);
 }

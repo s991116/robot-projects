@@ -115,7 +115,7 @@ void View::GetCommand() {
 	  return;
 
 	case KEYCODE_i:
-	  std::cout << "Average distance:  " <<  this->_controller->GetSensorInfo("DISTANCE") << std::endl;
+	  std::cout << "Distance:  " <<  this->_controller->GetSensorInfo("DISTANCE") << std::endl;
 	  std::cout << "Top line:  " <<  this->_controller->GetSensorInfo("TOPLINE") << std::endl;
 	  std::cout << "Bottom line:  " <<  this->_controller->GetSensorInfo("BOTTOMLINE") << std::endl;
 	  std::cout << "Left side:  " <<  this->_controller->GetSensorInfo("LEFTLINE") << std::endl;

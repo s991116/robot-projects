@@ -107,6 +107,14 @@ int ComController::GetAverageDistanceCommand() {
   return (distA / 2) + (distB / 2);
 }
 
+int ComController::GetLeftDistanceCommand() {
+  return this->SendCommand(m_Commands["GET_MOTOR_B_DISTANCE"], 0);
+}
+
+int ComController::GetRightDistanceCommand() {
+  return this->SendCommand(m_Commands["GET_MOTOR_A_DISTANCE"], 0);
+}
+
 void ComController::ResetDistanceCommand() {
   this->SendCommand(m_Commands["RESET_MOTOR_DISTANCE"], 0);
 }

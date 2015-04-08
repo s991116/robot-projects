@@ -25,28 +25,29 @@ public:
     void StartDistanceCommand();
     int DistanceCommandRunning();
     int GetAverageDistanceCommand();
+    int GetLeftDistanceCommand();
+    int GetRightDistanceCommand();
+    
     void ResetDistanceCommand();
-
+    
     int GetPortCount();
     int GetDistanceSensor();
-	
-	void SetServoPosition(int servoNr, int position);
-	void SetServoMaxPosition(int servoNr, int position);
-	void SetServoMinPosition(int servoNr, int position);
+    
+    void SetServoPosition(int servoNr, int position);
+    void SetServoMaxPosition(int servoNr, int position);
+    void SetServoMinPosition(int servoNr, int position);
     int GetServoPosition(int servoNr);
-	void SetLEDMode(LEDColor LEDnr, LEDMode mode);
+    void SetLEDMode(LEDColor LEDnr, LEDMode mode);
 
 private:
     ComPort* m_ComPort;
     map<string, int> m_Commands;
-	Logging* _Logging;
+    Logging* _Logging;
     Direction* _Direction;
-
+    
     void SendMessage(char command, short data);
     int GetMessage(char command);
     void CleanReceivedData();
-	
 };
 
 #endif	/* COMCONTROLLER_H */
-

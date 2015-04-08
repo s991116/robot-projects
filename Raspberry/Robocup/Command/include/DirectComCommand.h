@@ -1,6 +1,6 @@
 #ifndef DIRECTCOMCOMMAND_H
 #define	DIRECTCOMCOMMAND_H
-#include "Command.h"
+#include <Command.h>
 #include <ComController.h>
 
 class DirectComCommand : public Command {

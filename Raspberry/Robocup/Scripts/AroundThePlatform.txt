@@ -1,0 +1,11 @@
+//360 degree around the platform
+#SENDDATA 23, 70//Command CMD_SET_DIR_KP (23), data 
+#SENDDATA 24, 90//Command CMD_SET_DIR_KI (24), data
+#SENDDATA 25, 0//Command CMD_SET_DIR_KD (25), data
+
+#SETDISTANCE 30, 3, 1000, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#SENDDATA 23, 80//Command CMD_SET_DIR_KP (23), data 
+#SENDDATA 24,  0//Command CMD_SET_DIR_KI (24), data
+#SENDDATA 25,  0//Command CMD_SET_DIR_KD (25), data
