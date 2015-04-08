@@ -1,20 +1,34 @@
 #include <Direction.h>
 #include <Convert.h>
 
+#define MAX_DIRECITON (100)
+#define MIN_DIRECITON (-100)
+
 Direction::Direction(int direction, int rotation, int speed)
 {
     this->_Direction = direction;
-    this->_Rotation = rotation;
+    LimitDirection();
+	this->_Rotation = rotation;
     this->_Speed = speed;
 }
 
 void Direction::SetDirectionNorm(float direction) {
   this->_Direction = direction*100;
+  LimitDirection();
 }
 
 void Direction::SetDirection(int direction)
 {
     this->_Direction = direction;
+	LimitDirection();
+}
+
+void Direction::LimitDirection()
+{
+  if(this->_Direction > MAX_DIRECITON)
+	  this->_Direction = MAX_DIRECITON;
+  else if(this->_Direction < MIN_DIRECITON)
+	  this->_Direction = MIN_DIRECITON;
 }
 
 int Direction::GetDirection()

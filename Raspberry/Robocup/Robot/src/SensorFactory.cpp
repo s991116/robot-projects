@@ -63,7 +63,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
 
   ComController* comController = new ComController(comPort, commands, loggingSetting->GetLogging());
 
-  DistanceCheck* distanceCheck = new DistanceCheck(comController, 1000);
+  DistanceCheck* distanceCheck = new DistanceCheck(comController, 1000, loggingSetting->GetLogging());
 
   PortCheck* portCheck = new PortCheck(comController, 2);
 
@@ -94,7 +94,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
 
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
-  FollowLineDistance* followLineDistance = new FollowLineDistance(robotCamera, comController, followLineSetting, distanceCheck, bottomLineDetect, topLineDetect);
+  FollowLineDistance* followLineDistance = new FollowLineDistance(robotCamera, comController, followLineSetting, distanceCheck, bottomLineDetect, topLineDetect, loggingSetting->GetLogging());
   
   float minDetectPosition = 0.9;
   std::string templateBook1 = path + "TemplateBook_1.jpg";
@@ -125,7 +125,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   _commands["WAIT"] = new WaitCommand(switchCheck);
   _commands["SENDDATA"] = new DirectComCommand(comController);
   _commands["SNAPSHOT"] = snapshotCommand;
-  _commands["LINE"] = new FollowLineCommand(robotCamera, comController, followLineSetting, switchCheck, bottomLineDetect, topLineDetect);
+  _commands["LINE"] = new FollowLineCommand(robotCamera, comController, followLineSetting, switchCheck, bottomLineDetect, topLineDetect, loggingSetting->GetLogging());
   _commands["LINEDISTANCE"] = followLineDistance; 
   _commands["KEYPRESS"] = new KeyPressCommand();
   _commands["SPEEDDIRECTION"] = new MoveFixedDirCommand(comController, switchCheck);

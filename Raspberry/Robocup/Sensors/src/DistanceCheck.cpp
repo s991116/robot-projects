@@ -1,10 +1,11 @@
 #include <DistanceCheck.h>
 #include <Convert.h>
 
-DistanceCheck::DistanceCheck(ComController* comController, int distance)
+DistanceCheck::DistanceCheck(ComController* comController, int distance, Logging* logging)
 {
   _ComController = comController;
-  SetDistance(distance);
+  _Logging = logging;
+  SetDistance(distance);  
 }
 
 void DistanceCheck::SetDistance(int distance) {
@@ -20,6 +21,7 @@ void DistanceCheck::Prepare()
 bool DistanceCheck::Test()
 {
   int currentDistance = _ComController->GetAverageDistanceCommand();
+
   if(_TargetDistance >= 0)
   {
     return(currentDistance < _TargetDistance);

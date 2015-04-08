@@ -1,0 +1,11 @@
+//Robocup 2015 script
+
+>Initialize.txt
+
+//>WaitForStart.txt
+
+//>StartToRamp.txt
+
+//>FromRampToDownTheTilt.txt
+
+>UpTheRampAndDownTheStairs.txt

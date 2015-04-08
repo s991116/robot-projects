@@ -1,0 +1,30 @@
+////Move onto tilt
+//>FollowLineToLeftLineCros.txt
+
+////Move down tilt first part
+//!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+//!DISTANCE -DISTANCE 600
+//#LINE 0
+
+////Move slowly down tilt second part
+//!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+//!DISTANCE -DISTANCE 600
+//!FOLLOWLINE -MAXSPEED 4
+//!FOLLOWLINE -MINSPEED 4
+//#LINE 0
+//!FOLLOWLINE -MAXSPEED 8
+//!FOLLOWLINE -MINSPEED 5
+
+//Find line
+>FindLine.txt
+
+//Turn right
+#SETDISTANCE 0, 5, 580, 0//dir, speed, distance, rotation
+#SETDISTANCE 100, 4, 270, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+#TURNTOLINE

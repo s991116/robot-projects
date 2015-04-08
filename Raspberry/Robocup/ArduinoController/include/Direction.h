@@ -19,6 +19,7 @@ private:
     int _Direction;
     int _Rotation;
     int _Speed;
+	void LimitDirection();
 };
 
 #endif	/* DIRECTION_H */

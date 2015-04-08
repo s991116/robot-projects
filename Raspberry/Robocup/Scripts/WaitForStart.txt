@@ -1,0 +1,7 @@
+//***WAIT FOR START***
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 4
+#RESETMOVEMENT 0
+#WAIT
+#SNAPSHOT 1
+#SNAPSHOT 1

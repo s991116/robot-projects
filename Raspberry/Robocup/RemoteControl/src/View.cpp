@@ -9,7 +9,7 @@
 
 void View::AddListener(Controller* controller) {
   _controller = controller;
-  _currentScript = "TestScript.txt";
+  _currentScript = "Robocup.txt";
 }
 
 void View::InitializeView() {

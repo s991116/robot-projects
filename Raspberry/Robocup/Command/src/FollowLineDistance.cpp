@@ -1,9 +1,10 @@
 #include <FollowLineDistance.h>
 
-FollowLineDistance::FollowLineDistance(RobotCamera* robotCamera, ComController* comController, FollowLineSetting* followLineSetting, DistanceCheck* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect) {
+FollowLineDistance::FollowLineDistance(RobotCamera* robotCamera, ComController* comController, FollowLineSetting* followLineSetting, DistanceCheck* check, LineDetect* bottomLineDetect, LineDetect* topLineDetect, Logging* logging) {
   _DistanceCheck = check;
   _ComController = comController;
-  _FollowLineCommand = new FollowLineCommand(robotCamera, comController, followLineSetting, check, bottomLineDetect, topLineDetect);
+  _Logging = logging;
+  _FollowLineCommand = new FollowLineCommand(robotCamera, comController, followLineSetting, check, bottomLineDetect, topLineDetect, logging);
 }
 
 std::string FollowLineDistance::Execute(vector<int> input) {

@@ -1,0 +1,63 @@
+////Move towards stairs from bottom
+//!CHECK -MODE 6 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+//
+//!DISTANCESENSOR -MINDISTANCE 0
+//!DISTANCESENSOR -MAXDISTANCE 60
+//!DISTANCESENSOR -CHECKINRANGE 1
+//!DISTANCESENSOR -RECHECK 1 
+//#LINE 0
+//
+////Change line to ramp-line (Turn left)
+//#SETDISTANCE -100, 4, 270, 0//dir, speed, distance, rotation
+//#STARTDISTANCE
+//
+//>FindLine.txt
+//
+////Turn right on the line
+//#SETDISTANCE 0, 5, 580, 0//dir, speed, distance, rotation
+//#SETDISTANCE 100, 4, 290, 0//dir, speed, distance, rotation
+//#STARTDISTANCE
+//
+////Center line
+//!TURNTOLINE -DIRECTIONTURN 1
+//!TURNTOLINE -DIRECTIONTURNSPEED 3
+//!TURNTOLINE -LINETHRESSHOLD 10
+//#TURNTOLINE
+//
+////Move up the ramp to first gate
+////Up the ramp
+//!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+//!PORT -COUNT 2
+//#LINE 0
+
+////Find turn-around spot
+//!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+//!DISTANCE -DISTANCE 500
+//#LINE 0
+
+//Find right line cross
+!CHECK -MODE 3 // 0=Port, 1=Distance, 2=LeftLine, 3=RightLine, 4=BottomLine, 5=TopLine, 6=DistanceSensor
+!RIGHTLINECHECK -RECHECK 1
+!RIGHTLINECHECK -NOLINECHECK 0
+!RIGHTLINECHECK -SEARCHAREAENABLED 1
+!RIGHTLINECHECK -MINSEARCHAREA 5
+!RIGHTLINECHECK -MAXSEARCHAREA 95
+#LINE
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 500
+#LINE 0
+
+//Turn around
+#SETDISTANCE -100, -4, 290, 0//dir, speed, distance, rotation
+#SETDISTANCE 100, 4, 290, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+#TURNTOLINE
+
+
+//Move down the stairs
