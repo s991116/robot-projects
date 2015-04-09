@@ -10,12 +10,14 @@ LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reche
   _SearchAreaEnablled = false;
   _SearchAreaMin = -1;
   _SearchAreaMax = 1;
+  _CameraMode = static_cast<int>(CameraMode::FOLLOW_LINE);
 
   SettingsInt["RECHECK"] = &_Recheck;
   SettingsBool["NOLINECHECK"] = &_NoLineCheck;
   SettingsBool["SEARCHAREAENABLED"] = &_SearchAreaEnablled;
   SettingsFloat["MINSEARCHAREA"] = &_SearchAreaMin;
   SettingsFloat["MAXSEARCHAREA"] = &_SearchAreaMax;
+  SettingsInt["CAMERAMODE"] = &_CameraMode;
  }
 
 void LineCheck::Prepare()
@@ -53,12 +55,17 @@ bool LineCheck::Test()
 }
 
 LineInfo* LineCheck::GetLinePosition() {
-  cv::Mat image = _RobotCamera->GetNextFrame(CameraMode::FOLLOW_LINE);
+  cv::Mat image = _RobotCamera->GetNextFrame(GetCameraMode());
   return _LineDetect->DetectLine(image);
+}
+
+CameraMode LineCheck::GetCameraMode() {
+  return static_cast<CameraMode> (_CameraMode);
 }
 
 std::string LineCheck::GetStatus() {
   LineInfo* lineInfo = GetLinePosition();
   std::string result = lineInfo->ToString() + "\n";
+  result += _LineDetect->ToString();
   return result;
 }

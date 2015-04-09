@@ -1,0 +1,85 @@
+>LineWidthBroad.txt
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 1000
+#LINE 0
+
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 5
+
+!CHECK -MODE 2 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!LEFTLINECHECK -RECHECK 0
+!LEFTLINECHECK -NOLINECHECK 1
+!LEFTLINECHECK -SEARCHAREAENABLED 0
+#LINE 0
+
+>LineWidthDefault.txt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 1200
+#LINE 0
+>LineWidthBroad.txt
+
+!CHECK -MODE 5 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!TOPLINECHECK -RECHECK 0
+!TOPLINECHECK -NOLINECHECK 0
+!TOPLINECHECK -SEARCHAREAENABLED 0
+#LINE 0
+
+#RESETMOVEMENT
+#DELAY 2000
+
+#SETDISTANCE    0, 3, 120, 0//dir, speed, distance, rotation
+#SETDISTANCE -100, 3, 110, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+!TURNTOLINE -CAMERAMODE 6
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#TURNTOLINE
+
+//Run slow up to door opens
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 500
+!FOLLOWLINE -CAMERAMODE 6
+!FOLLOWLINE -SPEEDFACTOR 0
+!FOLLOWLINE -MINSPEED 5
+!FOLLOWLINE -MAXSPEED 5
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT -POSITIONOFFSET 15 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 15 //Negative is line to the left, positive to the right
+#LINE 0
+
+//Run left to line until door opens
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 1
+!FOLLOWLINE -CAMERAMODE 6
+!FOLLOWLINE -SPEEDFACTOR 0
+!FOLLOWLINE -MINSPEED 9
+!FOLLOWLINE -MAXSPEED 11
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT -POSITIONOFFSET 15 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 15 //Negative is line to the left, positive to the right
+#LINE 0
+
+!FOLLOWLINE -CAMERAMODE 0
+!TOPLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+
+>Initialize.txt
+>LineWidthDefault.txt
+
+#RESETMOVEMENT
+#DELAY 1000

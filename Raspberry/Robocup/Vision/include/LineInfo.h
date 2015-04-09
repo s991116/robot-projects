@@ -6,6 +6,7 @@ class LineInfo {
 public:
     
     LineInfo(bool detected, int position, int imageWidth);
+    void SetPosition(int position);
     int GetPosition();
     float GetNormalizePosition();
     bool LineDetected();

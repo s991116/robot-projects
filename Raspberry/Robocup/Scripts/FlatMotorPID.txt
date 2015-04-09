@@ -1,0 +1,7 @@
+#SENDDATA 4, 4000 //Motor A P
+#SENDDATA 5, 0 //Motor A I
+#SENDDATA 6, 0 //Motor A D
+	
+#SENDDATA 8, 4000 //Motor B P
+#SENDDATA 9, 0 //Motor B I
+#SENDDATA 10, 0 //Motor B D

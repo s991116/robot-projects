@@ -7,6 +7,8 @@ LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThr
   PositionInt = position;
   LineDirectionInt = direction;
   BlackLine = blackLine;
+  PositionOffset = 0;
+  MinLineWidth = 0;
   
   SettingsInt["FILTERHALF"] = &FilterHalf;
   SettingsInt["FILTERTHRESSHOLD"] = &FilterThresshold;
@@ -17,6 +19,8 @@ LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThr
   SettingsInt["POSITIONY"] = &ROI.y;
   SettingsInt["POSITION"] = &PositionInt;
   SettingsInt["LINEDIRECTION"] = &LineDirectionInt;
+  SettingsInt["POSITIONOFFSET"] = &PositionOffset;
+  SettingsInt["MINLINEWIDTH"] = &MinLineWidth;
 }
 
 void LineDetectSetting::SetPosition(LineDetectSetting::PositionEnum positionEnum) {

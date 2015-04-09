@@ -49,7 +49,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   LineDetectSetting* topLineDetectSetting = new LineDetectSetting(topRoi, 10, 300, LineDetectSetting::CENTER, LineDetectSetting::VERTICAL, false);
   LineDetect* topLineDetect = new LineDetect(topLineDetectSetting, loggingSetting->GetLogging());
 
-  cv::Rect bottomRoi(0, 200, 320, 2);
+  cv::Rect bottomRoi(0, 220, 320, 2);
   LineDetectSetting* bottomLineDetectSetting = new LineDetectSetting(bottomRoi, 10, 300, LineDetectSetting::CENTER, LineDetectSetting::VERTICAL, false);
   LineDetect* bottomLineDetect = new LineDetect(bottomLineDetectSetting, loggingSetting->GetLogging());
 

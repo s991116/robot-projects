@@ -1,6 +1,5 @@
 #SETDISTANCE 0, 7, 550, 0//dir, speed, distance, rotation
 #SETDISTANCE 100, 4, 200, 0//dir, speed, distance, rotation
-
 #STARTDISTANCE
 
 !TURNTOLINE -DIRECTIONTURN 1

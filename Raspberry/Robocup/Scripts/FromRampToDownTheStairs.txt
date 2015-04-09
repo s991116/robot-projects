@@ -1,0 +1,35 @@
+//Pass the tilt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 600
+#LINE 0
+
+//Turn left down towards stairs
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT -POSITIONOFFSET 70 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 70 //Negative is line to the left, positive to the right
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 5
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 600
+#LINE 0
+
+//Down the stairs the first 2 port
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 4
+#LINE 0
+
+//Last part of the stairs
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 600
+#LINE 0
+
+
+!FOLLOWLINE -MAXSPEED 12
+!FOLLOWLINE -MINSPEED 8

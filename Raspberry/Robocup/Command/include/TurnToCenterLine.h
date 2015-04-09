@@ -17,6 +17,7 @@ public:
 private:
     bool LineNotInCenter(LineInfo* lineInfo);
     void TurnRobot(LineInfo* lineInfo, ComController* comController);
+    CameraMode GetCameraMode();
 
     RobotCamera* _RobotCamera;
     ComController* _ComController;
@@ -26,6 +27,8 @@ private:
     int _DirectionTurnSpeed;
     float _LineDetectThresshold;
     int _DirectionTurnFactor;
+    int _CameraMode;
+
 };
 
 #endif	/* TURNTOCENTERLINE_H */

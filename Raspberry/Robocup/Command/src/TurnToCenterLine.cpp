@@ -9,17 +9,19 @@ TurnToCenterLine::TurnToCenterLine(RobotCamera* robotCamera, ComController* comC
   _DirectionTurnFactor = 100;
   _DirectionTurnSpeed = 3;
   _LineDetectThresshold = 0.1;
+  _CameraMode = static_cast<int>(CameraMode::FOLLOW_LINE);
   
   SettingsInt["DIRECTIONTURN"] = &_DirectionTurn;
   SettingsInt["DIRECTIONTURNSPEED"] = &_DirectionTurnSpeed;
   SettingsFloat["LINETHRESSHOLD"] = &_LineDetectThresshold;
+  SettingsInt["CAMERAMODE"] = &_CameraMode;
 }
 
 std::string TurnToCenterLine::Execute(std::vector<int> input) {
 
   LineInfo* bottomLineInfo;
   do{
-    cv::Mat image = _RobotCamera->GetNextFrame(CameraMode::FOLLOW_LINE);  
+    cv::Mat image = _RobotCamera->GetNextFrame(GetCameraMode());  
     bottomLineInfo = _BottomLineDetect->DetectLine(image);
     TurnRobot(bottomLineInfo, _ComController);
   }while(LineNotInCenter(bottomLineInfo));
@@ -31,6 +33,10 @@ std::string TurnToCenterLine::Execute(std::vector<int> input) {
   _ComController->SetDirection(_Direction);
 
   return "";
+}
+
+CameraMode TurnToCenterLine::GetCameraMode() {
+  return static_cast<CameraMode> (_CameraMode);
 }
 
 bool TurnToCenterLine::LineNotInCenter(LineInfo* lineInfo) {

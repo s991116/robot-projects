@@ -28,6 +28,8 @@ public:
     int FilterHalf;
     int FilterThresshold;    
     bool BlackLine;
+	int PositionOffset;
+	int MinLineWidth;
     
 private:
     int PositionInt;

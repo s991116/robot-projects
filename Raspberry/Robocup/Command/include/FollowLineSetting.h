@@ -4,12 +4,14 @@
 #include <Setting.h>
 #include <Direction.h>
 #include <LineInfo.h>
+#include <RobotCamera.h>
 
 class FollowLineSetting : public Setting {
 public: 
     FollowLineSetting(int correctionFactor, float speedFactor, int maxSpeed, int minSpeed);
     Direction* GetDirection(LineInfo* bottomLine, LineInfo* topLine);
-
+    CameraMode GetCameraMode();
+	
 private:
     float GetPosition(LineInfo* bottomLine, float* lastPosition);
 
@@ -18,6 +20,7 @@ private:
     float _SpeedFactor;
     int _MaxSpeed;
     int _MinSpeed;
+	int _CameraMode;
     float _LastBottomPosition;
     float _LastTopPosition;
 };

@@ -1,0 +1,39 @@
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT -POSITIONOFFSET 60 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 60 //Negative is line to the left, positive to the right
+!PORT -COUNT 2
+#LINE 0
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 500
+#LINE 0
+
+!CHECK -MODE 6 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCESENSOR -MINDISTANCE 0
+!DISTANCESENSOR -MAXDISTANCE 25
+!DISTANCESENSOR -CHECKINRANGE 1
+!DISTANCESENSOR -RECHECK 1
+!TOPLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+#LINE 0
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 230
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#TURNTOLINE
+
+!LEFTLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+>FindLine.txt
+

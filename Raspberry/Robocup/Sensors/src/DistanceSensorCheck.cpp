@@ -31,6 +31,7 @@ std::string DistanceSensorCheck::GetStatus() {
 
 bool DistanceSensorCheck::Test() {
   int distance = _ComController->GetDistanceSensor();
+
   if(CheckInRange)
   {
     if(distance >= MaxDistance || distance <= MinDistance)
@@ -56,12 +57,12 @@ bool DistanceSensorCheck::Test() {
 
   if(PositiveCheck <= ReCheck)
   {
-    _Logging->Log("Distance sensor check running.");
+//   _Logging->Log("Distance sensor check running.");
     return true;
   }
   else
   {
-    _Logging->Log("Distance sensor check done.");
+//    _Logging->Log("Distance sensor check done.");
     return false;
   }
 }

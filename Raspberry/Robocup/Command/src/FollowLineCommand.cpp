@@ -23,7 +23,7 @@ std::string FollowLineCommand::Execute() {
   _Check->Prepare();
 
   while (_Check->Test()) {
-    cv::Mat imageMat = _RobotCamera->GetNextFrame(CameraMode::FOLLOW_LINE);
+    cv::Mat imageMat = _RobotCamera->GetNextFrame(_FollowLineSetting->GetCameraMode());
     LineInfo* bottomLine = _BottomLineDetect->DetectLine(imageMat);
     LineInfo* topLine = _TopLineDetect->DetectLine(imageMat);
 //    _Logging->Log(bottomLine->ToString());

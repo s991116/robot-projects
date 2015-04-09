@@ -17,6 +17,7 @@ public:
 
 private:
   LineInfo* GetLinePosition();
+  CameraMode GetCameraMode();
   LineDetect* _LineDetect;
   RobotCamera* _RobotCamera;
   int _PositiveTest;
@@ -25,6 +26,7 @@ private:
   bool _SearchAreaEnablled;
   float _SearchAreaMin;
   float _SearchAreaMax;
+  int _CameraMode;
 
 };
 

@@ -2,10 +2,16 @@
 
 >Initialize.txt
 
-//>WaitForStart.txt
+>Whiteline.txt
+
+>WaitForStart.txt
 
 //>StartToRamp.txt
 
-//>FromRampToDownTheTilt.txt
+//>FromRampToDownTheStairs.txt
 
->UpTheRampAndDownTheStairs.txt
+>FromBottomStairsToDoubleGate.txt
+
+>RacingCurve.txt
+
+>FromRacingCurveToFrontOfDoubleGate.txt

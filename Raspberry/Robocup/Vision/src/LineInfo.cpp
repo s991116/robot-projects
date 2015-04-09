@@ -8,6 +8,11 @@ LineInfo::LineInfo(bool detected, int position, int imageWidth) {
     this->ImageWidth = imageWidth;
 }
 
+void LineInfo::SetPosition(int position)
+{
+	this->Position = position;
+}
+
 int LineInfo::GetPosition()
 {
     return this->Position;

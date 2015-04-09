@@ -1,0 +1,126 @@
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 30
+!FOLLOWLINE -MAXSPEED 5
+!FOLLOWLINE -MINSPEED 5
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE    0, 5, 400, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE 100, 3, 100, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#TURNTOLINE
+
+//Move over cross
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 800
+!FOLLOWLINE -MAXSPEED 5
+!FOLLOWLINE -MINSPEED 5
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+>LineWidthBroad.txt
+//Move line entrance detected
+!CHECK -MODE 2 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 1
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT    -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!LEFTLINEDETECT   -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!LEFTLINEDETECT   -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!LEFTLINECHECK -CAMERAMODE 7
+!FOLLOWLINE -CAMERAMODE 7
+!FOLLOWLINE -MAXSPEED 4
+!FOLLOWLINE -MINSPEED 4
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Move over entrance line
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 170
+!FOLLOWLINE -MAXSPEED 5
+!FOLLOWLINE -MINSPEED 5
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn towards entrance line
+#SETDISTANCE -100, 3, 150, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Center line
+!TURNTOLINE -DIRECTIONTURN -1
+!TURNTOLINE -DIRECTIONTURNSPEED 3
+!TURNTOLINE -LINETHRESSHOLD 10
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#TURNTOLINE
+
+
+//Move to start of first gate
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 1
+#LINE 0
+
+//Move line for gate exit detected
+!CHECK -MODE 3 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!TOPLINEDETECT    -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!RIGHTLINEDETECT   -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINEDETECT   -POSITIONOFFSET 0 //Negative is line to the left, positive to the right
+!RIGHTLINECHECK -CAMERAMODE 7
+
+!FOLLOWLINE -CAMERAMODE 7
+!FOLLOWLINE -MAXSPEED 4
+!FOLLOWLINE -MINSPEED 4
+#LINE 0
+
+
+
+#QUIT
+
+
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+>LineWidthBroad.txt
+!DISTANCE -DISTANCE 340
+!TOPLINEDETECT -POSITIONOFFSET -25 //Negative is line to the left, positive to the right
+!BOTTOMLINEDETECT -POSITIONOFFSET -25 //Negative is line to the left, positive to the right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE    0, 3, 120, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE 100, 3, 110, 0//dir, speed, distance, rotation
+#STARTDISTANCE

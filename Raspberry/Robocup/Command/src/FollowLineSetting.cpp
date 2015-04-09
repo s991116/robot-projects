@@ -7,11 +7,17 @@ FollowLineSetting::FollowLineSetting(int correctionFactor, float speedFactor, in
   _SpeedFactor = speedFactor;
   _MaxSpeed = maxSpeed;
   _MinSpeed = minSpeed;
+  _CameraMode = static_cast<int>(CameraMode::FOLLOW_LINE);
 
   SettingsInt["CORRECTIONFACTOR"] = &_CorrectionFactor;
   SettingsFloat["SPEEDFACTOR"] = &_SpeedFactor;
   SettingsInt["MAXSPEED"] = &_MaxSpeed;
   SettingsInt["MINSPEED"] = &_MinSpeed;  
+  SettingsInt["CAMERAMODE"] = &_CameraMode;
+}
+
+CameraMode FollowLineSetting::GetCameraMode() {
+  return static_cast<CameraMode> (_CameraMode);
 }
 
 Direction* FollowLineSetting::GetDirection(LineInfo* bottomLine, LineInfo* topLine) {

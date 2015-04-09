@@ -1,0 +1,20 @@
+////Find left line cross
+!CHECK -MODE 3 // 0=Port, 1=Distance, 2=LeftLine, 3=RightLine, 4=BottomLine, 5=TopLine, 6=DistanceSensor
+
+!RIGHTLINECHECK -RECHECK 1
+!RIGHTLINECHECK -NOLINECHECK 0
+!RIGHTLINECHECK -SEARCHAREAENABLED 1
+!RIGHTLINECHECK -MINSEARCHAREA 5
+!RIGHTLINECHECK -MAXSEARCHAREA 95
+
+#LINE
+
+//Turn towards right line cross
+!CHECK -MODE 1 // 0=Port, 1=Distance, 2=LeftLine, 3=RightLine, 4=BottomLine, 5=TopLine, 6=DistanceSensor
+!DISTANCE -DISTANCE 450
+#LINE
+
+#SETDISTANCE 100, 3, 200, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+//-135

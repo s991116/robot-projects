@@ -32,8 +32,10 @@ private:
     int MinFilterIndex;
     int* FilterResult;
     LineInfo* EdgeFilter(int* intensityLine);
+    LineInfo* EdgeFilterOnly(int* intensityLine);
     int FilterFirstHalf(int* intensityLine);
     int FilterSecondHalf(int* intensityLine);
+    void OffsetLine(LineInfo* lineInfo, int positionOffset);
     void LogFilterResult(int MinFilterValue, int MaxFilterValue, int centerIndex);
 };
 
