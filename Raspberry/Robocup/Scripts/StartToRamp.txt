@@ -1,10 +1,18 @@
 //Off the start platform
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !DISTANCE -DISTANCE 300
+>LineWidthBroad.txt
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
 #LINE 0
 
 //Up the flat ramp
 !CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !PORT -COUNT 6
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
 #LINE 0
+>LineWidthDefault.txt
 

@@ -1,0 +1,93 @@
+//Towards the tilt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 1300
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Stop at line towards tilt
+!CHECK -MODE 3 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!FOLLOWLINE -MAXSPEED 5
+!FOLLOWLINE -MINSPEED 5
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINECHECK -RECHECK 0
+!RIGHTLINECHECK -NOLINECHECK 1
+!RIGHTLINECHECK -SEARCHAREAENABLED 0
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn to line down the hill
+#SETDISTANCE 0, 3, 270, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>FlatMotorPID.txt
+#SETDISTANCE 100, 4, 280, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 4
+#TURNTOLINE
+
+>DefaultMotorPID.txt
+
+//Out on the tilt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 800
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Last part of the tilt to the port
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 1
+!FOLLOWLINE -MAXSPEED 5
+!FOLLOWLINE -MINSPEED 5
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Find line after tilt
+>DefaultMotorPID.txt
+!SEARCHFORLINE -SEARCHSPEED 6
+#SEARCHFORLINE
+
+!NAVIGATETOLINE -DISTANCEOFFSET 0
+#NAVIGATETOLINE
+
+!NAVIGATETOLINE -DISTANCEOFFSET -30
+#NAVIGATETOLINE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn right on line
+>FlatMotorPID.txt
+#SETDISTANCE 0, 5, 550, 0//dir, speed, distance, rotation
+#SETDISTANCE 100, 4, 200, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+!TURNTOLINE -DIRECTIONTURN 1
+#TURNTOLINE

@@ -1,0 +1,69 @@
+>LineWidthBroad.txt
+
+//To the start of the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 800
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//To the start of the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+
+
+//To Start ramp
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+//To down the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 1000
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//To front of goal
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 5000
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+
+//To Goal
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+>LineWidthDefault.txt
