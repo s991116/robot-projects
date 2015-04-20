@@ -7,7 +7,7 @@
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 1300
+!DISTANCE -DISTANCE 1500
 !FOLLOWLINE -MAXSPEED 7
 !FOLLOWLINE -MINSPEED 5
 #LINE 0

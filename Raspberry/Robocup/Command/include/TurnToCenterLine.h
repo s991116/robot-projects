@@ -11,7 +11,7 @@
 
 class TurnToCenterLine : public Command , public Setting {
 public:
-    TurnToCenterLine(RobotCamera* robotCamera, ComController* comController, LineDetect* bottomLineDetect);
+    TurnToCenterLine(RobotCamera* robotCamera, ComController* comController, LineDetect* bottomLineDetect, LineDetect* topLineDetect);
     std::string Execute(std::vector<int> input);
 
 private:
@@ -21,6 +21,7 @@ private:
 
     RobotCamera* _RobotCamera;
     ComController* _ComController;
+	LineDetect* _TopLineDetect;
     LineDetect* _BottomLineDetect;
     Direction* _Direction;
     int _DirectionTurn;
@@ -28,6 +29,7 @@ private:
     float _LineDetectThresshold;
     int _DirectionTurnFactor;
     int _CameraMode;
+	bool _BottomLineEnabled;
 
 };
 

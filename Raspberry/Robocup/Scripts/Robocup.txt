@@ -5,19 +5,16 @@
 >Whiteline.txt
 
 >WaitForStart.txt
-
->StartToRamp.txt
-
->FromRampToDownTheStairs.txt
-
->FromBottomStairsToUpTheHill.txt
+//
+//>StartToRamp.txt
+//
+//>FromRampToDownTheStairs.txt
+//
+//>FromBottomStairsToUpTheHill.txt
 
 >FromUpTheHillToDownTheTilt.txt
 
-//>FromBottomStairsToDoubleGate.txt
-//>RacingCurve.txt
-//>FromRacingCurveToFrontOfDoubleGate.txt
-
+>FromDownTheTiltToRaceTrack.txt
 
 //>RaceTrack.txt
 //>FromRaceTrackToAxePort.txt

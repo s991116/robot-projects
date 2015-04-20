@@ -1,30 +1,40 @@
 #include <TurnToCenterLine.h>
 
-TurnToCenterLine::TurnToCenterLine(RobotCamera* robotCamera, ComController* comController, LineDetect* bottomLineDetect) {
+TurnToCenterLine::TurnToCenterLine(RobotCamera* robotCamera, ComController* comController, LineDetect* bottomLineDetect, LineDetect* topLineDetect) {
   _RobotCamera = robotCamera;
   _ComController = comController;
   _BottomLineDetect = bottomLineDetect;
+  _TopLineDetect = topLineDetect;  
   _Direction = new Direction(0, 0, 0);
   _DirectionTurn = 1;
   _DirectionTurnFactor = 100;
   _DirectionTurnSpeed = 3;
   _LineDetectThresshold = 0.1;
+  _BottomLineEnabled = true;
   _CameraMode = static_cast<int>(CameraMode::FOLLOW_LINE);
   
   SettingsInt["DIRECTIONTURN"] = &_DirectionTurn;
   SettingsInt["DIRECTIONTURNSPEED"] = &_DirectionTurnSpeed;
+  SettingsInt["DIRECTIONTURNFACTOR"] = &_DirectionTurnFactor;
+
   SettingsFloat["LINETHRESSHOLD"] = &_LineDetectThresshold;
+  SettingsBool["BOTTOM_LINE_DETECT"] = &_BottomLineEnabled;
+
   SettingsInt["CAMERAMODE"] = &_CameraMode;
 }
 
 std::string TurnToCenterLine::Execute(std::vector<int> input) {
 
-  LineInfo* bottomLineInfo;
+  LineInfo* lineInfo;
   do{
     cv::Mat image = _RobotCamera->GetNextFrame(GetCameraMode());  
-    bottomLineInfo = _BottomLineDetect->DetectLine(image);
-    TurnRobot(bottomLineInfo, _ComController);
-  }while(LineNotInCenter(bottomLineInfo));
+    if(_BottomLineEnabled)
+        lineInfo = _BottomLineDetect->DetectLine(image);
+	else
+        lineInfo = _TopLineDetect->DetectLine(image);
+
+    TurnRobot(lineInfo, _ComController);
+  }while(LineNotInCenter(lineInfo));
 
   _Direction->SetDirection(0);
   _Direction->SetRotation(0);

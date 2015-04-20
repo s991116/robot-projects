@@ -90,7 +90,7 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
   FindLineSetting* findLineSetting = new FindLineSetting(leftLineDetect, rightLineDetect, topLineDetect);
   SearchForLine* searchForLine = new SearchForLine(findLineSetting, comController, robotCamera);
   NavigateToLine* navigateToLine = new NavigateToLine(findLineSetting, comController, robotCamera);
-  TurnToCenterLine* turnToLine = new TurnToCenterLine(robotCamera, comController, bottomLineDetect);
+  TurnToCenterLine* turnToLine = new TurnToCenterLine(robotCamera, comController, bottomLineDetect, topLineDetect);
 
   DetectObject* detectObject = new DetectColoredObject();
   NavigateToBall* navigateToBall = new NavigateToBall(robotCamera, detectObject, comController);
