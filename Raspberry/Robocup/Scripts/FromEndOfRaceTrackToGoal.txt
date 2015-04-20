@@ -1,0 +1,37 @@
+//Drive straight
+>FlatMotorPID.txt
+#SETDISTANCE  0, 6, 800, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+>DefaultMotorPID.txt
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn Left
+>FlatMotorPID.txt
+#SETDISTANCE -100, 5, 200, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+#RESETMOVEMENT 0
+#DELAY 1000
+>DefaultMotorPID.txt
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn Left until line found
+>LineWidthBroad.txt
+!TURNTOLINE -DIRECTIONTURN -1
+!TURNTOLINE -DIRECTIONTURNSPEED 5
+#TURNTOLINE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Center line to goal
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
+#LINE 0

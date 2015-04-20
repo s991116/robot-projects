@@ -1,0 +1,58 @@
+//From end of Axeport straight towards front of racecurve
+>LineWidthBroad.txt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 2900
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 7
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Find Right turn to goal
+>LineWidthDefault.txt
+!CHECK -MODE 3 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINECHECK -RECHECK 0
+!RIGHTLINECHECK -NOLINECHECK 1
+!RIGHTLINECHECK -SEARCHAREAENABLED 0
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Drive straight over to turn to goal
+>FlatMotorPID.txt
+#SETDISTANCE  0, 6, 1200, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>DefaultMotorPID.txt
+>LineWidthBroad.txt
+
+//Up to the racecurve
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 200
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+#LINE 0
+
+//Through the racecurve
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 15
+!FOLLOWLINE -MINSPEED 15
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000

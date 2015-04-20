@@ -16,4 +16,12 @@
 
 >AxePort.txt
 
->FromAxePortToGoal.txt
+>FromAxePortToFrontOfRaceCurve.txt
+>FromEndOfRaceTrackToGoal.txt
+
+#QUIT
+
+//Can replace FromAxePortToFrontOfRaceCurve.txt AND FromEndOfRaceTrackToGoal.txt
+//>FromAxePortToGoal.txt
+
+
