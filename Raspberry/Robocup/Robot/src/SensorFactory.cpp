@@ -76,10 +76,10 @@ SensorFactory::SensorFactory(map<string, int> commands, string path) {
 
   DistanceSensorCheck* distanceSensorCheck = new DistanceSensorCheck(comController, cameraNavigation, loggingSetting->GetLogging());
 
-  LineCheck* leftLineCheck   = new LineCheck(leftLineDetect,   robotCamera, 1, true);
-  LineCheck* rightLineCheck  = new LineCheck(rightLineDetect,  robotCamera, 1, true);
-  LineCheck* topLineCheck    = new LineCheck(topLineDetect,    robotCamera, 1, false);
-  LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, robotCamera, 1, false);
+  LineCheck* leftLineCheck   = new LineCheck(leftLineDetect,   robotCamera, 1, true, loggingSetting->GetLogging());
+  LineCheck* rightLineCheck  = new LineCheck(rightLineDetect,  robotCamera, 1, true, loggingSetting->GetLogging());
+  LineCheck* topLineCheck    = new LineCheck(topLineDetect,    robotCamera, 1, false, loggingSetting->GetLogging());
+  LineCheck* bottomLineCheck = new LineCheck(bottomLineDetect, robotCamera, 1, false, loggingSetting->GetLogging());
 
   SwitchCheck* switchCheck = new SwitchCheck(comController, portCheck, distanceCheck, leftLineCheck, rightLineCheck, bottomLineCheck, topLineCheck, distanceSensorCheck);
 

@@ -6,10 +6,11 @@
 #include <LineDetect.h>
 #include <RobotCamera.h>
 #include <SensorInfo.h>
+#include <Logging.h>
 
 class LineCheck : public Check, public Setting, public SensorInfo {
 public:
-  LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reCheck, bool noLineCheck);
+  LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reCheck, bool noLineCheck, Logging* logging);
   void Prepare();
   bool Test();
   std::string GetInfo();
@@ -30,6 +31,7 @@ private:
   bool _LineWidthCheckEnabled;
   int _MinLineWidth;
   int _MaxLineWidth;
+  Logging* _Logging;
 };
 
 #endif	/* LINECHECK_H */

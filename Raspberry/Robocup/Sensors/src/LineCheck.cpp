@@ -1,7 +1,7 @@
 #include <LineCheck.h>
 #include <LineInfo.h>
 
-LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int recheck, bool noLineCheck) {
+LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int recheck, bool noLineCheck, Logging* logging) {
   _LineDetect = lineDetect;
   _RobotCamera = robotCamera;
   _Recheck = recheck;
@@ -15,6 +15,8 @@ LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reche
   _LineWidthCheckEnabled = false;
   _MinLineWidth = 0;
   _MaxLineWidth = 1000;
+  
+  _Logging = logging;
 
   SettingsInt["RECHECK"] = &_Recheck;
   SettingsBool["NOLINECHECK"] = &_NoLineCheck;
@@ -35,6 +37,7 @@ void LineCheck::Prepare()
 bool LineCheck::Test()
 {
   LineInfo* lineInfo = GetLinePosition();
+
   if(!_SearchAreaEnablled)
   {
     if(lineInfo->LineDetected() == _NoLineCheck)
@@ -57,6 +60,7 @@ bool LineCheck::Test()
   }
   else
   {
+
     float linePosition = lineInfo->GetNormalizePosition();
     if(lineInfo->LineDetected() && linePosition >=_SearchAreaMin && linePosition <= _SearchAreaMax)
     {
