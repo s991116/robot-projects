@@ -9,6 +9,7 @@ CameraNavigation::CameraNavigation(ComController* comController) {
   _Settings[CameraPosition::FLOOR_DISTANCE] =        new CameraNavigationSetting(11, 88);
   _Settings[CameraPosition::FOLLOW_LEFT_TO_LINE] =   new CameraNavigationSetting(30, 94);
   _Settings[CameraPosition::FOLLOW_WITH_DOOR_OPEN] = new CameraNavigationSetting(16, 54);
+  _Settings[CameraPosition::FOLLOW_LINE_FAST] =      new CameraNavigationSetting(42, 54);
   
   SetCameraServoPosition(CameraPosition::FOLLOW_LINE);
 }

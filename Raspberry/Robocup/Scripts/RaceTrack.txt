@@ -1,0 +1,58 @@
+>FlatMotorPID.txt
+>LineWidthBroad.txt
+
+//Into port
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = center, 2 = right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = center, 2 = right
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!FOLLOWLINE -CAMERAMODE 8 //Fast
+!PORT -COUNT 1
+#LINE 0
+
+//Keep right until cross
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = center, 2 = right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = center, 2 = right
+!FOLLOWLINE -MAXSPEED 20
+!FOLLOWLINE -MINSPEED 18
+!FOLLOWLINE -CORRECTIONFACTOR 65//Default 100
+!FOLLOWLINE -SPEEDFACTOR 5//Default 5
+!FOLLOWLINE -CAMERAMODE 8 //Fast
+!DISTANCE -DISTANCE 1700
+#LINE 0
+
+//Run over cross
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = center, 2 = right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = center, 2 = right
+!FOLLOWLINE -MAXSPEED 20
+!FOLLOWLINE -MINSPEED 18
+!FOLLOWLINE -CORRECTIONFACTOR 65//Default 100
+!FOLLOWLINE -SPEEDFACTOR 5//Default 5
+!FOLLOWLINE -CAMERAMODE 8 //Fast
+!DISTANCE -DISTANCE 1200
+#LINE 0
+
+
+//Run until port
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 1
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = center, 2 = right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = center, 2 = right
+!FOLLOWLINE -MAXSPEED 20
+!FOLLOWLINE -MINSPEED 18
+!FOLLOWLINE -CORRECTIONFACTOR 65//Default 100
+!FOLLOWLINE -SPEEDFACTOR 5//Default 5
+!FOLLOWLINE -CAMERAMODE 8 //Fast
+!DISTANCE -DISTANCE 1200
+#LINE 0
+
+!FOLLOWLINE -CAMERAMODE 0 //Normal
+!FOLLOWLINE -CORRECTIONF ACTOR 100//Default 100
+!FOLLOWLINE -SPEEDFACTOR 5 //Default 5
+//Keep right until port 
+
+#RESETMOVEMENT 0
+#DELAY 1000
