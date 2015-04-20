@@ -1,7 +1,13 @@
-#SENDDATA 4, 4000 //Motor A P
-#SENDDATA 5, 0 //Motor A I
-#SENDDATA 6, 0 //Motor A D
-	
-#SENDDATA 8, 4000 //Motor B P
-#SENDDATA 9, 0 //Motor B I
-#SENDDATA 10, 0 //Motor B D
+//Move by direction PID
+
+#SENDDATA 23,   0//#define CMD_SET_DIR_KP (23)
+#SENDDATA 24,   0//#define CMD_SET_DIR_KI (24)
+#SENDDATA 25,   0//#define CMD_SET_DIR_KD (25)
+
+#SENDDATA 4, 3500// CMD_SET_MOTOR_A_KP   (4) (26)
+#SENDDATA 5,    0// CMD_SET_MOTOR_A_KI   (5) (16)
+#SENDDATA 6,   10// CMD_SET_MOTOR_A_KD   (6)
+
+#SENDDATA  8, 3500// CMD_SET_MOTOR_B_KP   (8) (25)
+#SENDDATA  9,    0// CMD_SET_MOTOR_B_KI   (9) (16)
+#SENDDATA 10,   10// CMD_SET_MOTOR_B_KD   (10)

@@ -90,7 +90,7 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
   MaxFilterIndex = middle;
   MinFilterValue = MaxFilterValue;
   MinFilterIndex = MaxFilterIndex;
-
+  
   for (int start = 0; start < _SearchWidth - 2 * _LineDetectSetting->FilterHalf; start++) {
     sumFirstHalf = sumFirstHalf - intensityLine[start] + intensityLine[middle];
     sumSecondHalf = sumSecondHalf - intensityLine[middle] + intensityLine[end];
@@ -122,16 +122,18 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
   }
 
   if (_LineDetectSetting->GetPosition() == LineDetectSetting::CENTER) {
+	int minLineWidth = 1;
     if (MaxFilterValue > _LineDetectSetting->FilterThresshold || MinFilterValue < -_LineDetectSetting->FilterThresshold) {
       if (MaxFilterIndex > MinFilterIndex) {
-        int centerIndex = MinFilterIndex + (MaxFilterIndex - MinFilterIndex) / 2;
+		int lineWidth = MaxFilterIndex - MinFilterIndex;
+        int centerIndex = MinFilterIndex + (lineWidth) / 2;
 		//LogFilterResult(MinFilterValue, MaxFilterValue, centerIndex);
-        return new LineInfo(true, centerIndex, _SearchWidth);
+        return new LineInfo(true, centerIndex, _SearchWidth, lineWidth);
       }
       if (MaxFilterValue < -MinFilterValue) {
-        return new LineInfo(true, _LineDetectSetting->ROI.width, _SearchWidth);
+        return new LineInfo(true, _LineDetectSetting->ROI.width, _SearchWidth, minLineWidth);
       } else {
-        return new LineInfo(true, 0, _SearchWidth);
+        return new LineInfo(true, 0, _SearchWidth, minLineWidth);
       }
     }
   }
@@ -225,22 +227,30 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
     	} else {
         	if(MinFilterValueFound && MaxFilterValueFound)
         	{
-        		int centerindex	= (MinFilterIndex + MaxFilterIndex)/2;
+		        int lineWidth = MaxFilterIndex - MinFilterIndex;
+				if(lineWidth < 0)
+					lineWidth = -lineWidth;
+				
+		        int centerindex	= (MinFilterIndex + MaxFilterIndex)/2;
 				if (_LineDetectSetting->GetPosition() == LineDetectSetting::RIGHT)
 				{
 					centerindex = _SearchWidth - centerindex;
 				}
  //            	_logging->Log("Centerindex:" , centerindex);
-                return new LineInfo(true, centerindex, _SearchWidth);
+                return new LineInfo(true, centerindex, _SearchWidth, lineWidth);
         	}
     	}
 	}
   }
   if(MinFilterValueFound && MaxFilterValueFound)
   {
+    int lineWidth = MaxFilterIndex - MinFilterIndex;
+    if(lineWidth < 0)
+    	lineWidth = -lineWidth;
+
   	int centerindex = (MinFilterIndex + MaxFilterIndex)/2;
 	//_logging->Log("Centerindex:" , centerindex);
-      return new LineInfo(true, centerindex, _SearchWidth);
+      return new LineInfo(true, centerindex, _SearchWidth, lineWidth);
   }
   return new LineInfo(false, 0, _SearchWidth);
 }

@@ -27,7 +27,9 @@ private:
   float _SearchAreaMin;
   float _SearchAreaMax;
   int _CameraMode;
-
+  bool _LineWidthCheckEnabled;
+  int _MinLineWidth;
+  int _MaxLineWidth;
 };
 
 #endif	/* LINECHECK_H */

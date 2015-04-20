@@ -4,9 +4,9 @@
 #include <map>
 #include <MoveCommand.h>
 
-#define SPEEDSTRAIGHT (20)
-#define SPEEDTURN (14)
-#define DIRTURN (75)
+#define SPEEDSTRAIGHT (15)
+#define SPEEDTURN (10)
+#define DIRTURN (100)
 
 struct SpeedControl {
 

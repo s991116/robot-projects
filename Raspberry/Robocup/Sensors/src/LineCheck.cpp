@@ -11,6 +11,10 @@ LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reche
   _SearchAreaMin = -1;
   _SearchAreaMax = 1;
   _CameraMode = static_cast<int>(CameraMode::FOLLOW_LINE);
+  
+  _LineWidthCheckEnabled = false;
+  _MinLineWidth = 0;
+  _MaxLineWidth = 1000;
 
   SettingsInt["RECHECK"] = &_Recheck;
   SettingsBool["NOLINECHECK"] = &_NoLineCheck;
@@ -18,6 +22,9 @@ LineCheck::LineCheck(LineDetect* lineDetect, RobotCamera* robotCamera, int reche
   SettingsFloat["MINSEARCHAREA"] = &_SearchAreaMin;
   SettingsFloat["MAXSEARCHAREA"] = &_SearchAreaMax;
   SettingsInt["CAMERAMODE"] = &_CameraMode;
+  SettingsBool["LINEWIDTHCHECK"] = &_LineWidthCheckEnabled;
+  SettingsInt["MINLINEWIDTH"] = &_MinLineWidth;
+  SettingsInt["MAXLINEWIDTH"] = &_MaxLineWidth;
  }
 
 void LineCheck::Prepare()
@@ -37,7 +44,16 @@ bool LineCheck::Test()
     else{
       _PositiveTest = 0;
     }
-    return (_PositiveTest <= _Recheck);
+  }
+  else if(_LineWidthCheckEnabled)
+  {
+	 if(lineInfo->LineDetected() && lineInfo->GetLineWidth() > _MinLineWidth && lineInfo->GetLineWidth() < _MaxLineWidth)
+    {
+      _PositiveTest++;
+    }
+    else{
+      _PositiveTest = 0;
+    }
   }
   else
   {
@@ -50,8 +66,8 @@ bool LineCheck::Test()
     else{
       _PositiveTest = 0;
     }
-    return (_PositiveTest <= _Recheck);
   }
+  return (_PositiveTest <= _Recheck);
 }
 
 LineInfo* LineCheck::GetLinePosition() {

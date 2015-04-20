@@ -6,8 +6,8 @@ SwitchCheck::SwitchCheck(ComController* comController, Check* portCheck, Check* 
   _PortCheck = portCheck;
   _DistanceCheck = distanceCheck;
   _LeftLineCheck = leftLineCheck;
-  _RightLineCheck = bottomLineCheck;
-  _TopLineCheck = leftLineCheck;
+  _RightLineCheck = rightLineCheck;
+  _TopLineCheck = topLineCheck;
   _BottomLineCheck = bottomLineCheck;
   _DistanceSensorCheck = distanceSensorCheck;
   

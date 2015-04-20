@@ -1,0 +1,89 @@
+>LineWidthBroad.txt
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 1500
+#LINE 0
+
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 5
+
+//Turn around
+>TurnAround.txt
+
+>FlatMotorPID.txt
+
+//Find line to ramp
+>LineWidthDefault.txt
+!CHECK -MODE 5 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+
+!TOPLINECHECK -LINEWIDTHCHECK 1
+!TOPLINECHECK -MINLINEWIDTH 50
+!TOPLINECHECK -MAXLINEWIDTH 1000 
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
+#LINE 0
+!TOPLINECHECK -LINEWIDTHCHECK 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE    0, 8, 2100, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+#SETDISTANCE  -100, -4, 260, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>LineWidthBroad.txt
+!TURNTOLINE -DIRECTIONTURN -1
+#TURNTOLINE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>DefaultMotorPID.txt
+
+//Up the ramp to first port
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Towards the tilt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 1500
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Stop at line towards tilt
+!CHECK -MODE 2 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!FOLLOWLINE -MAXSPEED 6
+!FOLLOWLINE -MINSPEED 6
+!TOPLINEDETECT    -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
+!LEFTLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!LEFTLINECHECK -RECHECK 0
+!LEFTLINECHECK -NOLINECHECK 1
+!LEFTLINECHECK -SEARCHAREAENABLED 0
+#LINE 0

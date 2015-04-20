@@ -6,6 +6,14 @@ LineInfo::LineInfo(bool detected, int position, int imageWidth) {
     this->Detected = detected;
     this->Position = position;
     this->ImageWidth = imageWidth;
+	this->LineWidth = -1;
+}
+
+LineInfo::LineInfo(bool detected, int position, int imageWidth, int lineWidth) {
+    this->Detected = detected;
+    this->Position = position;
+    this->ImageWidth = imageWidth;
+	this->LineWidth = lineWidth;
 }
 
 void LineInfo::SetPosition(int position)
@@ -16,6 +24,11 @@ void LineInfo::SetPosition(int position)
 int LineInfo::GetPosition()
 {
     return this->Position;
+}
+
+int LineInfo::GetLineWidth()
+{
+	return this->LineWidth;
 }
 
 float LineInfo::GetNormalizePosition()
@@ -34,10 +47,12 @@ std::string LineInfo::ToString() {
   std::string result = "";
   if(this->Detected)
   {
-    result += "Line found at position ";
+    result += "Line found at position: ";
     int position = 100*GetNormalizePosition();
     result += Convert::IntToString(position);
-    result += ".";
+    result += " , ";
+	result += "Linewidth: ";
+	result += Convert::IntToString(LineWidth);
   }
   else
   {

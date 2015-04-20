@@ -6,12 +6,11 @@
 
 >WaitForStart.txt
 
-//>StartToRamp.txt
+>StartToRamp.txt
 
-//>FromRampToDownTheStairs.txt
+>FromRampToDownTheStairs.txt
 
->FromBottomStairsToDoubleGate.txt
-
->RacingCurve.txt
-
->FromRacingCurveToFrontOfDoubleGate.txt
+>FromBottomStairsToRacingTrack.txt
+//>FromBottomStairsToDoubleGate.txt
+//>RacingCurve.txt
+//>FromRacingCurveToFrontOfDoubleGate.txt
