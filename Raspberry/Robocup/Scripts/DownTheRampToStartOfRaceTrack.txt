@@ -1,0 +1,77 @@
+>LineWidthBroad.txt
+
+//To the start of the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 800
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//To the start of the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+//To Start ramp
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+//To down the ramp
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 1000
+!FOLLOWLINE -MAXSPEED 10
+!FOLLOWLINE -MINSPEED 10
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//To start of Racetrack
+>FlatMotorPID.txt
+#SETDISTANCE  0, 6, 620, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>FlatMotorPID.txt
+#SETDISTANCE  100, 5, 180, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURNSPEED 6
+!TURNTOLINE -LINETHRESSHOLD 10
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#TURNTOLINE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 700
+!FOLLOWLINE -MAXSPEED 11
+!FOLLOWLINE -MINSPEED 11
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0
+
+>LineWidthDefault.txt

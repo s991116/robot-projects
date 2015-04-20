@@ -1,0 +1,24 @@
+//From end of Axeport straight towards front of goal
+>LineWidthBroad.txt
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!DISTANCE -DISTANCE 3300
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 7
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>LineWidthBroad.txt
+!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
+!PORT -COUNT 2
+!FOLLOWLINE -MAXSPEED 7
+!FOLLOWLINE -MINSPEED 7
+#LINE 0
+
+#RESETMOVEMENT 0
+#DELAY 1000

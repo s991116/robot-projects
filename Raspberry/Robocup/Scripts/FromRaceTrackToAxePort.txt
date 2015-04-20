@@ -3,7 +3,7 @@
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 1500
+!DISTANCE -DISTANCE 1000
 !FOLLOWLINE -MAXSPEED 8
 !FOLLOWLINE -MINSPEED 8
 #LINE 0
@@ -15,7 +15,7 @@
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 1500
+!DISTANCE -DISTANCE 2300
 !FOLLOWLINE -MAXSPEED 8
 !FOLLOWLINE -MINSPEED 8
 #LINE 0
@@ -39,7 +39,7 @@
 #DELAY 1000
 
 >FlatMotorPID.txt
-#SETDISTANCE  0, 5, 250, 0//dir, speed, distance, rotation
+#SETDISTANCE  0, 6, 250, 0//dir, speed, distance, rotation
 #STARTDISTANCE
 >DefaultMotorPID.txt
 #RESETMOVEMENT 0

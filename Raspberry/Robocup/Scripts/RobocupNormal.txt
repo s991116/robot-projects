@@ -1,0 +1,19 @@
+//Robocup 2015 script
+
+>Initialize.txt
+
+>Whiteline.txt
+
+>WaitForStart.txt
+
+>StartToRamp.txt
+
+>DownTheRampToStartOfRaceTrack.txt
+
+>RaceTrack.txt
+
+>FromRaceTrackToAxePort.txt
+
+>AxePort.txt
+
+>FromAxePortToGoal.txt
