@@ -1,20 +1,12 @@
->LineWidthBroad.txt
-
-//First part before right turn to double gate
-!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
-!TOPLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
-!BOTTOMLINEDETECT -POSITION 0 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 1600
-#LINE 0
-!FOLLOWLINE -MAXSPEED 7
-!FOLLOWLINE -MINSPEED 5
-
 //Pass the double gate
 >LineWidthDefault.txt
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
 !DISTANCE -DISTANCE 1600
+!FOLLOWLINE -MAXSPEED 9
+!FOLLOWLINE -MINSPEED 9
+
 #LINE 0
 >LineWidthBroad.txt
 
@@ -69,16 +61,7 @@
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 5000
+!DISTANCE -DISTANCE 3700
 #LINE 0
 !FOLLOWLINE -MAXSPEED 9
 !FOLLOWLINE -MINSPEED 9
-
-//Up towards the hill to the gate
-!CHECK -MODE 0 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
-!TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
-!BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
-!PORT -COUNT 2
-#LINE 0
-!FOLLOWLINE -MAXSPEED 11
-!FOLLOWLINE -MINSPEED 11

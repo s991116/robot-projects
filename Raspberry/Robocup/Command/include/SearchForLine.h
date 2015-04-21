@@ -21,6 +21,7 @@ private:
     FindLineSetting* _FindLineSetting;
     LinePosition* _LinePosition;
     Direction* _Direction;
+	int _SpecialLine;
 };
 
 #endif	/* SEARCHFORLINE_H */

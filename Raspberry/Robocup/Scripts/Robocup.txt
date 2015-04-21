@@ -6,15 +6,16 @@
 
 >WaitForStart.txt
 
->StartToRamp.txt
+//>StartToRamp.txt
 
->FromRampToDownTheStairs.txt
+//>FromRampToDownTheStairs.txt
 
->FromBottomStairsToUpTheHill.txt
+//>FromBottomStairsToUpTheHill_Longway.txt
 
 >FromUpTheHillToDownTheTilt.txt
 
->FromDownTheTiltToRaceTrack.txt
+>FromDownTheTiltToRaceTrack_Longway.txt
+#QUIT
 
 >RaceTrack.txt
 

@@ -26,14 +26,15 @@
 #DELAY 1000
 
 //Turn to line down the hill
-#SETDISTANCE 0, 3, 270, 0//dir, speed, distance, rotation
+>DefaultMotorPID.txt
+#SETDISTANCE 0, 3, 210, 0//dir, speed, distance, rotation
 #STARTDISTANCE
 
 #RESETMOVEMENT 0
 #DELAY 1000
 
 >FlatMotorPID.txt
-#SETDISTANCE 100, 4, 280, 0//dir, speed, distance, rotation
+#SETDISTANCE 100, 4, 320, 0//dir, speed, distance, rotation
 #STARTDISTANCE
 
 #RESETMOVEMENT 0
@@ -72,13 +73,13 @@
 //Find line after tilt
 >FlatMotorPID.txt
 
-!SEARCHFORLINE -SEARCHSPEED 5
+!SEARCHFORLINE -SEARCHSPEED 6
 #SEARCHFORLINE
 
 #RESETMOVEMENT 0
 #DELAY 1000
 
-#SETDISTANCE 0, 5, 200, 0//dir, speed, distance, rotation
+#SETDISTANCE 0, 6, 200, 0//dir, speed, distance, rotation
 #STARTDISTANCE
 >LineWidthDefault.txt
 !NAVIGATETOLINE -DISTANCEOFFSET 0
@@ -86,15 +87,21 @@
 
 #RESETMOVEMENT 0
 !NAVIGATETOLINE -DISTANCEOFFSET -30
+!NAVIGATETOLINE -NAVIGATIONSPEED 7
+!NAVIGATETOLINE -ANGLESPEED 6
 #NAVIGATETOLINE
+!NAVIGATETOLINE -NAVIGATIONSPEED 6
+!NAVIGATETOLINE -ANGLESPEED 4
+
+
 #RESETMOVEMENT 0
 #DELAY 1000
 
-//Turn right on line
+//Turn left on line
 >FlatMotorPID.txt
-#SETDISTANCE 0, 5, 550, 0//dir, speed, distance, rotation
-#SETDISTANCE 100, 4, 200, 0//dir, speed, distance, rotation
+#SETDISTANCE 0, 6, 550, 0//dir, speed, distance, rotation
+#SETDISTANCE -100, 6, 200, 0//dir, speed, distance, rotation
 #STARTDISTANCE
 
-!TURNTOLINE -DIRECTIONTURN 1
+!TURNTOLINE -DIRECTIONTURN -1
 #TURNTOLINE

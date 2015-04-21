@@ -10,11 +10,13 @@ public:
     
     FindLineSetting(LineDetect* leftDetect, LineDetect* rightDetect, LineDetect* topDetect);
     void GetLinePosition(cv::Mat image, LinePosition* linePosition);
+    void GetLeftLinePosition(cv::Mat image, LinePosition* linePosition);
+    void GetRightLinePosition(cv::Mat image, LinePosition* linePosition);
     
-private:
     LineDetect* _LeftDetect;
     LineDetect* _RightDetect;
     LineDetect* _TopDetect;
+private:
     LinePosition::SearchStatusEnum GetSearchStatus(LineInfo* leftLineInfo, LineInfo* rightLineInfo, LineInfo* topLineInfo);
 };
 

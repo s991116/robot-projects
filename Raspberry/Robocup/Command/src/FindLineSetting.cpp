@@ -6,6 +6,22 @@ FindLineSetting::FindLineSetting(LineDetect* leftDetect, LineDetect* rightDetect
   _TopDetect = topDetect;
 }
 
+void FindLineSetting::GetRightLinePosition(cv::Mat image, LinePosition* linePosition) {
+  LineInfo* rightLineInfo = _RightDetect->DetectLine(image);
+  if(rightLineInfo->LineDetected())
+    linePosition->LineDetected = LinePosition::Middle;
+  else
+    linePosition->LineDetected =  LinePosition::NoLine;  
+}
+
+void FindLineSetting::GetLeftLinePosition(cv::Mat image, LinePosition* linePosition) {
+  LineInfo* leftLineInfo = _LeftDetect->DetectLine(image);
+  if(leftLineInfo->LineDetected())
+    linePosition->LineDetected = LinePosition::Middle;
+  else
+    linePosition->LineDetected =  LinePosition::NoLine;  
+}
+
 void FindLineSetting::GetLinePosition(cv::Mat image, LinePosition* linePosition) {
   LineInfo* leftLineInfo = _LeftDetect->DetectLine(image);
   LineInfo* rightLineInfo = _RightDetect->DetectLine(image);
