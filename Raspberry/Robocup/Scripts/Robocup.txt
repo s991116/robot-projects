@@ -10,12 +10,11 @@
 
 //>FromRampToDownTheStairs.txt
 
-//>FromBottomStairsToUpTheHill_Longway.txt
+>FromBottomStairsToUpTheHill_Longway.txt
 
 >FromUpTheHillToDownTheTilt.txt
 
 >FromDownTheTiltToRaceTrack_Longway.txt
-#QUIT
 
 >RaceTrack.txt
 

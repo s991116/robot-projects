@@ -61,7 +61,57 @@
 !CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
 !TOPLINEDETECT    -POSITION 2 //0 = Left, 1 = Center, 2 = Right
 !BOTTOMLINEDETECT -POSITION 2 //0 = Left, 1 = Center, 2 = Right
-!DISTANCE -DISTANCE 3700
+!DISTANCE -DISTANCE 3300
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
 #LINE 0
-!FOLLOWLINE -MAXSPEED 9
-!FOLLOWLINE -MINSPEED 9
+
+>LineWidthDefault.txt
+
+//Find Cross line towards racetrack
+//Stop at line towards tilt
+>WhitelineOnTree.txt
+!CHECK -MODE 3 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!FOLLOWLINE -MAXSPEED 6
+!FOLLOWLINE -MINSPEED 6
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!RIGHTLINECHECK -RECHECK 0
+!RIGHTLINECHECK -NOLINECHECK 1
+!RIGHTLINECHECK -SEARCHAREAENABLED 0
+#LINE 0
+>Whiteline.txt
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+//Turn to start of racetrack line
+>FlatMotorPID.txt
+#SETDISTANCE 0, 3, 700, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>FlatMotorPID.txt
+#SETDISTANCE -100, 4, 220, 0//dir, speed, distance, rotation
+#STARTDISTANCE
+
+#RESETMOVEMENT 0
+#DELAY 1000
+
+>DefaultMotorPID.txt
+!TURNTOLINE -DIRECTIONTURN -1
+!TURNTOLINE -DIRECTIONTURNSPEED 6
+#TURNTOLINE
+
+
+//Follow line to start of racetrack line
+!CHECK -MODE 1 //0 = Port, 1 = Distance, 2 = LeftLine, 3 = RightLine, 4 = BottomLine, 5 = TopLine, 6 = DistanceSensor
+!DISTANCE -DISTANCE 1000
+!FOLLOWLINE -MAXSPEED 8
+!FOLLOWLINE -MINSPEED 8
+!TOPLINEDETECT    -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+!BOTTOMLINEDETECT -POSITION 1 //0 = Left, 1 = Center, 2 = Right
+#LINE 0

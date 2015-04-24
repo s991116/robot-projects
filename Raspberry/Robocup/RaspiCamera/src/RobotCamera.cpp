@@ -20,6 +20,7 @@ RobotCamera::RobotCamera(PiCamera* piCamera, CameraNavigation* cameraNavigation)
   _CameraMode[CameraMode::FOLLOW_LEFT_TO_LINE]   = new RobotCameraSetting(CameraPosition::FOLLOW_LEFT_TO_LINE,   320, 240, true);
   _CameraMode[CameraMode::FOLLOW_WITH_DOOR_OPEN] = new RobotCameraSetting(CameraPosition::FOLLOW_WITH_DOOR_OPEN, 320, 240, true);
   _CameraMode[CameraMode::FOLLOW_LINE_FAST]      = new RobotCameraSetting(CameraPosition::FOLLOW_LINE_FAST,      320, 240, true);
+  _CameraMode[CameraMode::STARTPOSITION]         = new RobotCameraSetting(CameraPosition::STARTPOSITION,         320, 240, true);
   UpdateCameraPosition(CameraMode::FOLLOW_LINE);
   SetCameraMode(CameraMode::FOLLOW_LINE);
 }
