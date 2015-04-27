@@ -1,0 +1,21 @@
+﻿Build started 4/27/2015 9:35:23 PM.
+     1>Project "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" on node 2 (Clean target(s)).
+     1>CoreClean:
+         "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /clean "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" "/solution:C:\git\Raspberry\Segway\Segway.sln" "/config:Debug" "/platform:Win32"
+         VisualGDB: Run "make CONFIG=Debug clean" in directory "/tmp/VisualGDB/c/git/Raspberry/Segway/Segway" on pi@192.168.0.128 (SSH)
+         del /S /Q Debug
+         make: del: Command not found
+         Makefile:138: recipe for target 'clean' failed
+         make: *** [clean] Error 127
+         -------------------------------------------------------------
+         Command exited with code 2
+         Executable: make
+         Arguments: CONFIG=Debug clean
+         Directory: /tmp/VisualGDB/c/git/Raspberry/Segway/Segway
+     1>VisualGDB : error : Command-line action failed
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.MakeFile.Targets(33,5): error MSB3073: The command ""C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /clean "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" "/solution:C:\git\Raspberry\Segway\Segway.sln" "/config:Debug" "/platform:Win32"" exited with code -1.
+     1>Done Building Project "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" (Clean target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.62

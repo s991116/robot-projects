@@ -5,17 +5,17 @@
 BINARYDIR := Debug
 
 #Toolchain
-CC := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-gcc.exe
-CXX := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-g++.exe
+CC := gcc
+CXX := g++
 LD := $(CXX)
-AR := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-ar.exe
-OBJCOPY := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-objcopy.exe
+AR := ar
+OBJCOPY := objcopy
 
 #Additional flags
 PREPROCESSOR_MACROS := DEBUG
-INCLUDE_DIRS := 
-LIBRARY_DIRS := 
-LIBRARY_NAMES := 
+INCLUDE_DIRS := /tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera
+LIBRARY_DIRS := /tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera/Debug /opt/vc/lib
+LIBRARY_NAMES := PiCamera mmal_core mmal_util mmal opencv_core opencv_highgui raspicam_cv raspicam
 ADDITIONAL_LINKER_INPUTS := 
 MACOS_FRAMEWORKS := 
 LINUX_PACKAGES := 
