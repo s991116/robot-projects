@@ -5,6 +5,7 @@
 
 class Controller
 {
+
 public:
 	Controller(ComPort* comPort);
 	
