@@ -5,11 +5,11 @@
 BINARYDIR := Debug
 
 #Toolchain
-CC := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-gcc.exe
-CXX := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-g++.exe
+CC := gcc
+CXX := g++
 LD := $(CXX)
-AR := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-ar.exe
-OBJCOPY := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-objcopy.exe
+AR := ar
+OBJCOPY := objcopy
 
 #Additional flags
 PREPROCESSOR_MACROS := DEBUG

@@ -31,9 +31,18 @@
     <ClInclude Include="Controller.h">
       <Filter>Header files</Filter>
     </ClInclude>
+    <ClInclude Include="ComPort.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandType.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComPort.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>

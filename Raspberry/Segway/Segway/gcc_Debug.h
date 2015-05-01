@@ -71,6 +71,7 @@
 #define __DEC32_MIN_EXP__ (-94)
 #define __THUMB_INTERWORK__ 1
 #define __INT_FAST16_TYPE__ int
+#define __STRICT_ANSI__ 1
 #define __LDBL_HAS_DENORM__ 1
 //VS2005-2012 treats all files as C++, while VS2013+ can treat C files correctly.
 #if _MSC_VER < 1800 || defined(__cplusplus)
@@ -107,7 +108,6 @@
 #define __DEC128_MIN_EXP__ (-6142)
 #define __INT_FAST32_TYPE__ int
 #define __UINT_LEAST16_TYPE__ short unsigned int
-#define unix 1
 #define __INT16_MAX__ 32767
 #define __SIZE_TYPE__ unsigned int
 #define __UINT64_MAX__ 18446744073709551615ULL
@@ -144,7 +144,6 @@
 #define __DEC32_MAX_EXP__ 97
 #define __INT_FAST8_MAX__ 127
 #define __INTPTR_MAX__ 2147483647
-#define linux 1
 #define __EXCEPTIONS 1
 #define __LDBL_MANT_DIG__ 53
 #define __DBL_HAS_QUIET_NAN__ 1
@@ -216,6 +215,7 @@
 
 // --- Include directories begin --- //
 ///tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera
+///tmp/VisualGDB/c/git/Raspberry/Segway/Controller
 ///usr/include/c++/4.6
 ///usr/include/c++/4.6/arm-linux-gnueabihf
 ///usr/include/c++/4.6/backward

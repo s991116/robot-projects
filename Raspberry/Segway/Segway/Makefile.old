@@ -24,7 +24,7 @@ error:
 endif
 
 SOURCEFILES := Segway.cpp
-EXTERNAL_LIBS := RaspiCam/libraspicam.a RaspiCam/libraspicam_cv.a
+EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 
 CFLAGS += $(COMMONFLAGS)
@@ -163,9 +163,3 @@ $(BINARYDIR)/%.o : %.cxx $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) $(CXXFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
 #VisualGDB: GeneratedRules				#<--- All lines below are auto-generated
-$(BINARYDIR)/libraspicam.a : RaspiCam/libraspicam.a
-	$(CP) RaspiCam/libraspicam.a $(BINARYDIR)/libraspicam.a
-
-$(BINARYDIR)/libraspicam_cv.a : RaspiCam/libraspicam_cv.a
-	$(CP) RaspiCam/libraspicam_cv.a $(BINARYDIR)/libraspicam_cv.a
-

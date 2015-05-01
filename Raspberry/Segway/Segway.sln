@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Segway", "Segway\Segway.vcxproj", "{6C6DF0E3-AC98-4053-9210-803094FD433D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A6098B9-4E10-4C12-89CF-2E936BC9A87A} = {0A6098B9-4E10-4C12-89CF-2E936BC9A87A}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controller", "Controller\Controller.vcxproj", "{0A6098B9-4E10-4C12-89CF-2E936BC9A87A}"
 EndProject
