@@ -6,11 +6,38 @@
       <Directories />
       <PathStyle>MinGWUnixSlash</PathStyle>
     </CustomSourceDirectories>
+    <BuildHost>
+      <HostName>192.168.0.128</HostName>
+      <Transport>SSH</Transport>
+      <UserName>pi</UserName>
+    </BuildHost>
     <DeploymentHost>
       <HostName>192.168.0.128</HostName>
       <Transport>SSH</Transport>
       <UserName>pi</UserName>
     </DeploymentHost>
+    <MainSourceTransferCommand>
+      <SkipWhenRunningCommandList>false</SkipWhenRunningCommandList>
+      <RemoteHost>
+        <HostName>192.168.0.128</HostName>
+        <Transport>SSH</Transport>
+        <UserName>pi</UserName>
+      </RemoteHost>
+      <LocalDirectory>$(ProjectDir)</LocalDirectory>
+      <RemoteDirectory>/tmp/VisualGDB/$(ProjectDirUnixStyle)</RemoteDirectory>
+      <FileMasks>
+        <string>*.cpp</string>
+        <string>*.h</string>
+        <string>*.c</string>
+        <string>*.cc</string>
+        <string>*.cxx</string>
+        <string>*.mak</string>
+        <string>Makefile</string>
+      </FileMasks>
+      <TransferNewFilesOnly>true</TransferNewFilesOnly>
+      <IncludeSubdirectories>true</IncludeSubdirectories>
+      <SelectedDirectories />
+    </MainSourceTransferCommand>
     <AllowChangingHostForMainCommands>false</AllowChangingHostForMainCommands>
     <SkipBuildIfNoSourceFilesChanged>false</SkipBuildIfNoSourceFilesChanged>
     <IgnoreFileTransferErrors>false</IgnoreFileTransferErrors>
@@ -19,40 +46,51 @@
   <Build xsi:type="com.visualgdb.build.make">
     <MakeFilePathRelativeToSourceDir>Makefile</MakeFilePathRelativeToSourceDir>
     <MakeConfigurationName>Debug</MakeConfigurationName>
+    <AdditionalMakeArguments />
     <Toolchain>
-      <Name>Raspberry PI</Name>
-      <Location>C:\SysGCC\raspberry</Location>
-      <UnixSystem>false</UnixSystem>
-      <GCC>C:\SysGCC\raspberry\bin\arm-linux-gnueabihf-gcc.exe</GCC>
-      <GXX>C:\SysGCC\raspberry\bin\arm-linux-gnueabihf-g++.exe</GXX>
-      <GDB>C:\SysGCC\raspberry\bin\arm-linux-gnueabihf-gdb.exe</GDB>
-      <AR>C:\SysGCC\raspberry\bin\arm-linux-gnueabihf-ar.exe</AR>
-      <OBJCOPY>C:\SysGCC\raspberry\bin\arm-linux-gnueabihf-objcopy.exe</OBJCOPY>
-      <Make>C:\SysGCC\raspberry\bin\make.exe</Make>
-      <AdditionalPathDirectories>
-        <string>C:\SysGCC\raspberry\bin</string>
-      </AdditionalPathDirectories>
-      <RequireCmdExe>true</RequireCmdExe>
+      <Name>Default GCC toolchain on 192.168.0.128</Name>
+      <UnixSystem>true</UnixSystem>
+      <GCC>gcc</GCC>
+      <GXX>g++</GXX>
+      <GDB>gdb</GDB>
+      <AR>ar</AR>
+      <OBJCOPY>objcopy</OBJCOPY>
+      <Make>make</Make>
+      <RequireCmdExe>false</RequireCmdExe>
       <RequireCtrlBreak>false</RequireCtrlBreak>
-      <SourceDirMapping>
-        <Directories />
-        <PathStyle>MinGWUnixSlash</PathStyle>
-      </SourceDirMapping>
+      <RequiredLinuxPackages>
+        <TestableLinuxPackage>
+          <UserFriendlyName>GCC</UserFriendlyName>
+          <DefaultPackageName>g++</DefaultPackageName>
+          <AlternativeRPMPackageName>gcc-c++</AlternativeRPMPackageName>
+          <BinaryToCheck>g++</BinaryToCheck>
+        </TestableLinuxPackage>
+        <TestableLinuxPackage>
+          <UserFriendlyName>GDB</UserFriendlyName>
+          <DefaultPackageName>gdb</DefaultPackageName>
+          <BinaryToCheck>gdb</BinaryToCheck>
+        </TestableLinuxPackage>
+        <TestableLinuxPackage>
+          <UserFriendlyName>GNU Make</UserFriendlyName>
+          <DefaultPackageName>make</DefaultPackageName>
+          <BinaryToCheck>make</BinaryToCheck>
+        </TestableLinuxPackage>
+      </RequiredLinuxPackages>
     </Toolchain>
     <MakeCommandTemplate>
       <SkipWhenRunningCommandList>false</SkipWhenRunningCommandList>
-      <Command>cmd.exe</Command>
-      <Arguments>/c "C:\SysGCC\raspberry\bin\make.exe"</Arguments>
+      <RemoteHost>
+        <HostName>192.168.0.128</HostName>
+        <Transport>SSH</Transport>
+        <UserName>pi</UserName>
+      </RemoteHost>
+      <Command>make</Command>
       <WorkingDirectory>$(BuildDir)</WorkingDirectory>
       <Environment>
         <Records>
           <Record>
             <VariableName>LANG</VariableName>
             <Value>en_US.UTF-8</Value>
-          </Record>
-          <Record>
-            <VariableName>PATH</VariableName>
-            <Value>%PATH%;C:\SysGCC\raspberry\bin</Value>
           </Record>
         </Records>
       </Environment>

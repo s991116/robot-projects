@@ -1,0 +1,16 @@
+﻿Build started 5/1/2015 10:14:42 AM.
+     1>Project "C:\git\Raspberry\Segway\Controller\Controller.vcxproj" on node 2 (Build target(s)).
+     1>Build:
+         "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "C:\git\Raspberry\Segway\Controller\Controller.vcxproj" "/solution:C:\git\Raspberry\Segway\Segway.sln" "/config:Debug" "/platform:Win32"
+         VisualGDB: Sending 2 updated source files to build machine...
+         VisualGDB: Run "make CONFIG=Debug" in directory "/tmp/VisualGDB/c/git/Raspberry/Segway/Controller" on pi@192.168.0.128 (SSH)
+         g++ -ggdb -ffunction-sections -O0   -DDEBUG  -c Controller.cpp -o Debug/Controller.o -MD -MF Debug/Controller.dep
+         In file included from Controller.h:4:0,
+                          from Controller.cpp:1:
+     1>C:\git\Raspberry\Segway\Controller\CommandType.h(1,1): warning : scoped enums only available with -std=c++0x or -std=gnu++0x [enabled by default]
+         ar -r Debug/libController.a Debug/ComPort.o Debug/Controller.o
+     1>Done Building Project "C:\git\Raspberry\Segway\Controller\Controller.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.34

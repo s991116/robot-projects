@@ -5,23 +5,23 @@
 BINARYDIR := Debug
 
 #Toolchain
-CC := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-gcc.exe
-CXX := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-g++.exe
+CC := gcc
+CXX := g++
 LD := $(CXX)
-AR := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-ar.exe
-OBJCOPY := C:/SysGCC/raspberry/bin/arm-linux-gnueabihf-objcopy.exe
+AR := ar
+OBJCOPY := objcopy
 
 #Additional flags
 PREPROCESSOR_MACROS := DEBUG
-INCLUDE_DIRS := 
-LIBRARY_DIRS := 
-LIBRARY_NAMES := 
+INCLUDE_DIRS := /tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera /tmp/VisualGDB/c/git/Raspberry/Segway/Controller
+LIBRARY_DIRS := /tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera/Debug /opt/vc/lib /tmp/VisualGDB/c/git/Raspberry/Segway/Controller/Debug
+LIBRARY_NAMES := PiCamera mmal_core mmal_util mmal opencv_core opencv_highgui raspicam_cv raspicam Controller
 ADDITIONAL_LINKER_INPUTS := 
 MACOS_FRAMEWORKS := 
 LINUX_PACKAGES := 
 
-CFLAGS := -ggdb -ffunction-sections -O0
-CXXFLAGS := -ggdb -ffunction-sections -O0
+CFLAGS := -ggdb -ffunction-sections -O0 -std=c++0x
+CXXFLAGS := -ggdb -ffunction-sections -O0 -std=c++0x
 ASFLAGS := 
 LDFLAGS := -Wl,-gc-sections
 COMMONFLAGS := 

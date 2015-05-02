@@ -24,7 +24,6 @@
 #define __DBL_MIN_10_EXP__ (-307)
 #define __FINITE_MATH_ONLY__ 0
 #define __ARMEL__ 1
-#define __ARM_FEATURE_UNALIGNED 1
 #define __GNUC_PATCHLEVEL__ 3
 #define __UINT_FAST8_MAX__ 255
 #define __DEC64_MAX_EXP__ 385
@@ -44,7 +43,6 @@
 #define __SCHAR_MAX__ 127
 #define __WCHAR_MIN__ 0U
 #define __DBL_DIG__ 15
-#define _FORTIFY_SOURCE 2
 #define __SIZEOF_INT__ 4
 #define __SIZEOF_POINTER__ 4
 #define __USER_LABEL_PREFIX__ 
@@ -73,6 +71,7 @@
 #define __DEC32_MIN_EXP__ (-94)
 #define __THUMB_INTERWORK__ 1
 #define __INT_FAST16_TYPE__ int
+#define __STRICT_ANSI__ 1
 #define __LDBL_HAS_DENORM__ 1
 //VS2005-2012 treats all files as C++, while VS2013+ can treat C files correctly.
 #if _MSC_VER < 1800 || defined(__cplusplus)
@@ -109,10 +108,10 @@
 #define __DEC128_MIN_EXP__ (-6142)
 #define __INT_FAST32_TYPE__ int
 #define __UINT_LEAST16_TYPE__ short unsigned int
-#define unix 1
 #define __INT16_MAX__ 32767
 #define __SIZE_TYPE__ unsigned int
 #define __UINT64_MAX__ 18446744073709551615ULL
+#define DEBUG 1
 #define __INT8_TYPE__ signed char
 #define __ELF__ 1
 #define __FLT_RADIX__ 2
@@ -145,7 +144,6 @@
 #define __DEC32_MAX_EXP__ 97
 #define __INT_FAST8_MAX__ 127
 #define __INTPTR_MAX__ 2147483647
-#define linux 1
 #define __EXCEPTIONS 1
 #define __LDBL_MANT_DIG__ 53
 #define __DBL_HAS_QUIET_NAN__ 1
@@ -171,7 +169,6 @@
 #define __LDBL_MIN_EXP__ (-1021)
 #define __arm__ 1
 #define __INT_LEAST8_MAX__ 127
-#define __SSP__ 1
 #define __WCHAR_UNSIGNED__ 1
 #define __LDBL_MAX_10_EXP__ 308
 #define __DBL_EPSILON__ double(2.2204460492503131e-16L)
@@ -214,32 +211,23 @@
 #define __UINT_FAST8_TYPE__ unsigned char
 #define _GNU_SOURCE 1
 #define __ARM_FEATURE_DSP 1
-#define DEBUG 
 #endif
 
 // --- Include directories begin --- //
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/include/c++/4.6
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/include/c++/4.6/arm-linux-gnueabihf
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/include/c++/4.6/backward
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/include
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/include-fixed
-//c:\sysgcc\raspberry\bin\../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/include
-//c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf
-//c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include
+///tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera
+///tmp/VisualGDB/c/git/Raspberry/Segway/Controller
+///usr/include/c++/4.6
+///usr/include/c++/4.6/arm-linux-gnueabihf
+///usr/include/c++/4.6/backward
+///usr/lib/gcc/arm-linux-gnueabihf/4.6/include
+///usr/local/include
+///usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed
+///usr/include/arm-linux-gnueabihf
+///usr/include
 // --- Include directories end --- //
 
 
 // --- Library directories begin --- //
-//c:/sysgcc/raspberry/bin/../lib/gcc/arm-linux-gnueabihf/4.6/
-//c:/sysgcc/raspberry/bin/../lib/gcc/arm-linux-gnueabihf/
-//c:/sysgcc/raspberry/bin/../lib/gcc/
-//c:/sysgcc/raspberry/bin/../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/lib/../lib/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/lib/arm-linux-gnueabihf/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/lib/../lib/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/usr/lib/arm-linux-gnueabihf/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/usr/lib/../lib/
-//c:/sysgcc/raspberry/bin/../lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/lib/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/lib/
-//c:/sysgcc/raspberry/bin/../arm-linux-gnueabihf/sysroot/usr/lib/
+///usr/lib/gcc/arm-linux-gnueabihf/4.6/:/usr/lib/gcc/arm-linux-gnueabihf/4.6/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/4.6/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/
 // --- Library directories begin --- //
 
