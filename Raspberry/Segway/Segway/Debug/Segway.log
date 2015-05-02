@@ -1,13 +1,14 @@
-﻿Build started 5/1/2015 10:14:47 AM.
+﻿Build started 5/2/2015 7:56:52 PM.
      1>Project "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" on node 2 (Build target(s)).
      1>Build:
          "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" "/solution:C:\git\Raspberry\Segway\Segway.sln" "/config:Debug" "/platform:Win32"
-         VisualGDB: Sending 1 updated source file to build machine...
+         VisualGDB: Sending 7 updated source files to build machine...
          VisualGDB: Run "make CONFIG=Debug" in directory "/tmp/VisualGDB/c/git/Raspberry/Segway/Segway" on pi@192.168.0.128 (SSH)
+         mkdir Debug
          g++ -ggdb -ffunction-sections -O0 -std=c++0x  -I/tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera -I/tmp/VisualGDB/c/git/Raspberry/Segway/Controller -DDEBUG  -c Segway.cpp -o Debug/Segway.o -MD -MF Debug/Segway.dep
          g++ -o Debug/Segway -Wl,-gc-sections   -L/tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera/Debug -L/opt/vc/lib -L/tmp/VisualGDB/c/git/Raspberry/Segway/Controller/Debug -Wl,--start-group Debug/Segway.o -lPiCamera -lmmal_core -lmmal_util -lmmal -lopencv_core -lopencv_highgui -lraspicam_cv -lraspicam -lController ../Controller/Debug/libController.a -Wl,--rpath='$ORIGIN' -Wl,--rpath='$ORIGIN/../../Controller/Debug/'  -Wl,--end-group
      1>Done Building Project "C:\git\Raspberry\Segway\Segway\Segway.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.65
+Time Elapsed 00:00:11.74
