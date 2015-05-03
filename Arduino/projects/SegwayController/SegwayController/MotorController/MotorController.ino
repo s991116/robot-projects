@@ -9,29 +9,30 @@
 #include <PID_v1.h>
 #include <digitalWriteFast.h>
 
+#define ENCODER_A_INTERRUPT_PIN (0) // Encoder-0 Interrupt is on DIGITAL PIN 2
+#define ENCODER_B_INTERRUPT_PIN (1) // Encoder-1 Interrupt is on DIGITAL PIN 3
 
-#define ENCODER_B_INTERRUPT_PIN (0) // Encoder-0 Interrupt is on DIGITAL PIN 2
-#define ENCODER_A_INTERRUPT_PIN (1) // Encoder-1 Interrupt is on DIGITAL PIN 3
-#define ENCODER_B_INTERRUPT_CHANGE_PIN (2) // Encoder-0 is on DIGITAL PIN 2
-#define ENCODER_A_INTERRUPT_CHANGE_PIN (3) // Encoder-1 is on DIGITAL PIN 3
+#define ENCODER_A_INTERRUPT_CHANGE_PIN (2) // Encoder-0 is on DIGITAL PIN 2
+#define ENCODER_B_INTERRUPT_CHANGE_PIN (3) // Encoder-1 is on DIGITAL PIN 3
+
+#define ENCODER_A_DIRECTION_PIN (4) // Encoder-0 Direction is on DIGITAL PIN 4
+#define ENCODER_B_DIRECTION_PIN (5) // Encoder-1 Direction is on DIGITAL PIN 5
 
 #define MOTOR_A_DIRECTION_PIN (4) //MotorShield Motor B
 #define MOTOR_A_PWM_PIN (5) //MotorShield Motor B
 #define MOTOR_B_DIRECTION_PIN (7) //MotorShield Motor A
 #define MOTOR_B_PWM_PIN (6) //MotorShield Motor A
-#define ENCODER_B_DIRECTION_PIN (3) // Encoder-0 Direction is on DIGITAL PIN 9
-#define ENCODER_A_DIRECTION_PIN (4) // Encoder-1 Direction is on DIGITAL PIN 8
 
 #define MOTOR_FORWARD (0)
 #define MOTOR_REVERSE (1)
 
-volatile int Encoder0TickSpeed = 0;
-volatile int Encoder1TickSpeed = 0;
-int LastEncoder0TickSpeed = 0;
-int LastEncoder1TickSpeed = 0;
+volatile int EncoderATickSpeed = 0;
+volatile int EncoderBTickSpeed = 0;
+int LastEncoderATickSpeed = 0;
+int LastEncoderBTickSpeed = 0;
 
-long Encoder0TotalTicks = 0;
-long Encoder1TotalTicks = 0;
+long EncoderATotalTicks = 0;
+long EncoderBTotalTicks = 0;
 
 int MotorATargetTickSpeed = 0; //Target ticks pr sample time
 int MotorBTargetTickSpeed = 0; //Target ticks pr sample time
@@ -46,22 +47,31 @@ float MotorB_Kp = 25;
 float MotorB_Ki = 15;
 float MotorB_Kd = 0;
 
-PID motorAPID(&LastEncoder0TickSpeed, &MotorASpeed, &MotorATargetTickSpeed, MotorA_Kp, MotorA_Ki, MotorA_Kd, DIRECT);
-PID motorBPID(&LastEncoder1TickSpeed, &MotorBSpeed, &MotorBTargetTickSpeed, MotorB_Kp, MotorB_Ki, MotorB_Kd, REVERSE);
+PID motorAPID(&LastEncoderATickSpeed, &MotorASpeed, &MotorATargetTickSpeed, MotorA_Kp, MotorA_Ki, MotorA_Kd, DIRECT);
+PID motorBPID(&LastEncoderBTickSpeed, &MotorBSpeed, &MotorBTargetTickSpeed, MotorB_Kp, MotorB_Ki, MotorB_Kd, REVERSE);
 
 unsigned long CalculationTime = 0;
 unsigned long SampleTime = 40;
 int SampleTimeToSmall = false;
 
+bool MotorsRunning = true;
+
 void setup() 
 { 
   //Attach the interrupt to the input pin and monitor
-  attachInterrupt(ENCODER_B_INTERRUPT_PIN, Encoder0Count, CHANGE);
-  attachInterrupt(ENCODER_A_INTERRUPT_PIN, Encoder1Count, CHANGE);
+  attachInterrupt(ENCODER_A_INTERRUPT_PIN, EncoderACount, RISING); //CHANGE, RISING
+  attachInterrupt(ENCODER_B_INTERRUPT_PIN, EncoderBCount, RISING); //CHANGE, RISING
 
   //Set Direction for Encoder pins
-  pinMode(ENCODER_B_DIRECTION_PIN, INPUT); 
   pinMode(ENCODER_A_DIRECTION_PIN, INPUT);
+  pinMode(ENCODER_B_DIRECTION_PIN, INPUT);
+  digitalWrite(ENCODER_A_DIRECTION_PIN, HIGH); //Enable pullup resistor
+  digitalWrite(ENCODER_B_DIRECTION_PIN, HIGH); //Enable pullup resistor
+
+  pinMode(ENCODER_A_INTERRUPT_CHANGE_PIN, INPUT);
+  digitalWrite(ENCODER_A_INTERRUPT_CHANGE_PIN, HIGH); //Enable pullup resistor
+  pinMode(ENCODER_B_INTERRUPT_CHANGE_PIN, INPUT);
+  digitalWrite(ENCODER_B_INTERRUPT_CHANGE_PIN, HIGH); //Enable pullup resistor
 
   //Set Direction for Motor pins
   pinMode(MOTOR_A_DIRECTION_PIN, OUTPUT);   
@@ -94,9 +104,15 @@ void loop()
   motorAPID.Compute();  
   motorBPID.Compute();
   
-  SetMotorSpeed(MOTOR_A_DIRECTION_PIN, MOTOR_A_PWM_PIN, MotorASpeed);
-  SetMotorSpeed(MOTOR_B_DIRECTION_PIN, MOTOR_B_PWM_PIN, MotorBSpeed);       
-
+  if(MotorsRunning)
+  {
+    SetMotorSpeed(MOTOR_A_DIRECTION_PIN, MOTOR_A_PWM_PIN, MotorASpeed);
+    SetMotorSpeed(MOTOR_B_DIRECTION_PIN, MOTOR_B_PWM_PIN, MotorBSpeed);       
+  }
+  else
+  {
+    StopMotors();
+  }
   unsigned long CalculationEndTime = millis();
 
   if(CalculationEndTime > cycleStartTime + SampleTime)
@@ -105,20 +121,20 @@ void loop()
   CalculationTime = CalculationEndTime - cycleStartTime;
 }
 
-void Encoder0Count()
+void EncoderACount()
 {
-  if(digitalReadFast(ENCODER_B_DIRECTION_PIN) == digitalReadFast(ENCODER_B_INTERRUPT_CHANGE_PIN))
-    Encoder0TickSpeed++;
+  if(digitalReadFast(ENCODER_A_DIRECTION_PIN))// == digitalReadFast(ENCODER_A_INTERRUPT_CHANGE_PIN))
+    EncoderATickSpeed--;
   else
-    Encoder0TickSpeed--;
+    EncoderATickSpeed++;
 }
 
-void Encoder1Count()
+void EncoderBCount()
 {
-  if(digitalReadFast(ENCODER_A_DIRECTION_PIN) == digitalReadFast(ENCODER_A_INTERRUPT_CHANGE_PIN))
-    Encoder1TickSpeed--;
+  if(digitalReadFast(ENCODER_B_DIRECTION_PIN))// == digitalReadFast(ENCODER_B_INTERRUPT_CHANGE_PIN))
+    EncoderBTickSpeed++;
   else
-    Encoder1TickSpeed++;
+    EncoderBTickSpeed--;
 }
 
 void SetMotorSpeed(int DirectionPin, int PWMPin, float Speed)
@@ -136,14 +152,22 @@ void SetMotorSpeed(int DirectionPin, int PWMPin, float Speed)
   }
 }
 
+void StopMotors()
+{
+  digitalWrite(MOTOR_A_DIRECTION_PIN, MOTOR_FORWARD);
+  analogWrite(MOTOR_A_PWM_PIN, 0);
+  digitalWrite(MOTOR_B_DIRECTION_PIN, MOTOR_FORWARD);
+  analogWrite(MOTOR_B_PWM_PIN, 0);
+}
+
 void UpdateEncoderCounters()
 {
-  LastEncoder0TickSpeed = Encoder0TickSpeed;
-  Encoder0TickSpeed = 0;  
-  LastEncoder1TickSpeed = Encoder1TickSpeed;
-  Encoder1TickSpeed = 0;     
-  Encoder1TotalTicks += LastEncoder1TickSpeed;
-  Encoder0TotalTicks += LastEncoder0TickSpeed;
+  LastEncoderATickSpeed = EncoderATickSpeed;
+  EncoderATickSpeed = 0;  
+  LastEncoderBTickSpeed = EncoderBTickSpeed;
+  EncoderBTickSpeed = 0;     
+  EncoderATotalTicks += LastEncoderATickSpeed;
+  EncoderBTotalTicks += LastEncoderBTickSpeed;
 }
 
 void HandleSerialCommunication()
@@ -171,26 +195,32 @@ short HandleCommand(byte command, short data)
   {
     case 1:
      MotorA_Kp = data;
+     UpdateMotorAPID();
      break;
       
     case 2:
      MotorA_Ki = data;
+     UpdateMotorAPID();
      break;
 
     case 3:
      MotorA_Kd = data;
+     UpdateMotorAPID();
      break;
 
     case 4:
      MotorB_Kp = data;
+     UpdateMotorBPID();
      break;
 
     case 5:
      MotorB_Ki = data;
+     UpdateMotorBPID();
      break;
 
     case 6:
      MotorB_Kd = data;
+     UpdateMotorBPID();
      break;
      
     case 7:
@@ -201,11 +231,35 @@ short HandleCommand(byte command, short data)
      MotorBTargetTickSpeed = data;
      break;
     
+    case 9:
+      return LastEncoderATickSpeed;
+      
+    case 10:
+      return LastEncoderBTickSpeed;
+      
+    case 11:
+      return EncoderATotalTicks;
+
+    case 12:
+      return EncoderBTotalTicks;
+      
+    case 13:
+      MotorsRunning = data;
+      break;
+    
     case 255:
       return data;
       break;
-      
-    default:
-      return 0;
   }
+  return 0;
+}
+
+void UpdateMotorAPID()
+{
+  motorAPID.SetTunings(MotorA_Kp, MotorA_Ki, MotorA_Kd);
+}
+
+void UpdateMotorBPID()
+{
+  motorBPID.SetTunings(MotorB_Kp, MotorB_Ki, MotorB_Kd);
 }
