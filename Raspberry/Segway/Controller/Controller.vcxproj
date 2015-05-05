@@ -12,6 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0A6098B9-4E10-4C12-89CF-2E936BC9A87A}</ProjectGuid>
+    <ProjectName>HardwareController</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -68,11 +69,14 @@
   <ItemGroup>
     <ClInclude Include="CommandType.h" />
     <ClInclude Include="ComPort.h" />
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="HardwareController.h" />
+    <ClInclude Include="IComPort.h" />
+    <ClInclude Include="MeasurementController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComPort.cpp" />
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="HardwareController.cpp" />
+    <ClCompile Include="MeasurementController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

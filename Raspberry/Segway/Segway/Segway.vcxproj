@@ -35,7 +35,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0004\PiCamera;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0005\Controller;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6\arm-linux-gnueabihf;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0003\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0002\include-fixed;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\arm-linux-gnueabihf;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include;C:\git\Raspberry\Segway\Controller;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0004\PiCamera;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0005\Controller;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0008\SoundPlayer;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0009\StringUtil;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6\arm-linux-gnueabihf;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\c++\4.6\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0003\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0002\include-fixed;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include\arm-linux-gnueabihf;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0000\include;C:\git\Raspberry\Segway\Controller;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0003\include\opencv;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0003\include\opencv2;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.0.128\0003\include\raspicam;C:\git\Raspberry\Segway\SoundPlayer;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <NMakeForcedIncludes>$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
     <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
@@ -61,7 +61,10 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Segway.cpp" />
+    <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="debug.mak" />
@@ -69,12 +72,22 @@
     <None Include="release.mak" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Controller\Controller.vcxproj">
+      <Project>{0a6098b9-4e10-4c12-89cf-2e936bc9a87a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\PiCamera\PiCamera.vcxproj">
       <Project>{9f1ee0af-9673-4b64-bca1-daa6b93273a3}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SoundPlayer\SoundPlayer.vcxproj">
+      <Project>{77499c6e-d2d8-49cc-9b0a-ae77a5f779d4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleColor.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Segway.rc" />

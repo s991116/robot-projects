@@ -12,7 +12,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controller", "Controller\Co
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PiCamera", "PiCamera\PiCamera.vcxproj", "{9F1EE0AF-9673-4B64-BCA1-DAA6B93273A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "gtest\gtest.vcxproj", "{7F079C45-EC49-4F82-9F04-A4D6BE3D6802}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcceptTest", "AcceptTest\AcceptTest.vcxproj", "{98120DAA-A18B-4185-BECA-20F68E1BDFB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundPlayer", "SoundPlayer\SoundPlayer.vcxproj", "{77499C6E-D2D8-49CC-9B0A-AE77A5F779D4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tunning", "Tunning\Tunning.vcxproj", "{BB50BB35-52C2-4570-912E-66965F9CE07F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringUtil", "StringUtil\StringUtil.vcxproj", "{D3C08775-51AA-4F2D-8ACE-40600298BC65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +38,22 @@ Global
 		{9F1EE0AF-9673-4B64-BCA1-DAA6B93273A3}.Debug|Win32.Build.0 = Debug|Win32
 		{9F1EE0AF-9673-4B64-BCA1-DAA6B93273A3}.Release|Win32.ActiveCfg = Release|Win32
 		{9F1EE0AF-9673-4B64-BCA1-DAA6B93273A3}.Release|Win32.Build.0 = Release|Win32
-		{7F079C45-EC49-4F82-9F04-A4D6BE3D6802}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7F079C45-EC49-4F82-9F04-A4D6BE3D6802}.Debug|Win32.Build.0 = Debug|Win32
-		{7F079C45-EC49-4F82-9F04-A4D6BE3D6802}.Release|Win32.ActiveCfg = Release|Win32
-		{7F079C45-EC49-4F82-9F04-A4D6BE3D6802}.Release|Win32.Build.0 = Release|Win32
+		{98120DAA-A18B-4185-BECA-20F68E1BDFB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98120DAA-A18B-4185-BECA-20F68E1BDFB6}.Debug|Win32.Build.0 = Debug|Win32
+		{98120DAA-A18B-4185-BECA-20F68E1BDFB6}.Release|Win32.ActiveCfg = Release|Win32
+		{98120DAA-A18B-4185-BECA-20F68E1BDFB6}.Release|Win32.Build.0 = Release|Win32
+		{77499C6E-D2D8-49CC-9B0A-AE77A5F779D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{77499C6E-D2D8-49CC-9B0A-AE77A5F779D4}.Debug|Win32.Build.0 = Debug|Win32
+		{77499C6E-D2D8-49CC-9B0A-AE77A5F779D4}.Release|Win32.ActiveCfg = Release|Win32
+		{77499C6E-D2D8-49CC-9B0A-AE77A5F779D4}.Release|Win32.Build.0 = Release|Win32
+		{BB50BB35-52C2-4570-912E-66965F9CE07F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB50BB35-52C2-4570-912E-66965F9CE07F}.Debug|Win32.Build.0 = Debug|Win32
+		{BB50BB35-52C2-4570-912E-66965F9CE07F}.Release|Win32.ActiveCfg = Release|Win32
+		{BB50BB35-52C2-4570-912E-66965F9CE07F}.Release|Win32.Build.0 = Release|Win32
+		{D3C08775-51AA-4F2D-8ACE-40600298BC65}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D3C08775-51AA-4F2D-8ACE-40600298BC65}.Debug|Win32.Build.0 = Debug|Win32
+		{D3C08775-51AA-4F2D-8ACE-40600298BC65}.Release|Win32.ActiveCfg = Release|Win32
+		{D3C08775-51AA-4F2D-8ACE-40600298BC65}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

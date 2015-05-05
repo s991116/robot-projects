@@ -24,7 +24,7 @@ error:
 endif
 
 SOURCEFILES := Segway.cpp
-EXTERNAL_LIBS := 
+EXTERNAL_LIBS := ../Controller/$(BINARYDIR)/libController.a
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 
 CFLAGS += $(COMMONFLAGS)
@@ -163,3 +163,6 @@ $(BINARYDIR)/%.o : %.cxx $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) $(CXXFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
 #VisualGDB: GeneratedRules				#<--- All lines below are auto-generated
+$(BINARYDIR)/libController.a : ../Controller/$(BINARYDIR)/libController.a
+	$(CP) ../Controller/$(BINARYDIR)/libController.a $(BINARYDIR)/libController.a
+

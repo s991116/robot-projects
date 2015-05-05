@@ -28,21 +28,30 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controller.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="ComPort.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="CommandType.h">
       <Filter>Header files</Filter>
     </ClInclude>
+    <ClInclude Include="IComPort.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasurementController.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwareController.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Controller.cpp">
+    <ClCompile Include="ComPort.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="ComPort.cpp">
+    <ClCompile Include="MeasurementController.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="HardwareController.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>

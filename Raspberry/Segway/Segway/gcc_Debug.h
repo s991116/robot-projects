@@ -216,6 +216,8 @@
 // --- Include directories begin --- //
 ///tmp/VisualGDB/c/git/Raspberry/Segway/PiCamera
 ///tmp/VisualGDB/c/git/Raspberry/Segway/Controller
+///tmp/VisualGDB/c/git/Raspberry/Segway/SoundPlayer
+///tmp/VisualGDB/c/git/Raspberry/Segway/StringUtil
 ///usr/include/c++/4.6
 ///usr/include/c++/4.6/arm-linux-gnueabihf
 ///usr/include/c++/4.6/backward

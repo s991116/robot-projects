@@ -1,5 +1,8 @@
 #pragma once
-class ComPort
+
+#include "IComPort.h"
+
+class ComPort : public IComPort
 {
 public:
 	ComPort();

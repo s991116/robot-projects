@@ -23,7 +23,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := Segway.cpp
+SOURCEFILES := Console.cpp Controller.cpp Segway.cpp View.cpp
 EXTERNAL_LIBS := ../Controller/$(BINARYDIR)/libController.a
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 

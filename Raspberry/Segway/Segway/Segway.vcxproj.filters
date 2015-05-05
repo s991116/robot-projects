@@ -22,6 +22,15 @@
     <ClCompile Include="Segway.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -34,6 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleColor.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
