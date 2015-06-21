@@ -9,7 +9,9 @@ public:
 
 	void StartMeasuring();
 	void StopMeasuring();
-	short GetNextMeasure();
+	short GetError();
+      	short GetTarget();
+        void NextMeasure();
 	int GetNrOfMeasurement();
 
 private:

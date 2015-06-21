@@ -107,8 +107,9 @@ TEST(SerialIntegration, AddTwoDataToLogger_GetLoggingData) {
     
     //Assert
     short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
-    short logData1 = target->SendCommand(CommandType::Get_Logging_Value, 0);
-    short logData2 = target->SendCommand(CommandType::Get_Logging_Value, 0);
+    short logData1 = target->SendCommand(CommandType::Get_Logging_Value1, 0);
+    target->SendCommand(CommandType::Next_Logging, 0);
+    short logData2 = target->SendCommand(CommandType::Get_Logging_Value1, 0);
     
     EXPECT_EQ(2, nrOfMeasures);
     EXPECT_EQ(logDataExpected1, logData1);
@@ -139,7 +140,9 @@ TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
     HardwareController* target = fixture.CreateTarget();
     
     target->SendCommand(CommandType::Reset_Logger, 0);
-    int arraySize = 500;
+    bool LogNotFull = target->SendCommand(CommandType::Logging_Full, 0);
+
+    int arraySize = 250;
     short * expectedLog = new short[arraySize];
     for(int index = 0; index < arraySize; index++)
     {
@@ -149,13 +152,18 @@ TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
     
     //Act
     short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
+    bool LogFull = target->SendCommand(CommandType::Logging_Full, 0);
     short * resultLog = new short[arraySize];
     for(int index = 0; index < arraySize; index++)
     {
-        resultLog[index] = target->SendCommand(CommandType::Get_Logging_Value, 0);
+        resultLog[index] = target->SendCommand(CommandType::Get_Logging_Value1, 0);
+        target->SendCommand(CommandType::Next_Logging, 0);
     } 
     
+    
     //Assert
+    EXPECT_EQ(true, LogFull);
+    EXPECT_EQ(false, LogNotFull);
     EXPECT_EQ(arraySize, nrOfMeasures);
     for(int index = 0; index < arraySize; index++)
     {

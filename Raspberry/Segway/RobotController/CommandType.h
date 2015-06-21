@@ -16,7 +16,7 @@ enum class CommandType : unsigned char {
     Get_MotorRight_Distance = 12,
     Set_Motor_Enabled = 13,
     Set_Logging_State = 15,
-    Get_Logging_Value = 16,
+    Get_Logging_Value1 = 16,
     Get_MotorLeft_PID_Kp = 17,
     Get_MotorLeft_PID_Ki = 18,
     Get_MotorLeft_PID_Kd = 19,
@@ -26,7 +26,9 @@ enum class CommandType : unsigned char {
     Add_Logging_Data = 23,
     Get_Nr_Of_Logs = 24,
     Reset_Logger = 25,    
-            
+    Get_Logging_Value2 = 26,
+    Next_Logging = 27,        
+    Logging_Full = 28,
     Get_Motor_Echo_Command_Test = 126,
     Get_Motor_Echo_Data_Test = 127,
 
