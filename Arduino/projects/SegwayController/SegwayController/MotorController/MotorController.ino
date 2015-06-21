@@ -53,7 +53,7 @@ PID motorAPID(&LastEncoderATickSpeed, &MotorASpeed, &MotorATargetTickSpeed, Moto
 PID motorBPID(&LastEncoderBTickSpeed, &MotorBSpeed, &MotorBTargetTickSpeed, MotorB_Kp, MotorB_Ki, MotorB_Kd, REVERSE);
 
 short CalculationTime = 0;
-short SampleTime = 40;
+short SampleTime = 20;
 int SampleTimeToSmall = false;
 
 bool MotorsRunning = true;

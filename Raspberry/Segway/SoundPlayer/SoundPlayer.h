@@ -1,7 +1,7 @@
 #pragma once
+#include <iostream>
 
 class SoundPlayer {
 public:
-	static void Play(char* filename);
-
+	static void Play(std::string filename);
 };
