@@ -1,11 +1,12 @@
 #pragma once
 #include "HardwareController.h"
+#include "IMotorTuning.h"
 
-class MeasurementController
+class MotorTuning : public IMotorTuning
 {
 public:
-	MeasurementController(HardwareController* controller);
-	~MeasurementController();
+	MotorTuning(HardwareController* controller);
+	~MotorTuning();
 
 	void StartMeasuring();
 	void StopMeasuring();

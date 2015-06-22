@@ -1,10 +1,11 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
 
+#include "IMotor.h"
 #include "HardwareController.h"
 #include "DirectionEnum.h"
 
-class Motor {
+class Motor : public IMotor {
 public:
     Motor(HardwareController* hardwareController);
     void SetLeftP(short p);

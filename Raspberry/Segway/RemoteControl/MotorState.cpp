@@ -3,8 +3,9 @@
 #include "Motor.h"
 #include "Convert.h"
 
-MotorState::MotorState(Motor* motor) {
+MotorState::MotorState(Motor* motor, MotorTuningController* motorTuningController) {
     _Motor = motor;
+    _MotorTuningController = motorTuningController;
 }
 
 State* MotorState::View() {
@@ -13,6 +14,7 @@ State* MotorState::View() {
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
     printw("F         - Fixed speed\n");
     printw("P, I, D   - PID-factor\n");
+    printw("T         - Test-tunning\n");
     printw("Q         - Return\n");
     printw("\n");
     printw("Direction:");
@@ -86,6 +88,10 @@ State* MotorState::View() {
             number = ReadInteger("Set D-correction:");
             _Motor->SetLeftD(number);
             _Motor->SetRightD(number);
+            break;
+            
+        case 't':
+            _MotorTuningController->RunMeasure();
             break;
 
         default:

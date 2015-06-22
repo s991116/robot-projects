@@ -37,7 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
-	${OBJECTDIR}/MotorView.o \
+	${OBJECTDIR}/MotorTuningController.o \
 	${OBJECTDIR}/State.o \
 	${OBJECTDIR}/main.o
 
@@ -76,10 +76,10 @@ ${OBJECTDIR}/MotorState.o: MotorState.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
-${OBJECTDIR}/MotorView.o: MotorView.cpp 
+${OBJECTDIR}/MotorTuningController.o: MotorTuningController.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorView.o MotorView.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
 
 ${OBJECTDIR}/State.o: State.cpp 
 	${MKDIR} -p ${OBJECTDIR}

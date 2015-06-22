@@ -9,8 +9,10 @@
       <itemPath>DirectionEnum.h</itemPath>
       <itemPath>HardwareController.h</itemPath>
       <itemPath>IComPort.h</itemPath>
-      <itemPath>MeasurementController.h</itemPath>
+      <itemPath>IMotor.h</itemPath>
+      <itemPath>IMotorTuning.h</itemPath>
       <itemPath>Motor.h</itemPath>
+      <itemPath>MotorTuning.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -21,8 +23,8 @@
                    projectFiles="true">
       <itemPath>ComPort.cpp</itemPath>
       <itemPath>HardwareController.cpp</itemPath>
-      <itemPath>MeasurementController.cpp</itemPath>
       <itemPath>Motor.cpp</itemPath>
+      <itemPath>MotorTuning.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -76,13 +78,17 @@
       </item>
       <item path="IComPort.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MeasurementController.cpp" ex="false" tool="1" flavor2="0">
+      <item path="IMotor.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MeasurementController.h" ex="false" tool="3" flavor2="0">
+      <item path="IMotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Motor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Motor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles">
         <linkerTool>
@@ -174,13 +180,17 @@
       </item>
       <item path="IComPort.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MeasurementController.cpp" ex="false" tool="1" flavor2="0">
+      <item path="IMotor.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MeasurementController.h" ex="false" tool="3" flavor2="0">
+      <item path="IMotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Motor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Motor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>

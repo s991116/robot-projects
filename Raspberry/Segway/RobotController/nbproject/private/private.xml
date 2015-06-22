@@ -7,11 +7,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/MeasurementController.h</file>
-            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/MeasurementController.cpp</file>
-            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/HardwareControllerTest.cpp</file>
-            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/CommandType.h</file>
-            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/HardwareController.h</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/MotorTuning.cpp</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/MotorTuning.h</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/Motor.cpp</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/Motor.h</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/IMotor.h</file>
+            <file>file:/Y:/robot-projects/Raspberry/Segway/RobotController/IMotorTuning.h</file>
         </group>
     </open-files>
 </project-private>

@@ -37,8 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/ComPort.o \
 	${OBJECTDIR}/HardwareController.o \
-	${OBJECTDIR}/MeasurementController.o \
-	${OBJECTDIR}/Motor.o
+	${OBJECTDIR}/Motor.o \
+	${OBJECTDIR}/MotorTuning.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -83,15 +83,15 @@ ${OBJECTDIR}/HardwareController.o: HardwareController.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController.o HardwareController.cpp
 
-${OBJECTDIR}/MeasurementController.o: MeasurementController.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MeasurementController.o MeasurementController.cpp
-
 ${OBJECTDIR}/Motor.o: Motor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor.o Motor.cpp
+
+${OBJECTDIR}/MotorTuning.o: MotorTuning.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 
 # Subprojects
 .build-subprojects:
@@ -135,19 +135,6 @@ ${OBJECTDIR}/HardwareController_nomain.o: ${OBJECTDIR}/HardwareController.o Hard
 	    ${CP} ${OBJECTDIR}/HardwareController.o ${OBJECTDIR}/HardwareController_nomain.o;\
 	fi
 
-${OBJECTDIR}/MeasurementController_nomain.o: ${OBJECTDIR}/MeasurementController.o MeasurementController.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/MeasurementController.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MeasurementController_nomain.o MeasurementController.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/MeasurementController.o ${OBJECTDIR}/MeasurementController_nomain.o;\
-	fi
-
 ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/Motor.o`; \
@@ -159,6 +146,19 @@ ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor_nomain.o Motor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Motor.o ${OBJECTDIR}/Motor_nomain.o;\
+	fi
+
+${OBJECTDIR}/MotorTuning_nomain.o: ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/MotorTuning.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/MotorTuning.o ${OBJECTDIR}/MotorTuning_nomain.o;\
 	fi
 
 # Run Test Targets

@@ -1,33 +1,34 @@
-#include "MeasurementController.h"
+#include "MotorTuning.h"
 
-MeasurementController::MeasurementController(HardwareController* controller) {
+MotorTuning::MotorTuning(HardwareController* controller) {
     _Controller = controller;
     _NrOfMeasurement = 250;
 }
 
-MeasurementController::~MeasurementController() {
+MotorTuning::~MotorTuning() {
 }
 
-void MeasurementController::StartMeasuring() {
+void MotorTuning::StartMeasuring() {
+    _Controller->SendCommand(CommandType::Reset_Logger, 0);
     _Controller->SendCommand(CommandType::Set_Logging_State, 0);
 }
 
-void MeasurementController::StopMeasuring() {
+void MotorTuning::StopMeasuring() {
     _Controller->SendCommand(CommandType::Set_Logging_State, 1);
 }
 
-short MeasurementController::GetError() {
+short MotorTuning::GetError() {
     return _Controller->SendCommand(CommandType::Get_Logging_Value1, 0);
 }
 
-short MeasurementController::GetTarget() {
+short MotorTuning::GetTarget() {
     return _Controller->SendCommand(CommandType::Get_Logging_Value2, 0);
 }
 
-void MeasurementController::NextMeasure() {
+void MotorTuning::NextMeasure() {
     _Controller->SendCommand(CommandType::Next_Logging, 0);
 }
 
-int MeasurementController::GetNrOfMeasurement() {
+int MotorTuning::GetNrOfMeasurement() {
     return _NrOfMeasurement;
 }
