@@ -14,7 +14,7 @@ State* MotorState::View() {
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
     printw("F         - Fixed speed\n");
     printw("P, I, D   - PID-factor\n");
-    printw("T         - Test-tunning\n");
+    printw("T         - Test-tuning\n");
     printw("Q         - Return\n");
     printw("\n");
     printw("Direction:");
@@ -91,7 +91,10 @@ State* MotorState::View() {
             break;
             
         case 't':
+            printw("Tuning running...\n");
             _MotorTuningController->RunMeasure();
+            printw("Save result to file...\n");
+            _MotorTuningController->SaveMeasureToFile("Logfile.txt");
             break;
 
         default:
@@ -119,41 +122,4 @@ std::string MotorState::PrintDirection(DirectionEnum dir) {
 }
 
 MotorState::~MotorState() {
-}
-
-int MotorState::ReadInteger() {
-    return ReadInteger("");
-}
-
-int MotorState::ReadInteger(std::string text) {
-    printw(text.c_str());
-    std::string result = this->ReadString();
-    noecho();
-    return Convert::StringToInt(result);
-}
-
-std::string MotorState::ReadString() {
-    return ReadString("");
-}
-
-std::string MotorState::ReadString(std::string text) {
-    printw(text.c_str());
-    std::string input;
-
-    // let the terminal do the line editing
-    nocbreak();
-    echo();
-
-    // this reads from buffer after <ENTER>, not "raw" 
-    // so any backspacing etc. has already been taken care of
-    int ch = getch();
-
-    while (ch != '\n') {
-        input.push_back(ch);
-        ch = getch();
-    }
-    noecho();
-    cbreak();
-
-    return input;
 }

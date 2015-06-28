@@ -10,9 +10,9 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects>
                 <make-dep-project>../StringUtil</make-dep-project>
+                <make-dep-project>../RobotController</make-dep-project>
                 <make-dep-project>../PiCamera</make-dep-project>
                 <make-dep-project>../SoundPlayer</make-dep-project>
-                <make-dep-project>../RobotController</make-dep-project>
             </make-dep-projects>
             <sourceRootList/>
             <confList>

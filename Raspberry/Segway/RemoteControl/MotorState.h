@@ -17,10 +17,6 @@ public:
     Motor* _Motor;
     MotorTuningController* _MotorTuningController;
     std::string PrintDirection(DirectionEnum dir);
-    std::string ReadString();
-    std::string ReadString(std::string text);
-    int ReadInteger();
-    int ReadInteger(std::string text);
 };
 
 #endif	/* MOTORSTATE_H */

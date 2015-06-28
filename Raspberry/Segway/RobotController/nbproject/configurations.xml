@@ -7,6 +7,7 @@
       <itemPath>ComPort.h</itemPath>
       <itemPath>CommandType.h</itemPath>
       <itemPath>DirectionEnum.h</itemPath>
+      <itemPath>Gyro.h</itemPath>
       <itemPath>HardwareController.h</itemPath>
       <itemPath>IComPort.h</itemPath>
       <itemPath>IMotor.h</itemPath>
@@ -22,6 +23,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>ComPort.cpp</itemPath>
+      <itemPath>Gyro.cpp</itemPath>
       <itemPath>HardwareController.cpp</itemPath>
       <itemPath>Motor.cpp</itemPath>
       <itemPath>MotorTuning.cpp</itemPath>
@@ -56,6 +58,7 @@
         <ccTool>
           <incDir>
             <pElem>../StringUtil</pElem>
+            <pElem>../../gtest-1.7.0/include</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>
@@ -69,6 +72,10 @@
       <item path="CommandType.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DirectionEnum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Gyro.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Gyro.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HardwareController.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -91,6 +98,16 @@
       <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles">
+        <cTool>
+          <incDir>
+            <pElem>../../gtest-1.7.0/include</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>../../gtest-1.7.0/include</pElem>
+          </incDir>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibProjectItem>
@@ -171,6 +188,10 @@
       <item path="CommandType.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DirectionEnum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Gyro.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Gyro.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HardwareController.cpp" ex="false" tool="1" flavor2="0">
       </item>

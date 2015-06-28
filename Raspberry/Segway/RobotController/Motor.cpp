@@ -71,13 +71,15 @@ short Motor::GetMotorRightSpeed() {
 
 void Motor::SetDirection(DirectionEnum direction) {
     _Direction = direction;
-    short speed = 200;
+    short speed = 100;
     
     switch(direction)
     {
         case DirectionEnum::Stop:
             SetMotorLeftSpeed(0);
             SetMotorRightSpeed(0);
+            _HardwareController->SendCommand(CommandType::Set_Motor_Enabled, false);
+            _HardwareController->SendCommand(CommandType::Set_Motor_Enabled, true);            
             break;
 
         case DirectionEnum::Left:

@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ComPort.o \
+	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/HardwareController.o \
 	${OBJECTDIR}/Motor.o \
 	${OBJECTDIR}/MotorTuning.o
@@ -77,6 +78,11 @@ ${OBJECTDIR}/ComPort.o: ComPort.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort.o ComPort.cpp
+
+${OBJECTDIR}/Gyro.o: Gyro.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gyro.o Gyro.cpp
 
 ${OBJECTDIR}/HardwareController.o: HardwareController.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -120,6 +126,19 @@ ${OBJECTDIR}/ComPort_nomain.o: ${OBJECTDIR}/ComPort.o ComPort.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort_nomain.o ComPort.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/ComPort.o ${OBJECTDIR}/ComPort_nomain.o;\
+	fi
+
+${OBJECTDIR}/Gyro_nomain.o: ${OBJECTDIR}/Gyro.o Gyro.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Gyro.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gyro_nomain.o Gyro.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Gyro.o ${OBJECTDIR}/Gyro_nomain.o;\
 	fi
 
 ${OBJECTDIR}/HardwareController_nomain.o: ${OBJECTDIR}/HardwareController.o HardwareController.cpp 

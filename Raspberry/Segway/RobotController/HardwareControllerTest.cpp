@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include <HardwareController.h>
 #include <ComPort.h>
 #include <Convert.h>
@@ -107,9 +107,9 @@ TEST(SerialIntegration, AddTwoDataToLogger_GetLoggingData) {
     
     //Assert
     short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
-    short logData1 = target->SendCommand(CommandType::Get_Logging_Value1, 0);
+    short logData1 = target->SendCommand(CommandType::Get_Logging_Error, 0);
     target->SendCommand(CommandType::Next_Logging, 0);
-    short logData2 = target->SendCommand(CommandType::Get_Logging_Value1, 0);
+    short logData2 = target->SendCommand(CommandType::Get_Logging_Error, 0);
     
     EXPECT_EQ(2, nrOfMeasures);
     EXPECT_EQ(logDataExpected1, logData1);
@@ -132,6 +132,25 @@ TEST(SerialIntegration, SendCommand_FastResend) {
     EXPECT_EQ(dataTest, result);
 }
 
+TEST(SerialIntegration, AddDataToLogger_GetErrorAndTargetLoggingData) {
+
+    //Arrange    
+    HardwareControllerFixture fixture = HardwareControllerFixture();
+    HardwareController* target = fixture.CreateTarget();
+    
+    target->SendCommand(CommandType::Reset_Logger, 0);
+
+    short expectedLog = 42;
+    target->SendCommand(CommandType::Add_Logging_Data, expectedLog);
+    
+    //Act
+    short resultError = target->SendCommand(CommandType::Get_Logging_Error, 0);
+    short resultTarget = target->SendCommand(CommandType::Get_Logging_Target, 0);
+
+    //Assert
+    EXPECT_EQ(expectedLog, resultError);
+    EXPECT_EQ(expectedLog, resultTarget);
+}
 
 TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
 
@@ -156,7 +175,7 @@ TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
     short * resultLog = new short[arraySize];
     for(int index = 0; index < arraySize; index++)
     {
-        resultLog[index] = target->SendCommand(CommandType::Get_Logging_Value1, 0);
+        resultLog[index] = target->SendCommand(CommandType::Get_Logging_Error, 0);
         target->SendCommand(CommandType::Next_Logging, 0);
     } 
     

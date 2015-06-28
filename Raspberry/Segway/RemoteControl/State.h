@@ -1,5 +1,6 @@
 #ifndef STATE_H
 #define	STATE_H
+#include <string>
 
 class State {
 public:
@@ -7,6 +8,12 @@ public:
     virtual State* View() = 0;
     bool Quit;
     State* ReturnState;
+    
+    std::string ReadString();
+    std::string ReadString(std::string text);
+    int ReadInteger(std::string text);
+    int ReadInteger();
+
 };
 
 #endif	/* STATE_H */

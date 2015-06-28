@@ -19,39 +19,51 @@ void MotorTuningController::RunMeasure() {
     //Start Measure
     _MotorTuning->StartMeasuring();
     //Set speed
-    SetMotorSpeed(100);
+    SetMotorSpeed(50);
+    //Wait fixed time
+    msleep(500);
+    //Set speed
+    SetMotorSpeed(-50);
     //Wait fixed time
     msleep(500);
     //Set speed
     SetMotorSpeed(-100);
     //Wait fixed time
     msleep(500);
-    
+    //Set speed
+    SetMotorSpeed(25);
+    //Wait fixed time
+    msleep(500);
+    SetMotorSpeed(75);
+    //Wait fixed time
+    msleep(500);
     //Stop motor and wait
     SetMotorSpeed(0);
-    msleep(500);
+    msleep(100);
     //Get Measurements
-    _MotorTuning->StopMeasuring();
-    
-   std::ofstream out( "Logfile.txt" );
+    _MotorTuning->StopMeasuring();    
+}
+
+void MotorTuningController::SetMotorSpeed(short speed) {
+    _Motor->SetMotorLeftSpeed(speed);
+    _Motor->SetMotorRightSpeed(speed);
+}
+
+void MotorTuningController::SaveMeasureToFile(std::string filename) {
+   std::ofstream out(filename.c_str()  );
    if( !out )
    {
       std::cout << "Couldn't open file."  << std::endl;
       return;
    }
 
-    int nrMeasurement = _MotorTuning->GetNrOfMeasurement();
-    for(int i=0; i< nrMeasurement; i++)
-    {
-        out << "Target:" << _MotorTuning->GetTarget();
-        out << " , Error:" << _MotorTuning->GetError() << "\n";
-        _MotorTuning->NextMeasure();
-    }
-    out.close();
-    
-}
-
-void MotorTuningController::SetMotorSpeed(short speed) {
-    _Motor->SetMotorLeftSpeed(speed);
-    _Motor->SetMotorRightSpeed(speed);
+   out << "Target, Error\n"; 
+   int nrMeasurement = _MotorTuning->GetNrOfMeasurement();
+   for(int i=0; i< nrMeasurement; i++)
+   {
+       out << _MotorTuning->GetTarget();
+       out << ", " << _MotorTuning->GetError() << "\n";
+       _MotorTuning->NextMeasure();
+   }
+   out.close();
 }

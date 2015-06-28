@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ComPort.o \
+	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/HardwareController.o \
 	${OBJECTDIR}/Motor.o \
 	${OBJECTDIR}/MotorTuning.o
@@ -76,22 +77,27 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/librobotcontroller.a: ${OBJECTFILES}
 ${OBJECTDIR}/ComPort.o: ComPort.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort.o ComPort.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort.o ComPort.cpp
+
+${OBJECTDIR}/Gyro.o: Gyro.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gyro.o Gyro.cpp
 
 ${OBJECTDIR}/HardwareController.o: HardwareController.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController.o HardwareController.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController.o HardwareController.cpp
 
 ${OBJECTDIR}/Motor.o: Motor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor.o Motor.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor.o Motor.cpp
 
 ${OBJECTDIR}/MotorTuning.o: MotorTuning.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 
 # Subprojects
 .build-subprojects:
@@ -106,7 +112,7 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/HardwareControllerTest.o ${OBJECTFILES:%.o=%
 ${TESTDIR}/HardwareControllerTest.o: HardwareControllerTest.cpp 
 	${MKDIR} -p ${TESTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I. -I../../gtest-1.7.0 -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${TESTDIR}/HardwareControllerTest.o HardwareControllerTest.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -I../../gtest-1.7.0/include -I. -I../../gtest-1.7.0 -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${TESTDIR}/HardwareControllerTest.o HardwareControllerTest.cpp
 
 
 ${OBJECTDIR}/ComPort_nomain.o: ${OBJECTDIR}/ComPort.o ComPort.cpp 
@@ -117,9 +123,22 @@ ${OBJECTDIR}/ComPort_nomain.o: ${OBJECTDIR}/ComPort.o ComPort.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort_nomain.o ComPort.cpp;\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort_nomain.o ComPort.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/ComPort.o ${OBJECTDIR}/ComPort_nomain.o;\
+	fi
+
+${OBJECTDIR}/Gyro_nomain.o: ${OBJECTDIR}/Gyro.o Gyro.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Gyro.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gyro_nomain.o Gyro.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Gyro.o ${OBJECTDIR}/Gyro_nomain.o;\
 	fi
 
 ${OBJECTDIR}/HardwareController_nomain.o: ${OBJECTDIR}/HardwareController.o HardwareController.cpp 
@@ -130,7 +149,7 @@ ${OBJECTDIR}/HardwareController_nomain.o: ${OBJECTDIR}/HardwareController.o Hard
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController_nomain.o HardwareController.cpp;\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController_nomain.o HardwareController.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/HardwareController.o ${OBJECTDIR}/HardwareController_nomain.o;\
 	fi
@@ -143,7 +162,7 @@ ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor_nomain.o Motor.cpp;\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor_nomain.o Motor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Motor.o ${OBJECTDIR}/Motor_nomain.o;\
 	fi
@@ -156,7 +175,7 @@ ${OBJECTDIR}/MotorTuning_nomain.o: ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/MotorTuning.o ${OBJECTDIR}/MotorTuning_nomain.o;\
 	fi
