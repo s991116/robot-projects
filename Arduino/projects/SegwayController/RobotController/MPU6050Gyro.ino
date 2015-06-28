@@ -110,6 +110,9 @@ boolean MPUDataReady()
 
 void UpdateGyroData()
 {
+  if(!MPUDataReady())
+    return;
+  
   // reset interrupt flag and get INT_STATUS byte
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();

@@ -208,8 +208,6 @@ void StopMotors()
   analogWrite(MOTOR_RIGHT_PWM_PIN, 0);
   LastEncoderLeftTickSpeed = 0;
   LastEncoderRightTickSpeed = 0;
-  motorLeftPID.Initialize();
-  motorRightPID.Initialize();
 }
 
 void UpdateEncoderCounters()
