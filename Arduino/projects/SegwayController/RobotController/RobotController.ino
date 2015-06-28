@@ -17,7 +17,7 @@ short YPR_Factor = 100;
 void setup()
 {
   SetupCommunication();
-  if(InitializeMPU())
+  if(!InitializeMPU())
     while(true);
   
   //InitializeDistanceSensor();
@@ -36,6 +36,10 @@ void SetupCommunication()
   {
     Serial.read();
   }
+
+  #ifdef DEBUG_MANUAL_COMMAND
+  Serial.println("Debug started.");
+  #endif
 }
 
 void SetLED(boolean stat)
@@ -55,10 +59,10 @@ void loop()
 #ifdef DEBUG_MANUAL_COMMAND
   ManualRead();
 #else
-  //while (!MPUDataReady()) {
-        HandleCommand();
-  //  }
-  //  UpdateGyroData();
+  while (!MPUDataReady()) {
+    HandleCommand();
+  }
+  UpdateGyroData();
 #endif
 }
 
@@ -67,7 +71,7 @@ short SendMessage(byte command, short data)
   if(command < 128)
   {
     SendMessageToMotorController(command, data);
-    delay(10);
+    delay(5);
     return ReceiveResponseFromMotorController();
   }
   else
