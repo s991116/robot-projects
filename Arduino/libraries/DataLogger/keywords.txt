@@ -1,0 +1,8 @@
+DataLogger	KEYWORD1
+AddMeasure	KEYWORD2
+GetNrOfMeasures	KEYWORD2
+GetMeasure1	KEYWORD2
+GetMeasure2	KEYWORD2
+NextMeasure KEYWORD2
+LogFull KEYWORD2
+Reset	KEYWORD2
