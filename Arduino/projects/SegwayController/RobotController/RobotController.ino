@@ -1,5 +1,6 @@
 #include <digitalWriteFast.h>
 #include <Wire.h>
+#include "MotorControllerCmd.h"
 
 //#define DEBUG_MANUAL_COMMAND
 
@@ -14,10 +15,19 @@ int16_t gyro[3];       // [x, y, z]            gyroscopic output
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 short YPR_Factor = 100;
 
+short _ReplyFromMaster;
+bool _UnhandleCommandReceivedFromMaster = false;
+bool _UnhandledResponseFromMotorController = false;
+bool _UnhandledResponseFromRobotController = false;
+byte _CommandFromMaster;
+short _DataFromMaster;
+short _UnhandledResponse;
+unsigned long _CommandSentTime;
+
 void setup()
 {
   SetupCommunication();
-  if(InitializeMPU())
+  if(!InitializeMPU())
     while(true);
   
   //InitializeDistanceSensor();
@@ -36,6 +46,10 @@ void SetupCommunication()
   {
     Serial.read();
   }
+
+  #ifdef DEBUG_MANUAL_COMMAND
+  Serial.println("Debug started.");
+  #endif
 }
 
 void SetLED(boolean stat)
@@ -52,48 +66,53 @@ void ToggleLED()
 
 void loop()
 {
-#ifdef DEBUG_MANUAL_COMMAND
-  ManualRead();
-#else
-  //while (!MPUDataReady()) {
-        HandleCommand();
-  //  }
-  //  UpdateGyroData();
-#endif
+    ReceiveCommand();
+    UpdateGyroData();
+    HandleCommand();
+    UpdateGyroData();
+    SendCommandReply();
+    UpdateGyroData();
 }
 
-short SendMessage(byte command, short data)
+void SendMessage(byte command, short data)
 {
-  if(command < 128)
+  if(MotorControllerCommand(command))
   {
     SendMessageToMotorController(command, data);
-    delay(10);
-    return ReceiveResponseFromMotorController();
   }
   else
   {
-    switch(command)
+    switch(command-RobotCommandTypeOffset)
     {
-      case 129: //Gyro Yaw, Pitch, Roll
-        return ypr[data]*YPR_Factor;
+      case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
+        _UnhandledResponse = ypr[data]*YPR_Factor;
+        return;
 
-      case 130: //Accelration Yaw, Pitch, Roll 
-        return gyro[data];
+      case Get_Gyro_YPR_Accelration: //Accelration Yaw, Pitch, Roll 
+        _UnhandledResponse = gyro[data];
+        return;
         
-      case 131: //YPR_Factor
+      case Set_Gyro_YPR_Factor: //YPR_Factor
         YPR_Factor = data;
-        break;
+        return;
         
-      case 132: //Distance in cm
-        return DistanceInCm();
+      case Get_Distance_cm: //Distance in cm
+        _UnhandledResponse = DistanceInCm();
+        return;
+
+      case Get_Gyro_YPR_Factor: //YPR_Factor
+        _UnhandledResponse = YPR_Factor;
+        return;
        
-      case 254:
-        return command;
+      case Get_Controller_Echo_Command_Test:
+        _UnhandledResponse = command;
+        return;
         
-      case 255:
-        return data;
+      case Get_Controller_Echo_Data_Test:
+        _UnhandledResponse = data;
+        return;
     }
-    return data;
+    return;
   }
 }
 
@@ -106,15 +125,12 @@ void SendMessageToMotorController(byte command, short data)
   Wire.endTransmission();
 }
 
-short ReceiveResponseFromMotorController()
+short GetReplyFromMotorController()
 {
-//  Wire.beginTransmission(I2C_MOTOR_ADDRESS);
-  Wire.requestFrom((uint8_t)I2C_MOTOR_ADDRESS, (uint8_t)ResponseLength);
+  Wire.requestFrom((uint8_t)I2C_MOTOR_ADDRESS, (uint8_t)ResponseLength);    
   byte msb = Wire.read();
   byte lsb = Wire.read();
-  short receivedValue = Bytes_ToShort(msb, lsb);
-//  Wire.endTransmission();
-  return receivedValue;
+  return  Bytes_ToShort(msb, lsb);
 }
 
 byte MSB_FromShort(short data) {

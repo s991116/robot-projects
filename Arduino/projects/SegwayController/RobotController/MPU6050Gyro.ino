@@ -28,30 +28,30 @@ void dmpDataReady() {
 bool InitializeMPU()
 {
   // initialize device
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
   Serial.println(F("Initializing I2C devices..."));
 #endif
   mpu.initialize();
 
     // verify connection
   bool mpuConnection = mpu.testConnection();
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
     Serial.println(F("Testing device connections..."));
 #endif
     if(mpuConnection) {
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
       Serial.println(F("MPU6050 connection successful"));
 #endif
     }
     else
     {
-#ifdef DEBUG      
+#ifdef DEBUG_MANUAL_COMMAND
       Serial.println(F("MPU6050 connection failed"));
 #endif
       return false;
     }
     // load and configure the DMP
-#ifdef DEBUG      
+#ifdef DEBUG_MANUAL_COMMAND
     Serial.println(F("Initializing DMP..."));
 #endif
   devStatus = mpu.dmpInitialize();
@@ -65,38 +65,42 @@ bool InitializeMPU()
     // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
         // turn on the DMP, now that it's ready
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
       Serial.println(F("Enabling DMP..."));
 #endif
     mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-  #ifdef DEBUG
+  #ifdef DEBUG_MANUAL_COMMAND
         Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
   #endif
     attachInterrupt(0, dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
-  #ifdef DEBUG
+  #ifdef DEBUG_MANUAL_COMMAND
       Serial.println(F("DMP ready! Waiting for first interrupt..."));
   #endif
     dmpReady = true;
 
     // get expected DMP packet size for later comparison
     packetSize = mpu.dmpGetFIFOPacketSize();
+  #ifdef DEBUG_MANUAL_COMMAND
+    Serial.println(F("GetFIFOPacketSize."));
+  #endif
   } else {
     // ERROR!
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
     // (if it's going to break, usually the code will be 1)
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
     Serial.print(F("DMP Initialization failed (code "));
     Serial.print(devStatus);
     Serial.println(F(")"));
 #endif
     return false;
   }
+  return true;
 }
 
 boolean MPUDataReady()
@@ -106,6 +110,9 @@ boolean MPUDataReady()
 
 void UpdateGyroData()
 {
+  if(!MPUDataReady())
+    return;
+  
   // reset interrupt flag and get INT_STATUS byte
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();
@@ -118,7 +125,7 @@ void UpdateGyroData()
     // reset so we can continue cleanly
     SetLED(false);
     mpu.resetFIFO();
-#ifdef DEBUG        
+#ifdef DEBUG_MANUAL_COMMAND
     Serial.println(F("FIFO overflow!"));
 #endif
     // otherwise, check for DMP data ready interrupt (this should happen frequently)
@@ -139,7 +146,7 @@ void UpdateGyroData()
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 
-#ifdef DEBUG
+#ifdef DEBUG_MANUAL_COMMAND
     Serial.print("ypr\t");
     Serial.print(ypr[0] * 180/M_PI);
     Serial.print("\t");
