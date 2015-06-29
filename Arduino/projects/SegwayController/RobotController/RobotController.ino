@@ -1,5 +1,6 @@
 #include <digitalWriteFast.h>
 #include <Wire.h>
+#include "MotorControllerCmd.h"
 
 //#define DEBUG_MANUAL_COMMAND
 
@@ -81,34 +82,33 @@ void SendMessage(byte command, short data)
   }
   else
   {
-    switch(command)
+    switch(command-RobotCommandTypeOffset)
     {
-      case 129: //Gyro Yaw, Pitch, Roll
+      case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
         _UnhandledResponse = ypr[data]*YPR_Factor;
         return;
 
-      case 130: //Accelration Yaw, Pitch, Roll 
+      case Get_Gyro_YPR_Accelration: //Accelration Yaw, Pitch, Roll 
         _UnhandledResponse = gyro[data];
         return;
         
-      case 131: //YPR_Factor
+      case Set_Gyro_YPR_Factor: //YPR_Factor
         YPR_Factor = data;
-        _UnhandledResponse = data;
         return;
         
-      case 132: //Distance in cm
+      case Get_Distance_cm: //Distance in cm
         _UnhandledResponse = DistanceInCm();
         return;
 
-      case 133: //YPR_Factor
+      case Get_Gyro_YPR_Factor: //YPR_Factor
         _UnhandledResponse = YPR_Factor;
         return;
        
-      case 254:
+      case Get_Controller_Echo_Command_Test:
         _UnhandledResponse = command;
         return;
         
-      case 255:
+      case Get_Controller_Echo_Data_Test:
         _UnhandledResponse = data;
         return;
     }

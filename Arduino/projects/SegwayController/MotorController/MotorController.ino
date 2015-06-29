@@ -2,6 +2,7 @@
 #include <PID_v1.h>
 #include <digitalWriteFast.h>
 #include <DataLogger.h>
+#include "MotorControllerCmd.h"
 
 //#define DEBUG
 #define DEBUG_CONSTSPEED (0)
@@ -235,137 +236,137 @@ void HandleCommand(byte command, short data)
 {
   switch(command)
   {
-    case 0:
+    case Set_Motor_Speed:// 0:
      MotorLeftTargetTickSpeed = data;
      MotorRightTargetTickSpeed = data;
      break;
      
-    case 1:
+    case Set_MotorLeft_PID_Kp:
      MotorLeft_Kp = data / PID_DIVISION_FACTOR;
      UpdateMotorLeftPID();
      break;
       
-    case 2:
+    case Set_MotorLeft_PID_Ki:
      MotorLeft_Ki = data / PID_DIVISION_FACTOR;
      UpdateMotorLeftPID();
      break;
 
-    case 3:
+    case Set_MotorLeft_PID_Kd:
      MotorLeft_Kd = data / PID_DIVISION_FACTOR;
      UpdateMotorLeftPID();
      break;
 
-    case 4:
+    case Set_MotorRight_PID_Kp:
      MotorRight_Kp = data / PID_DIVISION_FACTOR;
      UpdateMotorRightPID();
      break;
 
-    case 5:
+    case Set_MotorRight_PID_Ki:
      MotorRight_Ki = data / PID_DIVISION_FACTOR;
      UpdateMotorRightPID();
      break;
 
-    case 6:
+    case Set_MotorRight_PID_Kd:
      MotorRight_Kd = data / PID_DIVISION_FACTOR;
      UpdateMotorRightPID();
      break;
      
-    case 7:
+    case Set_MotorLeft_Speed:
      MotorLeftTargetTickSpeed = data;
      break;
 
-    case 8:
+    case Set_MotorRight_Speed:
      MotorRightTargetTickSpeed = data;
      break;
     
-     case 9:
+     case Get_MotorLeft_Speed:
       LastResponse = LastEncoderLeftTickSpeed;
       break;
       
-    case 10:
+    case Get_MotorRight_Speed:
       LastResponse = LastEncoderRightTickSpeed;
       break;
       
-    case 11:
+    case Get_MotorLeft_Distance:
       LastResponse = EncoderLeftTotalTicks;
       break;
 
-    case 12:
+    case Get_MotorRight_Distance:
       LastResponse = EncoderRightTotalTicks;
       break;
       
-    case 13:
+    case Set_Motor_Enabled:
       MotorsRunning = data;
       break;
 
-    case 14:
+    case Get_WaitTime:
       LastResponse = WaitTime;
       break;
       
-    case 15:
+    case Set_Logging_State:
       MeasureState = data;
       break;
 
-    case 16:
+    case Get_Logging_Error:
       LastResponse = logger.GetMeasure1();
       break;
 
-    case 17:
+    case Get_MotorLeft_PID_Kp:
       LastResponse = MotorLeft_Kp * PID_DIVISION_FACTOR;
       break;
 
-    case 18:
+    case Get_MotorLeft_PID_Ki:
       LastResponse = MotorLeft_Ki * PID_DIVISION_FACTOR;
       break;
 
-    case 19:
+    case Get_MotorLeft_PID_Kd:
       LastResponse = MotorLeft_Kd * PID_DIVISION_FACTOR;
       break;
 
-    case 20:
+    case Get_MotorRight_PID_Kp:
       LastResponse = MotorRight_Kp * PID_DIVISION_FACTOR;
       break;
 
-    case 21:
+    case Get_MotorRight_PID_Ki:
       LastResponse = MotorRight_Ki * PID_DIVISION_FACTOR;
       break;
 
-    case 22:
+    case Get_MotorRight_PID_Kd:
       LastResponse = MotorRight_Kd * PID_DIVISION_FACTOR;
       break;
       
-    case 23:
+    case Add_Logging_Data:
       logger.AddMeasure(data, data);
       LastResponse = 0;
       break;
       
-    case 24:
+    case Get_Nr_Of_Logs:
       LastResponse = logger.GetNrOfMeasures();
       break;
 
-    case 25:
+    case Reset_Logger:
       logger.Reset();
       LastResponse = 0;
       break;
 
-    case 26:
+    case Get_Logging_Target:
       LastResponse = logger.GetMeasure2();
       break;
 
-    case 27:
+    case Next_Logging:
       logger.NextMeasure();
       LastResponse = 0;
       break;
 
-    case 28:
+    case Logging_Full:
       LastResponse = logger.LogFull();
       break;
     
-    case 126:
+    case Get_Motor_Echo_Command_Test:
       LastResponse = command;
       break;
 
-    case 127:
+    case Get_Motor_Echo_Data_Test:
       LastResponse = data;
       break;
   }

@@ -16,12 +16,12 @@ void HandleCommand()
     _UnhandleCommandReceivedFromMaster = false;
     if(MotorControllerCommand(_CommandFromMaster))
     {
-      _UnhandledResponseFromMotorController = true;
+      _UnhandledResponseFromMotorController = MotorCommandResponse[_CommandFromMaster];
       _CommandSentTime = millis();
     }
     else
     {
-      _UnhandledResponseFromRobotController = true;
+      _UnhandledResponseFromRobotController = RobotCommandResponse[_CommandFromMaster-RobotCommandTypeOffset];
     }
   }
 }
