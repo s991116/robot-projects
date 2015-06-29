@@ -29,10 +29,10 @@ TEST(SerialIntegration, SendCommand_EchoController_Command) {
     HardwareController* target = fixture.CreateTarget();
     
     //Act
-    short result = target->SendCommand(CommandType::Get_Controller_Echo_Command_Test, 0);
+    short result = target->SendCommand(RobotCommandType::Get_Controller_Echo_Command_Test, 0);
     
     //Assert
-    short expectedValue = (short)(CommandType::Get_Controller_Echo_Command_Test);
+    short expectedValue = (short)(RobotCommandType::Get_Controller_Echo_Command_Test) + RobotCommandTypeOffset;
     EXPECT_EQ(expectedValue, result);
 }
 
@@ -43,7 +43,7 @@ TEST(SerialIntegration, SendCommand_EchoController_Data) {
     short dataTest = 13;//256*42+212;
     
     //Act
-    short result = target->SendCommand(CommandType::Get_Controller_Echo_Data_Test, dataTest);
+    short result = target->SendCommand(RobotCommandType::Get_Controller_Echo_Data_Test, dataTest);
 
     //Assert
     EXPECT_EQ(dataTest, result);
@@ -55,10 +55,10 @@ TEST(SerialIntegration, SendCommand_EchoMotorController_Command) {
     HardwareController* target = fixture.CreateTarget();
     
     //Act
-    short result = target->SendCommand(CommandType::Get_Motor_Echo_Command_Test, 0);
+    short result = target->SendCommand(MotorCommandType::Get_Motor_Echo_Command_Test, 0);
     
     //Assert
-    short expectedValue = (short)(CommandType::Get_Motor_Echo_Command_Test);
+    short expectedValue = (short)(MotorCommandType::Get_Motor_Echo_Command_Test);
     EXPECT_EQ(expectedValue, result);
 }
 
@@ -69,7 +69,7 @@ TEST(SerialIntegration, SendCommand_EchoMotorController_Data) {
     short dataTest = 13;//21*256+25;
     
     //Act
-    short result = target->SendCommand(CommandType::Get_Motor_Echo_Data_Test, dataTest);
+    short result = target->SendCommand(MotorCommandType::Get_Motor_Echo_Data_Test, dataTest);
     
     //Assert
     EXPECT_EQ(dataTest, result);
@@ -80,14 +80,14 @@ TEST(SerialIntegration, ResetDataLogger_NrOfLoggingIsZero) {
     HardwareControllerFixture fixture = HardwareControllerFixture();
     HardwareController* target = fixture.CreateTarget();
     short logDataExpected = 12345;
-    target->SendCommand(CommandType::Reset_Logger, 0);
-    target->SendCommand(CommandType::Add_Logging_Data, logDataExpected);
-    
+    target->SendCommand(MotorCommandType::Reset_Logger, 0);
+    target->SendCommand(MotorCommandType::Add_Logging_Data, logDataExpected);
+
     //Act
-    target->SendCommand(CommandType::Reset_Logger, 0);
+    target->SendCommand(MotorCommandType::Reset_Logger, 0);
     
     //Assert
-    short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
+    short nrOfMeasures = target->SendCommand(MotorCommandType::Get_Nr_Of_Logs, 0);
     
     EXPECT_EQ(0, nrOfMeasures);
 }
@@ -99,17 +99,17 @@ TEST(SerialIntegration, AddTwoDataToLogger_GetLoggingData) {
     HardwareController* target = fixture.CreateTarget();
     short logDataExpected1 = 123;
     short logDataExpected2 = 12321;
-    target->SendCommand(CommandType::Reset_Logger, 0);
+    target->SendCommand(MotorCommandType::Reset_Logger, 0);
     
     //Act
-    target->SendCommand(CommandType::Add_Logging_Data, logDataExpected1);
-    target->SendCommand(CommandType::Add_Logging_Data, logDataExpected2);
+    target->SendCommand(MotorCommandType::Add_Logging_Data, logDataExpected1);
+    target->SendCommand(MotorCommandType::Add_Logging_Data, logDataExpected2);
     
     //Assert
-    short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
-    short logData1 = target->SendCommand(CommandType::Get_Logging_Error, 0);
-    target->SendCommand(CommandType::Next_Logging, 0);
-    short logData2 = target->SendCommand(CommandType::Get_Logging_Error, 0);
+    short nrOfMeasures = target->SendCommand(MotorCommandType::Get_Nr_Of_Logs, 0);
+    short logData1 = target->SendCommand(MotorCommandType::Get_Logging_Error, 0);
+    target->SendCommand(MotorCommandType::Next_Logging, 0);
+    short logData2 = target->SendCommand(MotorCommandType::Get_Logging_Error, 0);
     
     EXPECT_EQ(2, nrOfMeasures);
     EXPECT_EQ(logDataExpected1, logData1);
@@ -126,7 +126,7 @@ TEST(SerialIntegration, SendCommand_FastResend) {
     short result;
     //Act
     for(int index=0; index < 10; index++)
-      result = target->SendCommand(CommandType::Get_Controller_Echo_Data_Test, dataTest);
+      result = target->SendCommand(RobotCommandType::Get_Controller_Echo_Data_Test, dataTest);
 
     //Assert
     EXPECT_EQ(dataTest, result);
@@ -138,14 +138,14 @@ TEST(SerialIntegration, AddDataToLogger_GetErrorAndTargetLoggingData) {
     HardwareControllerFixture fixture = HardwareControllerFixture();
     HardwareController* target = fixture.CreateTarget();
     
-    target->SendCommand(CommandType::Reset_Logger, 0);
+    target->SendCommand(MotorCommandType::Reset_Logger, 0);
 
     short expectedLog = 42;
-    target->SendCommand(CommandType::Add_Logging_Data, expectedLog);
+    target->SendCommand(MotorCommandType::Add_Logging_Data, expectedLog);
     
     //Act
-    short resultError = target->SendCommand(CommandType::Get_Logging_Error, 0);
-    short resultTarget = target->SendCommand(CommandType::Get_Logging_Target, 0);
+    short resultError = target->SendCommand(MotorCommandType::Get_Logging_Error, 0);
+    short resultTarget = target->SendCommand(MotorCommandType::Get_Logging_Target, 0);
 
     //Assert
     EXPECT_EQ(expectedLog, resultError);
@@ -158,28 +158,27 @@ TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
     HardwareControllerFixture fixture = HardwareControllerFixture();
     HardwareController* target = fixture.CreateTarget();
     
-    target->SendCommand(CommandType::Reset_Logger, 0);
-    bool LogNotFull = target->SendCommand(CommandType::Logging_Full, 0);
+    target->SendCommand(MotorCommandType::Reset_Logger, 0);
+    bool LogNotFull = target->SendCommand(MotorCommandType::Logging_Full, 0);
 
     int arraySize = 250;
     short * expectedLog = new short[arraySize];
     for(int index = 0; index < arraySize; index++)
     {
         expectedLog[index] = index;
-        target->SendCommand(CommandType::Add_Logging_Data, expectedLog[index]);
+        target->SendCommand(MotorCommandType::Add_Logging_Data, expectedLog[index]);
     }
     
     //Act
-    short nrOfMeasures = target->SendCommand(CommandType::Get_Nr_Of_Logs, 0);
-    bool LogFull = target->SendCommand(CommandType::Logging_Full, 0);
+    short nrOfMeasures = target->SendCommand(MotorCommandType::Get_Nr_Of_Logs, 0);
+    bool LogFull = target->SendCommand(MotorCommandType::Logging_Full, 0);
     short * resultLog = new short[arraySize];
     for(int index = 0; index < arraySize; index++)
     {
-        resultLog[index] = target->SendCommand(CommandType::Get_Logging_Error, 0);
-        target->SendCommand(CommandType::Next_Logging, 0);
+        resultLog[index] = target->SendCommand(MotorCommandType::Get_Logging_Error, 0);
+        target->SendCommand(MotorCommandType::Next_Logging, 0);
     } 
-    
-    
+
     //Assert
     EXPECT_EQ(true, LogFull);
     EXPECT_EQ(false, LogNotFull);

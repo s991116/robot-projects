@@ -6,67 +6,67 @@ Motor::Motor(HardwareController* hardwareController) {
 }
 
 void Motor::SetLeftP(short p) {
-    _HardwareController->SendCommand(CommandType::Set_MotorLeft_PID_Kp, p);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorLeft_PID_Kp, p);
 }
 
 void Motor::SetLeftI(short i) {
-    _HardwareController->SendCommand(CommandType::Set_MotorLeft_PID_Ki, i);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorLeft_PID_Ki, i);
 }
 
 void Motor::SetLeftD(short d) {
-    _HardwareController->SendCommand(CommandType::Set_MotorLeft_PID_Kd, d);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorLeft_PID_Kd, d);
 }
 
 short Motor::GetLeftP() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorLeft_PID_Kp, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kp, 0);
 }
 
 short Motor::GetLeftI() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorLeft_PID_Ki, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Ki, 0);
 }
 
 short Motor::GetLeftD() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorLeft_PID_Kd, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kd, 0);
 }
 
 void Motor::SetRightP(short p) {
-    _HardwareController->SendCommand(CommandType::Set_MotorRight_PID_Kp, p);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorRight_PID_Kp, p);
 }
 
 void Motor::SetRightI(short i) {
-    _HardwareController->SendCommand(CommandType::Set_MotorRight_PID_Ki, i);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorRight_PID_Ki, i);
 }
 
 void Motor::SetRightD(short d) {
-    _HardwareController->SendCommand(CommandType::Set_MotorRight_PID_Kd, d);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorRight_PID_Kd, d);
 }
 
 short Motor::GetRightP() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorRight_PID_Kp, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kp, 0);
 }
 
 short Motor::GetRightI() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorRight_PID_Ki, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Ki, 0);
 }
 
 short Motor::GetRightD() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorRight_PID_Kd, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kd, 0);
 }
 
 void Motor::SetMotorLeftSpeed(short speed) {
-    _HardwareController->SendCommand(CommandType::Set_MotorLeft_Speed, speed);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorLeft_Speed, speed);
 }
 
 void Motor::SetMotorRightSpeed(short speed) {
-    _HardwareController->SendCommand(CommandType::Set_MotorRight_Speed, speed);
+    _HardwareController->SendCommand(MotorCommandType::Set_MotorRight_Speed, speed);
 }
 
 short Motor::GetMotorLeftSpeed() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorLeft_Speed, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_Speed, 0);
 }
 
 short Motor::GetMotorRightSpeed() {
-    return _HardwareController->SendCommand(CommandType::Get_MotorRight_Speed, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_Speed, 0);
 }
 
 void Motor::SetDirection(DirectionEnum direction) {
@@ -78,8 +78,8 @@ void Motor::SetDirection(DirectionEnum direction) {
         case DirectionEnum::Stop:
             SetMotorLeftSpeed(0);
             SetMotorRightSpeed(0);
-            _HardwareController->SendCommand(CommandType::Set_Motor_Enabled, false);
-            _HardwareController->SendCommand(CommandType::Set_Motor_Enabled, true);            
+            _HardwareController->SendCommand(MotorCommandType::Set_Motor_Enabled, false);
+            _HardwareController->SendCommand(MotorCommandType::Set_Motor_Enabled, true);            
             break;
 
         case DirectionEnum::Left:
@@ -109,9 +109,8 @@ DirectionEnum Motor::GetDirection() {
 }
 
 void Motor::SetMotorEnabled(bool state) {
-    _HardwareController->SendCommand(CommandType::Set_Motor_Enabled, state);
+    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Enabled, state);
 }
 
 Motor::~Motor() {
 }
-
