@@ -13,7 +13,7 @@ boolean LED_Status;
 
 int16_t gyro[3];       // [x, y, z]            gyroscopic output
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-short YPR_Factor = 100;
+short YPR_Factor = 500;
 
 short _ReplyFromMaster;
 bool _UnhandleCommandReceivedFromMaster = false;
@@ -23,6 +23,13 @@ byte _CommandFromMaster;
 short _DataFromMaster;
 short _UnhandledResponse;
 unsigned long _CommandSentTime;
+
+float Gyro_PID_Kp = 4.5;
+float Gyro_PID_Ki = 0;
+float Gyro_PID_Kd = -0.5;
+short Gyro_PID_Factor = 10;
+bool Gyro_PID_Enabled = false;
+
 
 void setup()
 {
@@ -74,6 +81,17 @@ void loop()
     UpdateGyroData();
 }
 
+void UpdateGyroData()
+{
+  if(GyroDataUpdated() && Gyro_PID_Enabled)
+  {
+    short angel = ypr[1]*YPR_Factor;
+    short angelAccelration = gyro[1];
+    short speed = GetPIDSpeed(angel, angelAccelration);
+    SendMessage(Set_Motor_Speed, speed);
+  }
+}
+
 void SendMessage(byte command, short data)
 {
   if(MotorControllerCommand(command))
@@ -110,6 +128,47 @@ void SendMessage(byte command, short data)
         
       case Get_Controller_Echo_Data_Test:
         _UnhandledResponse = data;
+        return;
+
+      case Set_Gyro_PID_Kp:
+        Gyro_PID_Kp = ((float)data) / ((float)Gyro_PID_Factor);
+        return;
+        
+      case Set_Gyro_PID_Ki:
+        Gyro_PID_Ki = ((float)data) / ((float)Gyro_PID_Factor);
+        return;
+        
+      case Set_Gyro_PID_Kd:
+        Gyro_PID_Kd = ((float)data) / ((float)Gyro_PID_Factor);
+        return;
+        
+      case Set_Gyro_PID_Factor:
+        Gyro_PID_Factor = data;
+        return;
+
+      case Get_Gyro_PID_Factor:
+        _UnhandledResponse = Gyro_PID_Factor;
+        return;
+        
+      case Get_Gyro_PID_Kp:
+        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kp;
+        return;
+        
+      case Get_Gyro_PID_Ki:
+        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Ki;
+        return;
+        
+      case Get_Gyro_PID_Kd:
+        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kd;
+        return;
+        
+      case Set_Gyro_State:
+        Gyro_PID_Enabled = data;
+        SendMessageToMotorController(Set_Motor_Enabled, Gyro_PID_Enabled);
+        return;
+
+      case Get_Gyro_State:
+        _UnhandledResponse = Gyro_PID_Enabled;
         return;
     }
     return;

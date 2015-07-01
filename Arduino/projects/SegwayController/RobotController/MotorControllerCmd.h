@@ -56,7 +56,17 @@
     Get_Distance_cm = 4,
     Get_Gyro_YPR_Factor = 5,
     Get_Controller_Echo_Command_Test = 6,
-    Get_Controller_Echo_Data_Test = 7
+    Get_Controller_Echo_Data_Test = 7,
+    Set_Gyro_PID_Kp = 8,
+    Set_Gyro_PID_Ki = 9,
+    Set_Gyro_PID_Kd = 10,
+    Set_Gyro_PID_Factor = 11,
+    Get_Gyro_PID_Kp = 12,
+    Get_Gyro_PID_Ki = 13,
+    Get_Gyro_PID_Kd = 14,
+    Set_Gyro_State = 15,
+    Get_Gyro_State = 16,
+    Get_Gyro_PID_Factor = 17
   };
 
 #ifndef HARDWARECONTROLLER_CPP
@@ -109,6 +119,16 @@ true, //Get_Distance_cm = 4,
 true, //Get_Gyro_YPR_Factor = 5,
 true, //Get_Controller_Echo_Command_Test = 6,
 true, //Get_Controller_Echo_Data_Test = 7
+false, //Set_Gyro_PID_Kp = 8,
+false, //Set_Gyro_PID_Ki = 9,
+false, //Set_Gyro_PID_Kd = 10,
+false, //Set_Gyro_PID_Factor = 11,
+true, //Get_Gyro_PID_Kp = 12,
+true, //Get_Gyro_PID_Ki = 13,
+true, //Get_Gyro_PID_Kd = 14,
+false, //Set_Gyro_State = 15,
+true, //Get_Gyro_State = 16,
+true //Get_Gyro_PID_Factor = 17
 };
 
 #endif
