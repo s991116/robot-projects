@@ -5,7 +5,6 @@
 
 MotorState::MotorState(Motor* motor, MotorTuningController* motorTuningController) {
     _Motor = motor;
-    _MotorTuningController = motorTuningController;
 }
 
 State* MotorState::View() {
@@ -14,6 +13,7 @@ State* MotorState::View() {
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
     printw("F         - Fixed speed\n");
     printw("P, I, D   - PID-factor\n");
+    printw("S         - Motor slack count\n");
     printw("T         - Test-tuning\n");
     printw("Q         - Return\n");
     printw("\n");
@@ -31,6 +31,9 @@ State* MotorState::View() {
     printw(Convert::IntToString(_Motor->GetLeftI()).c_str());
     printw(" , ");
     printw(Convert::IntToString(_Motor->GetLeftD()).c_str());
+    printw("\n");
+    printw("Motor slack count: ");
+    printw(Convert::IntToString(_Motor->GetMotorSlackOffset()).c_str());
     printw("\n");
     printw("PID correction (Right): ");
     printw(Convert::IntToString(_Motor->GetRightP()).c_str());
@@ -76,6 +79,11 @@ State* MotorState::View() {
             number = ReadInteger("Set P-correction:");
             _Motor->SetLeftP(number);
             _Motor->SetRightP(number);
+            break;
+
+        case 's':
+            number = ReadInteger("Set Motor slack:");
+            _Motor->SetMotorSlackOffset(number);
             break;
 
         case 'i':

@@ -35,6 +35,9 @@ public:
     
     void SetMotorEnabled(bool state);
     
+    short GetMotorSlackOffset();
+    void  SetMotorSlackOffset(short offset);
+    
     virtual ~Motor();
 private:
     HardwareController* _HardwareController;

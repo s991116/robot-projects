@@ -9,7 +9,8 @@ GyroState::GyroState(Gyro* gyro) {
 State* GyroState::View() {
     clear();
     printw("*** Gyro tuning ***\n");
-    printw("F - Set angel factor\n");
+    printw("F - Set angle factor\n");
+    printw("O - Set angle offset\n");    
     printw("P - Set Gyro PID P-Factor\n");
     printw("I - Set Gyro PID I-Factor\n");
     printw("D - Set Gyro PID D-Factor\n");
@@ -17,24 +18,29 @@ State* GyroState::View() {
     printw("T - Enable/Disable Gyro-PID\n");
     printw("Q - Return\n");
     
-    printw("Angel: ");
-    printw(Convert::IntToString(_Gyro->GetAngel()).c_str());
+    printw("Angle: ");
+    printw(Convert::IntToString(_Gyro->GetAngle()).c_str());
+    printw("\n");
+
+    printw("Angle Offset: ");
+    printw(Convert::IntToString(_Gyro->GetAngleOffset()).c_str());
     printw("\n");
     
-    printw("Angel factor: ");
-    printw(Convert::IntToString(_Gyro->GetAngelFactor()).c_str());
+    
+    printw("Angle factor: ");
+    printw(Convert::IntToString(_Gyro->GetAngleFactor()).c_str());
     printw("\n");
     
-    printw("Angel Acc: ");
-    printw(Convert::IntToString(_Gyro->GetAngelAccelration()).c_str());
+    printw("Angle Acc: ");
+    printw(Convert::IntToString(_Gyro->GetAngleAccelration()).c_str());
     printw("\n");
     
     printw("Gyro P,I,D (incl. factor): ");
-    printw(Convert::IntToString(_Gyro->GetAngelPid_p()).c_str());
+    printw(Convert::IntToString(_Gyro->GetAnglePid_p()).c_str());
     printw(" , ");
-    printw(Convert::IntToString(_Gyro->GetAngelPid_i()).c_str());
+    printw(Convert::IntToString(_Gyro->GetAnglePid_i()).c_str());
     printw(" , ");
-    printw(Convert::IntToString(_Gyro->GetAngelPid_d()).c_str());
+    printw(Convert::IntToString(_Gyro->GetAnglePid_d()).c_str());
     printw("\n");
 
     printw("Gyro PID Factor: ");
@@ -54,23 +60,28 @@ State* GyroState::View() {
             break;
             
         case 'f':
-            number = ReadInteger("Set Angel factor:");
-            _Gyro->SetAngelFactor(number);
+            number = ReadInteger("Set Angle factor:");
+            _Gyro->SetAngleFactor(number);
             break;
-            
+
+        case 'o':
+            number = ReadInteger("Set Angle offset:");
+            _Gyro->SetAngleOffset(number);
+            break;
+                        
         case 'p':
             number = ReadInteger("Set Gyro PID P-factor:");
-            _Gyro->SetAngelPid_p(number);
+            _Gyro->SetAnglePid_p(number);
             break;
             
         case 'i':
             number = ReadInteger("Set Gyro PID I-factor:");
-            _Gyro->SetAngelPid_i(number);
+            _Gyro->SetAnglePid_i(number);
             break;
             
         case 'd':
             number = ReadInteger("Set Gyro PID D-factor:");
-            _Gyro->SetAngelPid_d(number);
+            _Gyro->SetAnglePid_d(number);
             break;
             
         case 'g':

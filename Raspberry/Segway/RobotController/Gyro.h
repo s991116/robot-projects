@@ -7,18 +7,20 @@ class Gyro {
 public:
     Gyro(HardwareController* hardwareController);
     
-    short GetAngel();
-    short GetAngelFactor();
+    short GetAngle();
+    short GetAngleFactor();
 
-    void SetAngelFactor(short factor);
-    short GetAngelAccelration();
+    void SetAngleFactor(short factor);
+    void SetAngleOffset(short offset);
+    short GetAngleOffset();
+    short GetAngleAccelration();
     
-    void SetAngelPid_p(short p);
-    void SetAngelPid_i(short i);
-    void SetAngelPid_d(short d);
-    short GetAngelPid_p();
-    short GetAngelPid_i();
-    short GetAngelPid_d();
+    void SetAnglePid_p(short p);
+    void SetAnglePid_i(short i);
+    void SetAnglePid_d(short d);
+    short GetAnglePid_p();
+    short GetAnglePid_i();
+    short GetAnglePid_d();
     
     void SetGyroPidFactor(short factor);
     short GetGyroPidFactor();

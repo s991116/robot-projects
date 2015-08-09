@@ -112,5 +112,13 @@ void Motor::SetMotorEnabled(bool state) {
     _HardwareController->SendCommand(MotorCommandType::Set_Motor_Enabled, state);
 }
 
+void  Motor::SetMotorSlackOffset(short offset) {
+    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Slack, offset);    
+}
+
+short Motor::GetMotorSlackOffset(){
+    return _HardwareController->SendCommand(MotorCommandType::Get_Motor_Slack, 0);    
+}
+
 Motor::~Motor() {
 }

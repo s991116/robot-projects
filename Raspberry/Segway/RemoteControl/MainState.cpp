@@ -40,6 +40,7 @@ State* MainState::Control() {
             
         case 'm':
             return _MotorState;
+            break;
     }
     return this;
 }

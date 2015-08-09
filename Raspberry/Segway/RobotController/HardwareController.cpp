@@ -1,5 +1,6 @@
 #define HARDWARECONTROLLER_CPP
 #include "HardwareController.h"
+#include "Convert.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -37,7 +38,7 @@ short HardwareController::SendCommand(RobotCommandType commandType, unsigned cha
 
 short HardwareController::SendCommand(unsigned char cmd, unsigned char data1, unsigned char data2, bool response) {
 
-    //std::cout << "Cmd: " << cmd << " , MSB:" << (int) data1 << " , LSB:" << (int) data2;
+//    std::cout << "Cmd: " << cmd << " , MSB:" << (int) data1 << " , LSB:" << (int) data2;
     _SendBuffer[0] = cmd;
     _SendBuffer[1] = data1;
     _SendBuffer[2] = data2;
@@ -59,11 +60,19 @@ short HardwareController::SendCommand(unsigned char cmd, unsigned char data1, un
                 }
             } while (result != 1 && retryCount < _MaxRetryCount);
             if (retryCount == _MaxRetryCount) {
-                throw std::invalid_argument("No response from Arduino.");
+                std::string errorMsg;
+                errorMsg = "No response from Arduino. (Cmd: ";
+                errorMsg += Convert::IntToString(cmd);
+                errorMsg += " , MSB:";
+                errorMsg += Convert::IntToString(data1);
+                errorMsg += " , LSB:";
+                errorMsg += Convert::IntToString(data2);
+                
+                throw std::invalid_argument(errorMsg);
             }
             _ReceiveBuffer[receiveCount] = receiveChar[0];
         }
-        //std::cout << " - Received: " << " MSB:" << (int) _ReceiveBuffer[0] << " , LSB:" << (int) _ReceiveBuffer[1] << std::endl;
+//        std::cout << " - Received: " << " MSB:" << (int) _ReceiveBuffer[0] << " , LSB:" << (int) _ReceiveBuffer[1] << std::endl;
 
         short response = (_ReceiveBuffer[0] << 8);
         response += _ReceiveBuffer[1];

@@ -2,6 +2,7 @@
 #include <HardwareController.h>
 #include <ComPort.h>
 #include <Convert.h>
+#include <exception>
 
 class HardwareControllerFixture {
     
@@ -186,5 +187,26 @@ TEST(SerialIntegration, AddMaxDataToLogger_GetAllLoggingData) {
     for(int index = 0; index < arraySize; index++)
     {
         EXPECT_EQ(expectedLog[index], resultLog[index]);
+    }
+}
+
+TEST(SerialIntegration, SendCommand_RepeatCommand) {
+
+    //Arrange    
+    HardwareControllerFixture fixture = HardwareControllerFixture();
+    HardwareController* target = fixture.CreateTarget();
+
+    //Act
+    try{
+      target->SendCommand(MotorCommandType::Set_MotorLeft_Speed, 0);
+      target->SendCommand(MotorCommandType::Set_MotorLeft_Speed, 0);
+      target->SendCommand(MotorCommandType::Set_Motor_Enabled, false);
+      target->SendCommand(MotorCommandType::Set_Motor_Enabled, true); 
+    }
+    
+    //Assert
+    catch(std::exception& e)
+    {
+      EXPECT_EQ(true, false);
     }
 }

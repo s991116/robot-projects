@@ -41,6 +41,8 @@
     Logging_Full = 28,
     Get_Motor_Echo_Command_Test = 29,
     Get_Motor_Echo_Data_Test = 30,
+    Set_Motor_Slack = 31,
+    Get_Motor_Slack = 32,
   };
   
 #define RobotCommandTypeOffset (128)
@@ -66,7 +68,9 @@
     Get_Gyro_PID_Kd = 14,
     Set_Gyro_State = 15,
     Get_Gyro_State = 16,
-    Get_Gyro_PID_Factor = 17
+    Get_Gyro_PID_Factor = 17,
+    Set_Gyro_Angle_Offset = 18,
+    Get_Gyro_Angle_Offset = 19
   };
 
 #ifndef HARDWARECONTROLLER_CPP
@@ -104,6 +108,8 @@ false, //Next_Logging = 27,
 true,  //Logging_Full = 28,
 true,  //Get_Motor_Echo_Command_Test = 29,  
 true,  //Get_Motor_Echo_Data_Test = 30,
+false, //Set_Motor_Slack = 31,
+true   //Get_Motor_Slack = 32,
 };
 #endif
 
@@ -111,24 +117,26 @@ true,  //Get_Motor_Echo_Data_Test = 30,
 extern bool RobotCommandResponse[];
 #else
 bool RobotCommandResponse[] {
-false,//0
-true, //Get_Gyro_YPR = 1,
-true, //Get_Gyro_YPR_Accelration = 2,
-false,//Set_Gyro_YPR_Factor = 3,
-true, //Get_Distance_cm = 4,
-true, //Get_Gyro_YPR_Factor = 5,
-true, //Get_Controller_Echo_Command_Test = 6,
-true, //Get_Controller_Echo_Data_Test = 7
+false, //0
+true,  //Get_Gyro_YPR = 1,
+true,  //Get_Gyro_YPR_Accelration = 2,
+false, //Set_Gyro_YPR_Factor = 3,
+true,  //Get_Distance_cm = 4,
+true,  //Get_Gyro_YPR_Factor = 5,
+true,  //Get_Controller_Echo_Command_Test = 6,
+true,  //Get_Controller_Echo_Data_Test = 7
 false, //Set_Gyro_PID_Kp = 8,
 false, //Set_Gyro_PID_Ki = 9,
 false, //Set_Gyro_PID_Kd = 10,
 false, //Set_Gyro_PID_Factor = 11,
-true, //Get_Gyro_PID_Kp = 12,
-true, //Get_Gyro_PID_Ki = 13,
-true, //Get_Gyro_PID_Kd = 14,
+true,  //Get_Gyro_PID_Kp = 12,
+true,  //Get_Gyro_PID_Ki = 13,
+true,  //Get_Gyro_PID_Kd = 14,
 false, //Set_Gyro_State = 15,
-true, //Get_Gyro_State = 16,
-true //Get_Gyro_PID_Factor = 17
+true,  //Get_Gyro_State = 16,
+true,   //Get_Gyro_PID_Factor = 17,
+false, //Set_Gyro_Angle_Offset = 18,
+true   //Get_Gyro_Angle_Offset = 19
 };
 
 #endif

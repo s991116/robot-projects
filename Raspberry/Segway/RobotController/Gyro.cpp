@@ -4,43 +4,51 @@ Gyro::Gyro(HardwareController* hardwareController) {
     _HardwareController = hardwareController;
 }
 
-short Gyro::GetAngel() {
+short Gyro::GetAngle() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_YPR, 1);
 }
 
-void Gyro::SetAngelFactor(short factor) {
+void Gyro::SetAngleFactor(short factor) {
     _HardwareController->SendCommand(RobotCommandType::Set_Gyro_YPR_Factor, factor);
 }
 
-short Gyro::GetAngelFactor() {
+short Gyro::GetAngleFactor() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_YPR_Factor, 0);
 }
 
-short Gyro::GetAngelAccelration() {
+void Gyro::SetAngleOffset(short offset) {
+    _HardwareController->SendCommand(RobotCommandType::Set_Gyro_Angle_Offset, offset);
+}
+
+short Gyro::GetAngleOffset() {
+    return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_Angle_Offset, 0);
+}
+
+short Gyro::GetAngleAccelration() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_YPR_Accelration, 1);
 }
 
-short Gyro::GetAngelPid_p() {
+short Gyro::GetAnglePid_p() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_PID_Kp, 0);
 }
 
-short Gyro::GetAngelPid_i() {
+short Gyro::GetAnglePid_i() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_PID_Ki, 0);
 }
 
-short Gyro::GetAngelPid_d() {
+short Gyro::GetAnglePid_d() {
     return _HardwareController->SendCommand(RobotCommandType::Get_Gyro_PID_Kd, 0);
 }
 
-void Gyro::SetAngelPid_p(short p) {
+void Gyro::SetAnglePid_p(short p) {
     _HardwareController->SendCommand(RobotCommandType::Set_Gyro_PID_Kp, p);
 }
 
-void Gyro::SetAngelPid_i(short i) {
+void Gyro::SetAnglePid_i(short i) {
     _HardwareController->SendCommand(RobotCommandType::Set_Gyro_PID_Ki, i);
 }
 
-void Gyro::SetAngelPid_d(short d) {
+void Gyro::SetAnglePid_d(short d) {
     _HardwareController->SendCommand(RobotCommandType::Set_Gyro_PID_Kd, d);
 }
 
