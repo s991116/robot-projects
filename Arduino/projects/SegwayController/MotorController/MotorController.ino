@@ -38,6 +38,8 @@ long EncoderRightTotalTicks = 0;
 
 int MotorLeftTargetTickSpeed = 0; //Target ticks pr sample time
 int MotorRightTargetTickSpeed = 0; //Target ticks pr sample time
+int MotorLeftTargetTickSpeedOld = 0;
+int MotorRightTargetTickSpeedOld = 0;
 int MotorLeftSpeed = 0; //PWM value in range [-255 ; +255]
 int MotorRightSpeed = 0; //PWM value in range [-255 ; +255]
 
@@ -48,6 +50,8 @@ float MotorLeft_Kd = 0.08;
 float MotorRight_Kp = 3.7;
 float MotorRight_Ki = 0.2;
 float MotorRight_Kd = 0.08;
+
+short Motor_Slack = 100;
 
 PID motorLeftPID(&LastEncoderLeftTickSpeed, &MotorLeftSpeed, &MotorLeftTargetTickSpeed, MotorLeft_Kp, MotorLeft_Ki, MotorLeft_Kd, REVERSE);
 PID motorRightPID(&LastEncoderRightTickSpeed, &MotorRightSpeed, &MotorRightTargetTickSpeed, MotorRight_Kp, MotorRight_Ki, MotorRight_Kd, DIRECT);
@@ -239,6 +243,7 @@ void HandleCommand(byte command, short data)
     case Set_Motor_Speed:// 0:
      MotorLeftTargetTickSpeed = data;
      MotorRightTargetTickSpeed = data;
+     UpdateSlackCount();
      break;
      
     case Set_MotorLeft_PID_Kp:
@@ -273,10 +278,12 @@ void HandleCommand(byte command, short data)
      
     case Set_MotorLeft_Speed:
      MotorLeftTargetTickSpeed = data;
+     UpdateSlackCount();
      break;
 
     case Set_MotorRight_Speed:
      MotorRightTargetTickSpeed = data;
+     UpdateSlackCount();
      break;
     
      case Get_MotorLeft_Speed:
@@ -370,6 +377,23 @@ void HandleCommand(byte command, short data)
       LastResponse = data;
       break;
   }
+}
+
+void UpdateSlackCount()
+{
+  if(MotorLeftTargetTickSpeedOld > 0 && MotorLeftTargetTickSpeed < 0)
+    LastEncoderLeftTickSpeed = Motor_Slack;
+  else if(MotorLeftTargetTickSpeedOld < 0 && MotorLeftTargetTickSpeed > 0)
+    LastEncoderLeftTickSpeed = -Motor_Slack;
+    
+  MotorLeftTargetTickSpeedOld = MotorLeftTargetTickSpeed;
+  
+if(MotorRightTargetTickSpeedOld > 0 && MotorRightTargetTickSpeed < 0)
+    LastEncoderRightTickSpeed = Motor_Slack;
+  else if(MotorRightTargetTickSpeedOld < 0 && MotorRightTargetTickSpeed > 0)
+    LastEncoderRightTickSpeed = -Motor_Slack;
+  
+  MotorRightTargetTickSpeedOld = MotorRightTargetTickSpeed;
 }
 
 void UpdateMotorLeftPID()

@@ -4,11 +4,11 @@
 //short Gyro_PID_Factor = 10;
 //bool Gyro_PID_Enabled = false;
 
-short AngelIntegration = 0;
+short AngleIntegration = 0;
 
-short GetPIDSpeed(short Angel, short AngelAccelration)
+short GetPIDSpeed(short Angle, short AngleAccelration)
 {
-  AngelIntegration += Angel;
-  short correction = Gyro_PID_Kp * Angel + Gyro_PID_Kd * AngelAccelration + Gyro_PID_Ki * AngelIntegration;
+  AngleIntegration += Angle;
+  short correction = Gyro_PID_Kp * Angle + Gyro_PID_Kd * AngleAccelration + Gyro_PID_Ki * AngleIntegration;
   return correction;
 }

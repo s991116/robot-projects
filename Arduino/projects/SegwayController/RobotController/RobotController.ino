@@ -29,7 +29,7 @@ float Gyro_PID_Ki = 0;
 float Gyro_PID_Kd = -0.5;
 short Gyro_PID_Factor = 10;
 bool Gyro_PID_Enabled = false;
-
+short Gyro_Angle_Offset = -10;
 
 void setup()
 {
@@ -85,9 +85,9 @@ void UpdateGyroData()
 {
   if(GyroDataUpdated() && Gyro_PID_Enabled)
   {
-    short angel = ypr[1]*YPR_Factor;
-    short angelAccelration = gyro[1];
-    short speed = GetPIDSpeed(angel, angelAccelration);
+    short angle = ypr[1]*YPR_Factor + Gyro_Angle_Offset;
+    short angleAccelration = gyro[1];
+    short speed = GetPIDSpeed(angle, angleAccelration);
     SendMessage(Set_Motor_Speed, speed);
   }
 }
@@ -170,6 +170,15 @@ void SendMessage(byte command, short data)
       case Get_Gyro_State:
         _UnhandledResponse = Gyro_PID_Enabled;
         return;
+
+      case Set_Gyro_Angle_Offset:
+        Gyro_Angle_Offset = data;
+        return;
+        
+      case Get_Gyro_Angle_Offset:
+        _UnhandledResponse = Gyro_Angle_Offset;
+        return;
+        
     }
     return;
   }
