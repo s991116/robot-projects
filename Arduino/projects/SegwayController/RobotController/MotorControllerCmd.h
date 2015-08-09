@@ -40,7 +40,7 @@
     Next_Logging = 27,
     Logging_Full = 28,
     Get_Motor_Echo_Command_Test = 29,
-    Get_Motor_Echo_Data_Test = 30,
+    Get_Motor_Echo_Data_Test = 30
   };
   
 #define RobotCommandTypeOffset (128)
@@ -66,7 +66,8 @@
     Get_Gyro_PID_Kd = 14,
     Set_Gyro_State = 15,
     Get_Gyro_State = 16,
-    Get_Gyro_PID_Factor = 17
+    Get_Gyro_PID_Factor = 17,
+    Set_Gyro_Angle_Offset = 18
   };
 
 #ifndef HARDWARECONTROLLER_CPP
