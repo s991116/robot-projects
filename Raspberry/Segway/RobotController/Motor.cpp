@@ -18,15 +18,15 @@ void Motor::SetLeftD(short d) {
 }
 
 short Motor::GetLeftP() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kp, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kp);
 }
 
 short Motor::GetLeftI() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Ki, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Ki);
 }
 
 short Motor::GetLeftD() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kd, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_PID_Kd);
 }
 
 void Motor::SetRightP(short p) {
@@ -42,15 +42,15 @@ void Motor::SetRightD(short d) {
 }
 
 short Motor::GetRightP() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kp, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kp);
 }
 
 short Motor::GetRightI() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Ki, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Ki);
 }
 
 short Motor::GetRightD() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kd, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_PID_Kd);
 }
 
 void Motor::SetMotorLeftSpeed(short speed) {
@@ -62,11 +62,19 @@ void Motor::SetMotorRightSpeed(short speed) {
 }
 
 short Motor::GetMotorLeftSpeed() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_Speed, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_Speed);
 }
 
 short Motor::GetMotorRightSpeed() {
-    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_Speed, 0);
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_Speed);
+}
+
+short Motor::GetMotorLeftDistance() {
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorLeft_Distance);
+}
+
+short Motor::GetMotorRightDistance() {
+    return _HardwareController->SendCommand(MotorCommandType::Get_MotorRight_Distance);
 }
 
 void Motor::SetDirection(DirectionEnum direction) {
@@ -112,12 +120,33 @@ void Motor::SetMotorEnabled(bool state) {
     _HardwareController->SendCommand(MotorCommandType::Set_Motor_Enabled, state);
 }
 
-void  Motor::SetMotorSlackOffset(short offset) {
-    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Slack, offset);    
+void  Motor::SetMotorSlackCount(short count) {
+    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Slack_Count, count);    
 }
 
-short Motor::GetMotorSlackOffset(){
-    return _HardwareController->SendCommand(MotorCommandType::Get_Motor_Slack, 0);    
+short Motor::GetMotorSlackCount(){
+    return _HardwareController->SendCommand(MotorCommandType::Get_Motor_Slack_Count);    
+}
+
+void  Motor::SetMotorSlackPWMSpeed(short speed) {
+    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Slack_PWMSpeed, speed);    
+}
+
+short Motor::GetMotorSlackPWMSpeed(){
+    return _HardwareController->SendCommand(MotorCommandType::Get_Motor_Slack_PWMSpeed);    
+}
+
+void  Motor::SetMotorSlackMode(short mode) {
+    _HardwareController->SendCommand(MotorCommandType::Set_Motor_Slack_Mode, mode);    
+}
+
+short Motor::GetMotorSlackMode(){
+    return _HardwareController->SendCommand(MotorCommandType::Get_Motor_Slack_Mode);    
+}
+
+void Motor::TestMotorSlack(short mode) {
+    _HardwareController->SendCommand(MotorCommandType::Test_MotorSlack, mode);
+    usleep(1000000); //Wait 1000 ms
 }
 
 Motor::~Motor() {
