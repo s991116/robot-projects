@@ -10,6 +10,10 @@ HardwareController::HardwareController(IComPort* comPort) {
     _ReceiveBuffer = new unsigned char[ReceiveBufferLength];
 }
 
+short HardwareController::SendCommand(MotorCommandType commandType) {
+    return SendCommand(commandType, 0, 0);
+}
+
 short HardwareController::SendCommand(MotorCommandType commandType, short data) {
     unsigned char data1 = (unsigned char) (data >> 8);
     unsigned char data2 = (unsigned char) (data & 0x00FF);
@@ -21,6 +25,11 @@ short HardwareController::SendCommand(MotorCommandType commandType, unsigned cha
     unsigned cmd = (unsigned char) commandType;
     bool response = MotorCommandResponse[cmd];
     return SendCommand(cmd, data1, data2, response);
+}
+
+short HardwareController::SendCommand(RobotCommandType commandType) {
+
+    return SendCommand(commandType, 0, 0);
 }
 
 short HardwareController::SendCommand(RobotCommandType commandType, short data) {

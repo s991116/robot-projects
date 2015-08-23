@@ -30,13 +30,24 @@ public:
     short GetMotorLeftSpeed();
     short GetMotorRightSpeed();
     
+    short GetMotorLeftDistance();
+    short GetMotorRightDistance();
+
     void SetDirection(DirectionEnum direction);
     DirectionEnum GetDirection();
     
     void SetMotorEnabled(bool state);
     
-    short GetMotorSlackOffset();
-    void  SetMotorSlackOffset(short offset);
+    short GetMotorSlackCount();
+    void  SetMotorSlackCount(short count);
+
+    short GetMotorSlackPWMSpeed();
+    void  SetMotorSlackPWMSpeed(short speed);
+
+    short GetMotorSlackMode();
+    void  SetMotorSlackMode(short mode);  
+   
+    void TestMotorSlack(short mode);
     
     virtual ~Motor();
 private:

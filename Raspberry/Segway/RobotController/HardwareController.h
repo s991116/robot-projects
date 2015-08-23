@@ -7,12 +7,13 @@ class HardwareController {
 public:
     HardwareController(IComPort* comPort);
 
+    short SendCommand(MotorCommandType commandType);
     short SendCommand(MotorCommandType commandType, short data);
     short SendCommand(MotorCommandType commandType, unsigned char data1, unsigned char data2);
-    short SendCommand(RobotCommandType commandType, unsigned char data1, unsigned char data2);
+    short SendCommand(RobotCommandType commandType);
     short SendCommand(RobotCommandType commandType, short data);
+    short SendCommand(RobotCommandType commandType, unsigned char data1, unsigned char data2);
 
-    
     ~HardwareController();
 
 private:

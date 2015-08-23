@@ -14,6 +14,8 @@ State* MotorState::View() {
     printw("F         - Fixed speed\n");
     printw("P, I, D   - PID-factor\n");
     printw("S         - Motor slack count\n");
+    printw("W         - Motor slack PWM speed\n");
+    printw("A         - Motor slack test\n");
     printw("T         - Test-tuning\n");
     printw("Q         - Return\n");
     printw("\n");
@@ -25,6 +27,11 @@ State* MotorState::View() {
     printw(" , ");
     printw(Convert::IntToString(_Motor->GetMotorRightSpeed()).c_str());
     printw("\n");
+    printw("Distance (Left, Right): ");
+    printw(Convert::IntToString(_Motor->GetMotorLeftDistance()).c_str());
+    printw(" , ");
+    printw(Convert::IntToString(_Motor->GetMotorRightDistance()).c_str());
+    printw("\n");
     printw("PID correction (Left): ");
     printw(Convert::IntToString(_Motor->GetLeftP()).c_str());
     printw(" , ");
@@ -33,7 +40,10 @@ State* MotorState::View() {
     printw(Convert::IntToString(_Motor->GetLeftD()).c_str());
     printw("\n");
     printw("Motor slack count: ");
-    printw(Convert::IntToString(_Motor->GetMotorSlackOffset()).c_str());
+    printw(Convert::IntToString(_Motor->GetMotorSlackCount()).c_str());
+    printw("\n");
+    printw("Motor slack PWM speed: ");
+    printw(Convert::IntToString(_Motor->GetMotorSlackPWMSpeed()).c_str());
     printw("\n");
     printw("PID correction (Right): ");
     printw(Convert::IntToString(_Motor->GetRightP()).c_str());
@@ -83,7 +93,17 @@ State* MotorState::View() {
 
         case 's':
             number = ReadInteger("Set Motor slack:");
-            _Motor->SetMotorSlackOffset(number);
+            _Motor->SetMotorSlackCount(number);
+            break;
+
+        case 'w':
+            number = ReadInteger("Set Motor PWM speed:");
+            _Motor->SetMotorSlackPWMSpeed(number);
+            break;
+
+        case 'a':
+            number = ReadInteger("Slack test (-1, +1):");
+            _Motor->TestMotorSlack(number);
             break;
 
         case 'i':
