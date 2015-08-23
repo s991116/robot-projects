@@ -10,5 +10,5 @@ short GetPIDSpeed(short Angle, short AngleAccelration)
 {
   AngleIntegration += Angle;
   short correction = Gyro_PID_Kp * Angle + Gyro_PID_Kd * AngleAccelration + Gyro_PID_Ki * AngleIntegration;
-  return correction;
+  return -correction;
 }

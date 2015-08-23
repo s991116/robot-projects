@@ -13,7 +13,7 @@ boolean LED_Status;
 
 int16_t gyro[3];       // [x, y, z]            gyroscopic output
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-short YPR_Factor = 500;
+short YPR_Factor = 600;
 
 short _ReplyFromMaster;
 bool _UnhandleCommandReceivedFromMaster = false;
@@ -24,10 +24,10 @@ short _DataFromMaster;
 short _UnhandledResponse;
 unsigned long _CommandSentTime;
 
-float Gyro_PID_Kp = 4.5;
-float Gyro_PID_Ki = 0;
-float Gyro_PID_Kd = -0.5;
-short Gyro_PID_Factor = 10;
+float Gyro_PID_Kp = 1.7;
+float Gyro_PID_Ki = 0.15;
+float Gyro_PID_Kd = 0.15;
+short Gyro_PID_Factor = 100;
 bool Gyro_PID_Enabled = false;
 short Gyro_Angle_Offset = -10;
 

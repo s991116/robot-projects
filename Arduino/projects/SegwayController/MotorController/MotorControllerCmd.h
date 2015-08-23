@@ -41,8 +41,13 @@
     Logging_Full = 28,
     Get_Motor_Echo_Command_Test = 29,
     Get_Motor_Echo_Data_Test = 30,
-    Set_Motor_Slack = 31,
-    Get_Motor_Slack = 32
+    Set_Motor_Slack_Count = 31,
+    Get_Motor_Slack_Count = 32,
+    Set_Motor_Slack_Mode = 33,
+    Get_Motor_Slack_Mode = 34,
+    Test_MotorSlack = 35,
+    Set_Motor_Slack_PWMSpeed = 36,
+    Get_Motor_Slack_PWMSpeed = 37
   };
   
 #define RobotCommandTypeOffset (128)
@@ -108,8 +113,14 @@ false, //Next_Logging = 27,
 true,  //Logging_Full = 28,
 true,  //Get_Motor_Echo_Command_Test = 29,  
 true,  //Get_Motor_Echo_Data_Test = 30,
-false, //Set_Motor_Slack = 31,
-true,  //Get_Motor_Slack = 32,
+false, //Set_Motor_Slack_Count = 31,
+true,  //Get_Motor_Slack_Count = 32,
+false, //Set_MotorSlack_Mode = 33,
+true,  //Get_MotorSlack_Mode = 34,
+false, //Test_MotorSlack = 35,
+false, //Set_Motor_Slack_PWMSpeed = 36,
+true,  //Get_Motor_Slack_PWMSpeed = 37
+
 };
 #endif
 
@@ -141,4 +152,4 @@ true   //Get_Gyro_Angle_Offset = 19
 
 #endif
 
-#endif //COMMANDTYPE_H
+#endif //COMMANDTYPE_H 

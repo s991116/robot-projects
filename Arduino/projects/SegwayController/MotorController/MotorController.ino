@@ -13,10 +13,10 @@
 #define ENCODER_LEFT_INTERRUPT_CHANGE_PIN (2) // Encoder-0 is on DIGITAL PIN 2
 #define ENCODER_RIGHT_INTERRUPT_CHANGE_PIN (3) // Encoder-1 is on DIGITAL PIN 3
 
-#define MOTOR_LEFT_DIRECTION_PIN (4) //MotorShield Motor B
-#define MOTOR_LEFT_PWM_PIN (5) //MotorShield Motor B
-#define MOTOR_RIGHT_PWM_PIN (6) //MotorShield Motor A
-#define MOTOR_RIGHT_DIRECTION_PIN (7) //MotorShield Motor A
+#define MOTOR_LEFT_DIRECTION_PIN (7) //MotorShield Motor B
+#define MOTOR_LEFT_PWM_PIN (6) //MotorShield Motor B
+#define MOTOR_RIGHT_PWM_PIN (5) //MotorShield Motor A
+#define MOTOR_RIGHT_DIRECTION_PIN (4) //MotorShield Motor A
 
 #define ENCODER_LEFT_DIRECTION_PIN (13) // Encoder-0 Direction is on DIGITAL PIN 4
 #define ENCODER_RIGHT_DIRECTION_PIN (8) // Encoder-1 Direction is on DIGITAL PIN 5
@@ -44,14 +44,17 @@ int MotorLeftSpeed = 0; //PWM value in range [-255 ; +255]
 int MotorRightSpeed = 0; //PWM value in range [-255 ; +255]
 
 float MotorLeft_Kp = 3.7;
-float MotorLeft_Ki = 0.2;
+float MotorLeft_Ki = 0.0;
 float MotorLeft_Kd = 0.08;
 
 float MotorRight_Kp = 3.7;
-float MotorRight_Ki = 0.2;
+float MotorRight_Ki = 0.0;
 float MotorRight_Kd = 0.08;
 
-short Motor_Slack = 100;
+short Motor_Slack_Count = -10;
+short Motor_Slack_PWMSpeed = -200;
+short MotorSlackMode = 0;
+short MotorSlackTestMode = 0;
 
 PID motorLeftPID(&LastEncoderLeftTickSpeed, &MotorLeftSpeed, &MotorLeftTargetTickSpeed, MotorLeft_Kp, MotorLeft_Ki, MotorLeft_Kd, REVERSE);
 PID motorRightPID(&LastEncoderRightTickSpeed, &MotorRightSpeed, &MotorRightTargetTickSpeed, MotorRight_Kp, MotorRight_Ki, MotorRight_Kd, DIRECT);
@@ -152,6 +155,7 @@ void loop()
   
   if(MotorsRunning)
   {
+    UpdateSlackCount();
     SetMotorSpeed(MOTOR_LEFT_DIRECTION_PIN, MOTOR_LEFT_PWM_PIN, MotorLeftSpeed);
     SetMotorSpeed(MOTOR_RIGHT_DIRECTION_PIN, MOTOR_RIGHT_PWM_PIN, MotorRightSpeed);       
   }
@@ -159,6 +163,8 @@ void loop()
   {
     StopMotors();
   }
+
+  MotorSlackTest();
   
   CalculationEndTime = millis();
   unsigned long cycleEndTime = CalculationStartTime + SampleTime;
@@ -243,7 +249,6 @@ void HandleCommand(byte command, short data)
     case Set_Motor_Speed:// 0:
      MotorLeftTargetTickSpeed = data;
      MotorRightTargetTickSpeed = data;
-     UpdateSlackCount();
      break;
      
     case Set_MotorLeft_PID_Kp:
@@ -278,12 +283,10 @@ void HandleCommand(byte command, short data)
      
     case Set_MotorLeft_Speed:
      MotorLeftTargetTickSpeed = data;
-     UpdateSlackCount();
      break;
 
     case Set_MotorRight_Speed:
      MotorRightTargetTickSpeed = data;
-     UpdateSlackCount();
      break;
     
      case Get_MotorLeft_Speed:
@@ -368,6 +371,34 @@ void HandleCommand(byte command, short data)
     case Logging_Full:
       LastResponse = logger.LogFull();
       break;
+
+    case Set_Motor_Slack_Mode:
+      MotorSlackMode = data;
+      break;
+
+    case Set_Motor_Slack_Count:
+      Motor_Slack_Count = data;
+      break;
+
+    case Get_Motor_Slack_Count:
+      LastResponse = Motor_Slack_Count;
+      break;
+
+    case Set_Motor_Slack_PWMSpeed:
+      Motor_Slack_PWMSpeed = data;
+      break;
+
+    case Get_Motor_Slack_PWMSpeed:
+      LastResponse = Motor_Slack_PWMSpeed;
+      break;
+
+    case Get_Motor_Slack_Mode:
+      LastResponse = MotorSlackMode;
+      break;
+
+    case Test_MotorSlack:
+      MotorSlackTestMode = data;
+      break;
     
     case Get_Motor_Echo_Command_Test:
       LastResponse = command;
@@ -381,19 +412,103 @@ void HandleCommand(byte command, short data)
 
 void UpdateSlackCount()
 {
+  short MotorLeft_Slack_Count = 0;
+  short MotorLeft_Slack_PWMSpeed = 0;
+  short MotorRight_Slack_Count = 0;
+  short MotorRight_Slack_PWMSpeed = 0;
+   
   if(MotorLeftTargetTickSpeedOld > 0 && MotorLeftTargetTickSpeed < 0)
-    LastEncoderLeftTickSpeed = Motor_Slack;
+  {
+    MotorLeft_Slack_Count = Motor_Slack_Count;
+    MotorLeft_Slack_PWMSpeed = -Motor_Slack_PWMSpeed;
+  }
   else if(MotorLeftTargetTickSpeedOld < 0 && MotorLeftTargetTickSpeed > 0)
-    LastEncoderLeftTickSpeed = -Motor_Slack;
-    
-  MotorLeftTargetTickSpeedOld = MotorLeftTargetTickSpeed;
+  {
+    MotorLeft_Slack_Count = -Motor_Slack_Count;
+    MotorLeft_Slack_PWMSpeed = Motor_Slack_PWMSpeed;
+  }    
   
-if(MotorRightTargetTickSpeedOld > 0 && MotorRightTargetTickSpeed < 0)
-    LastEncoderRightTickSpeed = Motor_Slack;
+  if(MotorRightTargetTickSpeedOld > 0 && MotorRightTargetTickSpeed < 0)
+  {
+    MotorRight_Slack_Count = Motor_Slack_Count;
+    MotorRight_Slack_PWMSpeed = -Motor_Slack_PWMSpeed;
+  }
   else if(MotorRightTargetTickSpeedOld < 0 && MotorRightTargetTickSpeed > 0)
-    LastEncoderRightTickSpeed = -Motor_Slack;
+  {
+    MotorRight_Slack_Count = -Motor_Slack_Count;
+    MotorRight_Slack_PWMSpeed = Motor_Slack_PWMSpeed;
+  }    
   
+  FixedPWMDistance(MotorLeft_Slack_Count, MotorLeft_Slack_PWMSpeed, MotorRight_Slack_Count, MotorRight_Slack_PWMSpeed);
+
+  MotorLeftTargetTickSpeedOld = MotorLeftTargetTickSpeed;
   MotorRightTargetTickSpeedOld = MotorRightTargetTickSpeed;
+}
+
+void MotorSlackTest()
+{
+   switch(MotorSlackTestMode)
+  {
+    case 0:
+      return;
+      
+    case 1:
+      FixedPWMDistance(Motor_Slack_Count, -Motor_Slack_PWMSpeed, 0, 0);
+      break;
+
+    case 2:
+      FixedPWMDistance(0, 0, Motor_Slack_Count, -Motor_Slack_PWMSpeed);
+      break;
+
+    case 3:
+      FixedPWMDistance(Motor_Slack_Count, -Motor_Slack_PWMSpeed, Motor_Slack_Count, -Motor_Slack_PWMSpeed);
+      break;
+
+    case 4:
+      FixedPWMDistance(-Motor_Slack_Count, Motor_Slack_PWMSpeed, -Motor_Slack_Count, Motor_Slack_PWMSpeed);
+      break;
+  }
+  MotorSlackTestMode = 0;
+}
+
+void FixedPWMDistance(short MotorLeft_Slack_Count, short MotorLeft_Slack_PWMSpeed, short MotorRight_Slack_Count, short MotorRight_Slack_PWMSpeed)
+{
+  bool leftSlackEnabled = false;
+  bool rightSlackEnabled = false;
+  if(MotorLeft_Slack_Count != 0)
+  {
+    EncoderLeftTickSpeed = 0;
+    SetMotorSpeed(MOTOR_LEFT_DIRECTION_PIN, MOTOR_LEFT_PWM_PIN, MotorLeft_Slack_PWMSpeed);
+    leftSlackEnabled = true;
+  }
+
+  if(MotorRight_Slack_Count != 0)
+  {
+    EncoderRightTickSpeed = 0;
+    SetMotorSpeed(MOTOR_RIGHT_DIRECTION_PIN, MOTOR_RIGHT_PWM_PIN, -MotorRight_Slack_PWMSpeed);
+    rightSlackEnabled = true;
+  }
+  
+  while(leftSlackEnabled || rightSlackEnabled)
+  { 
+    if(leftSlackEnabled && SlackLimitReached(MotorLeft_Slack_Count,  EncoderLeftTickSpeed))
+    {
+      SetMotorSpeed(MOTOR_LEFT_DIRECTION_PIN, MOTOR_LEFT_PWM_PIN, 0);
+      leftSlackEnabled = false;
+    }
+    if(rightSlackEnabled && SlackLimitReached(MotorRight_Slack_Count,  EncoderRightTickSpeed))
+    {
+      SetMotorSpeed(MOTOR_RIGHT_DIRECTION_PIN, MOTOR_RIGHT_PWM_PIN, 0);
+      rightSlackEnabled = false;
+    }
+  }  
+}
+
+bool SlackLimitReached(short Motor_Slack_Count, short EncoderTickSpeed)
+{
+  return (Motor_Slack_Count == 0) ||
+         ((Motor_Slack_Count > 0) && (EncoderTickSpeed > Motor_Slack_Count)) ||
+         ((Motor_Slack_Count < 0) && (EncoderTickSpeed < Motor_Slack_Count));
 }
 
 void UpdateMotorLeftPID()
