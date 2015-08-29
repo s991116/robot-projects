@@ -75,7 +75,23 @@
     Get_Gyro_State = 16,
     Get_Gyro_PID_Factor = 17,
     Set_Gyro_Angle_Offset = 18,
-    Get_Gyro_Angle_Offset = 19
+    Get_Gyro_Angle_Offset = 19,
+
+    Set_Vertical_Servo_Position = 20,
+    Set_Vertical_Servo_Max_Position = 21,
+    Set_Vertical_Servo_Min_Position = 22,
+    
+    Set_Horizontal_Servo_Position = 23,
+    Set_Horizontal_Servo_Max_Position = 24,
+    Set_Horizontal_Servo_Min_Position = 25,
+    
+    Get_Vertical_Servo_Position = 26,
+    Get_Vertical_Servo_Max_Position = 27,
+    Get_Vertical_Servo_Min_Position = 28,
+
+    Get_Horizontal_Servo_Position = 29,
+    Get_Horizontal_Servo_Max_Position = 30,
+    Get_Horizontal_Servo_Min_Position = 31
   };
 
 #ifndef HARDWARECONTROLLER_CPP
@@ -120,6 +136,7 @@ true,  //Get_MotorSlack_Mode = 34,
 false, //Test_MotorSlack = 35,
 false, //Set_Motor_Slack_PWMSpeed = 36,
 true,  //Get_Motor_Slack_PWMSpeed = 37
+
 };
 #endif
 
@@ -146,7 +163,22 @@ false, //Set_Gyro_State = 15,
 true,  //Get_Gyro_State = 16,
 true,  //Get_Gyro_PID_Factor = 17,
 false, //Set_Gyro_Angle_Offset = 18,
-true   //Get_Gyro_Angle_Offset = 19
+true,  //Get_Gyro_Angle_Offset = 19
+false, //Set_Vertical_Servo_Position = 20,
+false, //Set_Vertical_Servo_Max_Position = 21,
+false, //Set_Vertical_Servo_Min_Position = 22,
+false, //Set_Horizontal_Servo_Position = 23,
+false, //Set_Horizontal_Servo_Max_Position = 24,
+false, //Set_Horizontal_Servo_Min_Position = 25,
+    
+true,  //Get_Vertical_Servo_Position = 26,
+true,  //Get_Vertical_Servo_Max_Position = 27,
+true,  //Get_Vertical_Servo_Min_Position = 28,
+
+true,  //Get_Horizontal_Servo_Position = 29,
+true,  //Get_Horizontal_Servo_Max_Position = 30,
+true   //Get_Horizontal_Servo_Min_Position = 31
+
 };
 
 #endif

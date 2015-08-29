@@ -1,12 +1,15 @@
 #include "MainState.h"
 #include <ncurses.h>
 
-MainState::MainState(State* motorState, State* gyroState) {
+MainState::MainState(State* motorState, State* gyroState, State* servoState) {
     _MotorState = motorState;
     _MotorState->ReturnState = this;
 
     _GyroState = gyroState;
     _GyroState->ReturnState = this;
+
+    _ServoState = servoState;
+    _ServoState->ReturnState = this;    
 }
 
 MainState::~MainState() {
@@ -22,6 +25,7 @@ void MainState::Print() {
     printw("*** Segway Control program ***\n");
     printw("M - Motor tunning\n");
     printw("G - Gyro tunning\n");
+    printw("S - Servo tunning\n");    
     printw("Q - Quit\n");
 }
 
@@ -40,6 +44,10 @@ State* MainState::Control() {
             
         case 'm':
             return _MotorState;
+            break;
+
+        case 's':
+            return _ServoState;
             break;
     }
     return this;
