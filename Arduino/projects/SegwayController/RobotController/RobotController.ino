@@ -1,3 +1,4 @@
+#include <Servo.h>
 #include <digitalWriteFast.h>
 #include <Wire.h>
 #include "MotorControllerCmd.h"
@@ -38,7 +39,7 @@ void setup()
     while(true);
   
   //InitializeDistanceSensor();
-  
+  SetupServo();
   SetLED(true);
 }
 
@@ -100,7 +101,8 @@ void SendMessage(byte command, short data)
   }
   else
   {
-    switch(command-RobotCommandTypeOffset)
+    byte cmd = command-RobotCommandTypeOffset;
+    switch(cmd)
     {
       case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
         _UnhandledResponse = ypr[data]*YPR_Factor;
@@ -178,7 +180,9 @@ void SendMessage(byte command, short data)
       case Get_Gyro_Angle_Offset:
         _UnhandledResponse = Gyro_Angle_Offset;
         return;
-        
+
+      default:
+        _UnhandledResponse = ServoCommand(cmd, data);
     }
     return;
   }
