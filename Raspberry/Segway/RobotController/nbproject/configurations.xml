@@ -14,6 +14,7 @@
       <itemPath>IMotorTuning.h</itemPath>
       <itemPath>Motor.h</itemPath>
       <itemPath>MotorTuning.h</itemPath>
+      <itemPath>Servo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -27,6 +28,7 @@
       <itemPath>HardwareController.cpp</itemPath>
       <itemPath>Motor.cpp</itemPath>
       <itemPath>MotorTuning.cpp</itemPath>
+      <itemPath>Servo.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -96,6 +98,10 @@
       <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Servo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Servo.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles">
         <cTool>
@@ -212,6 +218,10 @@
       <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Servo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Servo.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>

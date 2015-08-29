@@ -9,6 +9,8 @@
 #include <CommandType.h>
 #include "MotorState.h"
 #include "GyroState.h"
+#include "ServoState.h"
+#include "Servo.h"
 #include "Gyro.h"
 #include "MotorTuningController.h"
 #include "MotorTuning.h"
@@ -26,10 +28,12 @@ int main(int argc, char** argv) {
     Motor* motor = new Motor(hwCtrl);
     MotorTuning* motorTuning = new MotorTuning(hwCtrl);
     Gyro* gyro = new Gyro(hwCtrl);
+    Servo* servo = new Servo(hwCtrl);
     MotorTuningController* motorTuningController = new MotorTuningController(motorTuning, motor);
     State* motorState = new MotorState(motor, motorTuningController);
     State* gyroState = new GyroState(gyro);
-    State* state = new MainState(motorState, gyroState);
+    State* servoState = new ServoState(servo);
+    State* state = new MainState(motorState, gyroState, servoState);
 
     initscr();
 

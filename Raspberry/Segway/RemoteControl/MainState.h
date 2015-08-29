@@ -6,7 +6,7 @@
 
 class MainState : public State {
 public:
-    MainState(State* motorState, State* gyroState);
+    MainState(State* motorState, State* gyroState, State* servoState);
     virtual ~MainState();
 
     State* View();
@@ -17,6 +17,7 @@ private:
     
     State* _MotorState;
     State* _GyroState;
+    State* _ServoState;    
 };
 
 #endif	/* MAINSTATE_H */

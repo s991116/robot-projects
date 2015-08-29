@@ -8,6 +8,7 @@
       <itemPath>MainState.h</itemPath>
       <itemPath>MotorState.h</itemPath>
       <itemPath>MotorTuningController.h</itemPath>
+      <itemPath>ServoState.h</itemPath>
       <itemPath>State.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -25,6 +26,7 @@
       <itemPath>GyroState.cpp</itemPath>
       <itemPath>MainState.cpp</itemPath>
       <itemPath>MotorState.cpp</itemPath>
+      <itemPath>ServoState.cpp</itemPath>
       <itemPath>State.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -129,6 +131,10 @@
       </item>
       <item path="MotorTuningController.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ServoState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServoState.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="State.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="State.h" ex="false" tool="3" flavor2="0">
@@ -171,6 +177,10 @@
       <item path="MotorTuningController.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MotorTuningController.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ServoState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServoState.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="State.cpp" ex="false" tool="1" flavor2="0">
       </item>

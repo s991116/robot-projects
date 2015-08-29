@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/HardwareController.o \
 	${OBJECTDIR}/Motor.o \
-	${OBJECTDIR}/MotorTuning.o
+	${OBJECTDIR}/MotorTuning.o \
+	${OBJECTDIR}/Servo.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -98,6 +99,11 @@ ${OBJECTDIR}/MotorTuning.o: MotorTuning.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
+
+${OBJECTDIR}/Servo.o: Servo.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Servo.o Servo.cpp
 
 # Subprojects
 .build-subprojects:
@@ -178,6 +184,19 @@ ${OBJECTDIR}/MotorTuning_nomain.o: ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/MotorTuning.o ${OBJECTDIR}/MotorTuning_nomain.o;\
+	fi
+
+${OBJECTDIR}/Servo_nomain.o: ${OBJECTDIR}/Servo.o Servo.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Servo.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Servo_nomain.o Servo.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Servo.o ${OBJECTDIR}/Servo_nomain.o;\
 	fi
 
 # Run Test Targets
