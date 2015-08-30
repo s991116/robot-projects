@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CameraState.o \
 	${OBJECTDIR}/GyroState.o \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
@@ -67,6 +68,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/CameraState.o: CameraState.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
 
 ${OBJECTDIR}/GyroState.o: GyroState.cpp 
 	${MKDIR} -p ${OBJECTDIR}

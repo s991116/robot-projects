@@ -36,6 +36,11 @@ void Servo::StepRight() {
     _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, pos);
 }
 
+void Servo::ToCenter() {
+    _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, 90);
+    _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position,   90);
+}
+
 Servo::~Servo() {
 }
 

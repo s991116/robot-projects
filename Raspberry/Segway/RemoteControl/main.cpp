@@ -16,6 +16,7 @@
 #include "MotorTuning.h"
 #include "MainState.h"
 #include "Motor.h"
+#include "CameraState.h"
 #include <ncurses.h>
 
 
@@ -29,11 +30,16 @@ int main(int argc, char** argv) {
     MotorTuning* motorTuning = new MotorTuning(hwCtrl);
     Gyro* gyro = new Gyro(hwCtrl);
     Servo* servo = new Servo(hwCtrl);
+    PiCamera* camera = new PiCamera();
+    FaceDetection* faceDetection = new FaceDetection();
+    CameraSensor* cameraSensor = new CameraSensor(camera, faceDetection, servo);
+    
     MotorTuningController* motorTuningController = new MotorTuningController(motorTuning, motor);
     State* motorState = new MotorState(motor, motorTuningController);
     State* gyroState = new GyroState(gyro);
-    State* servoState = new ServoState(servo);
-    State* state = new MainState(motorState, gyroState, servoState);
+    State* servoState = new ServoState(servo);    
+    State* cameraState = new CameraState(cameraSensor);
+    State* state = new MainState(motorState, gyroState, servoState, cameraState);
 
     initscr();
 

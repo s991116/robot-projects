@@ -1,7 +1,7 @@
 #include "MainState.h"
 #include <ncurses.h>
 
-MainState::MainState(State* motorState, State* gyroState, State* servoState) {
+MainState::MainState(State* motorState, State* gyroState, State* servoState, State* cameraState) {
     _MotorState = motorState;
     _MotorState->ReturnState = this;
 
@@ -10,6 +10,9 @@ MainState::MainState(State* motorState, State* gyroState, State* servoState) {
 
     _ServoState = servoState;
     _ServoState->ReturnState = this;    
+    
+    _CameraState = cameraState;
+    _CameraState->ReturnState = this;
 }
 
 MainState::~MainState() {
@@ -26,6 +29,7 @@ void MainState::Print() {
     printw("M - Motor tunning\n");
     printw("G - Gyro tunning\n");
     printw("S - Servo tunning\n");    
+    printw("C - Camera\n");        
     printw("Q - Quit\n");
 }
 
@@ -48,6 +52,10 @@ State* MainState::Control() {
 
         case 's':
             return _ServoState;
+            break;
+
+        case 'c':
+            return _CameraState;
             break;
     }
     return this;

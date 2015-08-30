@@ -21,6 +21,12 @@ std::string State::ReadString() {
     return ReadString("");
 }
 
+void State::WriteMessage(std::string message) {
+    cbreak();
+    printw(message.c_str());
+    getch();
+}
+
 std::string State::ReadString(std::string text) {
     printw(text.c_str());
     std::string input;

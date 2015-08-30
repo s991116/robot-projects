@@ -9,6 +9,7 @@ public:
     bool Quit;
     State* ReturnState;
     
+    void WriteMessage(std::string message);
     std::string ReadString();
     std::string ReadString(std::string text);
     int ReadInteger(std::string text);
