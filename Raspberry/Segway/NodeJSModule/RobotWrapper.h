@@ -1,0 +1,22 @@
+#ifndef ROBOTWRAPPER_H
+#define ROBOTWRAPPER_H
+
+#include <nan.h>
+
+class RobotWrapper : public Nan::ObjectWrap {
+ public:
+  static void Init(v8::Local<v8::Object> exports);
+
+ private:
+  explicit RobotWrapper();
+  ~RobotWrapper();
+
+  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static void GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static void SetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);  
+  static Nan::Persistent<v8::Function> constructor;
+  
+  int _Value;
+};
+
+#endif //ROBOTWRAPPER

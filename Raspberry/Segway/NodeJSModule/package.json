@@ -1,0 +1,18 @@
+{
+  "name": "Robot_Remote",
+  "version": "0.0.0",
+  "description": "Node.js Remote control wrapper",
+  "main": "robot.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "nan": "^2.0.8"
+  },
+  "scripts": {
+    "test": "node robot.js",
+    "install": "node-gyp rebuild"
+  },
+  "gypfile": true,
+  "author": "",
+  "license": "ISC"
+}
