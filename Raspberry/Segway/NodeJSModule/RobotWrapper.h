@@ -9,7 +9,7 @@ class RobotWrapper : public Nan::ObjectWrap {
   static void Init(v8::Local<v8::Object> exports);
 
  private:
-  explicit RobotWrapper();
+  explicit RobotWrapper(Robot* robot);
   ~RobotWrapper();
 
   static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
@@ -18,6 +18,7 @@ class RobotWrapper : public Nan::ObjectWrap {
   static Nan::Persistent<v8::Function> constructor;
   
   int _Value;
+  Robot * _Robot;
 };
 
 #endif //ROBOTWRAPPER

@@ -2,7 +2,9 @@
 
 Nan::Persistent<v8::Function> RobotWrapper::constructor;
 
-RobotWrapper::RobotWrapper() {}
+RobotWrapper::RobotWrapper(Robot* robot) {
+	_Robot = robot;
+}
 
 RobotWrapper::~RobotWrapper() {
 }
@@ -24,9 +26,11 @@ void RobotWrapper::Init(v8::Local<v8::Object> exports) {
 }
 
 void RobotWrapper::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+	Robot* robot = new Robot();
+
   if (info.IsConstructCall()) {
     // Invoked as constructor: `new RobotWrapper(...)`
-    RobotWrapper* obj = new RobotWrapper();
+    RobotWrapper* obj = new RobotWrapper(robot);
     obj->Wrap(info.This());
     info.GetReturnValue().Set(info.This());
   } else {
@@ -47,4 +51,6 @@ void RobotWrapper::SetValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   RobotWrapper* obj = ObjectWrap::Unwrap<RobotWrapper>(info.Holder());
   int value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
   obj->_Value = value;
+  obj->_Robot->_Motor->SetMotorLeftSpeed(value);
+  obj->_Robot->_Motor->SetMotorRightSpeed(value);
 }
