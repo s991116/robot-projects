@@ -14,6 +14,11 @@ public:
     void StepDown();
     void StepLeft();
     void StepRight();
+
+    void StepUp(int steps);
+    void StepDown(int steps);
+    void StepLeft(int steps);
+    void StepRight(int steps);
     void ToCenter();
 
     virtual ~Servo();

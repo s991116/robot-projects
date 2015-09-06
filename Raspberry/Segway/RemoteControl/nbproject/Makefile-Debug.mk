@@ -59,7 +59,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a ../SoundPlayer/dist/Debug/GNU-Linux-x86/libsoundplayer.a ../PiCamera/dist/Debug/GNU-Linux-x86/libpicamera.a ../RobotController/dist/Debug/GNU-Linux-x86/librobotcontroller.a -lraspicam -lraspicam_cv ../RobotHead/dist/Debug/GNU-Linux-x86/librobothead.a
+LDLIBSOPTIONS=../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a ../SoundPlayer/dist/Debug/GNU-Linux-x86/libsoundplayer.a ../Robot/dist/Debug/GNU-Linux-x86/librobot.a ../PiCamera/dist/Debug/GNU-Linux-x86/libpicamera.a ../RobotController/dist/Debug/GNU-Linux-x86/librobotcontroller.a -lraspicam -lraspicam_cv ../RobotHead/dist/Debug/GNU-Linux-x86/librobothead.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -68,6 +68,8 @@ LDLIBSOPTIONS=../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a ../SoundPla
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../SoundPlayer/dist/Debug/GNU-Linux-x86/libsoundplayer.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../Robot/dist/Debug/GNU-Linux-x86/librobot.a
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../PiCamera/dist/Debug/GNU-Linux-x86/libpicamera.a
 
@@ -82,47 +84,48 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ${OBJECTFILES}
 ${OBJECTDIR}/CameraState.o: CameraState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
 
 ${OBJECTDIR}/GyroState.o: GyroState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
 
 ${OBJECTDIR}/MainState.o: MainState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
 
 ${OBJECTDIR}/MotorState.o: MotorState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
 ${OBJECTDIR}/MotorTuningController.o: MotorTuningController.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
 
 ${OBJECTDIR}/State.o: State.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
 	cd ../StringUtil && ${MAKE}  -f Makefile CONF=Debug
 	cd ../SoundPlayer && ${MAKE}  -f Makefile CONF=Debug
+	cd ../Robot && ${MAKE}  -f Makefile CONF=Debug
 	cd ../PiCamera && ${MAKE}  -f Makefile CONF=Debug
 	cd ../RobotController && ${MAKE}  -f Makefile CONF=Debug
 	cd ../RobotHead && ${MAKE}  -f Makefile CONF=Debug
@@ -136,6 +139,7 @@ ${OBJECTDIR}/main.o: main.cpp
 .clean-subprojects:
 	cd ../StringUtil && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../SoundPlayer && ${MAKE}  -f Makefile CONF=Debug clean
+	cd ../Robot && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../PiCamera && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../RobotController && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../RobotHead && ${MAKE}  -f Makefile CONF=Debug clean
