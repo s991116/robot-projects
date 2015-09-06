@@ -2,6 +2,7 @@
 #define ROBOTWRAPPER_H
 
 #include <nan.h>
+#include <Robot.h>
 
 class RobotWrapper : public Nan::ObjectWrap {
  public:
