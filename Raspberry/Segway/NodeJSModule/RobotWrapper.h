@@ -15,6 +15,8 @@ class RobotWrapper : public Nan::ObjectWrap {
   static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void SetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);  
+  static void BalanceEnabled(const Nan::FunctionCallbackInfo<v8::Value>& info);
+
   static Nan::Persistent<v8::Function> constructor;
   
   int _Value;

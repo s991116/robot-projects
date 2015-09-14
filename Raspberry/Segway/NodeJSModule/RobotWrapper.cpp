@@ -20,6 +20,7 @@ void RobotWrapper::Init(v8::Local<v8::Object> exports) {
   // Prototype
   Nan::SetPrototypeMethod(tpl, "getvalue", GetValue);
   Nan::SetPrototypeMethod(tpl, "setvalue", SetValue);
+  Nan::SetPrototypeMethod(tpl, "BalanceEnabled", BalanceEnabled);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RobotWrapper").ToLocalChecked(), tpl->GetFunction());
@@ -53,4 +54,11 @@ void RobotWrapper::SetValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   obj->_Value = value;
   obj->_Robot->_Motor->SetMotorLeftSpeed(value);
   obj->_Robot->_Motor->SetMotorRightSpeed(value);
+}
+
+void RobotWrapper::BalanceEnabled(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  RobotWrapper* obj = ObjectWrap::Unwrap<RobotWrapper>(info.Holder());
+  int value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  
+  obj->_Robot->_Gyro->SetPidState(value);
 }
