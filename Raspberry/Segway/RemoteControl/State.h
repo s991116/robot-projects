@@ -1,5 +1,6 @@
 #ifndef STATE_H
 #define	STATE_H
+#include "ContinuousPresentation.h"
 #include <string>
 
 class State {
@@ -14,7 +15,10 @@ public:
     std::string ReadString(std::string text);
     int ReadInteger(std::string text);
     int ReadInteger();
-
+    void LoopDisplayFunction(ContinuousPresentation* continuousPresentation);
+    
+private:
+    int kbhit(void);
 };
 
 #endif	/* STATE_H */

@@ -7,6 +7,8 @@
 CameraState::CameraState(CameraSensor* cameraSensor) {
     _CameraSensor = cameraSensor;
     _Position = new Position(0,0);
+    
+    _FaceDetectionPresentation = new FaceDetectionPresentation(_CameraSensor, _Position);
 }
 
 State* CameraState::View() {
@@ -14,6 +16,7 @@ State* CameraState::View() {
     printw("*** Camera ***\n");
     printw("P         - Take Picture\n");
     printw("F         - Facedetection\n");
+    printw("L         - Linedetection\n");
     printw("Q         - Return\n");
     printw("\n");    
     printw("\n");
@@ -30,37 +33,16 @@ State* CameraState::View() {
             _CameraSensor->TakePicture("TakePicture.jpg");
             WriteMessage("Picture taken.");
             break;
-            
-        case 'f':
-            cbreak();
-            noecho();
-            nodelay(stdscr, TRUE);
-            scrollok(stdscr, TRUE);
-            while (!kbhit()) {
-                bool faceDetected = _CameraSensor->GetFacePosition(_Position);
-            }
-            echo();
-            nodelay(stdscr, FALSE);
-            scrollok(stdscr, FALSE);
 
+        case 'l':
             break;
 
+        case 'f':
+            LoopDisplayFunction(_FaceDetectionPresentation);
+            break;
     }
     return this;
 }
 
-int CameraState::kbhit(void)
-{
-    int ch = getch();
-
-    if (ch != ERR) {
-        ungetch(ch);
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 CameraState::~CameraState() {
 }
-

@@ -11,6 +11,7 @@ public:
     CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, Servo* servo);
     bool GetFacePosition(Position* position);
     void TakePicture(std::string filename);
+
     virtual ~CameraSensor();
 private:
     PiCamera* _PiCamera;
