@@ -21,14 +21,12 @@ bool FaceDetection::GetFacePosition(cv::Mat frame_gray, Position* position) {
   if(faces.size()>0)
   {
       cv::Point center( faces[0].x + faces[0].width*0.5, faces[0].y + faces[0].height*0.5 );
-      float x = ((float)(center.x))/(float)(frame_gray.cols) * 2 - 1;
-      float y = ((float)(center.y))/(float)(frame_gray.rows) * 2 - 1;
-      position->SetPosition(x, y);
+      position->SetPosition(center.x, center.y, frame_gray.cols, frame_gray.rows);
       return true;
   }
   else
   {
-      position->SetPosition(0,0);
+      position->SetCenterPosition();
       return false;
   }
 }
