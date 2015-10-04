@@ -1,6 +1,3 @@
-#define SERVO_VERTICAL_PIN (11)
-#define SERVO_HORIZONTAL_PIN (10)
-
 Servo VerticalServo;
 Servo HorizontalServo;
 

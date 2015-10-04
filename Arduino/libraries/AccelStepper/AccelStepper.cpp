@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.17 2013/08/02 01:53:21 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.20 2015/08/25 02:22:45 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -45,11 +45,10 @@ boolean AccelStepper::runSpeed()
 	return false;
 
     unsigned long time = micros();
-    // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
     unsigned long nextStepTime = _lastStepTime + _stepInterval;
+    // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
     if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
 	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
-
     {
 	if (_direction == DIRECTION_CW)
 	{
@@ -181,12 +180,12 @@ void AccelStepper::computeNewSpeed()
 // Run the motor to implement speed and acceleration in order to proceed to the target position
 // You must call this at least once per step, preferably in your main loop
 // If the motor is in the desired position, the cost is very small
-// returns true if we are still running to position
+// returns true if the motor is still running to the target position.
 boolean AccelStepper::run()
 {
     if (runSpeed())
 	computeNewSpeed();
-    return true;
+    return _speed != 0.0 || distanceToGo() != 0;
 }
 
 AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, bool enable)
@@ -196,7 +195,7 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
     _targetPos = 0;
     _speed = 0.0;
     _maxSpeed = 1.0;
-    _acceleration = 1.0;
+    _acceleration = 0.0;
     _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
@@ -219,6 +218,8 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
 	_pinInverted[i] = 0;
     if (enable)
 	enableOutputs();
+    // Some reasonable default
+    setAcceleration(1);
 }
 
 AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
@@ -228,7 +229,7 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _targetPos = 0;
     _speed = 0.0;
     _maxSpeed = 1.0;
-    _acceleration = 1.0;
+    _acceleration = 0.0;
     _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
@@ -251,6 +252,8 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     int i;
     for (i = 0; i < 4; i++)
 	_pinInverted[i] = 0;
+    // Some reasonable default
+    setAcceleration(1);
 }
 
 void AccelStepper::setMaxSpeed(float speed)
@@ -268,6 +271,11 @@ void AccelStepper::setMaxSpeed(float speed)
     }
 }
 
+float   AccelStepper::maxSpeed()
+{
+    return _maxSpeed;
+}
+
 void AccelStepper::setAcceleration(float acceleration)
 {
     if (acceleration == 0.0)
@@ -276,8 +284,8 @@ void AccelStepper::setAcceleration(float acceleration)
     {
 	// Recompute _n per Equation 17
 	_n = _n * (_acceleration / acceleration);
-	// New c0 per Equation 7
-	_c0 = sqrt(2.0 / acceleration) * 1000000.0;
+	// New c0 per Equation 7, with correction per Equation 15
+	_c0 = 0.676 * sqrt(2.0 / acceleration) * 1000000.0; // Equation 15
 	_acceleration = acceleration;
 	computeNewSpeed();
     }
@@ -326,11 +334,7 @@ void AccelStepper::step(long step)
 
 	case FULL4WIRE:
 	    step4(step);
-	    break; 
-	
-	case BYJ: 
-	    step5(step);
-	    break;   
+	    break;  
 
 	case HALF3WIRE:
 	    step6(step);
@@ -349,8 +353,10 @@ void AccelStepper::step(long step)
 void AccelStepper::setOutputPins(uint8_t mask)
 {
     uint8_t numpins = 2;
-    if (_interface == FULL4WIRE || _interface == HALF4WIRE || _interface == BYJ)
+    if (_interface == FULL4WIRE || _interface == HALF4WIRE)
 	numpins = 4;
+    else if (_interface == FULL3WIRE || _interface == HALF3WIRE)
+	numpins = 3;
     uint8_t i;
     for (i = 0; i < numpins; i++)
 	digitalWrite(_pin[i], (mask & (1 << i)) ? (HIGH ^ _pinInverted[i]) : (LOW ^ _pinInverted[i]));
@@ -452,48 +458,6 @@ void AccelStepper::step4(long step)
     }
 }
 
-// 4 pin 28byj-48 motor - proper 8 steps
-// This is passed the current step number (0 to 7)
-// Subclasses can override
-void AccelStepper::step5(long step)
-{
-    switch (step & 0x7)
-    {
-	case 0:    // 1000
-	    setOutputPins(0b0001);
-            break;
-	    
-        case 1:    // 1100
-	    setOutputPins(0b0011);
-            break;
-	    
-	case 2:    // 0100
-	    setOutputPins(0b0010);
-            break;
-	    
-        case 3:    // 0110
-	    setOutputPins(0b0110);
-            break;
-	    
-	case 4:    // 0010
-	    setOutputPins(0b0100);
-            break;
-	    
-        case 5:    //0011
-	    setOutputPins(0b1100);
-            break;
-	    
-	case 6:    // 0001
-	    setOutputPins(0b1000);
-            break;
-	    
-        case 7:    //1001
-	    setOutputPins(0b1001);
-            break;
-}
-}
-
-
 // 3 pin half step function
 // This is passed the current step number (0 to 7)
 // Subclasses can override
@@ -527,13 +491,6 @@ void AccelStepper::step6(long step)
 	    
     }
 }
-
-
-
-
-
-
-
 
 // 4 pin half step function
 // This is passed the current step number (0 to 7)
@@ -593,10 +550,14 @@ void    AccelStepper::enableOutputs()
 
     pinMode(_pin[0], OUTPUT);
     pinMode(_pin[1], OUTPUT);
-    if (_interface == FULL4WIRE || _interface == HALF4WIRE || _interface == BYJ )
+    if (_interface == FULL4WIRE || _interface == HALF4WIRE)
     {
         pinMode(_pin[2], OUTPUT);
         pinMode(_pin[3], OUTPUT);
+    }
+    else if (_interface == FULL3WIRE || _interface == HALF3WIRE)
+    {
+        pinMode(_pin[2], OUTPUT);
     }
 
     if (_enablePin != 0xff)
@@ -642,8 +603,8 @@ void AccelStepper::setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3In
 // Blocks until the target position is reached and stopped
 void AccelStepper::runToPosition()
 {
-    while (_speed != 0 || distanceToGo() != 0)
-	run();
+    while (run())
+	;
 }
 
 boolean AccelStepper::runSpeedToPosition()

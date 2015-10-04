@@ -2,6 +2,9 @@
 #include <digitalWriteFast.h>
 #include <Wire.h>
 #include "MotorControllerCmd.h"
+#include <AccelStepper.h>
+
+#define MANUAL_COMMUNICATION
 
 //#define DEBUG_MANUAL_COMMAND
 
@@ -16,14 +19,11 @@ int16_t gyro[3];       // [x, y, z]            gyroscopic output
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 short YPR_Factor = 600;
 
-short _ReplyFromMaster;
-bool _UnhandleCommandReceivedFromMaster = false;
-bool _UnhandledResponseFromMotorController = false;
-bool _UnhandledResponseFromRobotController = false;
 byte _CommandFromMaster;
 short _DataFromMaster;
 short _UnhandledResponse;
-unsigned long _CommandSentTime;
+bool _UnhandleCommandFromMasterReceived = false;
+bool _UnhandleReplyFromMaster = false;
 
 float Gyro_PID_Kp = 1.7;
 float Gyro_PID_Ki = 0.15;
@@ -31,6 +31,24 @@ float Gyro_PID_Kd = 0.15;
 short Gyro_PID_Factor = 100;
 bool Gyro_PID_Enabled = false;
 short Gyro_Angle_Offset = -10;
+
+short MotorSpeedLeft = 0;
+short MotorSpeedRight = 0;
+short Motor_max_speed = 500;
+
+#define SERVO_HORIZONTAL_PIN (10)
+#define SERVO_VERTICAL_PIN (11)
+#define DISTANCE_TRIGGER_PIN (12)
+#define DISTANCE_ECHO_PIN (13)
+
+#define LEFT_MOTOR_DIR_PIN (7)
+#define LEFT_MOTOR_STEP_PIN (6)
+#define RIGHT_MOTOR_DIR_PIN (8)
+#define RIGHT_MOTOR_STEP_PIN (9)
+
+// Define the stepper and the pins it will use
+AccelStepper leftStepper(1, LEFT_MOTOR_STEP_PIN, LEFT_MOTOR_DIR_PIN);
+AccelStepper rightStepper(1, RIGHT_MOTOR_STEP_PIN, RIGHT_MOTOR_DIR_PIN);
 
 void setup()
 {
@@ -40,6 +58,7 @@ void setup()
   
   //InitializeDistanceSensor();
   SetupServo();
+  SetupMotor();
   SetLED(true);
 }
 
@@ -54,10 +73,13 @@ void SetupCommunication()
   {
     Serial.read();
   }
+}
 
-  #ifdef DEBUG_MANUAL_COMMAND
-  Serial.println("Debug started.");
-  #endif
+void SetupMotor()
+{
+  leftStepper.setMaxSpeed(10000.0);
+  rightStepper.setMaxSpeed(10000.0);
+  SetMotorSpeed(0);
 }
 
 void SetLED(boolean stat)
@@ -75,11 +97,19 @@ void ToggleLED()
 void loop()
 {
     ReceiveCommand();
+    UpdateStepperMotors();
     UpdateGyroData();
     HandleCommand();
+    UpdateStepperMotors();
     UpdateGyroData();
     SendCommandReply();
+    UpdateStepperMotors();
     UpdateGyroData();
+}
+
+void UpdateStepperMotors() {
+  leftStepper.runSpeed();
+  rightStepper.runSpeed();
 }
 
 void UpdateGyroData()
@@ -89,19 +119,27 @@ void UpdateGyroData()
     short angle = ypr[1]*YPR_Factor + Gyro_Angle_Offset;
     short angleAccelration = gyro[1];
     short speed = GetPIDSpeed(angle, angleAccelration);
-    SendMessage(Set_Motor_Speed, speed);
+    SetMotorSpeed(speed);
   }
+}
+
+void SetMotorSpeed(short speed)
+{
+  if(speed > Motor_max_speed)
+    speed = Motor_max_speed;
+  if(speed < -Motor_max_speed)
+    speed = -Motor_max_speed;
+    
+  MotorSpeedLeft = speed;
+  MotorSpeedRight = speed;
+  
+  leftStepper.setSpeed(MotorSpeedLeft);  
+  rightStepper.setSpeed(MotorSpeedRight);  
 }
 
 void SendMessage(byte command, short data)
 {
-  if(MotorControllerCommand(command))
-  {
-    SendMessageToMotorController(command, data);
-  }
-  else
-  {
-    byte cmd = command-RobotCommandTypeOffset;
+    byte cmd = command;
     switch(cmd)
     {
       case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
@@ -166,7 +204,6 @@ void SendMessage(byte command, short data)
         
       case Set_Gyro_State:
         Gyro_PID_Enabled = data;
-        SendMessageToMotorController(Set_Motor_Enabled, Gyro_PID_Enabled);
         return;
 
       case Get_Gyro_State:
@@ -181,40 +218,28 @@ void SendMessage(byte command, short data)
         _UnhandledResponse = Gyro_Angle_Offset;
         return;
 
+      case Set_MotorSpeed:
+        SetMotorSpeed(data);
+        return;
+
+      case Get_MotorSpeed_Left:
+        _UnhandledResponse = MotorSpeedLeft;
+        return;
+
+      case Get_MotorSpeed_Right:
+        _UnhandledResponse = MotorSpeedRight;
+        return;
+
+      case Set_Motor_Max_Speed:
+        Motor_max_speed = data;
+        return;
+
+      case Get_Motor_Max_Speed:
+        _UnhandledResponse = Motor_max_speed;
+        return;
+
       default:
         _UnhandledResponse = ServoCommand(cmd, data);
     }
-    return;
-  }
 }
 
-void SendMessageToMotorController(byte command, short data)
-{
-  Wire.beginTransmission(I2C_MOTOR_ADDRESS);
-  Wire.write(command);
-  Wire.write(MSB_FromShort(data));
-  Wire.write(LSB_FromShort(data));
-  Wire.endTransmission();
-}
-
-short GetReplyFromMotorController()
-{
-  Wire.requestFrom((uint8_t)I2C_MOTOR_ADDRESS, (uint8_t)ResponseLength);    
-  byte msb = Wire.read();
-  byte lsb = Wire.read();
-  return  Bytes_ToShort(msb, lsb);
-}
-
-byte MSB_FromShort(short data) {
-  return (data >> 8);
-}
-
-byte LSB_FromShort(short data) {
-  return (data & 0x00FF);
-}
-
-short Bytes_ToShort(byte msb, byte lsb) {
-    short data = (msb << 8);
-    data |= lsb;
-    return data;
-}
