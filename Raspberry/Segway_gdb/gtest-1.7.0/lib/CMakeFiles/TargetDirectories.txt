@@ -1,2 +1,0 @@
-/media/workspace/robot-projects/Raspberry/Segway/gtest-1.7.0/lib/CMakeFiles/gtest.dir
-/media/workspace/robot-projects/Raspberry/Segway/gtest-1.7.0/lib/CMakeFiles/gtest_main.dir

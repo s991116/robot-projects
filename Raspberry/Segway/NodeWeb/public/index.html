@@ -1,0 +1,39 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="robot">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Robot App</title>
+
+	<!-- SCROLLS -->
+
+	<!-- SPELLS -->
+	<script src="js/angular/1.2.16/angular.min.js"></script><!-- load angular -->
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/robot.js"></script>
+	<script src="js/core.js"></script> <!-- load our main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+	<div class="container">
+		<div class="jumbotron text-center">
+			<h1>Robot state <span class="label label-info">{{ robot.enabled }}</span></h1>
+		</div>
+	</div>
+	
+	<div id="robot-form" class="row">
+		<div class="col-sm-8 col-sm-offset-2 text-center">
+			<form>	
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="enable()">Enable</button>
+			</form>
+		</div>
+	</div>
+	
+</body>
+</html>

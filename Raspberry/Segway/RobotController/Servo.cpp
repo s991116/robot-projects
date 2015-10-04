@@ -13,29 +13,45 @@ short Servo::GetVerticalPosition() {
 }
 
 void Servo::StepUp() {
-    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Vertical_Servo_Position);
-    pos = pos - 1;
-    _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position, pos);
+    StepUp(1);
 }
 
 void Servo::StepDown() {
-    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Vertical_Servo_Position);
-    pos = pos + 1;
-    _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position, pos);
+    StepDown(1);
 }
 
 void Servo::StepLeft() {
-    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Horizontal_Servo_Position);
-    pos = pos - 1;
-    _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, pos);
+    StepLeft(1);
 }
 
 void Servo::StepRight() {
+    StepRight(1);
+}
+
+void Servo::StepUp(int steps) {
+    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Vertical_Servo_Position);
+    pos = pos - steps;
+    _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position, pos);
+}
+
+void Servo::StepDown(int steps) {
+    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Vertical_Servo_Position);
+    pos = pos + steps;
+    _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position, pos);
+}
+
+void Servo::StepLeft(int steps) {
     short pos = _HardwareController->SendCommand(RobotCommandType::Get_Horizontal_Servo_Position);
-    pos = pos + 1;
+    pos = pos - steps;
     _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, pos);
 }
 
+void Servo::StepRight(int steps) {
+    short pos = _HardwareController->SendCommand(RobotCommandType::Get_Horizontal_Servo_Position);
+    pos = pos + steps;
+    _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, pos);
+}
+ 
 void Servo::ToCenter() {
     _HardwareController->SendCommand(RobotCommandType::Set_Horizontal_Servo_Position, 90);
     _HardwareController->SendCommand(RobotCommandType::Set_Vertical_Servo_Position,   90);

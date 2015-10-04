@@ -1,6 +1,7 @@
 #include "State.h"
 #include <ncurses.h>
 #include "Convert.h"
+#include "ContinuousPresentation.h"
 
 State::State() {
     this->Quit = false;
@@ -47,4 +48,35 @@ std::string State::ReadString(std::string text) {
     cbreak();
 
     return input;
+}
+
+void State::LoopDisplayFunction(ContinuousPresentation* continuousPresentation)
+{
+            cbreak();
+            clear();
+            noecho();
+            nodelay(stdscr, TRUE);
+            scrollok(stdscr, TRUE);
+            mvprintw(0,0, "Q         - Return\n");
+            while (!kbhit()) {
+                std::string result = continuousPresentation->Presentation();
+                move(1, 0);
+                clrtoeol(); 
+                mvprintw(1,1,"%s", result.c_str());
+            }
+            echo();
+            nodelay(stdscr, FALSE);
+            scrollok(stdscr, FALSE);    
+}
+
+int State::kbhit(void)
+{
+    int ch = getch();
+
+    if (ch != ERR) {
+        ungetch(ch);
+        return 1;
+    } else {
+        return 0;
+    }
 }
