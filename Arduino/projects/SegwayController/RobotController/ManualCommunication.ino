@@ -35,7 +35,6 @@ void SendReplyToMaster(short reply)
 
 
 void TryReadSerialCommand() {
-  
   serialEvent();
   if(stringComplete)
   {

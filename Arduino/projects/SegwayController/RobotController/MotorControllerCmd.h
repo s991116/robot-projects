@@ -49,7 +49,19 @@
     Get_MotorSpeed_Left = 33,
     Get_MotorSpeed_Right = 34,
     Set_Motor_Max_Speed = 35,
-    Get_Motor_Max_Speed = 36
+    Get_Motor_Max_Speed = 36,
+
+    Set_Speed_PID_Kp = 37,
+    Set_Speed_PID_Ki = 38,
+    Set_Speed_PID_Kd = 39,
+    Set_Speed_PID_Factor = 40,
+    Get_Speed_PID_Factor = 41,
+    Get_Speed_PID_Kp = 42,
+    Get_Speed_PID_Ki = 43,
+    Get_Speed_PID_Kd = 44,
+
+    Set_Motor_State = 45,
+    Get_Motor_State = 46
   };
 
 #ifndef HARDWARECONTROLLER_CPP
@@ -95,6 +107,16 @@ true,  //Get_MotorSpeed_Left = 33
 true,  //Get_MotorSpeed_Right = 34
 false, //Set_Motor_Max_Speed = 35,
 true,  //Get_Motor_Max_Speed = 36
+false, //Set_Speed_PID_Kp = 37,
+false, //Set_Speed_PID_Ki = 38,
+false, //Set_Speed_PID_Kd = 39,
+false, //Set_Speed_PID_Factor = 40,
+true,  //Get_Speed_PID_Factor = 41,
+true,  //Get_Speed_PID_Kp = 42,
+true,  //Get_Speed_PID_Ki = 43,
+true,  //Get_Speed_PID_Kd = 44,
+false, //Set_Motor_State = 45,
+true   //Get_Motor_State = 46
 };
 
 #endif

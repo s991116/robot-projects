@@ -108,10 +108,10 @@ boolean MPUDataReady()
   return (mpuInterrupt || fifoCount >= packetSize);  
 }
 
-bool GyroDataUpdated()
+void UpdateGyroData()
 {
   if(!MPUDataReady())
-    return false;
+    return;
   
   // reset interrupt flag and get INT_STATUS byte
   mpuInterrupt = false;
@@ -161,5 +161,4 @@ bool GyroDataUpdated()
     Serial.println(gyro[2]);
 #endif
   }
-  return true;
 }

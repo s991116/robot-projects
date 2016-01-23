@@ -6,8 +6,6 @@
 
 #define MANUAL_COMMUNICATION
 
-//#define DEBUG_MANUAL_COMMAND
-
 #define I2C_MOTOR_ADDRESS (4)
 #define MessageLength (3)
 #define ResponseLength (2)
@@ -32,19 +30,35 @@ short Gyro_PID_Factor = 100;
 bool Gyro_PID_Enabled = false;
 short Gyro_Angle_Offset = -10;
 
+float Speed_PID_Kp = 1.0;
+float Speed_PID_Ki = 0.0;
+float Speed_PID_Kd = 0.0;
+short Speed_PID_Factor = 100;
+
+short MeasuredSpeed;
+short SpeedOffset;
+long SpeedIntegration;
+short Measured_Old;
+
 short MotorSpeedLeft = 0;
 short MotorSpeedRight = 0;
 short Motor_max_speed = 500;
+
+unsigned long UpdatePositionTime = 0;
+unsigned long PID_Looptime_ms = 20;
 
 #define SERVO_HORIZONTAL_PIN (10)
 #define SERVO_VERTICAL_PIN (11)
 #define DISTANCE_TRIGGER_PIN (12)
 #define DISTANCE_ECHO_PIN (13)
 
-#define LEFT_MOTOR_DIR_PIN (7)
-#define LEFT_MOTOR_STEP_PIN (6)
-#define RIGHT_MOTOR_DIR_PIN (8)
+#define LEFT_MOTOR_DIR_PIN (8)
+#define LEFT_MOTOR_STEP_PIN (10)
+#define LEFT_MOTOR_SLEEP_PIN (A6)
+
+#define RIGHT_MOTOR_DIR_PIN (7)
 #define RIGHT_MOTOR_STEP_PIN (9)
+#define RIGHT_MOTOR_SLEEP_PIN (A7)
 
 // Define the stepper and the pins it will use
 AccelStepper leftStepper(1, LEFT_MOTOR_STEP_PIN, LEFT_MOTOR_DIR_PIN);
@@ -53,8 +67,8 @@ AccelStepper rightStepper(1, RIGHT_MOTOR_STEP_PIN, RIGHT_MOTOR_DIR_PIN);
 void setup()
 {
   SetupCommunication();
-  if(!InitializeMPU())
-    while(true);
+  //if(!InitializeMPU())
+  //  while(true);
   
   //InitializeDistanceSensor();
   SetupServo();
@@ -73,13 +87,9 @@ void SetupCommunication()
   {
     Serial.read();
   }
-}
-
-void SetupMotor()
-{
-  leftStepper.setMaxSpeed(10000.0);
-  rightStepper.setMaxSpeed(10000.0);
-  SetMotorSpeed(0);
+  #ifdef MANUAL_COMMUNICATION
+  Serial.println("Ready.");
+  #endif 
 }
 
 void SetLED(boolean stat)
@@ -96,150 +106,19 @@ void ToggleLED()
 
 void loop()
 {
+
     ReceiveCommand();
     UpdateStepperMotors();
-    UpdateGyroData();
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
     HandleCommand();
     UpdateStepperMotors();
-    UpdateGyroData();
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
     SendCommandReply();
     UpdateStepperMotors();
-    UpdateGyroData();
-}
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
 
-void UpdateStepperMotors() {
-  leftStepper.runSpeed();
-  rightStepper.runSpeed();
-}
-
-void UpdateGyroData()
-{
-  if(GyroDataUpdated() && Gyro_PID_Enabled)
-  {
-    short angle = ypr[1]*YPR_Factor + Gyro_Angle_Offset;
-    short angleAccelration = gyro[1];
-    short speed = GetPIDSpeed(angle, angleAccelration);
-    SetMotorSpeed(speed);
-  }
-}
-
-void SetMotorSpeed(short speed)
-{
-  if(speed > Motor_max_speed)
-    speed = Motor_max_speed;
-  if(speed < -Motor_max_speed)
-    speed = -Motor_max_speed;
-    
-  MotorSpeedLeft = speed;
-  MotorSpeedRight = speed;
-  
-  leftStepper.setSpeed(MotorSpeedLeft);  
-  rightStepper.setSpeed(MotorSpeedRight);  
-}
-
-void SendMessage(byte command, short data)
-{
-    byte cmd = command;
-    switch(cmd)
-    {
-      case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
-        _UnhandledResponse = ypr[data]*YPR_Factor;
-        return;
-
-      case Get_Gyro_YPR_Accelration: //Accelration Yaw, Pitch, Roll 
-        _UnhandledResponse = gyro[data];
-        return;
-        
-      case Set_Gyro_YPR_Factor: //YPR_Factor
-        YPR_Factor = data;
-        return;
-        
-      case Get_Distance_cm: //Distance in cm
-        _UnhandledResponse = DistanceInCm();
-        return;
-
-      case Get_Gyro_YPR_Factor: //YPR_Factor
-        _UnhandledResponse = YPR_Factor;
-        return;
-       
-      case Get_Controller_Echo_Command_Test:
-        _UnhandledResponse = command;
-        return;
-        
-      case Get_Controller_Echo_Data_Test:
-        _UnhandledResponse = data;
-        return;
-
-      case Set_Gyro_PID_Kp:
-        Gyro_PID_Kp = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Ki:
-        Gyro_PID_Ki = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Kd:
-        Gyro_PID_Kd = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Factor:
-        Gyro_PID_Factor = data;
-        return;
-
-      case Get_Gyro_PID_Factor:
-        _UnhandledResponse = Gyro_PID_Factor;
-        return;
-        
-      case Get_Gyro_PID_Kp:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kp;
-        return;
-        
-      case Get_Gyro_PID_Ki:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Ki;
-        return;
-        
-      case Get_Gyro_PID_Kd:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kd;
-        return;
-        
-      case Set_Gyro_State:
-        Gyro_PID_Enabled = data;
-        return;
-
-      case Get_Gyro_State:
-        _UnhandledResponse = Gyro_PID_Enabled;
-        return;
-
-      case Set_Gyro_Angle_Offset:
-        Gyro_Angle_Offset = data;
-        return;
-        
-      case Get_Gyro_Angle_Offset:
-        _UnhandledResponse = Gyro_Angle_Offset;
-        return;
-
-      case Set_MotorSpeed:
-        SetMotorSpeed(data);
-        return;
-
-      case Get_MotorSpeed_Left:
-        _UnhandledResponse = MotorSpeedLeft;
-        return;
-
-      case Get_MotorSpeed_Right:
-        _UnhandledResponse = MotorSpeedRight;
-        return;
-
-      case Set_Motor_Max_Speed:
-        Motor_max_speed = data;
-        return;
-
-      case Get_Motor_Max_Speed:
-        _UnhandledResponse = Motor_max_speed;
-        return;
-
-      default:
-        _UnhandledResponse = ServoCommand(cmd, data);
-    }
 }
 

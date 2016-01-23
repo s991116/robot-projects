@@ -1,6 +1,6 @@
 #include <AccelStepper.h>
 #define MOTOR1_DIR_PIN (8)
-#define MOTOR1_STEP_PIN (9)
+#define MOTOR1_STEP_PIN (10)
 // Define the stepper and the pins it will use
 AccelStepper stepper1(1, MOTOR1_STEP_PIN, MOTOR1_DIR_PIN);
 
@@ -8,7 +8,7 @@ AccelStepper stepper1(1, MOTOR1_STEP_PIN, MOTOR1_DIR_PIN);
 #define  MAX_SPEED 500
 #define  MIN_SPEED 0.1
 
-float current_speed = 200;
+float current_speed = 0;
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 
