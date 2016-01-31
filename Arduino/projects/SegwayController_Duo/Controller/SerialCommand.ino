@@ -22,6 +22,7 @@ void InitializeSerialCommand() {
   AddCommand("pidB", pidB_command);
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
+  AddCommand("encoderPeriod", encoderPeriod_command);
   AddCommand("distance", distance_command);
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
@@ -57,7 +58,16 @@ bool TryGetNextArgumentAsFloat(char* parameterName, float* parameter)
 void speed_command()    
 {
   TryGetNextArgumentAsInt("speed A", &TargetEncoderCountA);
-  TryGetNextArgumentAsInt("speed B", &TargetEncoderCountB);
+  //TryGetNextArgumentAsInt("speed B", &TargetEncoderCountB);
+  if(TargetEncoderCountA == 0)
+  {
+    TargetInterruptPeriod = 0;    
+  }
+  else
+  {
+    TargetInterruptPeriod = (float)(10000.0 / (float)TargetEncoderCountA);  
+  }
+
 }
 
 void dir_command()
@@ -79,6 +89,13 @@ void encoder_command()
   Serial.print(CurrentEncoderCountA);
   Serial.print(" , EncoderCount B:");
   Serial.print(CurrentEncoderCountB);
+  Serial.println("");
+}
+
+void encoderPeriod_command()
+{
+  Serial.print("EncoderPeriod A (micros):");
+  Serial.print(EncoderInterruptPeriodA);
   Serial.println("");
 }
 

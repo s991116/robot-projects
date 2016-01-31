@@ -22,6 +22,8 @@ float KpMotorA = 10;
 float KiMotorA = 0;
 float KdMotorA = 0;
 
+unsigned long TargetInterruptPeriod = 1000;
+
 int CurrentEncoderCountB;
 int MotorPowerB;
 int TargetEncoderCountB;
@@ -30,7 +32,7 @@ float KiMotorB = 0;
 float KdMotorB = 0;
 
 long NextMotorPowerUpdateTime;
-byte MotorPowerUpdatePeriod = 10;
+byte MotorPowerUpdatePeriod = 1;
 
 void setup() 
 {
@@ -43,5 +45,5 @@ void setup()
 void loop() 
 {
   ReadCommand(); 
-  UpdateMotorPower();
+  MotorPowerUpdateTime();
 }

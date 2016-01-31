@@ -7,6 +7,10 @@ inline int digitalReadDirect(int pin){
   return !!(g_APinDescription[pin].pPort -> PIO_PDSR & g_APinDescription[pin].ulPin);
 }
 
+unsigned long EncoderInterruptPeriodA;
+unsigned long EncoderInterruptTimeA;
+
+bool ForwardDirectionA;
 
 void InitializeEncoder()
 {
@@ -41,16 +45,21 @@ void UpdateCurrentEncoderB()
 }
 
 void EncoderAInterrupt() {
+
   byte direction = digitalReadDirect(ENCODER_A_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_A_INTERRUPT_PIN);
+
+  EncoderInterruptTimeA = micros();
   if(direction == interrupt)
   {
-    EncoderCountA++;
+    ForwardDirectionA = true;
   }
   else
   {
-    EncoderCountA--;
+    ForwardDirectionA = false;
   }
+
+  UpdateMotorPower(EncoderInterruptTimeA);
 }
 
 void EncoderBInterrupt() {
