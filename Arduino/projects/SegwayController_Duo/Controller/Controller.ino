@@ -23,6 +23,12 @@ float KiMotorA = 0;
 float KdMotorA = 0;
 
 unsigned long TargetInterruptPeriod = 1000;
+unsigned long TargetInterruptBrakePeriod = 500;
+unsigned long TargetInterruptBrakeFactor = 2;
+unsigned long InterruptPeriodA;
+unsigned long InterruptPeriodAError = 0;
+bool TargetInterruptForward = true;
+short MaxMotorPowerA = 255;
 
 int CurrentEncoderCountB;
 int MotorPowerB;
@@ -32,7 +38,8 @@ float KiMotorB = 0;
 float KdMotorB = 0;
 
 long NextMotorPowerUpdateTime;
-byte MotorPowerUpdatePeriod = 1;
+byte MotorPowerUpdatePeriod = 10;
+
 
 void setup() 
 {

@@ -22,7 +22,7 @@ void InitializeSerialCommand() {
   AddCommand("pidB", pidB_command);
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
-  AddCommand("encoderPeriod", encoderPeriod_command);
+  AddCommand("ep", encoderPeriod_command);
   AddCommand("distance", distance_command);
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
@@ -94,8 +94,11 @@ void encoder_command()
 
 void encoderPeriod_command()
 {
+  int temp;
+  TryGetNextArgumentAsInt("P(micros)", &temp);
+  UpdateTargetPeriod(temp);
   Serial.print("EncoderPeriod A (micros):");
-  Serial.print(EncoderInterruptPeriodA);
+  Serial.print(TargetInterruptPeriod);
   Serial.println("");
 }
 

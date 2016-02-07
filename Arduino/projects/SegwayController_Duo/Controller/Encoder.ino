@@ -49,17 +49,22 @@ void EncoderAInterrupt() {
   byte direction = digitalReadDirect(ENCODER_A_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_A_INTERRUPT_PIN);
 
-  EncoderInterruptTimeA = micros();
   if(direction == interrupt)
   {
     ForwardDirectionA = true;
+    EncoderCountA++;
   }
   else
   {
     ForwardDirectionA = false;
+    EncoderCountA--;
   }
+  
+  unsigned long timer = micros();
+  InterruptPeriodA = timer - EncoderInterruptTimeA;
+  EncoderInterruptTimeA = timer;
 
-  UpdateMotorPower(EncoderInterruptTimeA);
+//  UpdateMotorPowerAfterInterrupt();
 }
 
 void EncoderBInterrupt() {
