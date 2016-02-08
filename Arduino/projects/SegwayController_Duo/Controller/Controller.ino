@@ -18,27 +18,20 @@ long DistanceEncoderCountB;
 int CurrentEncoderCountA;
 int MotorPowerA;
 int TargetEncoderCountA;
-float KpMotorA = 10;
-float KiMotorA = 0;
+float KpMotorA = 15;
+float KiMotorA = 20;
 float KdMotorA = 0;
 
-unsigned long TargetInterruptPeriod = 1000;
-unsigned long TargetInterruptBrakePeriod = 500;
-unsigned long TargetInterruptBrakeFactor = 2;
-unsigned long InterruptPeriodA;
-unsigned long InterruptPeriodAError = 0;
-bool TargetInterruptForward = true;
-short MaxMotorPowerA = 255;
 
 int CurrentEncoderCountB;
 int MotorPowerB;
 int TargetEncoderCountB;
-float KpMotorB = 10;
-float KiMotorB = 0;
+float KpMotorB = 15;
+float KiMotorB = 20;
 float KdMotorB = 0;
 
 long NextMotorPowerUpdateTime;
-byte MotorPowerUpdatePeriod = 10;
+short MotorUpdatePeriod = 5;
 
 
 void setup() 

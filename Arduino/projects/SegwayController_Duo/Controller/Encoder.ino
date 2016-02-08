@@ -15,9 +15,9 @@ bool ForwardDirectionA;
 void InitializeEncoder()
 {
   attachInterrupt(ENCODER_A_INTERRUPT_PIN, EncoderAInterrupt, CHANGE);
+  attachInterrupt(ENCODER_A_DIRECTION_PIN, EncoderADirection, CHANGE);
   attachInterrupt(ENCODER_B_INTERRUPT_PIN, EncoderBInterrupt, CHANGE);  
-  pinMode(ENCODER_A_DIRECTION_PIN, INPUT);   
-  pinMode(ENCODER_B_DIRECTION_PIN, INPUT);   
+  attachInterrupt(ENCODER_B_DIRECTION_PIN, EncoderBDirection, CHANGE);  
 }
 
 void ResetDistanceEncoderCountA()
@@ -44,32 +44,53 @@ void UpdateCurrentEncoderB()
   DistanceEncoderCountB = DistanceEncoderCountB + CurrentEncoderCountB;
 }
 
-void EncoderAInterrupt() {
-
+void EncoderAInterrupt()
+{
   byte direction = digitalReadDirect(ENCODER_A_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_A_INTERRUPT_PIN);
 
   if(direction == interrupt)
   {
-    ForwardDirectionA = true;
     EncoderCountA++;
   }
   else
   {
-    ForwardDirectionA = false;
     EncoderCountA--;
   }
-  
-  unsigned long timer = micros();
-  InterruptPeriodA = timer - EncoderInterruptTimeA;
-  EncoderInterruptTimeA = timer;
+}
 
-//  UpdateMotorPowerAfterInterrupt();
+void EncoderADirection()
+{
+  byte direction = digitalReadDirect(ENCODER_A_INTERRUPT_PIN);
+  byte interrupt = digitalReadDirect(ENCODER_A_DIRECTION_PIN);
+
+  if(direction == interrupt)
+  {
+    EncoderCountA--;
+  }
+  else
+  {
+    EncoderCountA++;
+  }
 }
 
 void EncoderBInterrupt() {
   byte direction = digitalReadDirect(ENCODER_B_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_B_INTERRUPT_PIN);
+  if(direction == interrupt)
+  {
+    EncoderCountB--;
+  }
+  else
+  {
+    EncoderCountB++;
+  }
+}
+
+void EncoderBDirection() {
+  byte direction = digitalReadDirect(ENCODER_B_INTERRUPT_PIN);
+  byte interrupt = digitalReadDirect(ENCODER_B_DIRECTION_PIN);
+
   if(direction == interrupt)
   {
     EncoderCountB++;

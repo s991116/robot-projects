@@ -22,8 +22,8 @@ void InitializeSerialCommand() {
   AddCommand("pidB", pidB_command);
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
-  AddCommand("ep", encoderPeriod_command);
   AddCommand("distance", distance_command);
+  AddCommand("time", time_command);
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
 }
@@ -58,16 +58,7 @@ bool TryGetNextArgumentAsFloat(char* parameterName, float* parameter)
 void speed_command()    
 {
   TryGetNextArgumentAsInt("speed A", &TargetEncoderCountA);
-  //TryGetNextArgumentAsInt("speed B", &TargetEncoderCountB);
-  if(TargetEncoderCountA == 0)
-  {
-    TargetInterruptPeriod = 0;    
-  }
-  else
-  {
-    TargetInterruptPeriod = (float)(10000.0 / (float)TargetEncoderCountA);  
-  }
-
+  TryGetNextArgumentAsInt("speed B", &TargetEncoderCountB);
 }
 
 void dir_command()
@@ -92,22 +83,13 @@ void encoder_command()
   Serial.println("");
 }
 
-void encoderPeriod_command()
-{
-  int temp;
-  TryGetNextArgumentAsInt("P(micros)", &temp);
-  UpdateTargetPeriod(temp);
-  Serial.print("EncoderPeriod A (micros):");
-  Serial.print(TargetInterruptPeriod);
-  Serial.println("");
-}
-
 void distance_command()
 {
   Serial.print("Distance A:");
   Serial.print(DistanceEncoderCountA);  
   Serial.print(" , Distance B:");
   Serial.println(DistanceEncoderCountB);    
+  Serial.println(EncoderCountB);
 }
 
 void error_command()
@@ -138,6 +120,13 @@ void pidB_command()
     TryGetNextArgumentAsFloat("D", &KdMotorB);
 
     UpdateControllerSettings();
+}
+
+void time_command()
+{
+  int temp;
+  TryGetNextArgumentAsInt("UpdateTime", &temp);
+  MotorUpdatePeriod = temp;
 }
 
 void unrecognized()
