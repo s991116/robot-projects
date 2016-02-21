@@ -15,9 +15,9 @@ bool ForwardDirectionA;
 void InitializeEncoder()
 {
   attachInterrupt(ENCODER_A_INTERRUPT_PIN, EncoderAInterrupt, CHANGE);
-//  attachInterrupt(ENCODER_A_DIRECTION_PIN, EncoderADirection, CHANGE);
+  attachInterrupt(ENCODER_A_DIRECTION_PIN, EncoderADirection, CHANGE);
   attachInterrupt(ENCODER_B_INTERRUPT_PIN, EncoderBInterrupt, CHANGE);  
-//  attachInterrupt(ENCODER_B_DIRECTION_PIN, EncoderBDirection, CHANGE);  
+  attachInterrupt(ENCODER_B_DIRECTION_PIN, EncoderBDirection, CHANGE);  
 }
 
 void ResetDistanceEncoderCountA()
@@ -74,7 +74,7 @@ void EncoderADirection()
   }
 }
 
-void EncoderBInterrupt() {
+void EncoderBInterrupt() {  
   byte direction = digitalReadDirect(ENCODER_B_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_B_INTERRUPT_PIN);
   if(direction == interrupt)

@@ -1,3 +1,6 @@
+#include <CommandTypes.h>
+#include <SerialProtocol.h>
+
 #define ENCODER_A_INTERRUPT_PIN (10)
 #define ENCODER_B_INTERRUPT_PIN (12)
 #define ENCODER_A_DIRECTION_PIN (11)
@@ -44,12 +47,12 @@ void setup()
   InitializeMotor();
   InitializeEncoder();
   InitializeSpeedControl();
-  InitializeMPU();
+  InitializeGyro();
 } 
 
 void loop() 
 {
   ReadCommand(); 
   MotorPowerUpdateTime();
-  UpdateGyroData();
+  HandleGyroCommands();
 }

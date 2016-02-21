@@ -90,7 +90,6 @@ void distance_command()
   Serial.print(DistanceEncoderCountA);  
   Serial.print(" , Distance B:");
   Serial.println(DistanceEncoderCountB);    
-  Serial.println(EncoderCountB);
 }
 
 void error_command()
@@ -132,29 +131,10 @@ void time_command()
 
 void gyro_command()
 {
-  Serial.print("Update time:");
-  Serial.print(updatePeriod);
-  Serial.println();
-  Serial.print("Calc time:");
-  Serial.print(calcTime);
-  Serial.println();
-  Serial.print("Gyro value:");
-  Serial.println(ypr[1]);
-  
-  /*
-    Serial.print("ypr\t");
-    Serial.print(ypr[0] * 180/M_PI);
-    Serial.print("\t");
-    Serial.print(ypr[1] * 180/M_PI);
-    Serial.print("\t");
-    Serial.print(ypr[2] * 180/M_PI);
-    Serial.print("accel\t");
-    Serial.print(gyro[0]);
-    Serial.print("\t");
-    Serial.print(gyro[1]);
-    Serial.print("\t");
-    Serial.println(gyro[2]);
-    */
+  Serial.print("Angle:");
+  Serial.println(Angle);
+  Serial.print("Angle acc.:");
+  Serial.println(Angle_Acc);
 }
 
 void unrecognized()
