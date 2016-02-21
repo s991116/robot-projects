@@ -8,6 +8,10 @@
 #define MOTOR_B_DIR_PIN (5)
 #define MOTOR_B_SPEED_PIN (8)
 
+long updateTime;
+long updatePeriod;
+long calcTime;
+
 long CurrentSpeedA;
 long CurrentSpeedB;
 volatile long EncoderCountA;
@@ -40,10 +44,12 @@ void setup()
   InitializeMotor();
   InitializeEncoder();
   InitializeSpeedControl();
+  InitializeMPU();
 } 
 
 void loop() 
 {
   ReadCommand(); 
   MotorPowerUpdateTime();
+  UpdateGyroData();
 }

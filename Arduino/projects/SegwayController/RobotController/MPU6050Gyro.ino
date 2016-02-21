@@ -27,6 +27,8 @@ void dmpDataReady() {
 
 bool InitializeMPU()
 {
+
+  
   // initialize device
 #ifdef DEBUG_MANUAL_COMMAND
   Serial.println(F("Initializing I2C devices..."));
@@ -74,7 +76,7 @@ bool InitializeMPU()
   #ifdef DEBUG_MANUAL_COMMAND
         Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
   #endif
-    attachInterrupt(0, dmpDataReady, RISING);
+    attachInterrupt(digitalPinToInterrupt(2), dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
