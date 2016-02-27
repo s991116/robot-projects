@@ -46,13 +46,15 @@ void setup()
   InitializeSerialCommand(); 
   InitializeMotor();
   InitializeEncoder();
-  InitializeSpeedControl();
+  InitializeSpeedControl();  
   InitializeGyro();
+  InitializeSegway();
 } 
 
 void loop() 
 {
   ReadCommand(); 
+  SegwayUpdateTime();
   MotorPowerUpdateTime();
   HandleGyroCommands();
 }

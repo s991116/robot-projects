@@ -13,18 +13,20 @@ void AddCommand(char* cmd, void (* function)()) {
 }
 
 void InitializeSerialCommand() {
-  Serial.begin(57600); 
+  Serial.begin(115200); 
 
   // Setup callbacks for SerialCommand commands 
   AddCommand("speed", speed_command);
   AddCommand("error", error_command);
   AddCommand("pidA", pidA_command);
   AddCommand("pidB", pidB_command);
+  AddCommand("pidG", pidG_command);
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
   AddCommand("distance", distance_command);
-  AddCommand("time", time_command);
+  AddCommand("s", segway_command);
   AddCommand("gyro", gyro_command);
+
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
 }
@@ -122,6 +124,14 @@ void pidB_command()
     UpdateControllerSettings();
 }
 
+void pidG_command()
+{
+    TryGetNextArgumentAsFloat("P", &AnglePCorr);
+    TryGetNextArgumentAsFloat("I", &AngleICorr);
+//    TryGetNextArgumentAsFloat("D", &AngleDCorr);
+}
+
+
 void time_command()
 {
   int temp;
@@ -131,10 +141,38 @@ void time_command()
 
 void gyro_command()
 {
+  Serial.print("Offset:");
+  Serial.println(OffsetAngle);
+
   Serial.print("Angle:");
   Serial.println(Angle);
   Serial.print("Angle acc.:");
   Serial.println(Angle_Acc);
+
+  Serial.print("AngleError:");
+  Serial.println(AngleError);
+  Serial.print("AngleErrorSum:");
+  Serial.println(AngleErrorSum);
+  Serial.print("AngleErrorDiff:");
+  Serial.println(AngleErrorDif);
+}
+
+void segway_command()
+{
+  SegwayEnabled = !SegwayEnabled;
+
+  Serial.print("Angle P Factor:");
+  Serial.println(AnglePCorr,5);
+  Serial.print("Angle I Factor:");
+  Serial.println(AngleICorr,5);
+  Serial.print("Angle D Factor:");
+  Serial.println(AngleDCorr,5);
+  
+  if(!SegwayEnabled)
+  {
+    TargetEncoderCountA = 0;
+    TargetEncoderCountB = 0;
+  }
 }
 
 void unrecognized()

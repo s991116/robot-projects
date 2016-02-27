@@ -92,6 +92,7 @@ void setup() {
     #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
         Fastwire::setup(400, true);
     #endif
+    serialFlush();
     Serial.begin(115200);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
 

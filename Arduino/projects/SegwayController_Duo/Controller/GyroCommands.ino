@@ -6,7 +6,7 @@ void handleCommand(uint8_t commandId)
 {
 }
 
-void handleData(uint8_t responseType, uint8_t commandId, uint16_t data)
+void handleData(uint8_t responseType, uint8_t commandId, int16_t data)
 {
   switch(responseType)
   {
@@ -28,7 +28,7 @@ void handleData(uint8_t responseType, uint8_t commandId, uint16_t data)
   }
 }
 
-uint16_t handleReply(uint8_t responseType, uint8_t commandId)
+int16_t handleReply(uint8_t responseType, uint8_t commandId)
 {
   switch(responseType)
   {
@@ -48,7 +48,7 @@ SerialCommandProtocol serialCommand(&Serial3, handleCommand, handleData, handleR
 void InitializeGyro()
 {
   Serial3.begin(115200);
-  serialFlush();
+ // serialFlush();
 }
 
 void serialFlush(){
@@ -61,3 +61,9 @@ void HandleGyroCommands()
 {
   serialCommand.handleResponse();
 }
+
+short GetAngle()
+{
+  serialCommand.getShortData(0);
+}
+
