@@ -40,7 +40,6 @@ float KdMotorB = 0;
 long NextMotorPowerUpdateTime;
 short MotorUpdatePeriod = 5;
 
-
 void setup() 
 {
   InitializeSerialCommand(); 

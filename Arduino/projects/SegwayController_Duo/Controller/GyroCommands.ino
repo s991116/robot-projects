@@ -48,7 +48,8 @@ SerialCommandProtocol serialCommand(&Serial3, handleCommand, handleData, handleR
 void InitializeGyro()
 {
   Serial3.begin(115200);
- // serialFlush();
+  delay(500);
+  //serialFlush();
 }
 
 void serialFlush(){

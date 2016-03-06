@@ -172,6 +172,12 @@ void segway_command()
   {
     TargetEncoderCountA = 0;
     TargetEncoderCountB = 0;
+    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 0);
+  }
+  else
+  {
+    SetOffsetAngle();
+    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
   }
 }
 

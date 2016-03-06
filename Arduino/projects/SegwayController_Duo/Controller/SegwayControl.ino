@@ -1,5 +1,5 @@
 
-bool SegwayEnabled = false;
+bool SegwayEnabled = true;
 short OffsetAngle;
 
 int AngleError;

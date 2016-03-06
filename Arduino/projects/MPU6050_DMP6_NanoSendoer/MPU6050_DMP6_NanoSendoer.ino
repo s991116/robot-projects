@@ -67,7 +67,8 @@ short angle_acc;
 // packet structure for InvenSense teapot demo
 uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
 
-#define DELIMITER_VALUE (0xFFFF)
+
+byte SendDataEnabled = 1;
 
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
@@ -92,10 +93,9 @@ void setup() {
     #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
         Fastwire::setup(400, true);
     #endif
-    serialFlush();
     Serial.begin(115200);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
-
+    
     mpu.initialize();
 
     devStatus = mpu.dmpInitialize();
@@ -135,13 +135,27 @@ void setup() {
 
     // configure LED for output
     pinMode(LED_PIN, OUTPUT);
-    digitalWrite(LED_PIN, HIGH);
+    SetSendMode(true);
 }
 
 long startTime;
 long currentTime;
 
 short GyroDirection = 1;
+
+void SetSendMode(bool mode)
+{
+  if(mode)
+  {
+    digitalWrite(LED_PIN, HIGH);
+    SendDataEnabled = 1;    
+  }
+  else
+  {
+    digitalWrite(LED_PIN, LOW); 
+    SendDataEnabled = 0;       
+  }
+}
 
 // ================================================================
 // ===                    MAIN PROGRAM LOOP                     ===
@@ -188,7 +202,10 @@ void loop() {
         angle = (short)(ypr[GyroDirection] * 10000);
         angle_acc = (gyro[GyroDirection] * 10);
 
-        SendData(angle, angle_acc);
+        if(SendDataEnabled == 1)
+        {
+          SendAngleData(angle, angle_acc);          
+        }
     }
     HandleCommands();
 }

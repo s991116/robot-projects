@@ -1,5 +1,5 @@
 void handleCommand(uint8_t commandId)
-{
+{  
 }
 
 void handleData(uint8_t responseType, uint8_t commandId, int16_t data)
@@ -7,6 +7,12 @@ void handleData(uint8_t responseType, uint8_t commandId, int16_t data)
   switch(responseType)
   {
     case COMMAND_DATA_BYTE_NO_REPLY:
+      switch(commandId)
+      {
+        case 0:
+          SetSendMode(data);
+          break;
+      }
       break;
        
     case COMMAND_DATA_SHORT_NO_REPLY:
@@ -42,14 +48,9 @@ void HandleCommands()
   serialCommand.handleResponse();
 }
 
-void SendData(short angle, short angle_acc)
+void SendAngleData(short angle, short angle_acc)
 {
   serialCommand.sendCommandAndData(0, angle);
   serialCommand.sendCommandAndData(1, angle_acc);
 }
 
-void serialFlush(){
-  while(Serial.available() > 0) {
-    char t = Serial.read();
-  }
-} 
