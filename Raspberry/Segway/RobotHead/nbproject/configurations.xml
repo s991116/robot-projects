@@ -40,7 +40,9 @@
           <incDir>
             <pElem>../RobotController</pElem>
             <pElem>../PiCamera</pElem>
+            <pElem>../Vision</pElem>
           </incDir>
+          <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <archiverTool>
         </archiverTool>

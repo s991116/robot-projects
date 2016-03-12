@@ -11,10 +11,13 @@
             <make-dep-projects>
                 <make-dep-project>../StringUtil</make-dep-project>
                 <make-dep-project>../RobotController</make-dep-project>
+                <make-dep-project>../Vision</make-dep-project>
                 <make-dep-project>../Robot</make-dep-project>
                 <make-dep-project>../RobotHead</make-dep-project>
+                <make-dep-project>../Logging</make-dep-project>
                 <make-dep-project>../PiCamera</make-dep-project>
                 <make-dep-project>../SoundPlayer</make-dep-project>
+                <make-dep-project>../Setting</make-dep-project>
             </make-dep-projects>
             <sourceRootList/>
             <confList>

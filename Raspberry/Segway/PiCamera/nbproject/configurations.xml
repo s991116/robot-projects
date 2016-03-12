@@ -4,9 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>FaceDetection.h</itemPath>
       <itemPath>PiCamera.h</itemPath>
-      <itemPath>Position.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,9 +13,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>FaceDetection.cpp</itemPath>
       <itemPath>PiCamera.cpp</itemPath>
-      <itemPath>Position.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -43,17 +39,9 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="FaceDetection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="FaceDetection.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="PiCamera.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PiCamera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Position.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Position.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="3">
@@ -78,17 +66,9 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="FaceDetection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="FaceDetection.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="PiCamera.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PiCamera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Position.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Position.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

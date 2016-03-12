@@ -41,6 +41,9 @@
             <pElem>../RobotController</pElem>
             <pElem>../RobotHead</pElem>
             <pElem>../PiCamera</pElem>
+            <pElem>../Vision</pElem>
+            <pElem>../Setting</pElem>
+            <pElem>../Logging</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>

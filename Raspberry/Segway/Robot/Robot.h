@@ -8,6 +8,9 @@
 #include <Gyro.h>
 #include <MotorTuning.h>
 #include <CameraSensor.h>
+#include "LineDetectSetting.h"
+#include "LineDetect.h"
+#include "Logging.h"
 
 class Robot {
 public:
@@ -19,6 +22,9 @@ public:
     Gyro* _Gyro;
     Servo* _Servo;
     CameraSensor* _CameraSensor;
+    Logging* _Log;
+    LineDetectSetting* _BottomLineDetectSetting;
+    LineDetect* _BottomLineDetect;
 
 private:
     HardwareController* _HwCtrl;

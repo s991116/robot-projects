@@ -35,9 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/FaceDetection.o \
-	${OBJECTDIR}/PiCamera.o \
-	${OBJECTDIR}/Position.o
+	${OBJECTDIR}/PiCamera.o
 
 
 # C Compiler Flags
@@ -66,20 +64,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libpicamera.a: ${OBJECTFILES}
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libpicamera.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libpicamera.a
 
-${OBJECTDIR}/FaceDetection.o: FaceDetection.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FaceDetection.o FaceDetection.cpp
-
 ${OBJECTDIR}/PiCamera.o: PiCamera.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PiCamera.o PiCamera.cpp
-
-${OBJECTDIR}/Position.o: Position.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
 
 # Subprojects
 .build-subprojects:

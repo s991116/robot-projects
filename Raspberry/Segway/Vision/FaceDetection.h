@@ -13,7 +13,7 @@ public:
     FaceDetection();
     FaceDetection(const FaceDetection& orig);
     
-    bool GetFacePosition(cv::Mat image, Position* position);
+    void GetFacePosition(cv::Mat image, Position* position);
     
     virtual ~FaceDetection();
     

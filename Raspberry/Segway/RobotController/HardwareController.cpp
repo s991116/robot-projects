@@ -47,7 +47,6 @@ short HardwareController::SendCommand(RobotCommandType commandType, unsigned cha
 
 short HardwareController::SendCommand(unsigned char cmd, unsigned char data1, unsigned char data2, bool response) {
 
-//    std::cout << "Cmd: " << cmd << " , MSB:" << (int) data1 << " , LSB:" << (int) data2;
     _SendBuffer[0] = cmd;
     _SendBuffer[1] = data1;
     _SendBuffer[2] = data2;
@@ -81,7 +80,6 @@ short HardwareController::SendCommand(unsigned char cmd, unsigned char data1, un
             }
             _ReceiveBuffer[receiveCount] = receiveChar[0];
         }
-//        std::cout << " - Received: " << " MSB:" << (int) _ReceiveBuffer[0] << " , LSB:" << (int) _ReceiveBuffer[1] << std::endl;
 
         short response = (_ReceiveBuffer[0] << 8);
         response += _ReceiveBuffer[1];

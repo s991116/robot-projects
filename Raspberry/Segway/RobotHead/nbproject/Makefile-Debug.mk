@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=c++0x
+CXXFLAGS=-std=c++0x
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,7 +67,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/librobothead.a: ${OBJECTFILES}
 ${OBJECTDIR}/CameraSensor.o: CameraSensor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../PiCamera -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraSensor.o CameraSensor.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../PiCamera -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraSensor.o CameraSensor.cpp
 
 # Subprojects
 .build-subprojects:

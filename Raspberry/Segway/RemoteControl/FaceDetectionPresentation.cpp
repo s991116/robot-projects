@@ -6,11 +6,11 @@ FaceDetectionPresentation::FaceDetectionPresentation(CameraSensor* cameraSensor,
 }
 
 std::string FaceDetectionPresentation::Presentation() {
-    bool detected = _CameraSensor->GetFacePosition(_Position);
-    if(detected)
+    _CameraSensor->GetFacePosition(_Position);
+    if(_Position->Detected())
     {
         std::ostringstream stringStream;
-        stringStream << "Face detected Position( " << _Position->GetX() << " , " << _Position->GetY() << " )";
+        stringStream << "Face detected Position( " << _Position->GetNormalizedX() << " , " << _Position->GetNormalizedY() << " )";
         return stringStream.str();
     }
     else

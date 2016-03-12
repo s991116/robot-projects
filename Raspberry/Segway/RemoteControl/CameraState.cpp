@@ -6,7 +6,7 @@
 
 CameraState::CameraState(CameraSensor* cameraSensor) {
     _CameraSensor = cameraSensor;
-    _Position = new Position(0,0);
+    _Position = new Position();
     
     _FaceDetectionPresentation = new FaceDetectionPresentation(_CameraSensor, _Position);
 }

@@ -14,9 +14,9 @@ State* ServoState::View() {
     printw("Q         - Return\n");
     printw("\n");
     printw("Position Horizontal: ");
-    printw(Convert::IntToString(_Servo->GetHorizontalPosition()).c_str());
+   // printw(Convert::IntToString(_Servo->GetHorizontalPosition()).c_str());
     printw(" , Position Vertical: ");
-    printw(Convert::IntToString(_Servo->GetVerticalPosition()).c_str());
+   // printw(Convert::IntToString(_Servo->GetVerticalPosition()).c_str());
     
     printw("\n");
 
