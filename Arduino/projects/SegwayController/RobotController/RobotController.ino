@@ -2,8 +2,9 @@
 #include <digitalWriteFast.h>
 #include <Wire.h>
 #include "MotorControllerCmd.h"
+#include <AccelStepper.h>
 
-//#define DEBUG_MANUAL_COMMAND
+#define MANUAL_COMMUNICATION
 
 #define I2C_MOTOR_ADDRESS (4)
 #define MessageLength (3)
@@ -16,14 +17,11 @@ int16_t gyro[3];       // [x, y, z]            gyroscopic output
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 short YPR_Factor = 600;
 
-short _ReplyFromMaster;
-bool _UnhandleCommandReceivedFromMaster = false;
-bool _UnhandledResponseFromMotorController = false;
-bool _UnhandledResponseFromRobotController = false;
 byte _CommandFromMaster;
 short _DataFromMaster;
 short _UnhandledResponse;
-unsigned long _CommandSentTime;
+bool _UnhandleCommandFromMasterReceived = false;
+bool _UnhandleReplyFromMaster = false;
 
 float Gyro_PID_Kp = 1.7;
 float Gyro_PID_Ki = 0.15;
@@ -32,14 +30,49 @@ short Gyro_PID_Factor = 100;
 bool Gyro_PID_Enabled = false;
 short Gyro_Angle_Offset = -10;
 
+float Speed_PID_Kp = 1.0;
+float Speed_PID_Ki = 0.0;
+float Speed_PID_Kd = 0.0;
+short Speed_PID_Factor = 100;
+
+short MeasuredSpeed;
+short SpeedOffset;
+long SpeedIntegration;
+short Measured_Old;
+
+short MotorSpeedLeft = 0;
+short MotorSpeedRight = 0;
+short Motor_max_speed = 500;
+
+unsigned long UpdatePositionTime = 0;
+unsigned long PID_Looptime_ms = 20;
+
+#define SERVO_HORIZONTAL_PIN (10)
+#define SERVO_VERTICAL_PIN (11)
+#define DISTANCE_TRIGGER_PIN (12)
+#define DISTANCE_ECHO_PIN (13)
+
+#define LEFT_MOTOR_DIR_PIN (8)
+#define LEFT_MOTOR_STEP_PIN (10)
+#define LEFT_MOTOR_SLEEP_PIN (A6)
+
+#define RIGHT_MOTOR_DIR_PIN (7)
+#define RIGHT_MOTOR_STEP_PIN (9)
+#define RIGHT_MOTOR_SLEEP_PIN (A7)
+
+// Define the stepper and the pins it will use
+AccelStepper leftStepper(1, LEFT_MOTOR_STEP_PIN, LEFT_MOTOR_DIR_PIN);
+AccelStepper rightStepper(1, RIGHT_MOTOR_STEP_PIN, RIGHT_MOTOR_DIR_PIN);
+
 void setup()
 {
   SetupCommunication();
-  if(!InitializeMPU())
-    while(true);
+  //if(!InitializeMPU())
+  //  while(true);
   
   //InitializeDistanceSensor();
   SetupServo();
+  SetupMotor();
   SetLED(true);
 }
 
@@ -54,10 +87,9 @@ void SetupCommunication()
   {
     Serial.read();
   }
-
-  #ifdef DEBUG_MANUAL_COMMAND
-  Serial.println("Debug started.");
-  #endif
+  #ifdef MANUAL_COMMUNICATION
+  Serial.println("Ready.");
+  #endif 
 }
 
 void SetLED(boolean stat)
@@ -74,147 +106,19 @@ void ToggleLED()
 
 void loop()
 {
+
     ReceiveCommand();
-    UpdateGyroData();
+    UpdateStepperMotors();
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
     HandleCommand();
-    UpdateGyroData();
+    UpdateStepperMotors();
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
     SendCommandReply();
-    UpdateGyroData();
+    UpdateStepperMotors();
+//    UpdateGyroData();
+//    UpdateSegwayPosition();
+
 }
 
-void UpdateGyroData()
-{
-  if(GyroDataUpdated() && Gyro_PID_Enabled)
-  {
-    short angle = ypr[1]*YPR_Factor + Gyro_Angle_Offset;
-    short angleAccelration = gyro[1];
-    short speed = GetPIDSpeed(angle, angleAccelration);
-    SendMessage(Set_Motor_Speed, speed);
-  }
-}
-
-void SendMessage(byte command, short data)
-{
-  if(MotorControllerCommand(command))
-  {
-    SendMessageToMotorController(command, data);
-  }
-  else
-  {
-    byte cmd = command-RobotCommandTypeOffset;
-    switch(cmd)
-    {
-      case Get_Gyro_YPR: //Gyro Yaw, Pitch, Roll
-        _UnhandledResponse = ypr[data]*YPR_Factor;
-        return;
-
-      case Get_Gyro_YPR_Accelration: //Accelration Yaw, Pitch, Roll 
-        _UnhandledResponse = gyro[data];
-        return;
-        
-      case Set_Gyro_YPR_Factor: //YPR_Factor
-        YPR_Factor = data;
-        return;
-        
-      case Get_Distance_cm: //Distance in cm
-        _UnhandledResponse = DistanceInCm();
-        return;
-
-      case Get_Gyro_YPR_Factor: //YPR_Factor
-        _UnhandledResponse = YPR_Factor;
-        return;
-       
-      case Get_Controller_Echo_Command_Test:
-        _UnhandledResponse = command;
-        return;
-        
-      case Get_Controller_Echo_Data_Test:
-        _UnhandledResponse = data;
-        return;
-
-      case Set_Gyro_PID_Kp:
-        Gyro_PID_Kp = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Ki:
-        Gyro_PID_Ki = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Kd:
-        Gyro_PID_Kd = ((float)data) / ((float)Gyro_PID_Factor);
-        return;
-        
-      case Set_Gyro_PID_Factor:
-        Gyro_PID_Factor = data;
-        return;
-
-      case Get_Gyro_PID_Factor:
-        _UnhandledResponse = Gyro_PID_Factor;
-        return;
-        
-      case Get_Gyro_PID_Kp:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kp;
-        return;
-        
-      case Get_Gyro_PID_Ki:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Ki;
-        return;
-        
-      case Get_Gyro_PID_Kd:
-        _UnhandledResponse = Gyro_PID_Factor * Gyro_PID_Kd;
-        return;
-        
-      case Set_Gyro_State:
-        Gyro_PID_Enabled = data;
-        SendMessageToMotorController(Set_Motor_Enabled, Gyro_PID_Enabled);
-        return;
-
-      case Get_Gyro_State:
-        _UnhandledResponse = Gyro_PID_Enabled;
-        return;
-
-      case Set_Gyro_Angle_Offset:
-        Gyro_Angle_Offset = data;
-        return;
-        
-      case Get_Gyro_Angle_Offset:
-        _UnhandledResponse = Gyro_Angle_Offset;
-        return;
-
-      default:
-        _UnhandledResponse = ServoCommand(cmd, data);
-    }
-    return;
-  }
-}
-
-void SendMessageToMotorController(byte command, short data)
-{
-  Wire.beginTransmission(I2C_MOTOR_ADDRESS);
-  Wire.write(command);
-  Wire.write(MSB_FromShort(data));
-  Wire.write(LSB_FromShort(data));
-  Wire.endTransmission();
-}
-
-short GetReplyFromMotorController()
-{
-  Wire.requestFrom((uint8_t)I2C_MOTOR_ADDRESS, (uint8_t)ResponseLength);    
-  byte msb = Wire.read();
-  byte lsb = Wire.read();
-  return  Bytes_ToShort(msb, lsb);
-}
-
-byte MSB_FromShort(short data) {
-  return (data >> 8);
-}
-
-byte LSB_FromShort(short data) {
-  return (data & 0x00FF);
-}
-
-short Bytes_ToShort(byte msb, byte lsb) {
-    short data = (msb << 8);
-    data |= lsb;
-    return data;
-}

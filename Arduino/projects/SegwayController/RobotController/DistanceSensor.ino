@@ -19,8 +19,6 @@ http://arduino.cc/en/Guide/Libraries
 
 #include <TimerOne.h>                                 // Header file for TimerOne library
 
-#define trigPin 8                                    // Pin 12 trigger output
-#define echoPin 3                                     // Pin 2 Echo input
 #define echo_int 1                                    // Interrupt id for echo pulse
 
 #define TIMER_US 50                                   // 50 uS timer duration 
@@ -35,8 +33,8 @@ volatile long range_flasher_counter = 0;              // Count down counter for 
 
 void InitializeDistanceSensor()
 {
-  pinMode(trigPin, OUTPUT);                           // Trigger pin set to output
-  pinMode(echoPin, INPUT);                            // Echo pin set to input
+  pinMode(DISTANCE_TRIGGER_PIN, OUTPUT);                           // Trigger pin set to output
+  pinMode(DISTANCE_ECHO_PIN, INPUT);                            // Echo pin set to input
   
   Timer1.initialize(TIMER_US);                        // Initialise timer 1
   Timer1.attachInterrupt( timerIsr );                 // Attach interrupt to the timer service routine 
@@ -79,13 +77,13 @@ void trigger_pulse()
             break;
         
         case 1:                                      // Initiate pulse
-           digitalWriteFast(trigPin, HIGH);              // Set the trigger output high
+           digitalWriteFast(DISTANCE_TRIGGER_PIN, HIGH);              // Set the trigger output high
            state = 2;                                // and set state to 2
            break;
         
         case 2:                                      // Complete the pulse
         default:      
-           digitalWriteFast(trigPin, LOW);               // Set the trigger output low
+           digitalWriteFast(DISTANCE_TRIGGER_PIN, LOW);               // Set the trigger output low
            state = 0;                                // and return state to normal 0
            break;
      }
@@ -100,7 +98,7 @@ void trigger_pulse()
 // --------------------------
 void echo_interrupt()
 {
-  switch (digitalReadFast(echoPin))                     // Test to see if the signal is high or low
+  switch (digitalReadFast(DISTANCE_ECHO_PIN))                     // Test to see if the signal is high or low
   {
     case HIGH:                                      // High so must be the start of the echo pulse
       echo_end = 0;                                 // Clear the end time

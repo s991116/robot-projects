@@ -1,58 +1,34 @@
-/*
-  HG7881_Motor_Driver_Example - Arduino sketch
-   
-  This example shows how to drive a motor with using HG7881 (L9110) Dual
-  Channel Motor Driver Module.  For simplicity, this example shows how to
-  drive a single motor.  Both channels work the same way.
-   
-  This example is meant to illustrate how to operate the motor driver
-  and is not intended to be elegant, efficient or useful.
-   
-  Connections:
-   
-    Arduino digital output D10 to motor driver input 1B2 / 1A1.
-    Arduino digital output D11 to motor driver input 1A2 / 1B1.
-    Motor driver VCC to operating voltage 5V.
-    Motor driver GND to common ground.
-    Motor driver MOTOR B screw terminals to a small motor.
-     
-  Related Banana Robotics items:
-   
-    BR010038 HG7881 (L9110) Dual Channel Motor Driver Module
-    https://www.BananaRobotics.com/shop/HG7881-(L9110)-Dual-Channel-Motor-Driver-Module
- 
-  https://www.BananaRobotics.com
-*/
- 
-// wired connections
-#define HG7881_B_IA 10 // D10 --> Motor B Input A --> MOTOR B +
-#define HG7881_B_IB 11 // D11 --> Motor B Input B --> MOTOR B -
-
-#define HG7881_A_IA 9 // D9 --> Motor B Input A --> MOTOR B +
-#define HG7881_A_IB 8 // D8 --> Motor B Input B --> MOTOR B -
- 
 // functional connections
-#define MOTOR_B_PWM HG7881_B_IA // Motor B PWM Speed
-#define MOTOR_B_DIR HG7881_B_IB // Motor B Direction
+#define MOTOR_B_PWM (10) // Motor B PWM Speed
+#define MOTOR_B_DIR (8) // Motor B Direction
 
-#define MOTOR_A_PWM HG7881_A_IA // Motor A PWM Speed
-#define MOTOR_A_DIR HG7881_A_IB // Motor A Direction
+#define MOTOR_A_PWM (9) // Motor A PWM Speed
+#define MOTOR_A_DIR (7) // Motor A Direction
  
 // the actual values for "fast" and "slow" depend on the motor
 #define PWM_SLOW 80  // arbitrary slow speed PWM duty cycle
 #define PWM_FAST 200 // arbitrary fast speed PWM duty cycle
 #define DIR_DELAY 1000 // brief delay for abrupt motor changes
- 
+
+#define MOTOR_A_INTERRUPT (2)
+#define MOTOR_A_INTERRUPT_DIR (4)
+
+long distanceMotorA;
+
 void setup()
 {
-  Serial.begin( 9600 );
-  pinMode( MOTOR_A_DIR, OUTPUT );
-  pinMode( MOTOR_A_PWM, OUTPUT );
-  pinMode( MOTOR_B_DIR, OUTPUT );
-  pinMode( MOTOR_B_PWM, OUTPUT );  
   SoftStopMotor();
-  SetMotorSpeed(HIGH, PWM_FAST);  
+  Serial.begin(9600);
+  attachInterrupt(digitalPinToInterrupt(MOTOR_A_INTERRUPT), MotorStepAInterrupt, RISING);
   PrintMenu();
+}
+
+void MotorStepAInterrupt()
+{
+  if(digitalRead(MOTOR_A_INTERRUPT_DIR))
+    distanceMotorA++;
+  else
+    distanceMotorA--;
 }
  
 void loop()
@@ -112,6 +88,11 @@ void loop()
         digitalWrite( MOTOR_B_DIR, HIGH );
         digitalWrite( MOTOR_B_PWM, HIGH );
         break;      
+
+      case '7':
+        Serial.print("Distance: ");
+        Serial.println(distanceMotorA);
+        break;
          
       default:
         // wrong character! display the menu again!

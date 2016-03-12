@@ -1,0 +1,41 @@
+INSTRUCTION ARE SPECIFIC ONLY FOR 'ARDUINO DUE' WITH THE MPU6050 FOR THE TEAPOT DEMONSTRATION.
+
+
+1=> Download MPU6050_DMP6.ino from "https://github.com/jrowberg/i2cdevlib/blob/master/Arduino/MPU6050/Examples/MPU6050_DMP6/MPU6050_DMP6.ino".
+
+2=> comment Line-100 (we do not need YPR), Line-165 (TWBR is not assignable in ARM architecture)
+
+3=> Uncomment Line-117 (We want teapot output)
+
+4=> Change Serail rate as required, Line-173 (57600 works fine)
+
+5=> Not neccesary, change offsets, Line- 201 to 204
+
+6=> Line-254, change 0=>2 (different for 'due', assign pin-2 as an intterupt detection)
+
+7=> Replace all "Serial" with "Serial1", (because programming port uses the default Tx & Rx therefore use Tx1 & Rx1 instead)
+
+8=> CONNECTIONS
+
+	ARUINO(due)		MPU	UART	XBee
+	_____________________________________________
+	2=========>		INT
+	20========>		SDA
+	21========>		SCL
+	18========>Tx1			Tx	Rx
+	19========>Rx1			Rx	Tx
+
+9=> Download Processing code "https://github.com/jrowberg/i2cdevlib/tree/master/Arduino/MPU6050/Examples/MPU6050_DMP6/Processing"
+
+10=> Download "Toxi library" form "http://hg.postspectacular.com/toxiclibs/downloads/"
+
+11=> Extract it into the "Libraries" folder under the Processing.
+
+12=> Open the dowloaded processing code and change the port name, Line-74 (eg. "COM1").
+
+13=> change the baud rate, Line-77. (57600 or any other but, should be same as used in arduino) 
+
+14=> UPLOAD SKETCH IN ARDUINO AND RUN THE PROCESSING SKETCH.
+
+NOTE* Default MPU Address is 0x68. if you dont know device address refer to the web or any other source. if above code doesn't work try change it to
+      0x69 instead. (Line-61,62)

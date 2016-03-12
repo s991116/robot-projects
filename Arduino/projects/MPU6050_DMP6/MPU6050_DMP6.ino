@@ -58,10 +58,13 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
+short angle;
+short angle_acc;
+
 // packet structure for InvenSense teapot demo
 uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
 
-
+#define DELIMITER_VALUE (0xFF)
 
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
@@ -100,21 +103,21 @@ void setup() {
     // crystal solution for the UART timer.
 
     // initialize device
-    Serial.println(F("Initializing I2C devices..."));
+//    Serial.println(F("Initializing I2C devices..."));
     mpu.initialize();
 
     // verify connection
-    Serial.println(F("Testing device connections..."));
-    Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+//    Serial.println(F("Testing device connections..."));
+//    Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
     // wait for ready
-    Serial.println(F("\nSend any character to begin DMP programming and demo: "));
-    while (Serial.available() && Serial.read()); // empty buffer
-    while (!Serial.available());                 // wait for data
-    while (Serial.available() && Serial.read()); // empty buffer again
+//    Serial.println(F("\nSend any character to begin DMP programming and demo: "));
+//    while (Serial.available() && Serial.read()); // empty buffer
+//    while (!Serial.available());                 // wait for data
+//    while (Serial.available() && Serial.read()); // empty buffer again
 
     // load and configure the DMP
-    Serial.println(F("Initializing DMP..."));
+//    Serial.println(F("Initializing DMP..."));
     devStatus = mpu.dmpInitialize();
 
     // supply your own gyro offsets here, scaled for min sensitivity
@@ -126,16 +129,16 @@ void setup() {
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
         // turn on the DMP, now that it's ready
-        Serial.println(F("Enabling DMP..."));
+//        Serial.println(F("Enabling DMP..."));
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
+//        Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
         attachInterrupt(0, dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
-        Serial.println(F("DMP ready! Waiting for first interrupt..."));
+//        Serial.println(F("DMP ready! Waiting for first interrupt..."));
         dmpReady = true;
 
         // get expected DMP packet size for later comparison
@@ -145,9 +148,9 @@ void setup() {
         // 1 = initial memory load failed
         // 2 = DMP configuration updates failed
         // (if it's going to break, usually the code will be 1)
-        Serial.print(F("DMP Initialization failed (code "));
-        Serial.print(devStatus);
-        Serial.println(F(")"));
+//        Serial.print(F("DMP Initialization failed (code "));
+//        Serial.print(devStatus);
+//        Serial.println(F(")"));
     }
 
     // configure LED for output
@@ -191,8 +194,9 @@ void loop() {
     if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
         // reset so we can continue cleanly
         mpu.resetFIFO();
-        Serial.println(F("FIFO overflow!"));
-
+        //Serial.println(F("FIFO overflow!"));
+        SendShortValue(DELIMITER_VALUE);
+        
     // otherwise, check for DMP data ready interrupt (this should happen frequently)
     } else if (mpuIntStatus & 0x02) {
         // wait for correct available data length, should be a VERY short wait
@@ -213,28 +217,49 @@ void loop() {
 /*            
             currentTime = millis();
             long deltaTime = currentTime - startTime;            
-            startTime = currentTime;
 
             Serial.print("Time: ");
             Serial.println(deltaTime);
+
+            startTime = currentTime;
+
+180
+            
 */
-
+           angle = (short)(ypr[1] * 10000);
+           angle_acc = (gyro[1] * 10);
+           
+           SendShortValue(angle);
+           SendShortValue(angle_acc);
+           SendShortValue(DELIMITER_VALUE); 
+/*           
             Serial.print("ypr\t");
-            Serial.print(ypr[0] * 180/M_PI);
+//            Serial.print(ypr[0] * 180/M_PI);
+//            Serial.print("\t");
+            Serial.print((int)(ypr[1] * 10000));//* 180/M_PI);
             Serial.print("\t");
-            Serial.print(ypr[1] * 180/M_PI);
-            Serial.print("\t");
-            Serial.print(ypr[2] * 180/M_PI);
+//            Serial.print(ypr[2] * 180/M_PI);
             Serial.print("accel\t");
-            Serial.print(gyro[0]);
+//            Serial.print(gyro[0]);
             Serial.print("\t");
-            Serial.print(gyro[1]);
-            Serial.print("\t");
-            Serial.println(gyro[2]);
-
+            Serial.print(gyro[1] * 10);
+//            Serial.print("\t");
+//            Serial.println(gyro[2]);
+            Serial.println();
         // blink LED to indicate activity
         blinkState = !blinkState;
         digitalWrite(LED_PIN, blinkState);
+*/
     }
+}
+
+uint16_t mask   = B11111111;          // 0000 0000 1111 1111
+
+void SendShortValue(short data)
+{
+  uint8_t first_half   = data >> 8;   // >>>> >>>> 0001 0110
+  uint8_t sencond_half = data & mask; // ____ ____ 0100 0111
+  Serial.write(first_half);
+  Serial.write(sencond_half);
 }
 
