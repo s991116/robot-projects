@@ -7,8 +7,14 @@ void ReadCommand()
 }
 
 void AddCommand(char* cmd, void (* function)()) {
+  AddCommand(cmd, function, "");
+}
+
+void AddCommand(char* cmd, void (* function)(), char* comment) {
   Serial.print("Command added: ");
-  Serial.println(cmd);
+  Serial.print(cmd);
+  Serial.print("  -  ");
+  Serial.println(comment);
   SCmd.addCommand(cmd,function);
 }
 
@@ -20,12 +26,12 @@ void InitializeSerialCommand() {
   AddCommand("error", error_command);
   AddCommand("pidA", pidA_command);
   AddCommand("pidB", pidB_command);
-  AddCommand("pidG", pidG_command);
+  AddCommand("p", pidG_command, "Gyro PID");
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
   AddCommand("distance", distance_command);
-  AddCommand("s", segway_command);
-  AddCommand("gyro", gyro_command);
+  AddCommand("s", segway_command, "Start segway");
+  AddCommand("g", gyro_command, "Gyro info");
 
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
@@ -91,7 +97,7 @@ void distance_command()
   Serial.print("Distance A:");
   Serial.print(DistanceEncoderCountA);  
   Serial.print(" , Distance B:");
-  Serial.println(DistanceEncoderCountB);    
+  Serial.println(DistanceEncoderCountB);      
 }
 
 void error_command()
@@ -128,7 +134,7 @@ void pidG_command()
 {
     TryGetNextArgumentAsFloat("P", &AnglePCorr);
     TryGetNextArgumentAsFloat("I", &AngleICorr);
-//    TryGetNextArgumentAsFloat("D", &AngleDCorr);
+    TryGetNextArgumentAsFloat("D", &AngleDCorr);
 }
 
 
@@ -176,8 +182,10 @@ void segway_command()
   }
   else
   {
-    SetOffsetAngle();
     serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
+    delay(50);
+    SetOffsetAngle();
+    
   }
 }
 

@@ -77,6 +77,7 @@ void EncoderADirection()
 void EncoderBInterrupt() {  
   byte direction = digitalReadDirect(ENCODER_B_DIRECTION_PIN);
   byte interrupt = digitalReadDirect(ENCODER_B_INTERRUPT_PIN);
+
   if(direction == interrupt)
   {
     EncoderCountB--;
@@ -90,7 +91,7 @@ void EncoderBInterrupt() {
 void EncoderBDirection() {
   byte direction = digitalReadDirect(ENCODER_B_INTERRUPT_PIN);
   byte interrupt = digitalReadDirect(ENCODER_B_DIRECTION_PIN);
-
+  
   if(direction == interrupt)
   {
     EncoderCountB++;

@@ -2,15 +2,17 @@
 bool SegwayEnabled = true;
 short OffsetAngle;
 
-int AngleError;
+float AngleError;
 float AngleErrorSum;
 float AngleErrorDif;
 float AngleCorr;
-float AnglePCorr = 0.007;
-float AngleICorr = 0.002;
+float AnglePCorr = 1.8;
+float AngleICorr = 0.0001;
 float AngleDCorr = 0;
 
-int AngleErrorSumLimit = 100;
+float AngleCorrFactor = 0.01;
+
+int AngleErrorSumLimit = 1500;
 
 void InitializeSegway()
 {
@@ -19,8 +21,9 @@ void InitializeSegway()
 void SegwayUpdateTime()
 {
     AngleError = OffsetAngle - Angle;
-    AngleErrorSum = AngleError + AngleErrorSum;
+    AngleErrorSum = (AngleError * AngleICorr) + AngleErrorSum;
     AngleErrorDif = Angle_Acc;
+        
     if(AngleErrorSum > AngleErrorSumLimit)
     {
       AngleErrorSum = AngleErrorSumLimit;
@@ -29,12 +32,17 @@ void SegwayUpdateTime()
     {
       AngleErrorSum = -AngleErrorSumLimit;
     }
-    AngleCorr = AnglePCorr*AngleError + AngleICorr*AngleErrorSum + AngleDCorr*AngleErrorDif;
-
+    
+    AngleCorr = AnglePCorr*AngleError + AngleErrorSum + AngleDCorr*AngleErrorDif;
+    AngleCorr = AngleCorr * AngleCorrFactor;
   if(SegwayEnabled)
   {
     TargetEncoderCountA = -AngleCorr;
     TargetEncoderCountB = -AngleCorr;
+  }
+  else
+  {
+    AngleErrorSum = 0;
   }
 }
 
