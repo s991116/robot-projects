@@ -1,5 +1,5 @@
 
-bool SegwayEnabled = true;
+bool SegwayEnabled = false;
 short OffsetAngle;
 
 float AngleError;
@@ -12,10 +12,36 @@ float AngleDCorr = 0;
 
 float AngleCorrFactor = 0.01;
 
-int AngleErrorSumLimit = 1500;
+int AngleErrorSumLimit = 15000;
+int AngleErrorSumCorrLimit = 1500;
+
+float TurnSpeed = 0;
 
 void InitializeSegway()
 {
+}
+
+bool GetSegwayEnabled()
+{
+  return SegwayEnabled;
+}
+
+void SetSegwayEnabled(bool s)
+{
+  SegwayEnabled = s;
+
+  if(!SegwayEnabled)
+  {
+    TargetEncoderCountA = 0;
+    TargetEncoderCountB = 0;
+    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 0);
+  }
+  else
+  {
+    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
+    delay(50);
+    SetOffsetAngle();    
+  }  
 }
 
 void SegwayUpdateTime()
@@ -32,13 +58,23 @@ void SegwayUpdateTime()
     {
       AngleErrorSum = -AngleErrorSumLimit;
     }
+
+    float AngleErrorSumCorrLimited = AngleErrorSum;
+    if(AngleErrorSumCorrLimited > AngleErrorSumCorrLimit)
+    {
+      AngleErrorSumCorrLimited = AngleErrorSumCorrLimit;
+    }
+    else if(AngleErrorSumCorrLimited < -AngleErrorSumCorrLimit)
+    {
+      AngleErrorSumCorrLimited = -AngleErrorSumCorrLimit;
+    }
     
-    AngleCorr = AnglePCorr*AngleError + AngleErrorSum + AngleDCorr*AngleErrorDif;
+    AngleCorr = AnglePCorr*AngleError + AngleErrorSumCorrLimited + AngleDCorr*AngleErrorDif;
     AngleCorr = AngleCorr * AngleCorrFactor;
   if(SegwayEnabled)
   {
-    TargetEncoderCountA = -AngleCorr;
-    TargetEncoderCountB = -AngleCorr;
+    TargetEncoderCountA = (-AngleCorr) + TurnSpeed;
+    TargetEncoderCountB = (-AngleCorr) - TurnSpeed;
   }
   else
   {

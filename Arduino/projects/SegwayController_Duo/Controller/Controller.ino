@@ -42,8 +42,11 @@ short MotorUpdatePeriod = 5;
 
 void setup() 
 {
-  InitializeSerialCommand(); 
+  InitializeSerialCommand();
+  InitializeRaspiSerial();
+  InitalizeButton(); 
   InitializeMotor();
+  InitializeServo();
   InitializeEncoder();
   InitializeSpeedControl();  
   InitializeGyro();
@@ -56,4 +59,5 @@ void loop()
   SegwayUpdateTime();
   MotorPowerUpdateTime();
   HandleGyroCommands();
+  HandleButtonSwitch();
 }

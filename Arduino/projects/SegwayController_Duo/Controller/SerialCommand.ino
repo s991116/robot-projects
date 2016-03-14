@@ -24,14 +24,18 @@ void InitializeSerialCommand() {
   // Setup callbacks for SerialCommand commands 
   AddCommand("speed", speed_command);
   AddCommand("error", error_command);
-  AddCommand("pidA", pidA_command);
-  AddCommand("pidB", pidB_command);
+  AddCommand("pidA", pidA_command, "Motor-A PID");
+  AddCommand("pidB", pidB_command, "Motor-B PID");
   AddCommand("p", pidG_command, "Gyro PID");
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
   AddCommand("distance", distance_command);
   AddCommand("s", segway_command, "Start segway");
   AddCommand("g", gyro_command, "Gyro info");
+  AddCommand("sh", servoHorizontal_command, "Servo horizontal");
+  AddCommand("sv", servoVertical_command, "Servo vertical");
+  AddCommand("tx", tx_command, "Send nummer to Raspberry Serial");
+  AddCommand("turn", turn_command, "Turn around speed");
 
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
@@ -165,7 +169,6 @@ void gyro_command()
 
 void segway_command()
 {
-  SegwayEnabled = !SegwayEnabled;
 
   Serial.print("Angle P Factor:");
   Serial.println(AnglePCorr,5);
@@ -173,20 +176,42 @@ void segway_command()
   Serial.println(AngleICorr,5);
   Serial.print("Angle D Factor:");
   Serial.println(AngleDCorr,5);
+
+  bool s = GetSegwayEnabled();
+  SetSegwayEnabled(!s);
   
-  if(!SegwayEnabled)
+}
+
+void servoHorizontal_command()
+{
+  int angle;
+  if(TryGetNextArgumentAsInt("angle", &angle))
   {
-    TargetEncoderCountA = 0;
-    TargetEncoderCountB = 0;
-    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 0);
-  }
-  else
+    SetHorizontalAngle(angle);
+  }  
+}
+
+void servoVertical_command()
+{
+  int angle;
+  if(TryGetNextArgumentAsInt("angle", &angle))
   {
-    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
-    delay(50);
-    SetOffsetAngle();
-    
-  }
+    SetVerticalAngle(angle);
+  }  
+}
+
+void tx_command()
+{
+  int data;
+  if(TryGetNextArgumentAsInt("data", &data))
+  {
+    SendCommandToSerial(data);
+  }  
+}
+
+void turn_command()
+{
+  TryGetNextArgumentAsFloat("Speed", &TurnSpeed);  
 }
 
 void unrecognized()
