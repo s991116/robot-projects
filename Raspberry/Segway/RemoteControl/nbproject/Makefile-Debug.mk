@@ -60,7 +60,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a ../SoundPlayer/dist/Debug/GNU-Linux-x86/libsoundplayer.a ../Robot/dist/Debug/GNU-Linux-x86/librobot.a ../PiCamera/dist/Debug/GNU-Linux-x86/libpicamera.a ../RobotController/dist/Debug/GNU-Linux-x86/librobotcontroller.a -lraspicam -lraspicam_cv ../RobotHead/dist/Debug/GNU-Linux-x86/librobothead.a
+LDLIBSOPTIONS=../StringUtil/dist/Debug/GNU-Linux-x86/libstringutil.a ../SoundPlayer/dist/Debug/GNU-Linux-x86/libsoundplayer.a ../Robot/dist/Debug/GNU-Linux-x86/librobot.a ../PiCamera/dist/Debug/GNU-Linux-x86/libpicamera.a ../RobotController/dist/Debug/GNU-Linux-x86/librobotcontroller.a -lraspicam -lraspicam_cv ../RobotHead/dist/Debug/GNU-Linux-x86/librobothead.a ../Vision/dist/Debug/GNU-Linux-x86/libvision.a ../Logging/dist/Debug/GNU-Linux-x86/liblogging.a ../Setting/dist/Debug/GNU-Linux-x86/libsetting.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -78,6 +78,12 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../RobotController/dis
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../RobotHead/dist/Debug/GNU-Linux-x86/librobothead.a
 
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../Vision/dist/Debug/GNU-Linux-x86/libvision.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../Logging/dist/Debug/GNU-Linux-x86/liblogging.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ../Setting/dist/Debug/GNU-Linux-x86/libsetting.a
+
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol ${OBJECTFILES} ${LDLIBSOPTIONS} -lncurses -lopencv_nonfree -lopencv_objdetect -lopencv_features2d -lopencv_imgproc -lopencv_highgui -lopencv_core
@@ -85,47 +91,47 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ${OBJECTFILES}
 ${OBJECTDIR}/CameraState.o: CameraState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
 
 ${OBJECTDIR}/FaceDetectionPresentation.o: FaceDetectionPresentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FaceDetectionPresentation.o FaceDetectionPresentation.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FaceDetectionPresentation.o FaceDetectionPresentation.cpp
 
 ${OBJECTDIR}/GyroState.o: GyroState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
 
 ${OBJECTDIR}/MainState.o: MainState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
 
 ${OBJECTDIR}/MotorState.o: MotorState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
 ${OBJECTDIR}/MotorTuningController.o: MotorTuningController.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
 
 ${OBJECTDIR}/State.o: State.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
@@ -135,6 +141,9 @@ ${OBJECTDIR}/main.o: main.cpp
 	cd ../PiCamera && ${MAKE}  -f Makefile CONF=Debug
 	cd ../RobotController && ${MAKE}  -f Makefile CONF=Debug
 	cd ../RobotHead && ${MAKE}  -f Makefile CONF=Debug
+	cd ../Vision && ${MAKE}  -f Makefile CONF=Debug
+	cd ../Logging && ${MAKE}  -f Makefile CONF=Debug
+	cd ../Setting && ${MAKE}  -f Makefile CONF=Debug
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -149,6 +158,9 @@ ${OBJECTDIR}/main.o: main.cpp
 	cd ../PiCamera && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../RobotController && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../RobotHead && ${MAKE}  -f Makefile CONF=Debug clean
+	cd ../Vision && ${MAKE}  -f Makefile CONF=Debug clean
+	cd ../Logging && ${MAKE}  -f Makefile CONF=Debug clean
+	cd ../Setting && ${MAKE}  -f Makefile CONF=Debug clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

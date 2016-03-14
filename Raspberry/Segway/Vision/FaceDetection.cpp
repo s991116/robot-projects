@@ -9,7 +9,7 @@ FaceDetection::FaceDetection() {
     }
 }
 
-bool FaceDetection::GetFacePosition(cv::Mat frame_gray, Position* position) {
+void FaceDetection::GetFacePosition(cv::Mat frame_gray, Position* position) {
   std::vector<cv::Rect> faces;
   
   cv::equalizeHist( frame_gray, frame_gray );
@@ -21,18 +21,13 @@ bool FaceDetection::GetFacePosition(cv::Mat frame_gray, Position* position) {
   if(faces.size()>0)
   {
       cv::Point center( faces[0].x + faces[0].width*0.5, faces[0].y + faces[0].height*0.5 );
-      float x = ((float)(center.x))/(float)(frame_gray.cols) * 2 - 1;
-      float y = ((float)(center.y))/(float)(frame_gray.rows) * 2 - 1;
-      position->SetPosition(x, y);
-      return true;
+      position->SetNormalizedPosition(center.x, center.y, frame_gray.cols, frame_gray.rows);
   }
   else
   {
-      position->SetPosition(0,0);
-      return false;
+      position->NotDetected();
   }
 }
-
 
 FaceDetection::~FaceDetection() {
 }
