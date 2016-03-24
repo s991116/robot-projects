@@ -1,5 +1,5 @@
 #include <PID_v1.h>
-
+/*
 PID PIDMotorA(&CurrentEncoderCountA, &MotorPowerA, &TargetEncoderCountA, KpMotorA, KiMotorA, KdMotorA, DIRECT);
 PID PIDMotorB(&CurrentEncoderCountB, &MotorPowerB, &TargetEncoderCountB, KpMotorB, KiMotorB, KdMotorB, REVERSE);
 
@@ -11,8 +11,8 @@ void InitializeSpeedControl()
 
 void UpdateMotorPower()
 {
-  UpdateCurrentEncoderA();
-  UpdateCurrentEncoderB();
+  //UpdateCurrentEncoderA();
+  //UpdateCurrentEncoderB();
   PIDMotorA.Compute();
   PIDMotorB.Compute();
   SetMotorPowerA(MotorPowerA);
@@ -35,3 +35,4 @@ void MotorPowerUpdateTime()
   }
 }
 
+*/

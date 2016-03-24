@@ -25,12 +25,12 @@ void SetMotorPower(int speed, short speed_pin, short dir_pin)
     if(speed < 0)
     {
       analogWrite(speed_pin, -speed);
-      digitalWriteDirect(dir_pin, LOW);
+      digitalWriteDirect(dir_pin, -HIGH);
     }
     else
     {
       analogWrite(speed_pin, speed);
-      digitalWriteDirect(dir_pin, HIGH);
+      digitalWriteDirect(dir_pin, -LOW);
     }
 }
 

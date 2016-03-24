@@ -23,10 +23,13 @@ void InitializeSerialCommand() {
 
   // Setup callbacks for SerialCommand commands 
   AddCommand("speed", speed_command);
+  AddCommand("gSpeed", segwaySpeed_command, "Speed with Segway");
   AddCommand("error", error_command);
   AddCommand("pidA", pidA_command, "Motor-A PID");
   AddCommand("pidB", pidB_command, "Motor-B PID");
-  AddCommand("p", pidG_command, "Gyro PID");
+  AddCommand("gFactor", pidFactorCommand, "Gyro output factor");
+  AddCommand("pidG", pidG_command, "Gyro PID");
+  AddCommand("pidS", pidS_command, "Speed PID");
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
   AddCommand("distance", distance_command);
@@ -35,7 +38,6 @@ void InitializeSerialCommand() {
   AddCommand("sh", servoHorizontal_command, "Servo horizontal");
   AddCommand("sv", servoVertical_command, "Servo vertical");
   AddCommand("tx", tx_command, "Send nummer to Raspberry Serial");
-  AddCommand("turn", turn_command, "Turn around speed");
 
   SCmd.addDefaultHandler(unrecognized);  // Handler for command that isn't matched  (says "What?") 
   Serial.println("Ready"); 
@@ -67,11 +69,28 @@ bool TryGetNextArgumentAsFloat(char* parameterName, float* parameter)
   return true;
 }
 
+bool TryGetNextArgumentAsDouble(char* parameterName, double* parameter)
+{
+  char* arg = SCmd.next();
+  if (arg == NULL)
+  {
+    Serial.print("Need argument: ");
+    Serial.println(parameterName);
+    return false;    
+  }
+  *parameter = atof(arg);
+  return true;
+}
 
 void speed_command()    
 {
   TryGetNextArgumentAsInt("speed A", &TargetEncoderCountA);
   TryGetNextArgumentAsInt("speed B", &TargetEncoderCountB);
+}
+
+void segwaySpeed_command()
+{
+  TryGetNextArgumentAsDouble("speed", &TargetSpeed);  
 }
 
 void dir_command()
@@ -134,13 +153,28 @@ void pidB_command()
     UpdateControllerSettings();
 }
 
-void pidG_command()
+void pidFactorCommand()
 {
-    TryGetNextArgumentAsFloat("P", &AnglePCorr);
-    TryGetNextArgumentAsFloat("I", &AngleICorr);
-    TryGetNextArgumentAsFloat("D", &AngleDCorr);
+    TryGetNextArgumentAsDouble("Factor", &GyroOutputFactor);  
 }
 
+void pidG_command()
+{
+    TryGetNextArgumentAsDouble("P", &AnglePCorr);
+    TryGetNextArgumentAsDouble("I", &AngleICorr);
+    TryGetNextArgumentAsDouble("D", &AngleDCorr);
+
+    UpdateGyroPIDSettings();
+}
+
+void pidS_command()
+{
+    TryGetNextArgumentAsDouble("P", &SpeedPCorr);
+    TryGetNextArgumentAsDouble("I", &SpeedICorr);
+    TryGetNextArgumentAsDouble("D", &SpeedDCorr);
+
+    UpdateSpeedPIDSettings();
+}
 
 void time_command()
 {
@@ -158,17 +192,17 @@ void gyro_command()
   Serial.println(Angle);
   Serial.print("Angle acc.:");
   Serial.println(Angle_Acc);
-
-  Serial.print("AngleError:");
-  Serial.println(AngleError);
-  Serial.print("AngleErrorSum:");
-  Serial.println(AngleErrorSum);
-  Serial.print("AngleErrorDiff:");
-  Serial.println(AngleErrorDif);
 }
 
 void segway_command()
 {
+
+  Serial.print("Speed P Factor:");
+  Serial.println(SpeedPCorr,5);
+  Serial.print("Speed I Factor:");
+  Serial.println(SpeedICorr,5);
+  Serial.print("Speed D Factor:");
+  Serial.println(SpeedDCorr,5);
 
   Serial.print("Angle P Factor:");
   Serial.println(AnglePCorr,5);
@@ -176,6 +210,7 @@ void segway_command()
   Serial.println(AngleICorr,5);
   Serial.print("Angle D Factor:");
   Serial.println(AngleDCorr,5);
+
 
   bool s = GetSegwayEnabled();
   SetSegwayEnabled(!s);
@@ -207,11 +242,6 @@ void tx_command()
   {
     SendCommandToSerial(data);
   }  
-}
-
-void turn_command()
-{
-  TryGetNextArgumentAsFloat("Speed", &TurnSpeed);  
 }
 
 void unrecognized()

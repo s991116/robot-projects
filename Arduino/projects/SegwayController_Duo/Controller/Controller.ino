@@ -25,16 +25,16 @@ long DistanceEncoderCountB;
 int CurrentEncoderCountA;
 int MotorPowerA;
 int TargetEncoderCountA;
-float KpMotorA = 15;
-float KiMotorA = 20;
+float KpMotorA = 30;
+float KiMotorA = 10;
 float KdMotorA = 0;
 
 
 int CurrentEncoderCountB;
 int MotorPowerB;
 int TargetEncoderCountB;
-float KpMotorB = 15;
-float KiMotorB = 20;
+float KpMotorB = 30;
+float KiMotorB = 10;
 float KdMotorB = 0;
 
 long NextMotorPowerUpdateTime;
@@ -48,7 +48,7 @@ void setup()
   InitializeMotor();
   InitializeServo();
   InitializeEncoder();
-  InitializeSpeedControl();  
+  //InitializeSpeedControl();  
   InitializeGyro();
   InitializeSegway();
 } 
@@ -56,8 +56,9 @@ void setup()
 void loop() 
 {
   ReadCommand(); 
-  SegwayUpdateTime();
-  MotorPowerUpdateTime();
+  HandleSegway();
+  //SegwayUpdateTime();
+  //MotorPowerUpdateTime();
   HandleGyroCommands();
   HandleButtonSwitch();
 }
