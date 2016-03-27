@@ -199,7 +199,7 @@ void loop() {
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 
-        angle = (short)(ypr[GyroDirection] * 10000);
+        angle = (short)(ypr[GyroDirection] * 1000);
         angle_acc = (gyro[GyroDirection] * 10);
 
         if(SendDataEnabled == 1)

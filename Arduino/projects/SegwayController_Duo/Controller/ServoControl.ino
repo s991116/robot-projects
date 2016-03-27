@@ -8,9 +8,13 @@ Servo verticalServo;
 
 short VerticalServoMin = 30;
 short VerticalServoMax = 130;
+short VerticalServoAngle = 90;
+
 
 short HorizontalServoMin = 25;
 short HorizontalServoMax = 155;
+short HorizontalServoAngle = 90;
+
 
 void InitializeServo()
 { 
@@ -24,7 +28,7 @@ void SetHorizontalAngle(short angle)
     angle = HorizontalServoMax;
   else if(angle < HorizontalServoMin)
     angle = HorizontalServoMin;
-
+  HorizontalServoAngle = angle;
   horiontalServo.write(angle);
 }
  
@@ -34,6 +38,17 @@ void SetVerticalAngle(short angle)
     angle = VerticalServoMax;
   else if(angle < VerticalServoMin)
     angle = VerticalServoMin;
-
+  VerticalServoAngle = angle;
   verticalServo.write(angle);  
 }
+
+short GetHorizontalAngle()
+{
+  return HorizontalServoAngle;
+}
+ 
+short GetVerticalAngle()
+{
+  return VerticalServoAngle;
+}
+
