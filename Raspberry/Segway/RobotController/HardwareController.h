@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HARDWARECONTROLLER_H
+#define HARDWARECONTROLLER_H
 
 #include "IComPort.h"
 #include "CommandType.h"
@@ -27,3 +28,5 @@ private:
     unsigned char* _ReceiveChar;
     static const int _MaxRetryCount = 100;
 };
+
+#endif //HARDWARECONTROLLER_H

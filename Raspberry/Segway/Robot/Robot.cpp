@@ -3,6 +3,10 @@
 
 Robot::Robot() {
   _ComPort = new ComPort();
+  _ComStream = new ComStream(_ComPort);
+  _CommunicationHandler = new CommunicationHandler();
+  _SerialProtocol = new SerialCommandProtocol(_ComStream, _CommunicationHandler);
+
   _HwCtrl = new HardwareController(_ComPort);
   _Motor = new Motor(_HwCtrl);
   _MotorTuning = new MotorTuning(_HwCtrl);

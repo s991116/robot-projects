@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>CameraState.h</itemPath>
+      <itemPath>ComState.h</itemPath>
       <itemPath>ContinuousPresentation.h</itemPath>
       <itemPath>FaceDetectionPresentation.h</itemPath>
       <itemPath>GyroState.h</itemPath>
@@ -27,6 +28,7 @@
       <logicalFolder name="f3" displayName="Model" projectFiles="true">
       </logicalFolder>
       <itemPath>CameraState.cpp</itemPath>
+      <itemPath>ComState.cpp</itemPath>
       <itemPath>FaceDetectionPresentation.cpp</itemPath>
       <itemPath>GyroState.cpp</itemPath>
       <itemPath>MainState.cpp</itemPath>
@@ -191,6 +193,10 @@
       </item>
       <item path="CameraState.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ComState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComState.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ContinuousPresentation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="FaceDetectionPresentation.cpp" ex="false" tool="1" flavor2="0">
@@ -247,6 +253,10 @@
       <item path="CameraState.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CameraState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ComState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ComState.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ContinuousPresentation.h" ex="false" tool="3" flavor2="0">
       </item>

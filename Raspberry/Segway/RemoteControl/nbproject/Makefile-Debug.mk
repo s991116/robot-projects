@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/CameraState.o \
+	${OBJECTDIR}/ComState.o \
 	${OBJECTDIR}/FaceDetectionPresentation.o \
 	${OBJECTDIR}/GyroState.o \
 	${OBJECTDIR}/MainState.o \
@@ -92,6 +93,11 @@ ${OBJECTDIR}/CameraState.o: CameraState.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
+
+${OBJECTDIR}/ComState.o: ComState.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComState.o ComState.cpp
 
 ${OBJECTDIR}/FaceDetectionPresentation.o: FaceDetectionPresentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -11,6 +11,7 @@
 #include "ServoState.h"
 #include "MainState.h"
 #include "CameraState.h"
+#include "ComState.h"
 #include <ncurses.h>
 #include <Robot.h>
 
@@ -23,7 +24,8 @@ int main(int argc, char** argv) {
     State* gyroState = new GyroState(robot->_Gyro);
     State* servoState = new ServoState(robot->_Servo);    
     State* cameraState = new CameraState(robot->_CameraSensor);
-    State* state = new MainState(motorState, gyroState, servoState, cameraState);
+    State* comState = new ComState(robot->_SerialProtocol);
+    State* state = new MainState(motorState, gyroState, servoState, cameraState, comState);
 
     initscr();
 

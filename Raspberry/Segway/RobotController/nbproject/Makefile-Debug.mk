@@ -36,10 +36,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ComPort.o \
+	${OBJECTDIR}/ComStream.o \
+	${OBJECTDIR}/CommunicationHandler.o \
 	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/HardwareController.o \
 	${OBJECTDIR}/Motor.o \
 	${OBJECTDIR}/MotorTuning.o \
+	${OBJECTDIR}/SerialProtocol.o \
 	${OBJECTDIR}/Servo.o
 
 # Test Directory
@@ -80,6 +83,16 @@ ${OBJECTDIR}/ComPort.o: ComPort.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort.o ComPort.cpp
 
+${OBJECTDIR}/ComStream.o: ComStream.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComStream.o ComStream.cpp
+
+${OBJECTDIR}/CommunicationHandler.o: CommunicationHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CommunicationHandler.o CommunicationHandler.cpp
+
 ${OBJECTDIR}/Gyro.o: Gyro.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -99,6 +112,11 @@ ${OBJECTDIR}/MotorTuning.o: MotorTuning.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
+
+${OBJECTDIR}/SerialProtocol.o: SerialProtocol.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SerialProtocol.o SerialProtocol.cpp
 
 ${OBJECTDIR}/Servo.o: Servo.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -132,6 +150,32 @@ ${OBJECTDIR}/ComPort_nomain.o: ${OBJECTDIR}/ComPort.o ComPort.cpp
 	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComPort_nomain.o ComPort.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/ComPort.o ${OBJECTDIR}/ComPort_nomain.o;\
+	fi
+
+${OBJECTDIR}/ComStream_nomain.o: ${OBJECTDIR}/ComStream.o ComStream.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/ComStream.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComStream_nomain.o ComStream.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/ComStream.o ${OBJECTDIR}/ComStream_nomain.o;\
+	fi
+
+${OBJECTDIR}/CommunicationHandler_nomain.o: ${OBJECTDIR}/CommunicationHandler.o CommunicationHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/CommunicationHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CommunicationHandler_nomain.o CommunicationHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/CommunicationHandler.o ${OBJECTDIR}/CommunicationHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Gyro_nomain.o: ${OBJECTDIR}/Gyro.o Gyro.cpp 
@@ -184,6 +228,19 @@ ${OBJECTDIR}/MotorTuning_nomain.o: ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/MotorTuning.o ${OBJECTDIR}/MotorTuning_nomain.o;\
+	fi
+
+${OBJECTDIR}/SerialProtocol_nomain.o: ${OBJECTDIR}/SerialProtocol.o SerialProtocol.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SerialProtocol.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SerialProtocol_nomain.o SerialProtocol.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SerialProtocol.o ${OBJECTDIR}/SerialProtocol_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Servo_nomain.o: ${OBJECTDIR}/Servo.o Servo.cpp 

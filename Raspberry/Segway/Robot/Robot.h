@@ -2,6 +2,9 @@
 #define	ROBOT_H
 
 #include <ComPort.h>
+#include <ComStream.h>
+#include <CommunicationHandler.h>
+#include <SerialProtocol.h>
 #include <HardwareController.h>
 #include <Motor.h>
 #include <Servo.h>
@@ -25,10 +28,14 @@ public:
     Logging* _Log;
     LineDetectSetting* _BottomLineDetectSetting;
     LineDetect* _BottomLineDetect;
+    ComPort* _ComPort;
+    ComStream* _ComStream;
+    CommunicationHandler* _CommunicationHandler;
+    SerialCommandProtocol* _SerialProtocol;
 
 private:
     HardwareController* _HwCtrl;
-    ComPort* _ComPort;
+    
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
 };
