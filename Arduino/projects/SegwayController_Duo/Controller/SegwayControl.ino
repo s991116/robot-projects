@@ -5,11 +5,8 @@
 
 unsigned long NextSegwayUpdateTime;
 bool SegwayEnabled = false;
-short OffsetAngle;
 
-double AnglePCorr = 0.2;
-double AngleICorr = 0.1;
-double AngleDCorr = 0;
+
 double GyroOutputFactor = 0.01;
 
 
@@ -17,12 +14,7 @@ double CurrentAngle;
 double TargetAngle;
 double CorrectionAngle;
 
-double SpeedPCorr = 0.1;
-double SpeedICorr = 0;
-double SpeedDCorr = 0;
-
 double CurrentSpeed;
-double TargetSpeed;
 double CorrectionSpeed;
 
 PIDFloat PIDSpeed(&CurrentSpeed, &CorrectionSpeed, &TargetSpeed, SpeedPCorr, SpeedICorr, SpeedDCorr, DIRECT);
@@ -33,7 +25,7 @@ PID PIDMotorB(&CurrentEncoderCountB, &MotorPowerB, &TargetEncoderCountB, KpMotor
 
 void InitializeSegway()
 {
-  PIDSpeed.SetOutputLimits(-1000, 1000);  
+  PIDSpeed.SetOutputLimits(-600, 600);  
   PIDGyro.SetOutputLimits(-255/GyroOutputFactor, 255/GyroOutputFactor);
   PIDMotorA.SetOutputLimits(-255, 255);
   PIDMotorB.SetOutputLimits(-255, 255);
@@ -93,9 +85,16 @@ void UpdateSegway()
 
   CurrentSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
   PIDSpeed.Compute();
-
-  TargetAngle = 0;// CorrectionSpeed;
-   UpdateAngle();
+  
+//  Serial.println(CorrectionSpeed);
+  if(CorrectionSpeed > SpeedCorrLimit)
+    TargetAngle = SpeedCorrLimit;
+  else if(CorrectionSpeed < -SpeedCorrLimit)
+     TargetAngle = -SpeedCorrLimit;
+  else TargetAngle = CorrectionSpeed;
+  
+  UpdateAngle();
+  
   PIDGyro.Compute();
   
   TargetEncoderCountA = -(CorrectionAngle*GyroOutputFactor);
@@ -128,7 +127,7 @@ void UpdateGyroPIDSettings()
 
 void UpdateSpeedPIDSettings()
 {  
-  PIDGyro.SetTunings(SpeedPCorr, SpeedICorr, SpeedDCorr);
+  PIDSpeed.SetTunings(SpeedPCorr, SpeedICorr, SpeedDCorr);
 }
 
 void UpdateControllerSettings()
