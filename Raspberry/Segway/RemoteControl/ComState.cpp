@@ -14,7 +14,8 @@ State* ComState::View() {
 void ComState::Print() {
     clear();
     printw("*** ComSerial ***\n");
-    printw("S - Send data\n");
+    printw("S - Send data byte\n");
+    printw("D - Send data short\n");    
     printw("R - Read data\n");
     printw("Q - Quit\n");
 }
@@ -31,9 +32,15 @@ State* ComState::Control() {
         case 's':
             id  = this->ReadInteger("Command id:");
             data = this->ReadInteger("Data to send:");
-            _SerialProtocol->sendCommandAndData((unsigned char)id, (char16_t)data);
+            _SerialProtocol->sendCommandAndData((unsigned char)id, (unsigned char)data);            
             break;
 
+        case 'd':
+            id  = this->ReadInteger("Command id:");
+            data = this->ReadInteger("Data to send:");
+            _SerialProtocol->sendCommandAndData((unsigned char)id, (char16_t)data);
+            break;
+                        
         case 'r':
             _SerialProtocol->handleResponse();
             data = _SerialProtocol->_CommunicationHandler->lastData;
