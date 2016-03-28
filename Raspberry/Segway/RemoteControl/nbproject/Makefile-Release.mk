@@ -41,7 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GyroState.o \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
-	${OBJECTDIR}/MotorTuningController.o \
+	${OBJECTDIR}/NavigateState.o \
 	${OBJECTDIR}/ServoState.o \
 	${OBJECTDIR}/State.o \
 	${OBJECTDIR}/main.o
@@ -101,10 +101,10 @@ ${OBJECTDIR}/MotorState.o: MotorState.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
-${OBJECTDIR}/MotorTuningController.o: MotorTuningController.cpp 
+${OBJECTDIR}/NavigateState.o: NavigateState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateState.o NavigateState.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}

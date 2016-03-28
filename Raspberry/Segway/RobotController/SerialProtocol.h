@@ -3,6 +3,7 @@
 #include "CommandTypes.h"
 #include "ComStream.h"
 #include "CommunicationHandler.h"
+#include "CommandType.h"
 
 class SerialCommandProtocol
 {
@@ -11,10 +12,14 @@ class SerialCommandProtocol
           CommunicationHandler* communicationHandler);
 
 	  void sendCommand(unsigned char commandID);
+          void sendCommandAndData(HardwareControllerCommandTypeByte commandID, unsigned char payload);
+          void sendCommandAndData(HardwareControllerCommandTypeShort commandID, char16_t payload);
 	  void sendCommandAndData(unsigned char commandID, unsigned char payload);
 	  void sendCommandAndData(unsigned char commandID, char16_t payload);
 
+	  char16_t getShortData(HardwareControllerCommandTypeShort id);
 	  char16_t getShortData(unsigned char commandID);
+          unsigned char getByteData(HardwareControllerCommandTypeByte id);
 	  unsigned char getByteData(unsigned char commandID);
       
 	  void handleResponse();

@@ -8,6 +8,9 @@ SerialCommandProtocol::SerialCommandProtocol(ComStream *serial, CommunicationHan
 /// <summary>
 /// commandID 0-31
 /// </summary>
+void SerialCommandProtocol::sendCommandAndData(HardwareControllerCommandTypeByte commandID, unsigned char payload) {
+    return sendCommandAndData((unsigned char) commandID, payload);
+}
 
 void SerialCommandProtocol::sendCommandAndData(unsigned char commandID, unsigned char payload) {
     createAndSendCommand(commandID, COMMAND_DATA_BYTE_NO_REPLY);
@@ -17,6 +20,9 @@ void SerialCommandProtocol::sendCommandAndData(unsigned char commandID, unsigned
 /// <summary>
 /// commandID 0-31
 /// </summary>
+void SerialCommandProtocol::sendCommandAndData(HardwareControllerCommandTypeShort commandID, char16_t payload) {
+    return sendCommandAndData((unsigned char) commandID, payload);
+}
 
 void SerialCommandProtocol::sendCommandAndData(unsigned char commandID, char16_t payload) {
     createAndSendCommand(commandID, COMMAND_DATA_SHORT_NO_REPLY);
@@ -31,11 +37,19 @@ void SerialCommandProtocol::sendCommand(unsigned char commandID) {
     createAndSendCommand(commandID, COMMAND_NO_DATA_NO_REPLY);
 }
 
+char16_t SerialCommandProtocol::getShortData(HardwareControllerCommandTypeShort id) {
+    return getShortData((unsigned char) id);
+}
+
 char16_t SerialCommandProtocol::getShortData(unsigned char commandID) {
     createAndSendCommand(commandID, COMMAND_NO_DATA_SHORT_REPLY);
     char16_t response;
     while (!handleResponseAndReply(&response));
     return response;
+}
+
+unsigned char SerialCommandProtocol::getByteData(HardwareControllerCommandTypeByte id) {
+    return getByteData((unsigned char) id);
 }
 
 unsigned char SerialCommandProtocol::getByteData(unsigned char commandID) {

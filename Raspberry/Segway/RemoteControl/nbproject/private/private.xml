@@ -7,8 +7,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/ComState.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/GyroState.cpp</file>
             <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/main.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/MotorState.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/MotorState.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RemoteControl/ServoState.cpp</file>
         </group>
     </open-files>
 </project-private>

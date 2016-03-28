@@ -11,7 +11,7 @@
       <itemPath>GyroState.h</itemPath>
       <itemPath>MainState.h</itemPath>
       <itemPath>MotorState.h</itemPath>
-      <itemPath>MotorTuningController.h</itemPath>
+      <itemPath>NavigateState.h</itemPath>
       <itemPath>ServoState.h</itemPath>
       <itemPath>State.h</itemPath>
     </logicalFolder>
@@ -23,7 +23,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Controller" projectFiles="true">
-        <itemPath>MotorTuningController.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Model" projectFiles="true">
       </logicalFolder>
@@ -33,6 +32,7 @@
       <itemPath>GyroState.cpp</itemPath>
       <itemPath>MainState.cpp</itemPath>
       <itemPath>MotorState.cpp</itemPath>
+      <itemPath>NavigateState.cpp</itemPath>
       <itemPath>ServoState.cpp</itemPath>
       <itemPath>State.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -215,9 +215,9 @@
       </item>
       <item path="MotorState.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MotorTuningController.cpp" ex="false" tool="1" flavor2="0">
+      <item path="NavigateState.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="MotorTuningController.h" ex="false" tool="3" flavor2="0">
+      <item path="NavigateState.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ServoState.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -276,9 +276,9 @@
       </item>
       <item path="MotorState.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MotorTuningController.cpp" ex="false" tool="1" flavor2="0">
+      <item path="NavigateState.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="MotorTuningController.h" ex="false" tool="3" flavor2="0">
+      <item path="NavigateState.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ServoState.cpp" ex="false" tool="1" flavor2="0">
       </item>

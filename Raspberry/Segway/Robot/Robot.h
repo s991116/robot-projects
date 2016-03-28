@@ -5,11 +5,9 @@
 #include <ComStream.h>
 #include <CommunicationHandler.h>
 #include <SerialProtocol.h>
-#include <HardwareController.h>
 #include <Motor.h>
 #include <Servo.h>
 #include <Gyro.h>
-#include <MotorTuning.h>
 #include <CameraSensor.h>
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
@@ -21,7 +19,6 @@ public:
     virtual ~Robot();
 
     Motor* _Motor;
-    MotorTuning* _MotorTuning;
     Gyro* _Gyro;
     Servo* _Servo;
     CameraSensor* _CameraSensor;
@@ -33,9 +30,7 @@ public:
     CommunicationHandler* _CommunicationHandler;
     SerialCommandProtocol* _SerialProtocol;
 
-private:
-    HardwareController* _HwCtrl;
-    
+private:    
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
 };

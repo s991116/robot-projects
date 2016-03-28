@@ -39,9 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ComStream.o \
 	${OBJECTDIR}/CommunicationHandler.o \
 	${OBJECTDIR}/Gyro.o \
-	${OBJECTDIR}/HardwareController.o \
 	${OBJECTDIR}/Motor.o \
-	${OBJECTDIR}/MotorTuning.o \
 	${OBJECTDIR}/SerialProtocol.o \
 	${OBJECTDIR}/Servo.o
 
@@ -98,20 +96,10 @@ ${OBJECTDIR}/Gyro.o: Gyro.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gyro.o Gyro.cpp
 
-${OBJECTDIR}/HardwareController.o: HardwareController.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController.o HardwareController.cpp
-
 ${OBJECTDIR}/Motor.o: Motor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor.o Motor.cpp
-
-${OBJECTDIR}/MotorTuning.o: MotorTuning.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp
 
 ${OBJECTDIR}/SerialProtocol.o: SerialProtocol.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -191,19 +179,6 @@ ${OBJECTDIR}/Gyro_nomain.o: ${OBJECTDIR}/Gyro.o Gyro.cpp
 	    ${CP} ${OBJECTDIR}/Gyro.o ${OBJECTDIR}/Gyro_nomain.o;\
 	fi
 
-${OBJECTDIR}/HardwareController_nomain.o: ${OBJECTDIR}/HardwareController.o HardwareController.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/HardwareController.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HardwareController_nomain.o HardwareController.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/HardwareController.o ${OBJECTDIR}/HardwareController_nomain.o;\
-	fi
-
 ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/Motor.o`; \
@@ -215,19 +190,6 @@ ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp
 	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor_nomain.o Motor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Motor.o ${OBJECTDIR}/Motor_nomain.o;\
-	fi
-
-${OBJECTDIR}/MotorTuning_nomain.o: ${OBJECTDIR}/MotorTuning.o MotorTuning.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/MotorTuning.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuning_nomain.o MotorTuning.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/MotorTuning.o ${OBJECTDIR}/MotorTuning_nomain.o;\
 	fi
 
 ${OBJECTDIR}/SerialProtocol_nomain.o: ${OBJECTDIR}/SerialProtocol.o SerialProtocol.cpp 

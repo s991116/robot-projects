@@ -11,6 +11,7 @@ State* ServoState::View() {
     clear();
     printw("*** Servo tunning ***\n");
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
+    printw("R         - Reset position\n");
     printw("Q         - Return\n");
     printw("\n");
     printw("Position Horizontal: ");
@@ -28,6 +29,10 @@ State* ServoState::View() {
             return this->ReturnState;
             break;
 
+        case 'r':
+            _Servo->ToCenter();
+            break;
+            
         case KEY_UP:
             _Servo->StepUp();
             break;

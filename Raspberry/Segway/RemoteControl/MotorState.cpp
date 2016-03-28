@@ -3,7 +3,7 @@
 #include "Motor.h"
 #include "Convert.h"
 
-MotorState::MotorState(Motor* motor, MotorTuningController* motorTuningController) {
+MotorState::MotorState(Motor* motor) {
     _Motor = motor;
 }
 
@@ -11,26 +11,8 @@ State* MotorState::View() {
     clear();
     printw("*** Motor tunning ***\n");
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
-    printw("F         - Fixed speed\n");
     printw("P, I, D   - PID-factor\n");
-    printw("S         - Motor slack count\n");
-    printw("W         - Motor slack PWM speed\n");
-    printw("A         - Motor slack test\n");
-    printw("T         - Test-tuning\n");
     printw("Q         - Return\n");
-    printw("\n");
-    printw("Direction:");
-    printw(PrintDirection(_Motor->GetDirection()).c_str());
-    printw("\n");
-    printw("Speed (Left, Right): ");
-    printw(Convert::IntToString(_Motor->GetMotorLeftSpeed()).c_str());
-    printw(" , ");
-    printw(Convert::IntToString(_Motor->GetMotorRightSpeed()).c_str());
-    printw("\n");
-    printw("Distance (Left, Right): ");
-    printw(Convert::IntToString(_Motor->GetMotorLeftDistance()).c_str());
-    printw(" , ");
-    printw(Convert::IntToString(_Motor->GetMotorRightDistance()).c_str());
     printw("\n");
     printw("PID correction (Left): ");
     printw(Convert::IntToString(_Motor->GetLeftP()).c_str());
@@ -38,12 +20,6 @@ State* MotorState::View() {
     printw(Convert::IntToString(_Motor->GetLeftI()).c_str());
     printw(" , ");
     printw(Convert::IntToString(_Motor->GetLeftD()).c_str());
-    printw("\n");
-    printw("Motor slack count: ");
-    printw(Convert::IntToString(_Motor->GetMotorSlackCount()).c_str());
-    printw("\n");
-    printw("Motor slack PWM speed: ");
-    printw(Convert::IntToString(_Motor->GetMotorSlackPWMSpeed()).c_str());
     printw("\n");
     printw("PID correction (Right): ");
     printw(Convert::IntToString(_Motor->GetRightP()).c_str());
@@ -58,52 +34,29 @@ State* MotorState::View() {
     keypad(stdscr, 1);
     switch (getch()) {
         case 'q':
-            _Motor->SetDirection(DirectionEnum::Stop);
             return this->ReturnState;
             break;
 
         case KEY_UP:
-            _Motor->SetDirection(DirectionEnum::Forward);
+//            _Motor->SetDirection(DirectionEnum::Forward);
             break;
 
         case KEY_DOWN:
-            _Motor->SetDirection(DirectionEnum::Backwards);
+//            _Motor->SetDirection(DirectionEnum::Backwards);
             break;
 
         case KEY_LEFT:
-            _Motor->SetDirection(DirectionEnum::Left);
+//            _Motor->SetDirection(DirectionEnum::Left);
             break;
 
         case KEY_RIGHT:
-
-            _Motor->SetDirection(DirectionEnum::Right);
-            break;
-
-        case 'f':
-            number = ReadInteger("Set speed:");
-            _Motor->SetMotorLeftSpeed(number);
-            _Motor->SetMotorRightSpeed(number);
+//            _Motor->SetDirection(DirectionEnum::Right);
             break;
 
         case 'p':
             number = ReadInteger("Set P-correction:");
             _Motor->SetLeftP(number);
             _Motor->SetRightP(number);
-            break;
-
-        case 's':
-            number = ReadInteger("Set Motor slack:");
-            _Motor->SetMotorSlackCount(number);
-            break;
-
-        case 'w':
-            number = ReadInteger("Set Motor PWM speed:");
-            _Motor->SetMotorSlackPWMSpeed(number);
-            break;
-
-        case 'a':
-            number = ReadInteger("Slack test (-1, +1):");
-            _Motor->TestMotorSlack(number);
             break;
 
         case 'i':
@@ -118,16 +71,9 @@ State* MotorState::View() {
             _Motor->SetRightD(number);
             break;
             
-        case 't':
-            printw("Tuning running...\n");
-            _MotorTuningController->RunMeasure();
-            printw("Save result to file...\n");
-            _MotorTuningController->SaveMeasureToFile("Logfile.txt");
-            break;
-
         default:
-            _Motor->SetDirection(DirectionEnum::Stop);
-
+//            _Motor->SetDirection(DirectionEnum::Stop);
+            break;
     }
     return this;
 }

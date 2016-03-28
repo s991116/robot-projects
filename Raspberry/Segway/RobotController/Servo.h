@@ -1,11 +1,11 @@
 #ifndef SERVO_H
 #define	SERVO_H
 
-#include "HardwareController.h"
+#include "SerialProtocol.h"
 
 class Servo {
 public:
-    Servo(HardwareController* hardwareController);
+    Servo(SerialCommandProtocol* serialProtocol);
 
     short GetHorizontalPosition();
     short GetVerticalPosition();
@@ -23,7 +23,7 @@ public:
 
     virtual ~Servo();
 private:
-    HardwareController* _HardwareController;
+    SerialCommandProtocol* _SerialProtocol;
 };
 
 #endif	/* SERVO_H */

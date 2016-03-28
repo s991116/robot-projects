@@ -11,12 +11,8 @@
       <itemPath>CommunicationHandler.h</itemPath>
       <itemPath>DirectionEnum.h</itemPath>
       <itemPath>Gyro.h</itemPath>
-      <itemPath>HardwareController.h</itemPath>
       <itemPath>IComPort.h</itemPath>
-      <itemPath>IMotor.h</itemPath>
-      <itemPath>IMotorTuning.h</itemPath>
       <itemPath>Motor.h</itemPath>
-      <itemPath>MotorTuning.h</itemPath>
       <itemPath>SerialProtocol.h</itemPath>
       <itemPath>Servo.h</itemPath>
     </logicalFolder>
@@ -31,9 +27,7 @@
       <itemPath>ComStream.cpp</itemPath>
       <itemPath>CommunicationHandler.cpp</itemPath>
       <itemPath>Gyro.cpp</itemPath>
-      <itemPath>HardwareController.cpp</itemPath>
       <itemPath>Motor.cpp</itemPath>
-      <itemPath>MotorTuning.cpp</itemPath>
       <itemPath>SerialProtocol.cpp</itemPath>
       <itemPath>Servo.cpp</itemPath>
     </logicalFolder>
@@ -96,25 +90,13 @@
       </item>
       <item path="Gyro.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="HardwareController.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="HardwareController.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="HardwareControllerTest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IComPort.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="IMotor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="IMotorTuning.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Motor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Motor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SerialProtocol.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -230,25 +212,13 @@
       </item>
       <item path="Gyro.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="HardwareController.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="HardwareController.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="HardwareControllerTest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IComPort.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="IMotor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="IMotorTuning.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Motor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Motor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="MotorTuning.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="MotorTuning.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SerialProtocol.cpp" ex="false" tool="1" flavor2="0">
       </item>
