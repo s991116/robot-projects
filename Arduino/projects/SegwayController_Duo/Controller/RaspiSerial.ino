@@ -24,11 +24,11 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           break;
           
         case SEGWAY_SPEED:
-          TargetSpeed = data/10.0;
+          TargetSpeed = data-127;
           break;
           
         case SEGWAY_TURN:
-          TargetTurnSpeed = data/10.0;
+          TargetTurnSpeed = data-127;
           break;
 
       }
@@ -121,11 +121,11 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
           break;
           
         case SEGWAY_SPEED:
-          return TargetSpeed*10;
+          return TargetSpeed+127;
           break;
           
         case SEGWAY_TURN:
-          return TargetTurnSpeed*10;
+          return TargetTurnSpeed+127;
           break;
       }      
       break;
@@ -195,6 +195,11 @@ SerialCommandProtocol serialCommandRaspi(&Serial2, handleRaspiCommand, handleRas
 void InitializeRaspiSerial()
 {
   Serial2.begin(115200); 
+}
+
+void ReadRaspiCommand()
+{
+  serialCommandRaspi.handleResponse();
 }
 
 void SendCommandToSerial(int data)
