@@ -11,24 +11,33 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
     case COMMAND_DATA_BYTE_NO_REPLY:
       switch(commandId)
       {
-        case SERVO_HORIZONTAL:
+        case SERVO_HORIZONTAL_BYTE:
           SetHorizontalAngle(data);
           break;
           
-        case SERVO_VERTICAL:
+        case SERVO_VERTICAL_BYTE:
           SetVerticalAngle(data);
           break;
           
-        case SEGWAY_ENABLED:
+        case SEGWAY_ENABLED_BYTE:
           SetSegwayEnabled(data);
           break;
           
+<<<<<<< HEAD
         case SEGWAY_SPEED:
           TargetSpeed = data-127;
           break;
           
         case SEGWAY_TURN:
           TargetTurnSpeed = data-127;
+=======
+        case SEGWAY_SPEED_BYTE:
+          TargetSpeed = data/10.0;
+          break;
+          
+        case SEGWAY_TURN_BYTE:
+          TargetTurnSpeed = data/10.0;
+>>>>>>> 67ad06905015337967835631dee8836759a926f7
           break;
 
       }
@@ -37,62 +46,62 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
     case COMMAND_DATA_SHORT_NO_REPLY:
       switch(commandId)
       {
-        case PID_ENCODER_A_P:
+        case PID_ENCODER_A_P_SHORT:
           KpMotorA = data / 1000.0;
           UpdateControllerSettings();
           break;
           
-        case PID_ENCODER_A_I:
+        case PID_ENCODER_A_I_SHORT:
           KiMotorA = data / 1000.0;
           UpdateControllerSettings();
           break;
 
-        case PID_ENCODER_A_D:
+        case PID_ENCODER_A_D_SHORT:
           KdMotorA = data / 1000.0;
           UpdateControllerSettings();
           break;
 
-        case PID_ENCODER_B_P:
+        case PID_ENCODER_B_P_SHORT:
           KpMotorB = data / 1000.0;
           UpdateControllerSettings();
           break;
 
-        case PID_ENCODER_B_I:
+        case PID_ENCODER_B_I_SHORT:
           KiMotorB = data / 1000.0;
           UpdateControllerSettings();
           break;
 
-        case PID_ENCODER_B_D:
+        case PID_ENCODER_B_D_SHORT:
           KdMotorB = data / 1000.0;
           UpdateControllerSettings();
           break;
 
-        case PID_GYRO_P:
+        case PID_GYRO_P_SHORT:
           AnglePCorr = data / 1000.0;
           UpdateGyroPIDSettings();
           break;
           
-        case PID_GYRO_I:
+        case PID_GYRO_I_SHORT:
           AngleICorr = data / 1000.0;
           UpdateGyroPIDSettings();
           break;
           
-        case PID_GYRO_D:
+        case PID_GYRO_D_SHORT:
           AngleDCorr = data / 1000.0;
           UpdateGyroPIDSettings();
           break;
           
-        case PID_SPEED_P:
+        case PID_SPEED_P_SHORT:
           SpeedPCorr = data / 1000.0;
           UpdateSpeedPIDSettings();
           break;
           
-        case PID_SPEED_I:
+        case PID_SPEED_I_SHORT:
           SpeedICorr = data / 1000.0;
           UpdateSpeedPIDSettings();
           break;
           
-        case PID_SPEED_D:
+        case PID_SPEED_D_SHORT:
           SpeedDCorr = data / 1000.0;
           UpdateSpeedPIDSettings();
           break;
@@ -108,24 +117,33 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
     case COMMAND_NO_DATA_BYTE_REPLY:
       switch(commandId)
       {
-        case SERVO_HORIZONTAL:
+        case SERVO_HORIZONTAL_BYTE:
           return GetHorizontalAngle();
           break;
           
-        case SERVO_VERTICAL:
+        case SERVO_VERTICAL_BYTE:
           return GetVerticalAngle();
           break;
           
-        case SEGWAY_ENABLED:
+        case SEGWAY_ENABLED_BYTE:
           return GetSegwayEnabled();
           break;
           
+<<<<<<< HEAD
         case SEGWAY_SPEED:
           return TargetSpeed+127;
           break;
           
         case SEGWAY_TURN:
           return TargetTurnSpeed+127;
+=======
+        case SEGWAY_SPEED_BYTE:
+          return TargetSpeed*10;
+          break;
+          
+        case SEGWAY_TURN_BYTE:
+          return TargetTurnSpeed*10;
+>>>>>>> 67ad06905015337967835631dee8836759a926f7
           break;
       }      
       break;
@@ -133,55 +151,55 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
     case COMMAND_NO_DATA_SHORT_REPLY:
       switch(commandId)
       {
-        case ANGLE_OFFSET:
+        case ANGLE_OFFSET_SHORT:
           return OffsetAngle;
           break;
           
-        case PID_ENCODER_A_P:
+        case PID_ENCODER_A_P_SHORT:
           return KpMotorA * 1000.0;
           break;
 
-        case PID_ENCODER_A_I:
+        case PID_ENCODER_A_I_SHORT:
           return KiMotorA * 1000.0;
           break;
           
-        case PID_ENCODER_A_D:
+        case PID_ENCODER_A_D_SHORT:
           return KdMotorA * 1000.0;
           break;
           
-        case PID_ENCODER_B_P:
+        case PID_ENCODER_B_P_SHORT:
           return KpMotorB * 1000.0;
           break;
           
-        case PID_ENCODER_B_I:
+        case PID_ENCODER_B_I_SHORT:
           return KiMotorB * 1000.0;
           break;
           
-        case PID_ENCODER_B_D:
+        case PID_ENCODER_B_D_SHORT:
           return KdMotorB * 1000.0;
           break;
           
-        case PID_GYRO_P:
+        case PID_GYRO_P_SHORT:
           return AnglePCorr * 1000.0;
           break;
           
-        case PID_GYRO_I:
+        case PID_GYRO_I_SHORT:
           return AngleICorr * 1000.0;
           break;
           
-        case PID_GYRO_D:
+        case PID_GYRO_D_SHORT:
           return AngleDCorr * 1000.0;
           break;
           
-        case PID_SPEED_P:
+        case PID_SPEED_P_SHORT:
           return SpeedPCorr * 1000.0;
           break;
           
-        case PID_SPEED_I:
+        case PID_SPEED_I_SHORT:
           return SpeedICorr * 1000.0;
           break;
           
-        case PID_SPEED_D:
+        case PID_SPEED_D_SHORT:
           return SpeedDCorr * 1000.0;
           break;
       }

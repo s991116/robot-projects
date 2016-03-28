@@ -2,11 +2,12 @@
 #define	ROBOT_H
 
 #include <ComPort.h>
-#include <HardwareController.h>
+#include <ComStream.h>
+#include <CommunicationHandler.h>
+#include <SerialProtocol.h>
 #include <Motor.h>
 #include <Servo.h>
 #include <Gyro.h>
-#include <MotorTuning.h>
 #include <CameraSensor.h>
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
@@ -18,17 +19,18 @@ public:
     virtual ~Robot();
 
     Motor* _Motor;
-    MotorTuning* _MotorTuning;
     Gyro* _Gyro;
     Servo* _Servo;
     CameraSensor* _CameraSensor;
     Logging* _Log;
     LineDetectSetting* _BottomLineDetectSetting;
     LineDetect* _BottomLineDetect;
-
-private:
-    HardwareController* _HwCtrl;
     ComPort* _ComPort;
+    ComStream* _ComStream;
+    CommunicationHandler* _CommunicationHandler;
+    SerialCommandProtocol* _SerialProtocol;
+
+private:    
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
 };

@@ -36,11 +36,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/CameraState.o \
+	${OBJECTDIR}/ComState.o \
 	${OBJECTDIR}/FaceDetectionPresentation.o \
 	${OBJECTDIR}/GyroState.o \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
-	${OBJECTDIR}/MotorTuningController.o \
+	${OBJECTDIR}/NavigateState.o \
 	${OBJECTDIR}/ServoState.o \
 	${OBJECTDIR}/State.o \
 	${OBJECTDIR}/main.o
@@ -75,6 +76,11 @@ ${OBJECTDIR}/CameraState.o: CameraState.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
 
+${OBJECTDIR}/ComState.o: ComState.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComState.o ComState.cpp
+
 ${OBJECTDIR}/FaceDetectionPresentation.o: FaceDetectionPresentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -95,10 +101,10 @@ ${OBJECTDIR}/MotorState.o: MotorState.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
-${OBJECTDIR}/MotorTuningController.o: MotorTuningController.cpp 
+${OBJECTDIR}/NavigateState.o: NavigateState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorTuningController.o MotorTuningController.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateState.o NavigateState.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}

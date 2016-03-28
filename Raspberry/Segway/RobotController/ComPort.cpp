@@ -29,7 +29,7 @@ ComPort::ComPort() {
     //	PARODD - Odd parity (else even)
     struct termios options;
     tcgetattr(uart0_filestream, &options);
-    options.c_cflag = B9600 | CS8 | CLOCAL | CREAD; //<Set baud rate
+    options.c_cflag = B115200 | CS8 | CLOCAL | CREAD; //<Set baud rate
     options.c_iflag = IGNPAR;
     options.c_oflag = 0;
     options.c_lflag = 0;
@@ -69,12 +69,41 @@ int ComPort::ReceiveChar(unsigned char* rx_buffer_ptr) {
     return 0;
 }
 
+int ComPort::ReceiveChar() {
+    unsigned char buffer[1];
+    if (ComPort::uart0_filestream != -1) {
+        // Read up to 255 characters from the port if they are there
+        int rx_length = read(uart0_filestream, (void*) buffer, 1); //Filestream, buffer to store in, number of bytes to read (max)
+        if (rx_length < 0) {
+            return -1; //An error occured (will occur if there are no bytes)
+        } else if (rx_length == 0) {
+            return -1; //No data waiting
+        } else {
+            return buffer[0]; //Bytes received
+        }
+    }
+    std::cout << "Error receiving" << std::endl;
+    return -1;
+}
+
 int ComPort::Send(unsigned char* data, int nrOfBytesToSend) {
     //Transmitting Bytes
     //----- TX BYTES -----
     //std::cout << "Sending cmd: " << (int)data[0] << " , data: " << (int)data[1] << " , " << (int)data[2] << std::endl;
     if (uart0_filestream != -1) {
         int count = write(uart0_filestream, data, nrOfBytesToSend); //Filestream, bytes to write, number of bytes to write
+        //std::cout << "Done sending." << std::endl;
+        return count;
+    }
+    //std::cout << "Error sending." << std::endl;
+    return 0;
+}
+
+int ComPort::Send(unsigned char data) {
+    unsigned char buffer[1];
+    buffer[0] = data;
+    if (uart0_filestream != -1) {
+        int count = write(uart0_filestream, buffer, 1); //Filestream, bytes to write, number of bytes to write
         //std::cout << "Done sending." << std::endl;
         return count;
     }
