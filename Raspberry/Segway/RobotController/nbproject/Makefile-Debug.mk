@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CommunicationHandler.o \
 	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/Motor.o \
+	${OBJECTDIR}/Navigate.o \
 	${OBJECTDIR}/SerialProtocol.o \
 	${OBJECTDIR}/Servo.o
 
@@ -100,6 +101,11 @@ ${OBJECTDIR}/Motor.o: Motor.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor.o Motor.cpp
+
+${OBJECTDIR}/Navigate.o: Navigate.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Navigate.o Navigate.cpp
 
 ${OBJECTDIR}/SerialProtocol.o: SerialProtocol.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -190,6 +196,19 @@ ${OBJECTDIR}/Motor_nomain.o: ${OBJECTDIR}/Motor.o Motor.cpp
 	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Motor_nomain.o Motor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Motor.o ${OBJECTDIR}/Motor_nomain.o;\
+	fi
+
+${OBJECTDIR}/Navigate_nomain.o: ${OBJECTDIR}/Navigate.o Navigate.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Navigate.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I../StringUtil -I../../gtest-1.7.0/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Navigate_nomain.o Navigate.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Navigate.o ${OBJECTDIR}/Navigate_nomain.o;\
 	fi
 
 ${OBJECTDIR}/SerialProtocol_nomain.o: ${OBJECTDIR}/SerialProtocol.o SerialProtocol.cpp 

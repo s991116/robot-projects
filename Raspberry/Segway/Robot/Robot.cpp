@@ -6,7 +6,7 @@ Robot::Robot() {
   _ComStream = new ComStream(_ComPort);
   _CommunicationHandler = new CommunicationHandler();
   _SerialProtocol = new SerialCommandProtocol(_ComStream, _CommunicationHandler);
-
+  _Navigate = new Navigate(_SerialProtocol);
   _Motor = new Motor(_SerialProtocol);
   _Gyro = new Gyro(_SerialProtocol);
   _Servo = new Servo(_SerialProtocol);

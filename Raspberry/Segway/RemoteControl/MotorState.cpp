@@ -10,7 +10,6 @@ MotorState::MotorState(Motor* motor) {
 State* MotorState::View() {
     clear();
     printw("*** Motor tunning ***\n");
-    printw("Arrow-key - Forward, Left, Backwards, Right\n");
     printw("P, I, D   - PID-factor\n");
     printw("Q         - Return\n");
     printw("\n");
@@ -37,22 +36,6 @@ State* MotorState::View() {
             return this->ReturnState;
             break;
 
-        case KEY_UP:
-//            _Motor->SetDirection(DirectionEnum::Forward);
-            break;
-
-        case KEY_DOWN:
-//            _Motor->SetDirection(DirectionEnum::Backwards);
-            break;
-
-        case KEY_LEFT:
-//            _Motor->SetDirection(DirectionEnum::Left);
-            break;
-
-        case KEY_RIGHT:
-//            _Motor->SetDirection(DirectionEnum::Right);
-            break;
-
         case 'p':
             number = ReadInteger("Set P-correction:");
             _Motor->SetLeftP(number);
@@ -69,11 +52,7 @@ State* MotorState::View() {
             number = ReadInteger("Set D-correction:");
             _Motor->SetLeftD(number);
             _Motor->SetRightD(number);
-            break;
-            
-        default:
-//            _Motor->SetDirection(DirectionEnum::Stop);
-            break;
+            break;            
     }
     return this;
 }
