@@ -9,6 +9,7 @@
 #include <Servo.h>
 #include <Gyro.h>
 #include <CameraSensor.h>
+#include <Navigate.h>
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
 #include "Logging.h"
@@ -17,7 +18,7 @@ class Robot {
 public:
     Robot();
     virtual ~Robot();
-
+    Navigate* _Navigate;
     Motor* _Motor;
     Gyro* _Gyro;
     Servo* _Servo;

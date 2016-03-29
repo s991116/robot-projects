@@ -1,7 +1,7 @@
 #include "MainState.h"
 #include <ncurses.h>
 
-MainState::MainState(State* motorState, State* gyroState, State* servoState, State* cameraState, State* comState) {
+MainState::MainState(State* motorState, State* gyroState, State* servoState, State* cameraState, State* comState, State* navigateState) {
     _MotorState = motorState;
     _MotorState->ReturnState = this;
 
@@ -16,6 +16,10 @@ MainState::MainState(State* motorState, State* gyroState, State* servoState, Sta
     
     _ComState = comState;
     _ComState->ReturnState = this;
+    
+    _NavigateState = navigateState;
+    _NavigateState->ReturnState = this;
+    
 }
 
 MainState::~MainState() {
@@ -29,6 +33,7 @@ State* MainState::View() {
 void MainState::Print() {
     clear();
     printw("*** Segway Control program ***\n");
+    printw("N - Navigate\n");
     printw("M - Motor tunning\n");
     printw("G - Gyro tunning\n");
     printw("S - Servo tunning\n");    
@@ -44,6 +49,10 @@ State* MainState::Control() {
     switch (c) {
         case 'q':
             return ReturnState;
+            break;
+ 
+        case 'n':
+            return _NavigateState;
             break;
             
         case 'g':
