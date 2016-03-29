@@ -35,6 +35,13 @@ PIDFloat::PIDFloat(volatile double* Input, double* Output, double* Setpoint, dou
   lastTime = millis()-SampleTime;				
 }
  
+  
+void PIDFloat::ResetErrors()
+{
+	ITerm = 0;
+	lastInput = 0;
+} 
+
  
 /* Compute() **********************************************************************
  *     This, as they say, is where the magic happens.  this function should be called

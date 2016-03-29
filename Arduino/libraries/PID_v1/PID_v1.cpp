@@ -37,7 +37,12 @@ PID::PID(volatile int* Input, int* Output, int* Setpoint,
     lastTime = millis()-SampleTime;				
 }
  
- 
+void PID::ResetErrors()
+{
+	ITerm = 0;
+	lastInput = 0;
+} 
+
 /* Compute() **********************************************************************
  *     This, as they say, is where the magic happens.  this function should be called
  *   every time "void loop()" executes.  the function will decide for itself whether a new

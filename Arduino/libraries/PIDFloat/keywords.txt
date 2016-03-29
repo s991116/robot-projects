@@ -14,6 +14,7 @@ PIDFloat	KEYWORD1
 
 SetMode	KEYWORD2
 Compute	KEYWORD2
+ResetErrors KEYWORD2
 SetOutputLimits	KEYWORD2
 SetTunings	KEYWORD2
 SetControllerDirection	KEYWORD2

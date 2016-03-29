@@ -6,9 +6,7 @@
 unsigned long NextSegwayUpdateTime;
 bool SegwayEnabled = false;
 
-
 double GyroOutputFactor = 0.01;
-
 
 double CurrentAngle;
 double TargetAngle;
@@ -45,8 +43,17 @@ void SetSegwayEnabled(bool s)
   {
     serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
     delay(1000);
-    SetOffsetAngle();    
+    SetOffsetAngle();
+    ResetPIDErrors();    
   }  
+}
+
+void ResetPIDErrors()
+{
+  PIDSpeed.ResetErrors();
+  PIDGyro.ResetErrors();
+  PIDMotorA.ResetErrors();
+  PIDMotorB.ResetErrors();
 }
 
 void SetOffsetAngle()
@@ -86,7 +93,6 @@ void UpdateSegway()
   CurrentSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
   PIDSpeed.Compute();
   
-//  Serial.println(CorrectionSpeed);
   if(CorrectionSpeed > SpeedCorrLimit)
     TargetAngle = SpeedCorrLimit;
   else if(CorrectionSpeed < -SpeedCorrLimit)
@@ -99,7 +105,7 @@ void UpdateSegway()
   
   TargetEncoderCountA = -(CorrectionAngle*GyroOutputFactor);
   TargetEncoderCountB = -(CorrectionAngle*GyroOutputFactor);
-  
+  SetTargetEncoderWithTurn();
   PIDMotorA.Compute();
   PIDMotorB.Compute();
 
@@ -113,6 +119,14 @@ void UpdateSegway()
     SetMotorPowerA(0);
     SetMotorPowerB(0);    
   }
+}
+
+double TurnSpeedLimitFactor = 0.2;
+
+void SetTargetEncoderWithTurn()
+{
+  TargetEncoderCountA = TargetEncoderCountA + TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountA)));
+  TargetEncoderCountB = TargetEncoderCountB - TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountB)));
 }
 
 void UpdateAngle()

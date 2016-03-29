@@ -23,21 +23,12 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           SetSegwayEnabled(data);
           break;
           
-<<<<<<< HEAD
-        case SEGWAY_SPEED:
+        case SEGWAY_SPEED_BYTE:
           TargetSpeed = data-127;
           break;
           
-        case SEGWAY_TURN:
-          TargetTurnSpeed = data-127;
-=======
-        case SEGWAY_SPEED_BYTE:
-          TargetSpeed = data/10.0;
-          break;
-          
         case SEGWAY_TURN_BYTE:
-          TargetTurnSpeed = data/10.0;
->>>>>>> 67ad06905015337967835631dee8836759a926f7
+          TargetTurnSpeed = data-127;
           break;
 
       }
@@ -129,21 +120,12 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
           return GetSegwayEnabled();
           break;
           
-<<<<<<< HEAD
-        case SEGWAY_SPEED:
+        case SEGWAY_SPEED_BYTE:
           return TargetSpeed+127;
           break;
           
-        case SEGWAY_TURN:
-          return TargetTurnSpeed+127;
-=======
-        case SEGWAY_SPEED_BYTE:
-          return TargetSpeed*10;
-          break;
-          
         case SEGWAY_TURN_BYTE:
-          return TargetTurnSpeed*10;
->>>>>>> 67ad06905015337967835631dee8836759a926f7
+          return TargetTurnSpeed+127;
           break;
       }      
       break;
