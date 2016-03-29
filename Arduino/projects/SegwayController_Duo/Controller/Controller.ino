@@ -69,6 +69,7 @@ void setup()
 void loop() 
 {
   ReadCommand(); 
+  ReadRaspiCommand();
   HandleSegway();
   //SegwayUpdateTime();
   //MotorPowerUpdateTime();
