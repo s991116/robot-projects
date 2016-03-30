@@ -5,7 +5,7 @@
 NavigateState::NavigateState(Navigate* navigate) {
     _Navigate = navigate;
     _TurnSpeed = 5;
-    _Speed = 5;
+    _Speed = 10;
 }
 
 NavigateState::~NavigateState() {
