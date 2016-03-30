@@ -45,9 +45,9 @@ double AngleDCorr = 0;
 
 short OffsetAngle;
 
-double SpeedPCorr = 10;
-double SpeedICorr = 0.5;
-double SpeedDCorr = 0;
+double SpeedPCorr = 15;
+double SpeedICorr = 1;
+double SpeedDCorr = 5;
 int    SpeedCorrLimit = 600;
 
 long NextMotorPowerUpdateTime;
