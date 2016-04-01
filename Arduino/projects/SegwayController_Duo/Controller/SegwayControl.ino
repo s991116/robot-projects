@@ -140,12 +140,43 @@ void UpdateSpeedAverage(double segwaySpeed)
   }
 }
 
-double TurnSpeedLimitFactor = 0.1;
+int TurnSpeedLimit = 12;
 
 void SetTargetEncoderWithTurn()
 {
-  TargetEncoderCountA = TargetEncoderCountA + TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountA)));
-  TargetEncoderCountB = TargetEncoderCountB - TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountB)));
+  if(TargetTurnSpeed != 0)
+  {
+    if(abs(TargetEncoderCountA) < TurnSpeedLimit)
+    {
+      TargetEncoderCountA = TargetEncoderCountA + TargetTurnSpeed;
+      TargetEncoderCountB = TargetEncoderCountB - TargetTurnSpeed;
+      int clipping;
+      if(TargetEncoderCountA > TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountA - TurnSpeedLimit;
+        TargetEncoderCountA = TurnSpeedLimit;
+        TargetEncoderCountB = TargetEncoderCountB+clipping;
+      }
+      if(TargetEncoderCountB > TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountB - TurnSpeedLimit;
+        TargetEncoderCountB = TurnSpeedLimit;
+        TargetEncoderCountA = TargetEncoderCountA-clipping;
+      }
+      if(TargetEncoderCountA < -TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountA + TurnSpeedLimit;
+        TargetEncoderCountA = -TurnSpeedLimit;
+        TargetEncoderCountB = TargetEncoderCountB+clipping;
+      }
+      if(TargetEncoderCountB < -TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountB + TurnSpeedLimit;
+        TargetEncoderCountB = -TurnSpeedLimit;
+        TargetEncoderCountA = TargetEncoderCountA-clipping;
+      }  
+    }
+  }
 }
 
 void UpdateAngle()
