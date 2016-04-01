@@ -15,6 +15,12 @@ double CorrectionAngle;
 double CurrentSpeed;
 double CorrectionSpeed;
 
+#define CurrentSpeedBufferSize 10
+double CurrentSpeedBuffer[CurrentSpeedBufferSize];
+int CurrenSpeedBufferIndex = 0;
+double CurrentSpeedBufferAverage = 0;
+
+
 PIDFloat PIDSpeed(&CurrentSpeed, &CorrectionSpeed, &TargetSpeed, SpeedPCorr, SpeedICorr, SpeedDCorr, DIRECT);
 
 PIDFloat PIDGyro(&CurrentAngle, &CorrectionAngle, &TargetAngle, AnglePCorr, AngleICorr, AngleDCorr, DIRECT);
@@ -89,8 +95,9 @@ void UpdateSegway()
 
   UpdateCurrentEncoderA();
   UpdateCurrentEncoderB();
-
-  CurrentSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
+  double tempSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
+  UpdateSpeedAverage(tempSpeed);
+  CurrentSpeed = CurrentSpeedBufferAverage;
   PIDSpeed.Compute();
   
   if(CorrectionSpeed > SpeedCorrLimit)
@@ -121,7 +128,19 @@ void UpdateSegway()
   }
 }
 
-double TurnSpeedLimitFactor = 0.2;
+void UpdateSpeedAverage(double segwaySpeed)
+{
+  CurrentSpeedBufferAverage -= CurrentSpeedBuffer[CurrenSpeedBufferIndex];
+  CurrentSpeedBuffer[CurrenSpeedBufferIndex] = (segwaySpeed / CurrentSpeedBufferSize);
+  CurrentSpeedBufferAverage += CurrentSpeedBuffer[CurrenSpeedBufferIndex];  
+  CurrenSpeedBufferIndex++;
+  if(CurrenSpeedBufferIndex >= CurrentSpeedBufferSize)
+  {
+    CurrenSpeedBufferIndex = 0;
+  }
+}
+
+double TurnSpeedLimitFactor = 0.1;
 
 void SetTargetEncoderWithTurn()
 {
