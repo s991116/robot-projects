@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ComState.o \
 	${OBJECTDIR}/FaceDetectionPresentation.o \
 	${OBJECTDIR}/GyroState.o \
+	${OBJECTDIR}/LineDetectionPresentation.o \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
 	${OBJECTDIR}/NavigateState.o \
@@ -108,6 +109,11 @@ ${OBJECTDIR}/GyroState.o: GyroState.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
+
+${OBJECTDIR}/LineDetectionPresentation.o: LineDetectionPresentation.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineDetectionPresentation.o LineDetectionPresentation.cpp
 
 ${OBJECTDIR}/MainState.o: MainState.cpp 
 	${MKDIR} -p ${OBJECTDIR}

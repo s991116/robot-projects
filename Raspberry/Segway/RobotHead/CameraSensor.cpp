@@ -3,6 +3,7 @@
 CameraSensor::CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, Servo* servo) {
     _PiCamera = piCamera;
     _FaceDetection = faceDetection;
+
     _Servo = servo;
     _MoveFactor = 20;
 }

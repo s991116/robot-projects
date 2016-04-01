@@ -5,6 +5,7 @@
 #include "PiCamera.h"
 #include "Position.h"
 #include "Servo.h"
+#include "LineDetect.h"
 
 class CameraSensor {
 public:
@@ -16,6 +17,7 @@ public:
 private:
     PiCamera* _PiCamera;
     FaceDetection* _FaceDetection;
+    LineDetect* _LineDetect;
     Servo* _Servo;
     float _MoveFactor;
     void MoveToCenter();

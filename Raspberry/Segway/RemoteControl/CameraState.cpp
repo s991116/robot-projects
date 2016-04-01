@@ -9,6 +9,7 @@ CameraState::CameraState(CameraSensor* cameraSensor) {
     _Position = new Position();
     
     _FaceDetectionPresentation = new FaceDetectionPresentation(_CameraSensor, _Position);
+    _LineDetectionPresentation = new LineDetectionPresentation(_CameraSensor, _Position);
 }
 
 State* CameraState::View() {
@@ -35,6 +36,7 @@ State* CameraState::View() {
             break;
 
         case 'l':
+            LoopDisplayFunction(_LineDetectionPresentation);
             break;
 
         case 'f':

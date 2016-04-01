@@ -34,5 +34,6 @@ public:
 private:    
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
+    LineDetect* _LineDetect;
 };
 #endif	/* ROBOT_H */
