@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>ConsolePrint.h</itemPath>
       <itemPath>EmptyLog.h</itemPath>
       <itemPath>FileLogger.h</itemPath>
       <itemPath>Logging.h</itemPath>
@@ -16,6 +17,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>ConsolePrint.cpp</itemPath>
       <itemPath>EmptyLog.cpp</itemPath>
       <itemPath>FileLogger.cpp</itemPath>
       <itemPath>ProxyLog.cpp</itemPath>
@@ -49,6 +51,10 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="ConsolePrint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ConsolePrint.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="EmptyLog.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EmptyLog.h" ex="false" tool="3" flavor2="0">
@@ -86,6 +92,10 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="ConsolePrint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ConsolePrint.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="EmptyLog.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EmptyLog.h" ex="false" tool="3" flavor2="0">

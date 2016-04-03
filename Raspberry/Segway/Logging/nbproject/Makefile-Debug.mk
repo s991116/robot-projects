@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ConsolePrint.o \
 	${OBJECTDIR}/EmptyLog.o \
 	${OBJECTDIR}/FileLogger.o \
 	${OBJECTDIR}/ProxyLog.o
@@ -65,6 +66,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a: ${OBJECTFILES}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a
+
+${OBJECTDIR}/ConsolePrint.o: ConsolePrint.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsolePrint.o ConsolePrint.cpp
 
 ${OBJECTDIR}/EmptyLog.o: EmptyLog.cpp 
 	${MKDIR} -p ${OBJECTDIR}

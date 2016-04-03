@@ -15,9 +15,12 @@
                 <make-dep-project>../Robot</make-dep-project>
                 <make-dep-project>../RobotHead</make-dep-project>
                 <make-dep-project>../Logging</make-dep-project>
+                <make-dep-project>../Sensor</make-dep-project>
                 <make-dep-project>../PiCamera</make-dep-project>
                 <make-dep-project>../SoundPlayer</make-dep-project>
                 <make-dep-project>../Setting</make-dep-project>
+                <make-dep-project>../CommandScript</make-dep-project>
+                <make-dep-project>../Command</make-dep-project>
             </make-dep-projects>
             <sourceRootList/>
             <confList>

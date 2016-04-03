@@ -15,6 +15,7 @@
 #include "SettingFileReader.h"
 #include "SettingReader.h"
 #include "Logging.h"
+#include "CommandScript.h"
 
 class Robot {
 public:
@@ -32,13 +33,12 @@ public:
     ComStream* _ComStream;
     CommunicationHandler* _CommunicationHandler;
     SerialCommandProtocol* _SerialProtocol;
+    CommandScript* _CommandScript;
 
 private:    
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
     LineDetect* _LineDetect;
-    SettingFileReader* _SettingFileReader;
-    SettingReader* _SettingReader;
     LineDetectSetting* _LineDetectSetting;
 };
 #endif	/* ROBOT_H */

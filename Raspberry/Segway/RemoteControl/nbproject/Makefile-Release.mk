@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
 	${OBJECTDIR}/NavigateState.o \
+	${OBJECTDIR}/ScriptRunnerState.o \
 	${OBJECTDIR}/ServoState.o \
 	${OBJECTDIR}/State.o \
 	${OBJECTDIR}/main.o
@@ -111,6 +112,11 @@ ${OBJECTDIR}/NavigateState.o: NavigateState.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateState.o NavigateState.cpp
+
+${OBJECTDIR}/ScriptRunnerState.o: ScriptRunnerState.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ScriptRunnerState.o ScriptRunnerState.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}

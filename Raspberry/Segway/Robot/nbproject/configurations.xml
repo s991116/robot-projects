@@ -44,6 +44,9 @@
             <pElem>../Vision</pElem>
             <pElem>../Setting</pElem>
             <pElem>../Logging</pElem>
+            <pElem>../CommandScript</pElem>
+            <pElem>../Command</pElem>
+            <pElem>../Sensor</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>

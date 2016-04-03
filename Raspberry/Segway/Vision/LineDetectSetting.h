@@ -2,7 +2,6 @@
 #define	LINEDETECTSETTING_H
 #include <opencv/cv.h>
 #include "Setting.h"
-#include "SettingFileReader.h"
 #include <string>
 
 class LineDetectSetting : public Setting {
@@ -20,7 +19,7 @@ public:
       HORIZONTAL,
     };
     
-    LineDetectSetting(std::string settingFilename, SettingFileReader* settingFileReader);
+    LineDetectSetting();
     LineDetectSetting(cv::Rect roi, int filterHalf, int filterThresshold, LineDetectSetting::PositionEnum position, LineDetectSetting::LineDirectionEnum direction, bool blackLine);
     
     PositionEnum GetPosition();
@@ -38,7 +37,6 @@ private:
     void MapSettings();
     int PositionInt;
     int LineDirectionInt;    
-    SettingFileReader* _SettingFileReader;
     std::string _SettingFilename;
 };
 

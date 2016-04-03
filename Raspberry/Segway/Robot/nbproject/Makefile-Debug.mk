@@ -67,7 +67,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/librobot.a: ${OBJECTFILES}
 ${OBJECTDIR}/Robot.o: Robot.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../RobotHead -I../PiCamera -I../Vision -I../Setting -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../RobotHead -I../PiCamera -I../Vision -I../Setting -I../Logging -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
 
 # Subprojects
 .build-subprojects:
