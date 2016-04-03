@@ -35,7 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Command.o
+	${OBJECTDIR}/Command.o \
+	${OBJECTDIR}/SegwayCommand.o
 
 
 # C Compiler Flags
@@ -68,6 +69,11 @@ ${OBJECTDIR}/Command.o: Command.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+
+${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
 
 # Subprojects
 .build-subprojects:

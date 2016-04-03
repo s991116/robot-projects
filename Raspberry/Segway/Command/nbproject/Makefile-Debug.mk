@@ -35,15 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Command.o
+	${OBJECTDIR}/Command.o \
+	${OBJECTDIR}/SegwayCommand.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=c++0x
+CXXFLAGS=-std=c++0x
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,7 +68,12 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a: ${OBJECTFILES}
 ${OBJECTDIR}/Command.o: Command.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+
+${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
 
 # Subprojects
 .build-subprojects:

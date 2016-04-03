@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "EmptyLog.h"
 #include "CommandScript.h"
+#include "SegwayCommand.h"
 #include "Setting.h"
 #include "Command.h"
 
@@ -28,6 +29,7 @@ Robot::Robot() {
   
   commands["DELAY"] = new DelayCommand();
   commands["KEYPRESS"] = new KeyPressCommand();
+  commands["SEGWAY"] = new SegwayCommand(_Navigate); 
   
   settings["LINEDETECTSETTING"] = _LineDetectSetting;
   

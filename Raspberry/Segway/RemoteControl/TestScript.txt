@@ -1,4 +1,8 @@
 !LineDetectSetting -BLACKLINE 1
-#Delay 100
-?HEAD
+#Delay 1000
+#SEGWAY
+#Delay 1000
+#SEGWAY 0
+#Delay 1000
+#SEGWAY 1
 #KEYPRESS
