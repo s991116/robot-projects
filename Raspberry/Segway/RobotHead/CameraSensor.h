@@ -6,13 +6,16 @@
 #include "Position.h"
 #include "Servo.h"
 #include "LineDetect.h"
+#include "SensorInfo.h"
 
-class CameraSensor {
+class CameraSensor : public SensorInfo {
 public:
     CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, LineDetect* lineDetect, Servo* servo);
     void GetFacePosition(Position* position);
+    LineInfo* GetLine();
     double GetLinePosition();
     void TakePicture(std::string filename);
+    std::string GetStatus();
 
     virtual ~CameraSensor();
 private:

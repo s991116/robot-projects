@@ -1,0 +1,4 @@
+!LineDetectSetting -BLACKLINE 1
+#Delay 100
+?HEAD
+#KEYPRESS

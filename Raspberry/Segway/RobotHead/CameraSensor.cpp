@@ -15,6 +15,12 @@ void CameraSensor::GetFacePosition(Position* position) {
     MoveCamera(position);
 }
 
+std::string CameraSensor::GetStatus() {
+    std::string info;
+    double linePos = GetLinePosition();
+    return GetLine()->ToString();
+}
+
 void CameraSensor::MoveCamera(Position* position) {
     if(position->Detected())
     {
@@ -23,6 +29,12 @@ void CameraSensor::MoveCamera(Position* position) {
         float yOffset = position->GetNormalizedY();
         _Servo->StepDown(yOffset * _MoveFactor);       
     }
+}
+
+LineInfo* CameraSensor::GetLine() {
+    cv::Mat image = _PiCamera->GetNextFrame();
+    LineInfo* lineinfo = _LineDetect->DetectLine(image);
+    return lineinfo;
 }
 
 double CameraSensor::GetLinePosition() {

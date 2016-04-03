@@ -21,9 +21,17 @@ Robot::Robot() {
   _CameraSensor = new CameraSensor(_Camera, _FaceDetection, _LineDetect, _Servo);
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);
+  
   map<string, Command*> commands;
   map<string, Setting*> settings;
   map<string, SensorInfo*> sensors;
+  
+  commands["DELAY"] = new DelayCommand();
+  commands["KEYPRESS"] = new KeyPressCommand();
+  
+  settings["LINEDETECTSETTING"] = _LineDetectSetting;
+  
+  sensors["HEAD"] = _CameraSensor;
   
   _CommandScript = new CommandScript(parseCommandLine, commands, settings, sensors);
 }

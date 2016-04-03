@@ -29,7 +29,7 @@ State* ScriptRunnerState::View() {
 
         case 'r':
             _CommandScript->RunFileScript(_ScriptPath);
-            WriteMessage("Script finished.");
+            WriteMessage("Script finished. Press key ");
             break;
 
         case 'c':
