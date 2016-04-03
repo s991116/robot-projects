@@ -35,7 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/SensorInfo.o
+	${OBJECTDIR}/SensorInfo.o \
+	${OBJECTDIR}/TimeCheck.o
 
 
 # C Compiler Flags
@@ -68,6 +69,11 @@ ${OBJECTDIR}/SensorInfo.o: SensorInfo.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SensorInfo.o SensorInfo.cpp
+
+${OBJECTDIR}/TimeCheck.o: TimeCheck.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TimeCheck.o TimeCheck.cpp
 
 # Subprojects
 .build-subprojects:

@@ -35,15 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/SensorInfo.o
+	${OBJECTDIR}/SensorInfo.o \
+	${OBJECTDIR}/TimeCheck.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=c++0x
+CXXFLAGS=-std=c++0x
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,7 +68,12 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a: ${OBJECTFILES}
 ${OBJECTDIR}/SensorInfo.o: SensorInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SensorInfo.o SensorInfo.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SensorInfo.o SensorInfo.cpp
+
+${OBJECTDIR}/TimeCheck.o: TimeCheck.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TimeCheck.o TimeCheck.cpp
 
 # Subprojects
 .build-subprojects:

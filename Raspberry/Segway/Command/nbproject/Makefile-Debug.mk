@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Command.o \
+	${OBJECTDIR}/FollowLineCommand.o \
 	${OBJECTDIR}/SegwayCommand.o
 
 
@@ -69,6 +70,11 @@ ${OBJECTDIR}/Command.o: Command.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+
+${OBJECTDIR}/FollowLineCommand.o: FollowLineCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
 
 ${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
