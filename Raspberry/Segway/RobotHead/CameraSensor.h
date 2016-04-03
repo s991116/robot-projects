@@ -9,8 +9,9 @@
 
 class CameraSensor {
 public:
-    CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, Servo* servo);
+    CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, LineDetect* lineDetect, Servo* servo);
     void GetFacePosition(Position* position);
+    double GetLinePosition();
     void TakePicture(std::string filename);
 
     virtual ~CameraSensor();

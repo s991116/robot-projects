@@ -1,9 +1,9 @@
 #include "CameraSensor.h"
 
-CameraSensor::CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, Servo* servo) {
+CameraSensor::CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, LineDetect* lineDetect, Servo* servo) {
     _PiCamera = piCamera;
     _FaceDetection = faceDetection;
-
+    _LineDetect = lineDetect;
     _Servo = servo;
     _MoveFactor = 20;
 }
@@ -23,6 +23,13 @@ void CameraSensor::MoveCamera(Position* position) {
         float yOffset = position->GetNormalizedY();
         _Servo->StepDown(yOffset * _MoveFactor);       
     }
+}
+
+double CameraSensor::GetLinePosition() {
+    _PiCamera->SetFrameSize(320, 240);
+    cv::Mat image = _PiCamera->GetNextFrame();
+    LineInfo* lineinfo = _LineDetect->DetectLine(image);
+    return lineinfo->GetNormalizePosition();
 }
 
 void CameraSensor::MoveToCenter() {

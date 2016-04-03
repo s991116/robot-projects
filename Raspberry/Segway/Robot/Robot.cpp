@@ -12,7 +12,12 @@ Robot::Robot() {
   _Servo = new Servo(_SerialProtocol);
   _Camera = new PiCamera();
   _FaceDetection = new FaceDetection();
-  _CameraSensor = new CameraSensor(_Camera, _FaceDetection, _Servo);    
+  _SettingReader = new SettingReader();
+  _SettingFileReader = new SettingFileReader(_SettingReader);
+  _LineDetectSetting = new LineDetectSetting("LineDetectSettings.txt", _SettingFileReader);
+  Logging* logging = new EmptyLog();
+  _LineDetect = new LineDetect(_LineDetectSetting, logging);
+  _CameraSensor = new CameraSensor(_Camera, _FaceDetection, _LineDetect, _Servo);    
 }
 
 Robot::~Robot() {

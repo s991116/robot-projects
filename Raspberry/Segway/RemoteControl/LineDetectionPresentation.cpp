@@ -1,4 +1,5 @@
 #include "LineDetectionPresentation.h"
+#include <boost/lexical_cast.hpp>
 
 LineDetectionPresentation::LineDetectionPresentation(CameraSensor* cameraSensor, Position* position) {
     _CameraSensor = cameraSensor;
@@ -6,7 +7,8 @@ LineDetectionPresentation::LineDetectionPresentation(CameraSensor* cameraSensor,
 }
 
 std::string LineDetectionPresentation::Presentation() {
-    return "test";
+    double position = _CameraSensor->GetLinePosition();
+    return boost::lexical_cast<std::string>(position );
 }
 
 LineDetectionPresentation::~LineDetectionPresentation() {

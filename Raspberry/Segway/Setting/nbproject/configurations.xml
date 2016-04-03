@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Setting.h</itemPath>
+      <itemPath>SettingFileReader.h</itemPath>
+      <itemPath>SettingReader.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -14,6 +16,8 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Setting.cpp</itemPath>
+      <itemPath>SettingFileReader.cpp</itemPath>
+      <itemPath>SettingReader.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -43,6 +47,14 @@
       </item>
       <item path="Setting.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SettingFileReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SettingFileReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SettingReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SettingReader.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="3">
       <toolsSet>
@@ -69,6 +81,14 @@
       <item path="Setting.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Setting.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SettingFileReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SettingFileReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SettingReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SettingReader.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

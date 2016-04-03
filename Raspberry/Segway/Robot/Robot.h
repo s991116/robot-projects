@@ -12,6 +12,8 @@
 #include <Navigate.h>
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
+#include "SettingFileReader.h"
+#include "SettingReader.h"
 #include "Logging.h"
 
 class Robot {
@@ -35,5 +37,8 @@ private:
     PiCamera* _Camera;    
     FaceDetection* _FaceDetection;
     LineDetect* _LineDetect;
+    SettingFileReader* _SettingFileReader;
+    SettingReader* _SettingReader;
+    LineDetectSetting* _LineDetectSetting;
 };
 #endif	/* ROBOT_H */

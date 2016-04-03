@@ -1,5 +1,13 @@
 #include "LineDetectSetting.h"
 
+LineDetectSetting::LineDetectSetting(std::string settingFilename, SettingFileReader* settingFileReader)
+{
+    _SettingFileReader = settingFileReader;
+    _SettingFilename = settingFilename; 
+    MapSettings();
+    _SettingFileReader->UpdateSettings(_SettingFilename, this);
+}
+
 LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThresshold, LineDetectSetting::PositionEnum position, LineDetectSetting::LineDirectionEnum direction, bool blackLine) {
   ROI = roi;
   FilterHalf = filterHalf;
@@ -10,6 +18,10 @@ LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThr
   PositionOffset = 0;
   MinLineWidth = 0;
   
+  MapSettings();
+}
+
+void LineDetectSetting::MapSettings() {
   SettingsInt["FILTERHALF"] = &FilterHalf;
   SettingsInt["FILTERTHRESSHOLD"] = &FilterThresshold;
   SettingsBool["BLACKLINE"] = &BlackLine;

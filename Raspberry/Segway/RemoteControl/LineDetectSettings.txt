@@ -1,0 +1,11 @@
+!Setting -FILTERHALF 20 //Test comment
+!Setting -FILTERTHRESSHOLD 200
+!Setting -BLACKLINE 1
+!Setting -WIDTH 320
+!Setting -HEIGHT 10
+!Setting -POSITIONX 0
+!Setting -POSITIONY 50
+!Setting -POSITION 1
+!Setting -LINEDIRECTION 0
+!Setting -POSITIONOFFSET 0
+!Setting -MINLINEWIDTH 10

@@ -6,15 +6,14 @@
 class Setting {
 public:
     Setting();
-    void Set(std::string name, int value);
-	virtual void   UpdatedSetting(std::string name);
+    void Set(std::string name, double value);
 
     std::map<std::string, float*> SettingsFloat;
     std::map<std::string, int*> SettingsInt;
     std::map<std::string, bool*> SettingsBool;
     
 private:
-    void SetFloatValue(std::string name, int value);
+    void SetFloatValue(std::string name, double value);
     void SetIntValue(std::string name, int value);
     void SetBoolValue(std::string name, int value);    
 
