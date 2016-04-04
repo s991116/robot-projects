@@ -16,6 +16,7 @@
 #include "SettingReader.h"
 #include "Logging.h"
 #include "CommandScript.h"
+#include "DetectFace.h"
 
 class Robot {
 public:
@@ -37,7 +38,7 @@ public:
 
 private:    
     PiCamera* _Camera;    
-    FaceDetection* _FaceDetection;
+    DetectFace* _DetectFace;
     LineDetect* _LineDetect;
     LineDetectSetting* _LineDetectSetting;
 };

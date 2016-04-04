@@ -1,7 +1,7 @@
 #ifndef CAMERASENSOR_H
 #define	CAMERASENSOR_H
 
-#include "FaceDetection.h"
+#include "DetectFace.h"
 #include "PiCamera.h"
 #include "Position.h"
 #include "Servo.h"
@@ -10,7 +10,7 @@
 
 class CameraSensor : public SensorInfo {
 public:
-    CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, LineDetect* lineDetect, Servo* servo);
+    CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, Servo* servo);
     void GetFacePosition(Position* position);
     LineInfo* GetLine();
     double GetLinePosition();
@@ -20,7 +20,7 @@ public:
     virtual ~CameraSensor();
 private:
     PiCamera* _PiCamera;
-    FaceDetection* _FaceDetection;
+    DetectFace* _DetectFace;
     LineDetect* _LineDetect;
     Servo* _Servo;
     float _MoveFactor;

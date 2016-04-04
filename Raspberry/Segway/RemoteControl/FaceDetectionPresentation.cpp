@@ -6,6 +6,7 @@ FaceDetectionPresentation::FaceDetectionPresentation(CameraSensor* cameraSensor,
 }
 
 std::string FaceDetectionPresentation::Presentation() {
+
     _CameraSensor->GetFacePosition(_Position);
     if(_Position->Detected())
     {

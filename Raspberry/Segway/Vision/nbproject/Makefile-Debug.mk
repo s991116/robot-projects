@@ -36,10 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/DetectColoredObject.o \
+	${OBJECTDIR}/DetectFace.o \
 	${OBJECTDIR}/DetectObject.o \
 	${OBJECTDIR}/DetectSurfObject.o \
 	${OBJECTDIR}/DetectTemplateObject.o \
-	${OBJECTDIR}/FaceDetection.o \
 	${OBJECTDIR}/LineDetect.o \
 	${OBJECTDIR}/LineDetectSetting.o \
 	${OBJECTDIR}/LineInfo.o \
@@ -78,6 +78,11 @@ ${OBJECTDIR}/DetectColoredObject.o: DetectColoredObject.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectColoredObject.o DetectColoredObject.cpp
 
+${OBJECTDIR}/DetectFace.o: DetectFace.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectFace.o DetectFace.cpp
+
 ${OBJECTDIR}/DetectObject.o: DetectObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -92,11 +97,6 @@ ${OBJECTDIR}/DetectTemplateObject.o: DetectTemplateObject.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectTemplateObject.o DetectTemplateObject.cpp
-
-${OBJECTDIR}/FaceDetection.o: FaceDetection.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FaceDetection.o FaceDetection.cpp
 
 ${OBJECTDIR}/LineDetect.o: LineDetect.cpp 
 	${MKDIR} -p ${OBJECTDIR}

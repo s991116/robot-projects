@@ -16,11 +16,11 @@ Robot::Robot() {
   _Gyro = new Gyro(_SerialProtocol);
   _Servo = new Servo(_SerialProtocol);
   _Camera = new PiCamera();
-  _FaceDetection = new FaceDetection();
+  _DetectFace = new DetectFace();
   _LineDetectSetting = new LineDetectSetting();  
   Logging* logging = new EmptyLog();
   _LineDetect = new LineDetect(_LineDetectSetting, logging);
-  _CameraSensor = new CameraSensor(_Camera, _FaceDetection, _LineDetect, _Servo);
+  _CameraSensor = new CameraSensor(_Camera, _DetectFace, _LineDetect, _Servo);
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);
   
