@@ -14,14 +14,18 @@ public:
     void GetFacePosition(Position* position);
     LineInfo* GetLine();
     double GetLinePosition();
+    void UpdateCameraPosition(int horizontal,int vertical);
     void TakePicture(std::string filename);
     std::string GetStatus();
-
+    void UpdateFrameSize(int width, int height);
+    LineDetect* _LineDetect;
     virtual ~CameraSensor();
 private:
     PiCamera* _PiCamera;
+    int _Height;
+    int _Width;
     DetectFace* _DetectFace;
-    LineDetect* _LineDetect;
+
     Servo* _Servo;
     float _MoveFactor;
     void MoveToCenter();

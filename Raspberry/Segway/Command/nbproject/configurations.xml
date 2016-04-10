@@ -43,6 +43,12 @@
         <ccTool>
           <incDir>
             <pElem>../RobotController</pElem>
+            <pElem>../Sensor</pElem>
+            <pElem>../RobotHead</pElem>
+            <pElem>../Vision</pElem>
+            <pElem>../Setting</pElem>
+            <pElem>../PiCamera</pElem>
+            <pElem>../Logging</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>

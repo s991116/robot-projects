@@ -4,24 +4,24 @@
 
 class LineInfo {
 public:
-    
+
     LineInfo(bool detected, int position, int imageWidth);
-	LineInfo(bool detected, int position, int imageWidth, int lineWidth);
-	
+    LineInfo(bool detected, int position, int imageWidth, int lineWidth);
+
     void SetPosition(int position);
     int GetPosition();
     float GetNormalizePosition();
     bool LineDetected();
     std::string ToString();
-    
-	int GetLineWidth();
-	
+    int GetLineWidth();
+
 private:
     int Position;
     bool Detected;
     int ImageWidth;
-	int LineWidth;
-
+    int LineWidth;
+    int MinFilterValue;
+    int MaxFilterValue;
 };
 
 #endif	/* LINEINFO_H */

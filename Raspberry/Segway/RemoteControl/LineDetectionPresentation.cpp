@@ -6,9 +6,11 @@ LineDetectionPresentation::LineDetectionPresentation(CameraSensor* cameraSensor,
     _Position = position;
 }
 
-std::string LineDetectionPresentation::Presentation() {
-    double position = _CameraSensor->GetLinePosition();
-    return boost::lexical_cast<std::string>(position );
+std::string LineDetectionPresentation::Presentation() {    
+    std::string lineInfo = _CameraSensor->GetLine()->ToString();
+    std::string cameraInfo = _CameraSensor->_LineDetect->ToString();
+    
+    return lineInfo + "\n" + cameraInfo;
 }
 
 LineDetectionPresentation::~LineDetectionPresentation() {

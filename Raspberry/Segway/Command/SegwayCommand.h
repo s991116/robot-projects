@@ -4,6 +4,7 @@
 #include "Navigate.h"
 #include "Command.h"
 
+
 class SegwayCommand : public Command {
 public:
     SegwayCommand(Navigate* navigate);

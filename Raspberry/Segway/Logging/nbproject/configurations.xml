@@ -46,6 +46,7 @@
         <ccTool>
           <incDir>
             <pElem>../StringUtil</pElem>
+            <pElem>../Setting</pElem>
           </incDir>
         </ccTool>
         <archiverTool>

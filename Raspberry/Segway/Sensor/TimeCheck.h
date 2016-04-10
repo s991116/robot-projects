@@ -17,7 +17,9 @@ public:
     
 private:
     int _TargetTime;
-    int _EndTime;
+    int _EndTime_SEC;
+    int _EndTime_MS;
+
     virtual ~TimeCheck();
     struct timeval tv;
 private:

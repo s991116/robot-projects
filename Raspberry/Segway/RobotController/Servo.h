@@ -9,6 +9,9 @@ public:
 
     short GetHorizontalPosition();
     short GetVerticalPosition();
+    void SetHorizontalPosition(short pos);
+    void SetVerticalPosition(short pos);
+
 
     void StepUp();
     void StepDown();
@@ -24,6 +27,8 @@ public:
     virtual ~Servo();
 private:
     SerialCommandProtocol* _SerialProtocol;
+    short _VerticalPos;
+    short _HorizontalPos;
 };
 
 #endif	/* SERVO_H */

@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CheckSwitch.o \
+	${OBJECTDIR}/PressKeyInfo.o \
 	${OBJECTDIR}/SensorInfo.o \
 	${OBJECTDIR}/TimeCheck.o
 
@@ -64,6 +66,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a: ${OBJECTFILES}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a
+
+${OBJECTDIR}/CheckSwitch.o: CheckSwitch.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CheckSwitch.o CheckSwitch.cpp
+
+${OBJECTDIR}/PressKeyInfo.o: PressKeyInfo.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PressKeyInfo.o PressKeyInfo.cpp
 
 ${OBJECTDIR}/SensorInfo.o: SensorInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}

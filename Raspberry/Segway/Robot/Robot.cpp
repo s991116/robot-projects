@@ -1,10 +1,15 @@
 #include "Robot.h"
+#include "ProxyLog.h"
 #include "EmptyLog.h"
+
 #include "CommandScript.h"
 #include "SegwayCommand.h"
 #include "FollowLineCommand.h"
 #include "Setting.h"
 #include "Command.h"
+#include "CheckSwitch.h"
+#include "TimeCheck.h"
+#include "PressKeyInfo.h"
 
 Robot::Robot() {
   _ComPort = new ComPort();
@@ -18,22 +23,29 @@ Robot::Robot() {
   _Camera = new PiCamera();
   _DetectFace = new DetectFace();
   _LineDetectSetting = new LineDetectSetting();  
-  Logging* logging = new EmptyLog();
-  _LineDetect = new LineDetect(_LineDetectSetting, logging);
+  _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog());
   _CameraSensor = new CameraSensor(_Camera, _DetectFace, _LineDetect, _Servo);
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);
+  TimeCheck* timeCheck = new TimeCheck();
+  PressKeyInfo* pressKeyInfo = new PressKeyInfo();
+  CheckSwitch* checkSwitch = new CheckSwitch(timeCheck, pressKeyInfo);
+  FollowLineCommand* followLine = new FollowLineCommand(checkSwitch, _CameraSensor, _Navigate);
   
   map<string, Command*> commands;
   map<string, Setting*> settings;
   map<string, SensorInfo*> sensors;
   
+  settings["LINEDETECTSETTING"] = _LineDetectSetting;
+  settings["TIMER"] = timeCheck;
+  settings["CHECK"] = checkSwitch;
+  settings["FOLLOWLINE"] = followLine;
+
   commands["DELAY"] = new DelayCommand();
   commands["KEYPRESS"] = new KeyPressCommand();
   commands["SEGWAY"] = new SegwayCommand(_Navigate); 
-  commands["FOLLOWLINE"] = new FollowLineCommand();
+  commands["FOLLOWLINE"] = followLine;
   
-  settings["LINEDETECTSETTING"] = _LineDetectSetting;
   
   sensors["HEAD"] = _CameraSensor;
   

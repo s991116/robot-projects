@@ -69,17 +69,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a: ${OBJECTFILES}
 ${OBJECTDIR}/Command.o: Command.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
 
 ${OBJECTDIR}/FollowLineCommand.o: FollowLineCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
 
 ${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
 
 # Subprojects
 .build-subprojects:

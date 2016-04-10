@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Check.h</itemPath>
+      <itemPath>CheckSwitch.h</itemPath>
+      <itemPath>PressKeyInfo.h</itemPath>
       <itemPath>SensorInfo.h</itemPath>
       <itemPath>TimeCheck.h</itemPath>
     </logicalFolder>
@@ -15,6 +17,8 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>CheckSwitch.cpp</itemPath>
+      <itemPath>PressKeyInfo.cpp</itemPath>
       <itemPath>SensorInfo.cpp</itemPath>
       <itemPath>TimeCheck.cpp</itemPath>
     </logicalFolder>
@@ -52,6 +56,14 @@
       </compileType>
       <item path="Check.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="CheckSwitch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CheckSwitch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PressKeyInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PressKeyInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SensorInfo.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SensorInfo.h" ex="false" tool="3" flavor2="0">
@@ -84,6 +96,14 @@
         </archiverTool>
       </compileType>
       <item path="Check.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CheckSwitch.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CheckSwitch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PressKeyInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PressKeyInfo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SensorInfo.cpp" ex="false" tool="1" flavor2="0">
       </item>
