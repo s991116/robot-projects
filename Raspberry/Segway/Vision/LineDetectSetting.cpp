@@ -2,7 +2,7 @@
 
 LineDetectSetting::LineDetectSetting() {
     FilterHalf = 15;
-    FilterThresshold = 100;
+    FilterThresshold = 750;
     BlackLine = true;
     ROI.height = 5;
     ROI.width = 320;
@@ -11,7 +11,7 @@ LineDetectSetting::LineDetectSetting() {
     PositionInt = PositionEnum::CENTER;
     LineDirectionInt = LineDirectionEnum::VERTICAL;
     PositionOffset = 0;
-    MinLineWidth = 10;    
+    MinLineWidth = 0;    
     
     MapSettings();
 }

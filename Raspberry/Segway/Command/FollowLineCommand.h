@@ -6,10 +6,11 @@
 #include "CameraSensor.h"
 #include "Setting.h"
 #include "Navigate.h"
+#include "Logging.h"
 
 class FollowLineCommand : public Command , public Setting{
 public:
-    FollowLineCommand(Check* check, CameraSensor* cameraSensor, Navigate* Navigate);
+    FollowLineCommand(Check* check, CameraSensor* cameraSensor, Navigate* Navigate, Logging* logging);
     std::string Execute(vector<int> input);
     virtual ~FollowLineCommand();
 private:
@@ -17,6 +18,7 @@ private:
     CameraSensor* _CameraSensor;
     Navigate* _Navigate;
     float _SideCorrectionFactor;
+    Logging* _Logging;
 };
 
 #endif	/* FOLLOWLINECOMMAND_H */

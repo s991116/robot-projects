@@ -18,7 +18,7 @@ LineDetect::LineDetect(LineDetectSetting* lineDetectSetting, Logging* logging) {
 
 LineInfo* LineDetect::DetectLine(cv::Mat imageMat) {
     cv::Mat detectImage = imageMat(_LineDetectSetting->ROI);
-    CalculateIntensityLine(detectImage, this->IntensityLine);
+    CalculateIntensityLine(detectImage, this->IntensityLine); 
     LineInfo* lineInfo;
     if (_LineDetectSetting->MinLineWidth < 0)
         lineInfo = EdgeFilter(this->IntensityLine);
@@ -29,11 +29,11 @@ LineInfo* LineDetect::DetectLine(cv::Mat imageMat) {
     return lineInfo;
 }
 
-void LineDetect::CalculateIntensityLine(cv::Mat detectImage, int* intensityLine) {
+void LineDetect::CalculateIntensityLine(cv::Mat detectImage, int* intensityLine) { 
     int intensityPosition = 0;
     if (_LineDetectSetting->GetPosition() == LineDetectSetting::RIGHT) {
         for (int position = _SearchWidth - 1; position >= 0; position--) {
-            CalculateIntensity(detectImage, intensityLine, &intensityPosition, position);
+            CalculateIntensity(detectImage, intensityLine, &intensityPosition, position);            
         }
     } else {
         for (int position = 0; position < _SearchWidth; position++) {
@@ -43,7 +43,7 @@ void LineDetect::CalculateIntensityLine(cv::Mat detectImage, int* intensityLine)
 }
 
 void LineDetect::CalculateIntensity(cv::Mat detectImage, int* intensityLine, int* intensityPosition, int position) {
-    intensityLine[*intensityPosition] = CalculateIntensityAtPosition(detectImage, position);
+    intensityLine[*intensityPosition] = CalculateIntensityAtPosition(detectImage, position);    
     (*intensityPosition)++;
 }
 

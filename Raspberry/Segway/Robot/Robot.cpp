@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "ProxyLog.h"
 #include "EmptyLog.h"
+#include "FileLogger.h"
 
 #include "CommandScript.h"
 #include "SegwayCommand.h"
@@ -23,14 +24,14 @@ Robot::Robot() {
   _Camera = new PiCamera();
   _DetectFace = new DetectFace();
   _LineDetectSetting = new LineDetectSetting();  
-  _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog());
+  _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog()); //new FileLogger("Log.txt"));
   _CameraSensor = new CameraSensor(_Camera, _DetectFace, _LineDetect, _Servo);
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);
   TimeCheck* timeCheck = new TimeCheck();
   PressKeyInfo* pressKeyInfo = new PressKeyInfo();
   CheckSwitch* checkSwitch = new CheckSwitch(timeCheck, pressKeyInfo);
-  FollowLineCommand* followLine = new FollowLineCommand(checkSwitch, _CameraSensor, _Navigate);
+  FollowLineCommand* followLine = new FollowLineCommand(checkSwitch, _CameraSensor, _Navigate, new EmptyLog());//new FileLogger("Log.txt"));
   
   map<string, Command*> commands;
   map<string, Setting*> settings;
