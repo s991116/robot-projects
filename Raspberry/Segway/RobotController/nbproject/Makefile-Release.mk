@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ComPort.o \
 	${OBJECTDIR}/ComStream.o \
 	${OBJECTDIR}/CommunicationHandler.o \
+	${OBJECTDIR}/Distance.o \
 	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/Motor.o \
 	${OBJECTDIR}/Navigate.o \
@@ -91,6 +92,11 @@ ${OBJECTDIR}/CommunicationHandler.o: CommunicationHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CommunicationHandler.o CommunicationHandler.cpp
+
+${OBJECTDIR}/Distance.o: Distance.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Distance.o Distance.cpp
 
 ${OBJECTDIR}/Gyro.o: Gyro.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -170,6 +176,19 @@ ${OBJECTDIR}/CommunicationHandler_nomain.o: ${OBJECTDIR}/CommunicationHandler.o 
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CommunicationHandler_nomain.o CommunicationHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/CommunicationHandler.o ${OBJECTDIR}/CommunicationHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/Distance_nomain.o: ${OBJECTDIR}/Distance.o Distance.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Distance.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Distance_nomain.o Distance.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Distance.o ${OBJECTDIR}/Distance_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Gyro_nomain.o: ${OBJECTDIR}/Gyro.o Gyro.cpp 

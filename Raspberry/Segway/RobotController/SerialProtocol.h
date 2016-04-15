@@ -11,6 +11,7 @@ class SerialCommandProtocol
 	  SerialCommandProtocol(ComStream *serial, 	  
           CommunicationHandler* communicationHandler);
 
+          void sendCommand(HardwareControllerCommand commandID);
 	  void sendCommand(unsigned char commandID);
           void sendCommandAndData(HardwareControllerCommandTypeByte commandID, unsigned char payload);
           void sendCommandAndData(HardwareControllerCommandTypeShort commandID, char16_t payload);
@@ -19,6 +20,9 @@ class SerialCommandProtocol
 
 	  char16_t getShortData(HardwareControllerCommandTypeShort id);
 	  char16_t getShortData(unsigned char commandID);
+          short getShortSignedData(unsigned char commandID);
+          short getShortSignedData(HardwareControllerCommandTypeShort id);
+
           unsigned char getByteData(HardwareControllerCommandTypeByte id);
 	  unsigned char getByteData(unsigned char commandID);
       

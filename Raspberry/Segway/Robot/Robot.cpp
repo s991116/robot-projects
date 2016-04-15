@@ -2,7 +2,7 @@
 #include "ProxyLog.h"
 #include "EmptyLog.h"
 #include "FileLogger.h"
-
+#include "ConsoleLog.h"
 #include "CommandScript.h"
 #include "SegwayCommand.h"
 #include "FollowLineCommand.h"

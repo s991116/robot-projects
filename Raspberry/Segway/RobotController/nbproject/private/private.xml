@@ -6,6 +6,14 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/SerialProtocol.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/Navigate.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/Distance.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/CommandType.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/Distance.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/SerialProtocol.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/Segway/RobotController/Motor.cpp</file>
+        </group>
     </open-files>
 </project-private>
