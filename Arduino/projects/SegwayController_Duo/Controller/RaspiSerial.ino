@@ -2,6 +2,13 @@
 
 void handleRaspiCommand(uint8_t commandId)
 {
+  switch(commandId)
+  {
+    case DISTANCE_RESET:
+      DistanceEncoderCountA = 0;
+      DistanceEncoderCountB = 0;
+      break;
+  }
 }
 
 void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
@@ -183,6 +190,10 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
           
         case PID_SPEED_D_SHORT:
           return SpeedDCorr * 100.0;
+          break;
+
+        case DISTANCE:
+          return (DistanceEncoderCountA + DistanceEncoderCountB) / 20;
           break;
       }
       break;    
