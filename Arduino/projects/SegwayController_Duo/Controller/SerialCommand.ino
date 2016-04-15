@@ -90,7 +90,7 @@ void speed_command()
 
 void segwaySpeed_command()
 {
-  TryGetNextArgumentAsDouble("speed", &TargetSpeed);  
+  TryGetNextArgumentAsDouble("speed", &TargetSpeedWanted);  
 }
 
 void dir_command()

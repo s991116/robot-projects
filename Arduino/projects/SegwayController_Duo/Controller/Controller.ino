@@ -30,7 +30,11 @@ float KiMotorA = 10;
 float KdMotorA = 0;
 
 double TargetSpeed = 0;
+double TargetSpeedWanted = 0;
+double TargetSpeedStepSizeChange = 0.1;
 double TargetTurnSpeed = 0;
+double TargetTurnSpeedWanted = 0;
+double TargetTurnSpeedStepSizeChange = 0.1;
 
 int CurrentEncoderCountB;
 int MotorPowerB;
@@ -45,9 +49,9 @@ double AngleDCorr = 0;
 
 short OffsetAngle;
 
-double SpeedPCorr = 15;
-double SpeedICorr = 1;
-double SpeedDCorr = 5;
+double SpeedPCorr = 40;
+double SpeedICorr = 0;
+double SpeedDCorr = 0;
 int    SpeedCorrLimit = 600;
 
 long NextMotorPowerUpdateTime;

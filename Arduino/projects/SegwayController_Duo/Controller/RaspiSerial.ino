@@ -24,11 +24,11 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           break;
           
         case SEGWAY_SPEED_BYTE:
-          TargetSpeed = data-127;
+          TargetSpeedWanted = data-127;
           break;
           
         case SEGWAY_TURN_BYTE:
-          TargetTurnSpeed = data-127;
+          TargetTurnSpeedWanted = data-127;
           break;
 
       }
@@ -38,62 +38,62 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
       switch(commandId)
       {
         case PID_ENCODER_A_P_SHORT:
-          KpMotorA = data / 1000.0;
+          KpMotorA = data / 100.0;
           UpdateControllerSettings();
           break;
           
         case PID_ENCODER_A_I_SHORT:
-          KiMotorA = data / 1000.0;
+          KiMotorA = data / 100.0;
           UpdateControllerSettings();
           break;
 
         case PID_ENCODER_A_D_SHORT:
-          KdMotorA = data / 1000.0;
+          KdMotorA = data / 100.0;
           UpdateControllerSettings();
           break;
 
         case PID_ENCODER_B_P_SHORT:
-          KpMotorB = data / 1000.0;
+          KpMotorB = data / 100.0;
           UpdateControllerSettings();
           break;
 
         case PID_ENCODER_B_I_SHORT:
-          KiMotorB = data / 1000.0;
+          KiMotorB = data / 100.0;
           UpdateControllerSettings();
           break;
 
         case PID_ENCODER_B_D_SHORT:
-          KdMotorB = data / 1000.0;
+          KdMotorB = data / 100.0;
           UpdateControllerSettings();
           break;
 
         case PID_GYRO_P_SHORT:
-          AnglePCorr = data / 1000.0;
+          AnglePCorr = data / 100.0;
           UpdateGyroPIDSettings();
           break;
           
         case PID_GYRO_I_SHORT:
-          AngleICorr = data / 1000.0;
+          AngleICorr = data / 100.0;
           UpdateGyroPIDSettings();
           break;
           
         case PID_GYRO_D_SHORT:
-          AngleDCorr = data / 1000.0;
+          AngleDCorr = data / 100.0;
           UpdateGyroPIDSettings();
           break;
           
         case PID_SPEED_P_SHORT:
-          SpeedPCorr = data / 1000.0;
+          SpeedPCorr = data / 100.0;
           UpdateSpeedPIDSettings();
           break;
           
         case PID_SPEED_I_SHORT:
-          SpeedICorr = data / 1000.0;
+          SpeedICorr = data / 100.0;
           UpdateSpeedPIDSettings();
           break;
           
         case PID_SPEED_D_SHORT:
-          SpeedDCorr = data / 1000.0;
+          SpeedDCorr = data / 100.0;
           UpdateSpeedPIDSettings();
           break;
       }
@@ -121,11 +121,11 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
           break;
           
         case SEGWAY_SPEED_BYTE:
-          return TargetSpeed+127;
+          return TargetSpeedWanted + 127;
           break;
           
         case SEGWAY_TURN_BYTE:
-          return TargetTurnSpeed+127;
+          return TargetTurnSpeedWanted + 127;
           break;
       }      
       break;
@@ -138,51 +138,51 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
           break;
           
         case PID_ENCODER_A_P_SHORT:
-          return KpMotorA * 1000.0;
+          return KpMotorA * 100.0;
           break;
 
         case PID_ENCODER_A_I_SHORT:
-          return KiMotorA * 1000.0;
+          return KiMotorA * 100.0;
           break;
           
         case PID_ENCODER_A_D_SHORT:
-          return KdMotorA * 1000.0;
+          return KdMotorA * 100.0;
           break;
           
         case PID_ENCODER_B_P_SHORT:
-          return KpMotorB * 1000.0;
+          return KpMotorB * 100.0;
           break;
           
         case PID_ENCODER_B_I_SHORT:
-          return KiMotorB * 1000.0;
+          return KiMotorB * 100.0;
           break;
           
         case PID_ENCODER_B_D_SHORT:
-          return KdMotorB * 1000.0;
+          return KdMotorB * 100.0;
           break;
           
         case PID_GYRO_P_SHORT:
-          return AnglePCorr * 1000.0;
+          return AnglePCorr * 100.0;
           break;
           
         case PID_GYRO_I_SHORT:
-          return AngleICorr * 1000.0;
+          return AngleICorr * 100.0;
           break;
           
         case PID_GYRO_D_SHORT:
-          return AngleDCorr * 1000.0;
+          return AngleDCorr * 100.0;
           break;
           
         case PID_SPEED_P_SHORT:
-          return SpeedPCorr * 1000.0;
+          return SpeedPCorr * 100.0;
           break;
           
         case PID_SPEED_I_SHORT:
-          return SpeedICorr * 1000.0;
+          return SpeedICorr * 100.0;
           break;
           
         case PID_SPEED_D_SHORT:
-          return SpeedDCorr * 1000.0;
+          return SpeedDCorr * 100.0;
           break;
       }
       break;    

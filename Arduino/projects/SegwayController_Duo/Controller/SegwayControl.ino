@@ -98,6 +98,9 @@ void UpdateSegway()
   double tempSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
   UpdateSpeedAverage(tempSpeed);
   CurrentSpeed = CurrentSpeedBufferAverage;
+
+  LimitSpeedTargetChange();
+  
   PIDSpeed.Compute();
   
   if(CorrectionSpeed > SpeedCorrLimit)
@@ -112,6 +115,7 @@ void UpdateSegway()
   
   TargetEncoderCountA = -(CorrectionAngle*GyroOutputFactor);
   TargetEncoderCountB = -(CorrectionAngle*GyroOutputFactor);
+  LimitTurnSpeedChange();
   SetTargetEncoderWithTurn();
   PIDMotorA.Compute();
   PIDMotorB.Compute();
@@ -141,6 +145,30 @@ void UpdateSpeedAverage(double segwaySpeed)
 }
 
 int TurnSpeedLimit = 12;
+
+void LimitSpeedTargetChange() 
+{
+  if(TargetSpeed > TargetSpeedWanted)
+  {
+    TargetSpeed = TargetSpeed - TargetSpeedStepSizeChange;
+  }
+  else if(TargetSpeed < TargetSpeedWanted)
+  {
+    TargetSpeed = TargetSpeed + TargetSpeedStepSizeChange;
+  }
+}
+
+void LimitTurnSpeedChange()
+{
+  if(TargetTurnSpeed > TargetTurnSpeedWanted)
+  {
+    TargetTurnSpeed = TargetTurnSpeed - TargetTurnSpeedStepSizeChange;
+  }
+  else if(TargetTurnSpeed < TargetTurnSpeedWanted)
+  {
+    TargetTurnSpeed = TargetTurnSpeed + TargetTurnSpeedStepSizeChange;
+  }
+}
 
 void SetTargetEncoderWithTurn()
 {
