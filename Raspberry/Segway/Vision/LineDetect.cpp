@@ -16,7 +16,10 @@ LineDetect::LineDetect(LineDetectSetting* lineDetectSetting, Logging* logging) {
     this->_logging = logging;
 }
 
-LineInfo* LineDetect::DetectLine(cv::Mat imageMat) {
+LineInfo* LineDetect::DetectLine(cv::Mat image) {
+        cv::Mat imageMat;
+      cv::cvtColor(image, imageMat, CV_BGR2GRAY);
+
     cv::Mat detectImage = imageMat(_LineDetectSetting->ROI);
     CalculateIntensityLine(detectImage, this->IntensityLine); 
     LineInfo* lineInfo;
@@ -31,6 +34,7 @@ LineInfo* LineDetect::DetectLine(cv::Mat imageMat) {
 
 void LineDetect::CalculateIntensityLine(cv::Mat detectImage, int* intensityLine) { 
     int intensityPosition = 0;
+    _logging->Log("Inensity");
     if (_LineDetectSetting->GetPosition() == LineDetectSetting::RIGHT) {
         for (int position = _SearchWidth - 1; position >= 0; position--) {
             CalculateIntensity(detectImage, intensityLine, &intensityPosition, position);            
@@ -74,10 +78,12 @@ int LineDetect::CalculateIntensityAtPosition(cv::Mat detectImage, int position) 
             }
         }
     }
+    _logging->Log(intensity);
     return intensity;
 }
 
 LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
+    _logging->Log("EdgeFilter");
     int sumFirstHalf = LineDetect::FilterFirstHalf(intensityLine);
     int sumSecondHalf = LineDetect::FilterSecondHalf(intensityLine);
 
@@ -97,7 +103,7 @@ LineInfo* LineDetect::EdgeFilter(int* intensityLine) {
 
         int FilterValue = sumFirstHalf - sumSecondHalf;
         FilterResult[start] = FilterValue;
-
+_logging->Log(FilterValue);
         if (_LineDetectSetting->GetPosition() == LineDetectSetting::CENTER) {
             if (FilterValue > MaxFilterValue) {
                 MaxFilterIndex = middle;
@@ -152,6 +158,7 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
     MaxFilterIndex = 0;
     MinFilterValue = -_LineDetectSetting->FilterThresshold;
     MinFilterIndex = 0;
+    _logging->Log("EdgeFilterOnly");
 
     bool MaxFilterValueFound = false;
     bool MinFilterValueFound = false;
@@ -165,14 +172,14 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
 
         int FilterValue = sumFirstHalf - sumSecondHalf;
         FilterResult[index] = FilterValue;
-
+        //_logging->Log(FilterValue);
         if (FilterValue > MaxFilterValue) {
             if (MinFilterValueFound) {
-                if (index > MinFilterIndex + _LineDetectSetting->MinLineWidth) {
+                if (middle > MinFilterIndex + _LineDetectSetting->MinLineWidth) {
                     MaxFilterValueFound = true;
                     MaxFilterValue = FilterValue;
                     MaxFilterIndex = middle;
-                    //				_logging->Log("MaxFilter and MinFilter found. MaxFilterIndex is: ", MaxFilterIndex);
+                    				_logging->Log("MaxFilter and MinFilter found. MaxFilterIndex is: ", MaxFilterIndex);
                 } else {
                     MaxFilterValue = _LineDetectSetting->FilterThresshold;
                     MinFilterValue = -_LineDetectSetting->FilterThresshold;
@@ -180,22 +187,22 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
                     MinFilterIndex = 0;
                     MinFilterValueFound = false;
                     MaxFilterValueFound = false;
-                    //				_logging->Log("MaxFilter found but to close to MinFilter. MaxFilterIndex is: ", MaxFilterIndex);
+                    				_logging->Log("MaxFilter found but to close to MinFilter. MaxFilterIndex is: ", MaxFilterIndex);
                 }
             } else {
                 MaxFilterValueFound = true;
                 MaxFilterValue = FilterValue;
                 MaxFilterIndex = middle;
-                //			_logging->Log("MaxFilter found and no MinFilter found. MaxFilterIndex is: ", MaxFilterIndex);
+                			_logging->Log("MaxFilter found and no MinFilter found. MaxFilterIndex is: ", MaxFilterIndex);
             }
         } else {
             if (FilterValue < MinFilterValue) {
                 if (MaxFilterValueFound) {
-                    if (index > MaxFilterIndex + _LineDetectSetting->MinLineWidth) {
+                    if (middle > MaxFilterIndex + _LineDetectSetting->MinLineWidth) {
                         MinFilterValue = FilterValue;
                         MinFilterIndex = middle;
                         MinFilterValueFound = true;
-                        //    				_logging->Log("MaxFilter and MinFilter found. MinFilterIndex is: ", MinFilterIndex);
+                            				_logging->Log("MaxFilter and MinFilter found. MinFilterIndex is: ", MinFilterIndex);
                     } else {
                         MaxFilterValue = _LineDetectSetting->FilterThresshold;
                         MinFilterValue = -_LineDetectSetting->FilterThresshold;
@@ -203,13 +210,13 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
                         MinFilterIndex = middle;
                         MinFilterValueFound = false;
                         MaxFilterValueFound = false;
-                        //				    _logging->Log("MinFilter found, but to close to MaxFilter. MinFilterIndex is: ", MinFilterIndex);
+                        				    _logging->Log("MinFilter found, but to close to MaxFilter. MinFilterIndex is: ", MinFilterIndex);
                     }
                 } else {
                     MinFilterValueFound = true;
                     MinFilterValue = FilterValue;
                     MinFilterIndex = middle;
-                    //    			_logging->Log("MinFilter found and no MaxFilter found. MinFilterIndex is: ", MinFilterIndex);
+                        			_logging->Log("MinFilter found and no MaxFilter found. MinFilterIndex is: ", MinFilterIndex);
                 }
             } else {
                 if (MinFilterValueFound && MaxFilterValueFound) {
@@ -221,7 +228,7 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
                     if (_LineDetectSetting->GetPosition() == LineDetectSetting::RIGHT) {
                         centerindex = _SearchWidth - centerindex;
                     }
-                    //            	_logging->Log("Centerindex:" , centerindex);
+                                	_logging->Log("Centerindex:" , centerindex);
                     return new LineInfo(true, centerindex, _SearchWidth, lineWidth);
                 }
             }
@@ -233,7 +240,7 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
             lineWidth = -lineWidth;
 
         int centerindex = (MinFilterIndex + MaxFilterIndex) / 2;
-        //_logging->Log("Centerindex:" , centerindex);
+        _logging->Log("Centerindex:" , centerindex);
         return new LineInfo(true, centerindex, _SearchWidth, lineWidth);
     }
     return new LineInfo(false, 0, _SearchWidth);

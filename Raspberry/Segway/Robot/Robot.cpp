@@ -24,7 +24,7 @@ Robot::Robot() {
   _Camera = new PiCamera();
   _DetectFace = new DetectFace();
   _LineDetectSetting = new LineDetectSetting();  
-  _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog()); //new FileLogger("Log.txt"));
+  _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog());//new FileLogger("Log.txt"));
   _CameraSensor = new CameraSensor(_Camera, _DetectFace, _LineDetect, _Servo);
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);

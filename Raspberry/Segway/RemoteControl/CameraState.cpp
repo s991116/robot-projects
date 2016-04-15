@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "Convert.h"
 
 CameraState::CameraState(CameraSensor* cameraSensor) {
     _CameraSensor = cameraSensor;
@@ -10,6 +11,7 @@ CameraState::CameraState(CameraSensor* cameraSensor) {
     
     _FaceDetectionPresentation = new FaceDetectionPresentation(_CameraSensor, _Position);
     _LineDetectionPresentation = new LineDetectionPresentation(_CameraSensor, _Position);
+    _PictureCount = 1;
 }
 
 State* CameraState::View() {
@@ -18,21 +20,33 @@ State* CameraState::View() {
     printw("P         - Take Picture\n");
     printw("F         - Facedetection\n");
     printw("L         - Linedetection\n");
+    printw("I         - Linedetection from picture\n");
     printw("Q         - Return\n");
     printw("\n");    
     printw("\n");
 
     noecho();
     int number;
+    std::string filename;
+    std::string lineInfo;
     keypad(stdscr, 1);
     switch (getch()) {
         case 'q':
             return this->ReturnState;
             break;
         
-        case 'p':
-            _CameraSensor->TakePicture("TakePicture.jpg");
+        case 'p':            
+            filename = "TakePicture_" + Convert::IntToString(_PictureCount) + ".jpg";
+            _PictureCount++;
+            _CameraSensor->TakePicture(filename.c_str());
             WriteMessage("Picture taken.");
+            break;
+            
+        case 'i':
+            number = this->ReadInteger("Picture no.:");
+            filename = filename = "TakePicture_" + Convert::IntToString(number) + ".jpg";
+            lineInfo = _CameraSensor->GetLine(filename)->ToString();
+            this->WriteMessage(lineInfo);
             break;
 
         case 'l':

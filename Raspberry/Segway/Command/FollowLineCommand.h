@@ -18,6 +18,8 @@ private:
     CameraSensor* _CameraSensor;
     Navigate* _Navigate;
     float _SideCorrectionFactor;
+    float _SpeedCorrectionFactor;
+    float _MaxSpeed;
     Logging* _Logging;
 };
 

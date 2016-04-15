@@ -7,7 +7,7 @@ using namespace std;
 
 PiCamera::PiCamera() {
   
-  _GrayEnabled = false;
+  _GrayEnabled = true;
   SetGrayMode(true);
   SetFrameSize(640, 480);
 }

@@ -19,6 +19,7 @@ private:
     FaceDetectionPresentation* _FaceDetectionPresentation;
     LineDetectionPresentation* _LineDetectionPresentation;
     int kbhit(void);
+    int _PictureCount;
 };
 
 #endif	/* CAMERASTATE_H */

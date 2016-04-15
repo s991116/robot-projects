@@ -77,5 +77,10 @@ void CameraSensor::TakePicture(std::string filename) {
     cv::imwrite( filename, image );
 }
 
+LineInfo* CameraSensor::GetLine(std::string filename) {
+    cv::Mat image = cv::imread(filename);
+    return _LineDetect->DetectLine(image);
+}
+
 CameraSensor::~CameraSensor() {
 }

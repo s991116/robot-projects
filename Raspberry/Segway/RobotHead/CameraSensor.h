@@ -13,6 +13,7 @@ public:
     CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, Servo* servo);
     void GetFacePosition(Position* position);
     LineInfo* GetLine();
+    LineInfo* GetLine(std::string filename);
     double GetLinePosition();
     void UpdateCameraPosition(int horizontal,int vertical);
     void TakePicture(std::string filename);
