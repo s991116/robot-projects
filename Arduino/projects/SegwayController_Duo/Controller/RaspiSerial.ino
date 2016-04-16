@@ -103,6 +103,15 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           SpeedDCorr = data / 100.0;
           UpdateSpeedPIDSettings();
           break;
+
+        case SPEED_CORR_LIMIT_SHORT:
+          SpeedCorrLimit = data;
+          break;
+
+        case SPEED_PID_LIMIT_SHORT:
+          SpeedPIDLimit = data;
+          UpdateSpeedPIDSettings();
+          break;
       }
       break;
   }
@@ -194,6 +203,14 @@ int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
 
         case DISTANCE:
           return (DistanceEncoderCountA + DistanceEncoderCountB) / 20;
+          break;
+
+       case SPEED_CORR_LIMIT_SHORT:
+          return SpeedCorrLimit;
+          break;
+
+        case SPEED_PID_LIMIT_SHORT:
+          return SpeedPIDLimit;
           break;
       }
       break;    

@@ -29,7 +29,7 @@ PID PIDMotorB(&CurrentEncoderCountB, &MotorPowerB, &TargetEncoderCountB, KpMotor
 
 void InitializeSegway()
 {
-  PIDSpeed.SetOutputLimits(-600, 600);  
+  PIDSpeed.SetOutputLimits(-SpeedPIDLimit, SpeedPIDLimit);  
   PIDGyro.SetOutputLimits(-255/GyroOutputFactor, 255/GyroOutputFactor);
   PIDMotorA.SetOutputLimits(-255, 255);
   PIDMotorB.SetOutputLimits(-255, 255);
@@ -220,10 +220,11 @@ void UpdateGyroPIDSettings()
 void UpdateSpeedPIDSettings()
 {  
   PIDSpeed.SetTunings(SpeedPCorr, SpeedICorr, SpeedDCorr);
+  PIDSpeed.SetOutputLimits(-SpeedPIDLimit, SpeedPIDLimit);
 }
 
 void UpdateControllerSettings()
 {
   PIDMotorA.SetTunings(KpMotorA, KiMotorA, KdMotorA);
-  PIDMotorB.SetTunings(KpMotorB, KiMotorB, KdMotorB);  
+  PIDMotorB.SetTunings(KpMotorB, KiMotorB, KdMotorB); 
 }

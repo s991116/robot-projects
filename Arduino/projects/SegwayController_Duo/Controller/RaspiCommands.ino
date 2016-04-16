@@ -20,4 +20,6 @@
 #define PID_SPEED_I_SHORT     (11)
 #define PID_SPEED_D_SHORT     (12)
 #define DISTANCE              (13)
+#define SPEED_CORR_LIMIT_SHORT (14)
+#define SPEED_PID_LIMIT_SHORT  (15)
 
