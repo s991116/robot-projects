@@ -28,6 +28,8 @@ enum class HardwareControllerCommandTypeShort : unsigned char {
     PID_SPEED_I = 11,
     PID_SPEED_D = 12,
     DISTANCE = 13,
+    SPEED_CORR_LIMIT = 14,
+    SPEED_PID_LIMIT = 15,
 };
 
 #endif //COMMANDTYPE_H 

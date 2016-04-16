@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     State* servoState = new ServoState(robot->_Servo);    
     State* cameraState = new CameraState(robot->_CameraSensor);
     State* comState = new ComState(robot->_SerialProtocol);
-    State* navigate = new NavigateState(robot->_Navigate);
+    State* navigate = new NavigateState(robot->_Navigate, robot->_Distance);
     State* scriptRunner = new ScriptRunnerState(robot->_CommandScript);
     State* state = new MainState(motorState, gyroState, servoState, cameraState, comState, navigate, scriptRunner);
 

@@ -1,9 +1,10 @@
 #include "CheckSwitch.h"
 
-CheckSwitch::CheckSwitch(Check* timeCheck, Check* pressKeyInfo) {
+CheckSwitch::CheckSwitch(Check* timeCheck, Check* pressKeyInfo, Check* distanceCheck) {
     _SettingMode = 0;
     this->SettingsInt["MODE"] = &_SettingMode;
     _TimeCheck = timeCheck;
+    _DistanceCheck = distanceCheck;
     _PressKeyInfo = pressKeyInfo;
     _Check = _TimeCheck;
 }
@@ -17,6 +18,9 @@ void CheckSwitch::Prepare() {
         case 1:
             _Check = _PressKeyInfo;
             break;
+            
+        case 2:
+            _Check = _DistanceCheck;
     }
     _Check->Prepare();
 }

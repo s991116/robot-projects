@@ -157,7 +157,7 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
     MaxFilterIndex = 0;
     MinFilterValue = -_LineDetectSetting->FilterThresshold;
     MinFilterIndex = 0;
-    //_logging->Log("EdgeFilterOnly");
+    _logging->Log("EdgeFilterOnly");
 
     bool MaxFilterValueFound = false;
     bool MinFilterValueFound = false;
@@ -171,7 +171,7 @@ LineInfo* LineDetect::EdgeFilterOnly(int* intensityLine) {
 
         int FilterValue = sumFirstHalf - sumSecondHalf;
         FilterResult[index] = FilterValue;
-        //_logging->Log(FilterValue);
+        _logging->Log(FilterValue);
         if (FilterValue > MaxFilterValue) {
             if (MinFilterValueFound) {
                 if (middle > MinFilterIndex + _LineDetectSetting->MinLineWidth) {

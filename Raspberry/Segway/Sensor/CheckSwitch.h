@@ -6,7 +6,7 @@
 
 class CheckSwitch : public Check, public Setting {
 public:
-    CheckSwitch(Check* timeCheck, Check* pressKeyInfo);
+    CheckSwitch(Check* timeCheck, Check* pressKeyInfo, Check* distanceCheck);
     void Prepare();
     bool Test();
     virtual ~CheckSwitch();
@@ -15,6 +15,7 @@ private:
     Check* _Check;
     Check* _TimeCheck;
     Check* _PressKeyInfo;
+    Check* _DistanceCheck;
 };
 
 #endif	/* CHECKSWITCH_H */

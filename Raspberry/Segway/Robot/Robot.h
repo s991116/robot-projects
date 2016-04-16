@@ -10,6 +10,7 @@
 #include <Gyro.h>
 #include <CameraSensor.h>
 #include <Navigate.h>
+#include "Distance.h"
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
 #include "SettingFileReader.h"
@@ -26,6 +27,7 @@ public:
     Motor* _Motor;
     Gyro* _Gyro;
     Servo* _Servo;
+    Distance* _Distance;
     CameraSensor* _CameraSensor;
     Logging* _Log;
     LineDetectSetting* _BottomLineDetectSetting;

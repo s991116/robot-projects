@@ -2,8 +2,9 @@
 #include <ncurses.h>
 #include "Convert.h"
 
-NavigateState::NavigateState(Navigate* navigate) {
+NavigateState::NavigateState(Navigate* navigate, Distance* distance) {
     _Navigate = navigate;
+    _Distance = distance;
     _TurnSpeed = 5;
     _Speed = 10;
 }
@@ -16,10 +17,13 @@ State* NavigateState::View() {
     printw("*** Navigation ***\n");
     printw("Arrow-key - Forward, Left, Backwards, Right\n");
     printw("P, I, D   - PID-factor\n");    
+    printw("L         - PID-limit\n"); 
+    printw("O         - SpeedCorr-limit\n");
     printw("E         - Enable Segway\n");
     printw("R         - Disable Segway\n");
     printw("S         - Set Speed\n");
     printw("T         - Set turn speed\n");
+    printw("U         - Reset Distance\n");    
     printw("Q         - Return\n");
     printw("\n");
     printw("Navigate PID: ");
@@ -29,11 +33,21 @@ State* NavigateState::View() {
     printw(" , ");
     printw(Convert::IntToString(_Navigate->GetPID_D()).c_str());
     printw("\n");
+    printw("Speed Corr limit: ");
+    printw(Convert::IntToString(_Navigate->GetSpeedCorrLimit()).c_str());
+    printw("\n");
+    printw("Speed PID limit: ");
+    printw(Convert::IntToString(_Navigate->GetPIDLimit()).c_str());
+    printw("\n");
+
     printw("Speed offset: ");
     printw(Convert::IntToString(_Speed).c_str());
     printw("\n");
     printw("TurnSpeed offset: ");
     printw(Convert::IntToString(_TurnSpeed).c_str());
+    printw("\n");
+    printw("Distance: ");
+    printw(Convert::IntToString(_Distance->GetDistance()).c_str());
     printw("\n");
 
     noecho();
@@ -90,7 +104,21 @@ State* NavigateState::View() {
             number = ReadInteger("Set D-correction:");
             _Navigate->SetPID_D(number);
             break;            
+
+        case 'l':
+            number = ReadInteger("Set PID-Limit:");
+            _Navigate->SetPIDLimit(number);
+            break;            
             
+        case 'o':
+            number = ReadInteger("Set SpeedCorr-Limit:");
+            _Navigate->SetSpeedCorrLimit(number);
+            break;            
+            
+        case 'u':
+            _Distance->ResetDistance();
+            break;                    
+
         default:
             _Navigate->TurnSpeed(0);
             _Navigate->ForwardSpeed(0);

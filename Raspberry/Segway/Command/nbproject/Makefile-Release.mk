@@ -35,8 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CalibrateGyro.o \
 	${OBJECTDIR}/Command.o \
 	${OBJECTDIR}/FollowLineCommand.o \
+	${OBJECTDIR}/NavigateCommand.o \
 	${OBJECTDIR}/SegwayCommand.o
 
 
@@ -66,6 +68,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a: ${OBJECTFILES}
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a
 
+${OBJECTDIR}/CalibrateGyro.o: CalibrateGyro.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CalibrateGyro.o CalibrateGyro.cpp
+
 ${OBJECTDIR}/Command.o: Command.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -75,6 +82,11 @@ ${OBJECTDIR}/FollowLineCommand.o: FollowLineCommand.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
+
+${OBJECTDIR}/NavigateCommand.o: NavigateCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateCommand.o NavigateCommand.cpp
 
 ${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}

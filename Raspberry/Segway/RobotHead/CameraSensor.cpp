@@ -47,7 +47,7 @@ void CameraSensor::MoveCamera(Position* position) {
 
 LineInfo* CameraSensor::GetLine() {
     UpdateFrameSize(320,240);
-    UpdateCameraPosition(88,125);
+    UpdateCameraPosition(88,130);
     cv::Mat image = _PiCamera->GetNextFrame();
     LineInfo* lineinfo = _LineDetect->DetectLine(image);
     return lineinfo;

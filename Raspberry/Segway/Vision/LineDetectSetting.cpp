@@ -3,11 +3,11 @@
 LineDetectSetting::LineDetectSetting() {
     FilterHalf = 15;
     FilterThresshold = 1500;
-    BlackLine = true;
+    BlackLine = false;
     ROI.height = 5;
     ROI.width = 320;
     ROI.x = 0;
-    ROI.y = 200;
+    ROI.y = 220;
     PositionInt = PositionEnum::CENTER;
     LineDirectionInt = LineDirectionEnum::VERTICAL;
     PositionOffset = 0;
