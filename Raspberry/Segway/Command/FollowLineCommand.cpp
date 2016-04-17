@@ -15,21 +15,24 @@ std::string FollowLineCommand::Execute(vector<int> input) {
     _Check->Prepare();
     _Logging->Log("Sidecorrection", _SideCorrectionFactor);
     while(!_Check->Test()) {
+        double sideCorrection = 0;
+        double speedCorrection = _MaxSpeed;
         LineInfo* lineInfo = _CameraSensor->GetLine();
         _Logging->Log("CameraSensor called");
         if(lineInfo->LineDetected())
         {
             float linePosition = lineInfo->GetNormalizePosition();
             _Logging->Log("Lineposition", linePosition);
-            double sideCorrection = lineInfo->GetNormalizePosition() * _SideCorrectionFactor;
+            sideCorrection = lineInfo->GetNormalizePosition() * _SideCorrectionFactor;
             _Navigate->TurnSpeed(sideCorrection);            
-            double speedCorrection = _MaxSpeed - std::abs(lineInfo->GetNormalizePosition()) * _SpeedCorrectionFactor;
+            speedCorrection = _MaxSpeed - std::abs(lineInfo->GetNormalizePosition()) * _SpeedCorrectionFactor;
             _Navigate->ForwardSpeed(speedCorrection);
         }
         else
         {
             _Logging->Log("No line found");
-            _Navigate->ForwardSpeed(0);
+            _Navigate->TurnSpeed(sideCorrection);
+            _Navigate->ForwardSpeed(speedCorrection);
         }
         
     }
