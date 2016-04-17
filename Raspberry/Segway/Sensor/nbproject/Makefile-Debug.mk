@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/CheckSwitch.o \
 	${OBJECTDIR}/DistanceCheck.o \
+	${OBJECTDIR}/LineDetected.o \
 	${OBJECTDIR}/PressKeyInfo.o \
 	${OBJECTDIR}/SensorInfo.o \
 	${OBJECTDIR}/TimeCheck.o
@@ -71,27 +72,32 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsensor.a: ${OBJECTFILES}
 ${OBJECTDIR}/CheckSwitch.o: CheckSwitch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CheckSwitch.o CheckSwitch.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CheckSwitch.o CheckSwitch.cpp
 
 ${OBJECTDIR}/DistanceCheck.o: DistanceCheck.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DistanceCheck.o DistanceCheck.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DistanceCheck.o DistanceCheck.cpp
+
+${OBJECTDIR}/LineDetected.o: LineDetected.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineDetected.o LineDetected.cpp
 
 ${OBJECTDIR}/PressKeyInfo.o: PressKeyInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PressKeyInfo.o PressKeyInfo.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PressKeyInfo.o PressKeyInfo.cpp
 
 ${OBJECTDIR}/SensorInfo.o: SensorInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SensorInfo.o SensorInfo.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SensorInfo.o SensorInfo.cpp
 
 ${OBJECTDIR}/TimeCheck.o: TimeCheck.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TimeCheck.o TimeCheck.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -I../RobotController -I../RobotHead -I../Vision -I../PiCamera -I../Logging -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TimeCheck.o TimeCheck.cpp
 
 # Subprojects
 .build-subprojects:

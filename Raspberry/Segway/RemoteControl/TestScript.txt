@@ -1,5 +1,5 @@
->NavigateSettings.txt
->LineDetectSettings.txt
+>NavigateSettingsStart.txt
+>LineDetectSettingsStartWithSmallLines.txt
 >GyroSettings.txt
 #SEGWAY 1
 #DELAY 2000
@@ -9,11 +9,18 @@
 !FOLLOWLINE -MAXSPEED -8
 
 
+//Follow line with small lines to start of ramp
+!CHECK -MODE 2
+!DISTANCE -DISTANCE -3750
+#FOLLOWLINE
+
+//Follow line with small lines to start of ramp
+>LineDetectSettings.txt
 //Follow line to start of ramp
 !CHECK -MODE 2
-!DISTANCE -DISTANCE -4050
-
+!DISTANCE -DISTANCE -350
 #FOLLOWLINE
+
 
 //Follow line to ramp start
 !CHECK -MODE 0

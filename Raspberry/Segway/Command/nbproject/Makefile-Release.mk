@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Command.o \
 	${OBJECTDIR}/FollowLineCommand.o \
 	${OBJECTDIR}/NavigateCommand.o \
-	${OBJECTDIR}/SegwayCommand.o
+	${OBJECTDIR}/SegwayCommand.o \
+	${OBJECTDIR}/WaitCommand.o
 
 
 # C Compiler Flags
@@ -92,6 +93,11 @@ ${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
+
+${OBJECTDIR}/WaitCommand.o: WaitCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WaitCommand.o WaitCommand.cpp
 
 # Subprojects
 .build-subprojects:

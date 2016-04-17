@@ -6,7 +6,7 @@
 #include "Position.h"
 #include "Servo.h"
 #include "LineDetect.h"
-#include "SensorInfo.h"
+#include <SensorInfo.h>
 
 class CameraSensor : public SensorInfo {
 public:

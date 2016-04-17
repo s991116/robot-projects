@@ -7,6 +7,7 @@
 #include "SegwayCommand.h"
 #include "FollowLineCommand.h"
 #include "NavigateCommand.h"
+#include "WaitCommand.h"
 #include "CalibrateGyro.h"
 #include "Setting.h"
 #include "Command.h"
@@ -14,6 +15,7 @@
 #include "TimeCheck.h"
 #include "DistanceCheck.h"
 #include "PressKeyInfo.h"
+#include "LineDetected.h"
 
 Robot::Robot() {
   _ComPort = new ComPort();
@@ -37,7 +39,8 @@ Robot::Robot() {
   _Distance = new Distance(_SerialProtocol);
   DistanceCheck* distanceCheck = new DistanceCheck(_Distance);
   PressKeyInfo* pressKeyInfo = new PressKeyInfo();
-  CheckSwitch* checkSwitch = new CheckSwitch(timeCheck, pressKeyInfo, distanceCheck);
+  LineDetected* lineDetected = new LineDetected(_CameraSensor);
+  CheckSwitch* checkSwitch = new CheckSwitch(timeCheck, pressKeyInfo, distanceCheck, lineDetected);
   FollowLineCommand* followLine = new FollowLineCommand(checkSwitch, _CameraSensor, _Navigate, new EmptyLog());//new FileLogger("Log.txt"));
   
   NavigateCommand* navigateCommand = new NavigateCommand(_Navigate);
@@ -54,6 +57,7 @@ Robot::Robot() {
   settings["FOLLOWLINE"] = followLine;
   settings["NAVIGATESETTING"] = navigateCommand;
   settings["GYRO"] = calibrateGyro;
+  settings["LINEDETECTCHECK"] = lineDetected;
   
   commands["DELAY"] = new DelayCommand();
   commands["KEYPRESS"] = new KeyPressCommand();
@@ -61,7 +65,7 @@ Robot::Robot() {
   commands["FOLLOWLINE"] = followLine;
   commands["NAVIGATE_UPDATE"] = navigateCommand;
   commands["GYRO"] = calibrateGyro;
-  
+  commands["WAIT"] = new WaitCommand(checkSwitch);
   
   sensors["HEAD"] = _CameraSensor;
   

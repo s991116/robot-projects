@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/CheckSwitch.o \
 	${OBJECTDIR}/DistanceCheck.o \
+	${OBJECTDIR}/LineDetected.o \
 	${OBJECTDIR}/PressKeyInfo.o \
 	${OBJECTDIR}/SensorInfo.o \
 	${OBJECTDIR}/TimeCheck.o
@@ -77,6 +78,11 @@ ${OBJECTDIR}/DistanceCheck.o: DistanceCheck.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DistanceCheck.o DistanceCheck.cpp
+
+${OBJECTDIR}/LineDetected.o: LineDetected.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineDetected.o LineDetected.cpp
 
 ${OBJECTDIR}/PressKeyInfo.o: PressKeyInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}
