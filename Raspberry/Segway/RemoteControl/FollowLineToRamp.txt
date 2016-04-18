@@ -1,0 +1,12 @@
+//Follow line with small lines to start of ramp
+>LineDetectSettings.txt
+//Follow line to start of ramp
+!CHECK -MODE 2
+!DISTANCE -DISTANCE -1250
+#FOLLOWLINE
+
+
+//Follow line to ramp start
+!CHECK -MODE 0
+!TIMER -TIME_MS 2000
+#FOLLOWLINE

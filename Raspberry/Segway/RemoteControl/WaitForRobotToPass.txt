@@ -1,0 +1,9 @@
+//Wait until robot interrupt line 
+!LINEDETECTCHECK -WAIT_TO_NO_LINE_DETECTED 1
+!CHECK -MODE 3
+#FOLLOWLINE_WAIT
+
+//Wait to robot has gone far away
+!CHECK -MODE 0
+!TIMER -TIME_MS 10000
+#FOLLOWLINE_WAIT

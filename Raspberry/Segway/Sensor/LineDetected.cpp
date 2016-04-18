@@ -11,7 +11,7 @@ void LineDetected::Prepare() {
 }
 
 bool LineDetected::Test() {
-    LineInfo* lineInfo = _CameraSensor->GetLine();
+    LineInfo* lineInfo = _CameraSensor->GetSensorLine();
     return(lineInfo->LineDetected() != _NoLineDetected);
 }
 

@@ -43,5 +43,8 @@ private:
     DetectFace* _DetectFace;
     LineDetect* _LineDetect;
     LineDetectSetting* _LineDetectSetting;
+    LineDetect* _SensorLineDetect;
+    LineDetectSetting* _SensorLineDetectSetting;
+    
 };
 #endif	/* ROBOT_H */

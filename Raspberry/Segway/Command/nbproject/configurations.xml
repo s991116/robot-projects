@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>CalibrateGyro.h</itemPath>
       <itemPath>Command.h</itemPath>
+      <itemPath>FollowLineAndWaitCommand.h</itemPath>
       <itemPath>FollowLineCommand.h</itemPath>
       <itemPath>NavigateCommand.h</itemPath>
       <itemPath>SegwayCommand.h</itemPath>
@@ -20,6 +21,7 @@
                    projectFiles="true">
       <itemPath>CalibrateGyro.cpp</itemPath>
       <itemPath>Command.cpp</itemPath>
+      <itemPath>FollowLineAndWaitCommand.cpp</itemPath>
       <itemPath>FollowLineCommand.cpp</itemPath>
       <itemPath>NavigateCommand.cpp</itemPath>
       <itemPath>SegwayCommand.cpp</itemPath>
@@ -69,6 +71,10 @@
       </item>
       <item path="Command.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FollowLineAndWaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="FollowLineCommand.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="FollowLineCommand.h" ex="false" tool="3" flavor2="0">
@@ -115,6 +121,10 @@
       <item path="Command.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Command.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="FollowLineCommand.cpp" ex="false" tool="1" flavor2="0">
       </item>

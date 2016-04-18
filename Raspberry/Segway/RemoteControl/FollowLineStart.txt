@@ -1,0 +1,9 @@
+//Follow line with small lines to start of ramp
+>LineDetectSettingsStartWithSmallLines.txt
+!FOLLOWLINE -SIDECORRECTION 9
+!FOLLOWLINE -SPEEDCORRECTION -6
+!FOLLOWLINE -MAXSPEED -8
+
+!CHECK -MODE 2
+!DISTANCE -DISTANCE -2750
+#FOLLOWLINE

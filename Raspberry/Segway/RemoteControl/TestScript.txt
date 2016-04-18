@@ -1,58 +1,32 @@
->NavigateSettingsStart.txt
->LineDetectSettingsStartWithSmallLines.txt
 >GyroSettings.txt
-//#SEGWAY 1
-#DELAY 2000
+>NavigateSettingsStart.txt
+>SensorLineDetectSettings.txt
 
-!FOLLOWLINE -SIDECORRECTION 9
-!FOLLOWLINE -SPEEDCORRECTION -6
-!FOLLOWLINE -MAXSPEED -8
+>FollowLineStart.txt
 
+>FollowLineToRamp.txt
 
-//Follow line with small lines to start of ramp
-!CHECK -MODE 2
-!DISTANCE -DISTANCE -2750
-#FOLLOWLINE
+>GoUpTheRamp.txt
 
-//Follow line with small lines to start of ramp
+>GoOnTopOfRamp.txt
+
+>GoDownTheRamp.txt
+
+>GoToConnectingLine.txt
+
+>WaitForRobotToPass.txt
+
+//Follow line to goal
 >LineDetectSettings.txt
 //Follow line to start of ramp
-!CHECK -MODE 2
-!DISTANCE -DISTANCE -1350
-#FOLLOWLINE
-
-
-//Follow line to ramp start
-!CHECK -MODE 0
-!TIMER -TIME_MS 2000
-#FOLLOWLINE
-
->NavigateSettingsUpRamp.txt
-!CHECK -MODE 2
-!DISTANCE -DISTANCE -2200
-#FOLLOWLINE
-
-!FOLLOWLINE -SIDECORRECTION 11
-!FOLLOWLINE -SPEEDCORRECTION -4
-!FOLLOWLINE -MAXSPEED -4
-
-!CHECK -MODE 2
-!DISTANCE -DISTANCE -500
-#FOLLOWLINE
->NavigateSettingsDownRamp.txt
-
-!FOLLOWLINE -SIDECORRECTION 11
-!FOLLOWLINE -SPEEDCORRECTION -2
-!FOLLOWLINE -MAXSPEED -3
-
 !CHECK -MODE 2
 !DISTANCE -DISTANCE -1800
 #FOLLOWLINE
 
-!FOLLOWLINE -SIDECORRECTION 9
-!FOLLOWLINE -SPEEDCORRECTION -6
-!FOLLOWLINE -MAXSPEED -8
+//Follow line right to goal
 
+>LineDetectSettingsToGoal.txt
+//Follow line to start of ramp
 !CHECK -MODE 1
 #FOLLOWLINE
 

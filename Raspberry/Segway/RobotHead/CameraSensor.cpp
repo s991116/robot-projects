@@ -1,9 +1,10 @@
 #include "CameraSensor.h"
 
-CameraSensor::CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, Servo* servo) {
+CameraSensor::CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, LineDetect* sensorLineDetect, Servo* servo) {
     _PiCamera = piCamera;
     _DetectFace = detectFace;
     _LineDetect = lineDetect;
+    _SensorLineDetect = sensorLineDetect;
     _Servo = servo;
     _MoveFactor = 8;
     _Width = 0;
@@ -60,6 +61,23 @@ double CameraSensor::GetLinePosition() {
     LineInfo* lineinfo = _LineDetect->DetectLine(image);
     return lineinfo->GetNormalizePosition();
 }
+
+LineInfo* CameraSensor::GetSensorLine() {
+    UpdateFrameSize(320,240);
+    UpdateCameraPosition(88,130);
+    cv::Mat image = _PiCamera->GetNextFrame();
+    LineInfo* lineinfo = _SensorLineDetect->DetectLine(image);
+    return lineinfo;
+}
+
+LineInfo* CameraSensor::GetSensorLine(std::string filename) {
+    UpdateFrameSize(320,240);
+    UpdateCameraPosition(88,130);
+    cv::Mat image = _PiCamera->GetNextFrame();
+    LineInfo* lineinfo = _SensorLineDetect->DetectLine(image);
+    return lineinfo;
+}
+
 
 void CameraSensor::UpdateCameraPosition(int horizontal,int vertical)
 {    

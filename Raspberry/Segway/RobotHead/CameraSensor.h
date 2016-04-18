@@ -10,16 +10,21 @@
 
 class CameraSensor : public SensorInfo {
 public:
-    CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, Servo* servo);
+    CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, LineDetect* sensorLineDetect, Servo* servo);
     void GetFacePosition(Position* position);
     LineInfo* GetLine();
     LineInfo* GetLine(std::string filename);
+
+    LineInfo* GetSensorLine();
+    LineInfo* GetSensorLine(std::string filename);
+
     double GetLinePosition();
     void UpdateCameraPosition(int horizontal,int vertical);
     void TakePicture(std::string filename);
     std::string GetStatus();
     void UpdateFrameSize(int width, int height);
     LineDetect* _LineDetect;
+    LineDetect* _SensorLineDetect;
     virtual ~CameraSensor();
 private:
     PiCamera* _PiCamera;

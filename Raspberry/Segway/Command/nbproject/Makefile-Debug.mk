@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/CalibrateGyro.o \
 	${OBJECTDIR}/Command.o \
+	${OBJECTDIR}/FollowLineAndWaitCommand.o \
 	${OBJECTDIR}/FollowLineCommand.o \
 	${OBJECTDIR}/NavigateCommand.o \
 	${OBJECTDIR}/SegwayCommand.o \
@@ -78,6 +79,11 @@ ${OBJECTDIR}/Command.o: Command.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+
+${OBJECTDIR}/FollowLineAndWaitCommand.o: FollowLineAndWaitCommand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineAndWaitCommand.o FollowLineAndWaitCommand.cpp
 
 ${OBJECTDIR}/FollowLineCommand.o: FollowLineCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
