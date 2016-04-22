@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Setting.o
+	${OBJECTDIR}/Setting.o \
+	${OBJECTDIR}/SettingFileReader.o \
+	${OBJECTDIR}/SettingReader.o
 
 
 # C Compiler Flags
@@ -68,6 +70,16 @@ ${OBJECTDIR}/Setting.o: Setting.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Setting.o Setting.cpp
+
+${OBJECTDIR}/SettingFileReader.o: SettingFileReader.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SettingFileReader.o SettingFileReader.cpp
+
+${OBJECTDIR}/SettingReader.o: SettingReader.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SettingReader.o SettingReader.cpp
 
 # Subprojects
 .build-subprojects:

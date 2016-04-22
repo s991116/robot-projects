@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ConsoleLog.o \
+	${OBJECTDIR}/ConsolePrint.o \
 	${OBJECTDIR}/EmptyLog.o \
 	${OBJECTDIR}/FileLogger.o \
 	${OBJECTDIR}/ProxyLog.o
@@ -66,20 +68,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a: ${OBJECTFILES}
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblogging.a
 
+${OBJECTDIR}/ConsoleLog.o: ConsoleLog.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsoleLog.o ConsoleLog.cpp
+
+${OBJECTDIR}/ConsolePrint.o: ConsolePrint.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsolePrint.o ConsolePrint.cpp
+
 ${OBJECTDIR}/EmptyLog.o: EmptyLog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EmptyLog.o EmptyLog.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EmptyLog.o EmptyLog.cpp
 
 ${OBJECTDIR}/FileLogger.o: FileLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLogger.o FileLogger.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLogger.o FileLogger.cpp
 
 ${OBJECTDIR}/ProxyLog.o: ProxyLog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ProxyLog.o ProxyLog.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ProxyLog.o ProxyLog.cpp
 
 # Subprojects
 .build-subprojects:

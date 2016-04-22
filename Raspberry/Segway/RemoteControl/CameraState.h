@@ -17,6 +17,7 @@ private:
     Position* _Position;
     FaceDetectionPresentation* _FaceDetectionPresentation;
     int kbhit(void);
+    int _PictureCount;
 };
 
 #endif	/* CAMERASTATE_H */

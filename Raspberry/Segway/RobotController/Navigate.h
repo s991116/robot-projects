@@ -15,9 +15,13 @@ public:
     void SetPID_P(short p);
     void SetPID_I(short i);
     void SetPID_D(short d);
+    void SetSpeedCorrLimit(short limit);
+    void SetPIDLimit(short limit);
     short GetPID_P();
     short GetPID_I();
     short GetPID_D();
+    short GetSpeedCorrLimit();
+    short GetPIDLimit();
 
     virtual ~Navigate();
     

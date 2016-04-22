@@ -1,0 +1,33 @@
+>GyroSettings.txt
+>NavigateSettingsStart.txt
+>SensorLineDetectSettings.txt
+
+>FollowLineStart.txt
+
+>FollowLineToRamp.txt
+
+>GoUpTheRamp.txt
+
+>GoOnTopOfRamp.txt
+
+>GoDownTheRamp.txt
+
+>GoToConnectingLine.txt
+
+>WaitForRobotToPass.txt
+
+//Follow line to goal
+>LineDetectSettings.txt
+//Follow line to start of ramp
+!CHECK -MODE 2
+!DISTANCE -DISTANCE -1800
+#FOLLOWLINE
+
+//Follow line right to goal
+
+>LineDetectSettingsToGoal.txt
+//Follow line to start of ramp
+!CHECK -MODE 1
+#FOLLOWLINE
+
+#KEYPRESS

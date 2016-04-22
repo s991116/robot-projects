@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>CalibrateGyro.h</itemPath>
+      <itemPath>Command.h</itemPath>
+      <itemPath>FollowLineAndWaitCommand.h</itemPath>
+      <itemPath>FollowLineCommand.h</itemPath>
+      <itemPath>NavigateCommand.h</itemPath>
+      <itemPath>SegwayCommand.h</itemPath>
+      <itemPath>WaitCommand.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>CalibrateGyro.cpp</itemPath>
+      <itemPath>Command.cpp</itemPath>
+      <itemPath>FollowLineAndWaitCommand.cpp</itemPath>
+      <itemPath>FollowLineCommand.cpp</itemPath>
+      <itemPath>NavigateCommand.cpp</itemPath>
+      <itemPath>SegwayCommand.cpp</itemPath>
+      <itemPath>WaitCommand.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../RobotController</pElem>
+            <pElem>../Sensor</pElem>
+            <pElem>../RobotHead</pElem>
+            <pElem>../Vision</pElem>
+            <pElem>../Setting</pElem>
+            <pElem>../PiCamera</pElem>
+            <pElem>../Logging</pElem>
+          </incDir>
+          <commandLine>-std=c++0x</commandLine>
+        </ccTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="CalibrateGyro.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CalibrateGyro.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Command.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Command.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FollowLineCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NavigateCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NavigateCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SegwayCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SegwayCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="CalibrateGyro.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CalibrateGyro.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Command.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Command.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineAndWaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FollowLineCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FollowLineCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NavigateCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NavigateCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SegwayCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SegwayCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaitCommand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaitCommand.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

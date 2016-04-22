@@ -1,5 +1,21 @@
 #include "LineDetectSetting.h"
 
+LineDetectSetting::LineDetectSetting() {
+    FilterHalf = 15;
+    FilterThresshold = 1500;
+    BlackLine = false;
+    ROI.height = 5;
+    ROI.width = 320;
+    ROI.x = 0;
+    ROI.y = 220;
+    PositionInt = PositionEnum::CENTER;
+    LineDirectionInt = LineDirectionEnum::VERTICAL;
+    PositionOffset = 0;
+    MinLineWidth = 10;    
+    
+    MapSettings();
+}
+
 LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThresshold, LineDetectSetting::PositionEnum position, LineDetectSetting::LineDirectionEnum direction, bool blackLine) {
   ROI = roi;
   FilterHalf = filterHalf;
@@ -10,6 +26,10 @@ LineDetectSetting::LineDetectSetting(cv::Rect roi, int filterHalf, int filterThr
   PositionOffset = 0;
   MinLineWidth = 0;
   
+  MapSettings();
+}
+
+void LineDetectSetting::MapSettings() {
   SettingsInt["FILTERHALF"] = &FilterHalf;
   SettingsInt["FILTERTHRESSHOLD"] = &FilterThresshold;
   SettingsBool["BLACKLINE"] = &BlackLine;

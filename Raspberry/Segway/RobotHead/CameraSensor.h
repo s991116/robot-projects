@@ -1,21 +1,37 @@
 #ifndef CAMERASENSOR_H
 #define	CAMERASENSOR_H
 
-#include "FaceDetection.h"
+#include "DetectFace.h"
 #include "PiCamera.h"
 #include "Position.h"
 #include "Servo.h"
+#include "LineDetect.h"
+#include <SensorInfo.h>
 
-class CameraSensor {
+class CameraSensor : public SensorInfo {
 public:
-    CameraSensor(PiCamera* piCamera, FaceDetection* faceDetection, Servo* servo);
+    CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, LineDetect* sensorLineDetect, Servo* servo);
     void GetFacePosition(Position* position);
-    void TakePicture(std::string filename);
+    LineInfo* GetLine();
+    LineInfo* GetLine(std::string filename);
 
+    LineInfo* GetSensorLine();
+    LineInfo* GetSensorLine(std::string filename);
+
+    double GetLinePosition();
+    void UpdateCameraPosition(int horizontal,int vertical);
+    void TakePicture(std::string filename);
+    std::string GetStatus();
+    void UpdateFrameSize(int width, int height);
+    LineDetect* _LineDetect;
+    LineDetect* _SensorLineDetect;
     virtual ~CameraSensor();
 private:
     PiCamera* _PiCamera;
-    FaceDetection* _FaceDetection;
+    int _Height;
+    int _Width;
+    DetectFace* _DetectFace;
+
     Servo* _Servo;
     float _MoveFactor;
     void MoveToCenter();

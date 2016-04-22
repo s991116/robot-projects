@@ -1,5 +1,5 @@
-#ifndef FACEDETECTION_H
-#define	FACEDETECTION_H
+#ifndef DETECTFACE_H
+#define	DETECTFACE_H
 
 #include "Position.h"
 #include <opencv/cv.h>
@@ -8,18 +8,16 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <raspicam/raspicam_cv.h>
 
-class FaceDetection {
+class DetectFace {
 public:
-    FaceDetection();
-    FaceDetection(const FaceDetection& orig);
+    DetectFace();
+    virtual ~DetectFace();
     
     void GetFacePosition(cv::Mat image, Position* position);
-    
-    virtual ~FaceDetection();
-    
+       
 private:
     cv::CascadeClassifier face_cascade;
 };
 
-#endif	/* FACEDETECTION_H */
+#endif	/* DETECTFACE_H */
 

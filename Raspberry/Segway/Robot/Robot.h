@@ -10,9 +10,14 @@
 #include <Gyro.h>
 #include <CameraSensor.h>
 #include <Navigate.h>
+#include "Distance.h"
 #include "LineDetectSetting.h"
 #include "LineDetect.h"
+#include "SettingFileReader.h"
+#include "SettingReader.h"
 #include "Logging.h"
+#include "CommandScript.h"
+#include "DetectFace.h"
 
 class Robot {
 public:
@@ -22,6 +27,7 @@ public:
     Motor* _Motor;
     Gyro* _Gyro;
     Servo* _Servo;
+    Distance* _Distance;
     CameraSensor* _CameraSensor;
     Logging* _Log;
     LineDetectSetting* _BottomLineDetectSetting;
@@ -30,9 +36,15 @@ public:
     ComStream* _ComStream;
     CommunicationHandler* _CommunicationHandler;
     SerialCommandProtocol* _SerialProtocol;
+    CommandScript* _CommandScript;
 
 private:    
     PiCamera* _Camera;    
-    FaceDetection* _FaceDetection;
+    DetectFace* _DetectFace;
+    LineDetect* _LineDetect;
+    LineDetectSetting* _LineDetectSetting;
+    LineDetect* _SensorLineDetect;
+    LineDetectSetting* _SensorLineDetectSetting;
+    
 };
 #endif	/* ROBOT_H */

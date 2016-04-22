@@ -3,43 +3,36 @@
 Setting::Setting() {
 }
 
-void Setting::Set(std::string name, int value) {
+void Setting::Set(std::string name, double value) {
 
   if(SettingsFloat[name] != NULL)
   {
     SetFloatValue(name, value);
-    UpdatedSetting(name);
     return;
   }
 
   if(SettingsInt[name] != NULL)
   {
     SetIntValue(name, value);
-    UpdatedSetting(name);
-	return;
+    return;
   }
 
   if(SettingsBool[name] != NULL)
   {
     SetBoolValue(name, value);
-    UpdatedSetting(name);
-	return;
+    return;
   }
 
   std::string error = "Could not find setting name '" + name + "'.";
   throw error;
 }
 
-void Setting::  UpdatedSetting(std::string name)
-{
-}
-
-void Setting::SetFloatValue(std::string name, int value) {
+void Setting::SetFloatValue(std::string name, double value) {
   float* setting = SettingsFloat[name];
 
   if(setting != NULL)
   {
-    *setting = value / 100.0;
+    *setting = value;
   }
 }
 

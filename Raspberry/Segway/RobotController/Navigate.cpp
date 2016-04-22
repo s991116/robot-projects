@@ -45,15 +45,31 @@ void Navigate::SetPID_D(short d){
 }
 
 short Navigate::GetPID_P() {
-    _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_P);        
+    return _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_P);        
 }
 
 short Navigate::GetPID_I() {
-    _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_I);        
+    return _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_I);        
 }
 
 short Navigate::GetPID_D() {
-    _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_D);        
+    return _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::PID_SPEED_D);        
+}
+
+void Navigate::SetPIDLimit(short limit) {
+    _SerialProtocol->sendCommandAndData(HardwareControllerCommandTypeShort::SPEED_PID_LIMIT, limit);
+}
+
+short Navigate::GetPIDLimit() {
+    return _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::SPEED_PID_LIMIT);        
+}
+
+void Navigate::SetSpeedCorrLimit(short limit) {
+    _SerialProtocol->sendCommandAndData(HardwareControllerCommandTypeShort::SPEED_CORR_LIMIT, limit);
+}
+
+short Navigate::GetSpeedCorrLimit() {
+    return _SerialProtocol->getShortData(HardwareControllerCommandTypeShort::SPEED_CORR_LIMIT);        
 }
 
 Navigate::~Navigate() {

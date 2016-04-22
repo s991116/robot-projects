@@ -6,7 +6,7 @@
 
 class MainState : public State {
 public:
-    MainState(State* motorState, State* gyroState, State* servoState, State* CameraState, State* comState, State* navigate);
+    MainState(State* motorState, State* gyroState, State* servoState, State* CameraState, State* comState, State* navigate, State* scriptRunner);
     virtual ~MainState();
 
     State* View();
@@ -21,6 +21,7 @@ private:
     State* _CameraState;
     State* _ComState;
     State* _NavigateState;
+    State* _ScriptRunner;
 };
 
 #endif	/* MAINSTATE_H */
