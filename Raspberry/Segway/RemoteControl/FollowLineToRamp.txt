@@ -1,8 +1,8 @@
-//Follow line with small lines to start of ramp
+'//Follow line with small lines to start of ramp
 >LineDetectSettings.txt
 //Follow line to start of ramp
 !CHECK -MODE 2
-!DISTANCE -DISTANCE -1250
+!DISTANCE -DISTANCE -1200
 #FOLLOWLINE
 
 

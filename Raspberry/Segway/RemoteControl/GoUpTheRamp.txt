@@ -1,4 +1,5 @@
 >NavigateSettingsUpRamp.txt
+>LineDetectSettingsRight.txt
 !CHECK -MODE 2
 !DISTANCE -DISTANCE -2200
 #FOLLOWLINE

@@ -11,15 +11,21 @@ FollowLineAndWaitCommand::FollowLineAndWaitCommand(Check* check, CameraSensor* c
 }
 
 std::string FollowLineAndWaitCommand::Execute(vector<int> input) {
+    _Logging->Log("Start follow line and wait.");
     _Check->Prepare();
+    _Logging->Log("Check prepard");
     while (!_Check->Test()) {
         double sideCorrection = 0;
         double speedCorrection = _MaxSpeed;
         LineInfo* lineInfo = _CameraSensor->GetLine();
+        _Logging->Log("Line info.");
         LineInfo* sensorLineInfo = _CameraSensor->GetSensorLine();
+        _Logging->Log("Sensor Line info.");
         if (!sensorLineInfo->LineDetected()) {
             _Logging->Log("No Sensor line detected");
-            sideCorrection = 0;
+            float linePosition = lineInfo->GetNormalizePosition();
+            sideCorrection = lineInfo->GetNormalizePosition() * _SideCorrectionFactor;
+            //sideCorrection = 0;
             speedCorrection = 0;
             _Navigate->TurnSpeed(sideCorrection);
             _Navigate->ForwardSpeed(speedCorrection);

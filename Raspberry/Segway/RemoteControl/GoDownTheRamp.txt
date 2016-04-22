@@ -1,5 +1,5 @@
 >NavigateSettingsDownRamp.txt
-
+>LineDetectSettings.txt
 !FOLLOWLINE -SIDECORRECTION 11
 !FOLLOWLINE -SPEEDCORRECTION -2
 !FOLLOWLINE -MAXSPEED -3
