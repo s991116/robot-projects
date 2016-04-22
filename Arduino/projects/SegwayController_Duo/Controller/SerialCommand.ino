@@ -21,7 +21,8 @@ void AddCommand(char* cmd, void (* function)(), char* comment) {
 void InitializeSerialCommand() {
   Serial.begin(115200); 
 
-  // Setup callbacks for SerialCommand commands 
+  // Setup callbacks for SerialCommand commands
+  AddCommand("s", segway_command, "Start segway"); 
   AddCommand("speed", speed_command);
   AddCommand("gSpeed", segwaySpeed_command, "Speed with Segway");
   AddCommand("error", error_command);
@@ -33,7 +34,6 @@ void InitializeSerialCommand() {
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
   AddCommand("distance", distance_command);
-  AddCommand("s", segway_command, "Start segway");
   AddCommand("g", gyro_command, "Gyro info");
   AddCommand("sh", servoHorizontal_command, "Servo horizontal");
   AddCommand("sv", servoVertical_command, "Servo vertical");
