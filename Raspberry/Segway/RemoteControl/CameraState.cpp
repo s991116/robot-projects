@@ -47,7 +47,6 @@ State* CameraState::View() {
             break;
 
         case 'l':
-            LoopDisplayFunction(_LineDetectionPresentation);
             break;
     }
     return this;

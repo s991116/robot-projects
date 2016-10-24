@@ -38,7 +38,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/CameraState.o \
 	${OBJECTDIR}/ComState.o \
 	${OBJECTDIR}/GyroState.o \
-	${OBJECTDIR}/LineDetectionPresentation.o \
 	${OBJECTDIR}/MainState.o \
 	${OBJECTDIR}/MotorState.o \
 	${OBJECTDIR}/NavigateState.o \

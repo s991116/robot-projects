@@ -4,7 +4,7 @@
   <confs>
     <conf name="Debug" type="3">
       <toolsSet>
-        <developmentServer>pi@raspberrypi2:22</developmentServer>
+        <developmentServer>pi@192.168.0.128:22</developmentServer>
         <platform>2</platform>
       </toolsSet>
       <dbx_gdbdebugger version="1">

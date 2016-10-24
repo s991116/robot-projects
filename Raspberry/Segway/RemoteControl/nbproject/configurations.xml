@@ -8,7 +8,6 @@
       <itemPath>ComState.h</itemPath>
       <itemPath>ContinuousPresentation.h</itemPath>
       <itemPath>GyroState.h</itemPath>
-      <itemPath>LineDetectionPresentation.h</itemPath>
       <itemPath>MainState.h</itemPath>
       <itemPath>MotorState.h</itemPath>
       <itemPath>NavigateState.h</itemPath>
@@ -30,7 +29,6 @@
       <itemPath>CameraState.cpp</itemPath>
       <itemPath>ComState.cpp</itemPath>
       <itemPath>GyroState.cpp</itemPath>
-      <itemPath>LineDetectionPresentation.cpp</itemPath>
       <itemPath>MainState.cpp</itemPath>
       <itemPath>MotorState.cpp</itemPath>
       <itemPath>NavigateState.cpp</itemPath>
@@ -245,10 +243,6 @@
       </item>
       <item path="GyroState.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="LineDetectionPresentation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LineDetectionPresentation.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="MainState.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MainState.h" ex="false" tool="3" flavor2="0">
@@ -309,10 +303,6 @@
       <item path="GyroState.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GyroState.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="LineDetectionPresentation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LineDetectionPresentation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MainState.cpp" ex="false" tool="1" flavor2="0">
       </item>

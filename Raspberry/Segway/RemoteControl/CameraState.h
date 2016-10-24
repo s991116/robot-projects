@@ -5,13 +5,12 @@
 #include "State.h"
 #include "Position.h"
 #include "LineDetectionPresentation.h"
-
 class CameraState : public State {
 public:
     CameraState(CameraSensor* faceDetection);
     State* View();
     virtual ~CameraState();
-    
+
 private:
     CameraSensor* _CameraSensor;
     Position* _Position;

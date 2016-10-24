@@ -29,7 +29,7 @@ PID PIDMotorB(&CurrentEncoderCountB, &MotorPowerB, &TargetEncoderCountB, KpMotor
 
 void InitializeSegway()
 {
-  PIDSpeed.SetOutputLimits(-600, 600);  
+  PIDSpeed.SetOutputLimits(-SpeedPIDLimit, SpeedPIDLimit);  
   PIDGyro.SetOutputLimits(-255/GyroOutputFactor, 255/GyroOutputFactor);
   PIDMotorA.SetOutputLimits(-255, 255);
   PIDMotorB.SetOutputLimits(-255, 255);
@@ -98,6 +98,9 @@ void UpdateSegway()
   double tempSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
   UpdateSpeedAverage(tempSpeed);
   CurrentSpeed = CurrentSpeedBufferAverage;
+
+  LimitSpeedTargetChange();
+  
   PIDSpeed.Compute();
   
   if(CorrectionSpeed > SpeedCorrLimit)
@@ -112,6 +115,7 @@ void UpdateSegway()
   
   TargetEncoderCountA = -(CorrectionAngle*GyroOutputFactor);
   TargetEncoderCountB = -(CorrectionAngle*GyroOutputFactor);
+  LimitTurnSpeedChange();
   SetTargetEncoderWithTurn();
   PIDMotorA.Compute();
   PIDMotorB.Compute();
@@ -140,12 +144,67 @@ void UpdateSpeedAverage(double segwaySpeed)
   }
 }
 
-double TurnSpeedLimitFactor = 0.1;
+int TurnSpeedLimit = 12;
+
+void LimitSpeedTargetChange() 
+{
+  if(TargetSpeed > TargetSpeedWanted)
+  {
+    TargetSpeed = TargetSpeed - TargetSpeedStepSizeChange;
+  }
+  else if(TargetSpeed < TargetSpeedWanted)
+  {
+    TargetSpeed = TargetSpeed + TargetSpeedStepSizeChange;
+  }
+}
+
+void LimitTurnSpeedChange()
+{
+  if(TargetTurnSpeed > TargetTurnSpeedWanted)
+  {
+    TargetTurnSpeed = TargetTurnSpeed - TargetTurnSpeedStepSizeChange;
+  }
+  else if(TargetTurnSpeed < TargetTurnSpeedWanted)
+  {
+    TargetTurnSpeed = TargetTurnSpeed + TargetTurnSpeedStepSizeChange;
+  }
+}
 
 void SetTargetEncoderWithTurn()
 {
-  TargetEncoderCountA = TargetEncoderCountA + TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountA)));
-  TargetEncoderCountB = TargetEncoderCountB - TargetTurnSpeed * max(0.0, (1.0 - TurnSpeedLimitFactor * abs(CurrentEncoderCountB)));
+  if(TargetTurnSpeed != 0)
+  {
+    if(abs(TargetEncoderCountA) < TurnSpeedLimit)
+    {
+      TargetEncoderCountA = TargetEncoderCountA + TargetTurnSpeed;
+      TargetEncoderCountB = TargetEncoderCountB - TargetTurnSpeed;
+      int clipping;
+      if(TargetEncoderCountA > TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountA - TurnSpeedLimit;
+        TargetEncoderCountA = TurnSpeedLimit;
+        TargetEncoderCountB = TargetEncoderCountB+clipping;
+      }
+      if(TargetEncoderCountB > TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountB - TurnSpeedLimit;
+        TargetEncoderCountB = TurnSpeedLimit;
+        TargetEncoderCountA = TargetEncoderCountA-clipping;
+      }
+      if(TargetEncoderCountA < -TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountA + TurnSpeedLimit;
+        TargetEncoderCountA = -TurnSpeedLimit;
+        TargetEncoderCountB = TargetEncoderCountB+clipping;
+      }
+      if(TargetEncoderCountB < -TurnSpeedLimit)
+      {
+        clipping = TargetEncoderCountB + TurnSpeedLimit;
+        TargetEncoderCountB = -TurnSpeedLimit;
+        TargetEncoderCountA = TargetEncoderCountA-clipping;
+      }  
+    }
+  }
 }
 
 void UpdateAngle()
@@ -161,10 +220,11 @@ void UpdateGyroPIDSettings()
 void UpdateSpeedPIDSettings()
 {  
   PIDSpeed.SetTunings(SpeedPCorr, SpeedICorr, SpeedDCorr);
+  PIDSpeed.SetOutputLimits(-SpeedPIDLimit, SpeedPIDLimit);
 }
 
 void UpdateControllerSettings()
 {
   PIDMotorA.SetTunings(KpMotorA, KiMotorA, KdMotorA);
-  PIDMotorB.SetTunings(KpMotorB, KiMotorB, KdMotorB);  
+  PIDMotorB.SetTunings(KpMotorB, KiMotorB, KdMotorB); 
 }

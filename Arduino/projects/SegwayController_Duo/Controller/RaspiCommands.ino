@@ -1,3 +1,5 @@
+#define DISTANCE_RESET (0)
+
 #define SERVO_HORIZONTAL_BYTE (0)
 #define SERVO_VERTICAL_BYTE   (1)
 #define SEGWAY_ENABLED_BYTE   (2)
@@ -17,4 +19,7 @@
 #define PID_SPEED_P_SHORT     (10)
 #define PID_SPEED_I_SHORT     (11)
 #define PID_SPEED_D_SHORT     (12)
+#define DISTANCE              (13)
+#define SPEED_CORR_LIMIT_SHORT (14)
+#define SPEED_PID_LIMIT_SHORT  (15)
 

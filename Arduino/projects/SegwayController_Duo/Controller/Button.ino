@@ -32,6 +32,7 @@ void HandleButtonSwitch() {
 
 void HandleButtonPress()
 {
+  Serial.println("Button pressed.");
   bool s = GetSegwayEnabled();
   SetSegwayEnabled(!s);
 }
