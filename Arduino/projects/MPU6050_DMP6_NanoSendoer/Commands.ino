@@ -1,56 +1,54 @@
-void handleCommand(uint8_t commandId)
-{  
-}
+#include <ArduinoDataHandler.h>
+#include <ArduinoSerial.h>
+#include <DataHandler.h>
+#include <DataHandlerInterface.h>
+#include <DataPackets.h>
+#include <MessageDataProtocol.h>
+#include <SerialCom.h>
+#include <MessageDataFactory.h>
 
-void handleData(uint8_t responseType, uint8_t commandId, int16_t data)
-{
-  switch(responseType)
-  {
-    case COMMAND_DATA_BYTE_NO_REPLY:
+void handleDataChar(char commandId, char length, char data[]) {
       switch(commandId)
       {
         case 0:
-          SetSendMode(data);
+          SetSendMode(data[0]);
           break;
       }
-      break;
-       
-    case COMMAND_DATA_SHORT_NO_REPLY:
-      break;
-  }
 }
 
-int16_t handleReply(uint8_t responseType, uint8_t commandId)
-{
-  switch(responseType)
-  {
-    case COMMAND_NO_DATA_BYTE_REPLY:
-      break;
-    
-    case COMMAND_NO_DATA_SHORT_REPLY:
+void handleDataShort(char commandId, char length, short data[]) {
+}
+
+void handleReplyChar(char commandId, char length, char data[]) {
+}
+
+void handleReplyShort(char commandId, char length, short data[]) {
       switch(commandId)
       {
         case 0:
-          return angle;
+          data[0] = angle;
+          break;
           
         case 1:
-          return angle_acc;
+          data[0] = angle_acc;
+          break;
       }
-      break;    
-  }
-  return 0;
 }
 
-SerialCommandProtocol serialCommand(&Serial, handleCommand, handleData, handleReply);
+
+ArduinoDataHandler dataHandler(handleDataChar, handleDataShort, handleReplyChar, handleReplyShort);
+MessageDataProtocol serialCommand = MessageDataFactory::Create(&Serial, &dataHandler);
+
+//----------------------------------------------------
 
 void HandleCommands()
 {
-  serialCommand.handleResponse();
+  serialCommand.Update();
 }
 
 void SendAngleData(short angle, short angle_acc)
 {
-  serialCommand.sendCommandAndData(0, angle);
-  serialCommand.sendCommandAndData(1, angle_acc);
+  short data[2] = {angle, angle_acc};
+  serialCommand.SendData(0, 2, data);
 }
 

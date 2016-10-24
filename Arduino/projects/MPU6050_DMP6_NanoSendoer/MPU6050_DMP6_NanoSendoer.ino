@@ -1,5 +1,4 @@
 #include <CommandTypes.h>
-#include <SerialProtocol.h>
 
 
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files

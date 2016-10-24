@@ -1,4 +1,4 @@
-#define SWITCH_BUTTON (4)
+
 
 const int debounceTime = 50;
 int oldButtonState = 0;
@@ -7,11 +7,11 @@ int buttonState = 0;         // variable for reading the pushbutton status
 
 void InitalizeButton()
 {
-  pinMode(SWITCH_BUTTON, INPUT);  
+  pinMode(SWITCH_BUTTON_PIN, INPUT);  
 }
 
 void HandleButtonSwitch() {
-  int state = digitalReadDirect(SWITCH_BUTTON);
+  int state = digitalReadDirect(SWITCH_BUTTON_PIN);
 
   if(state != oldButtonState)
   {

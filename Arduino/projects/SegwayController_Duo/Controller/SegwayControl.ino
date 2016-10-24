@@ -43,11 +43,13 @@ void SetSegwayEnabled(bool s)
   {
     TargetEncoderCountA = 0;
     TargetEncoderCountB = 0;
-    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 0);
+    char t[1] = {0};
+    messageDataProtocol.SendData(0,1, t);
   }
   else
   {
-    serialCommand.sendCommandAndData((uint8_t) 0, (uint8_t) 1);
+    char t[1] = {1};
+    messageDataProtocol.SendData(0, 1, t);
     delay(1000);
     SetOffsetAngle();
     ResetPIDErrors();    

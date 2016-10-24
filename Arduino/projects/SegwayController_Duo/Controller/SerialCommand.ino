@@ -22,7 +22,11 @@ void InitializeSerialCommand() {
   Serial.begin(115200); 
 
   // Setup callbacks for SerialCommand commands
-  AddCommand("s", segway_command, "Start segway"); 
+  AddCommand("s", segway_command, "Start segway");
+  AddCommand("g", gyro_command, "Gyro info");
+  AddCommand("distance", distance_command);
+  AddCommand("dSensorEnable", distanceSensorEnable_command);  
+  AddCommand("dSensor", distanceSensor_command);
   AddCommand("speed", speed_command);
   AddCommand("gSpeed", segwaySpeed_command, "Speed with Segway");
   AddCommand("error", error_command);
@@ -33,8 +37,6 @@ void InitializeSerialCommand() {
   AddCommand("pidS", pidS_command, "Speed PID");
   AddCommand("dir", dir_command);
   AddCommand("encoder", encoder_command);
-  AddCommand("distance", distance_command);
-  AddCommand("g", gyro_command, "Gyro info");
   AddCommand("sh", servoHorizontal_command, "Servo horizontal");
   AddCommand("sv", servoVertical_command, "Servo vertical");
   AddCommand("tx", tx_command, "Send nummer to Raspberry Serial");
@@ -243,6 +245,28 @@ void tx_command()
     SendCommandToSerial(data);
   }  
 }
+
+void distanceSensor_command()
+{
+    int distance = DistanceSensorMeasure();
+    Serial.print("Distance:");
+    Serial.println(distance);
+}
+
+void distanceSensorEnable_command()
+{
+  if(!DistanceSensorEnabled())
+  {
+    DistanceSensorEnable(true);
+    Serial.println("Sensor enabled.");
+  }
+  else
+  {
+    DistanceSensorEnable(false);
+    Serial.println("Sensor disabled.");
+  }
+}
+
 
 void unrecognized()
 {

@@ -1,8 +1,5 @@
 #include <Servo.h> 
 
-#define HORIZONTAL_SERVO_PIN (3)
-#define VERTICAL_SERVO_PIN (2)
-
 Servo horiontalServo;
 Servo verticalServo;
 

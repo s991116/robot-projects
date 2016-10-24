@@ -1,21 +1,9 @@
-#include <SerialProtocol.h>
+byte TestByte;
+short TestShort;
 
-void handleRaspiCommand(uint8_t commandId)
-{
-  switch(commandId)
-  {
-    case DISTANCE_RESET:
-      DistanceEncoderCountA = 0;
-      DistanceEncoderCountB = 0;
-      break;
-  }
-}
+void raspiHandleDataChar(char commandId, char length, char dataArray[]) {
+      char data = dataArray[0];
 
-void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
-{
-  switch(responseType)
-  {
-    case COMMAND_DATA_BYTE_NO_REPLY:
       switch(commandId)
       {
         case SERVO_HORIZONTAL_BYTE:
@@ -38,72 +26,60 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           TargetTurnSpeedWanted = data-127;
           break;
 
+        case TEST_BYTE:
+          TestByte = data;
+          break;
+
+        case DISTANCE_SENSOR_ENABLE_BYTE:
+          if(data == 0)
+          {
+            DistanceSensorEnable(false);
+          }
+          else
+          {
+            DistanceSensorEnable(true);
+          }
+          break;          
       }
-      break;
-       
-    case COMMAND_DATA_SHORT_NO_REPLY:
+}
+
+void raspiHandleDataShort(char commandId, char length, short dataArray[]) {
+      short data = dataArray[0];
+
       switch(commandId)
       {
-        case PID_ENCODER_A_P_SHORT:
-          KpMotorA = data / 100.0;
+        case PID_ENCODER_A_SHORT:
+          KpMotorA = dataArray[0] / 100.0;
+          KiMotorA = dataArray[1] / 100.0;
+          KdMotorA = dataArray[2] / 100.0;
+
           UpdateControllerSettings();
           break;
           
-        case PID_ENCODER_A_I_SHORT:
-          KiMotorA = data / 100.0;
+        case PID_ENCODER_B_SHORT:
+          KpMotorB = dataArray[0] / 100.0;
+          KiMotorB = dataArray[1] / 100.0;
+          KdMotorB = dataArray[2] / 100.0;
+
           UpdateControllerSettings();
           break;
 
-        case PID_ENCODER_A_D_SHORT:
-          KdMotorA = data / 100.0;
-          UpdateControllerSettings();
-          break;
+        case PID_GYRO_SHORT:
+          AnglePCorr = dataArray[0] / 100.0;
+          AngleICorr = dataArray[1] / 100.0;
+          AngleDCorr = dataArray[2] / 100.0;
 
-        case PID_ENCODER_B_P_SHORT:
-          KpMotorB = data / 100.0;
-          UpdateControllerSettings();
-          break;
-
-        case PID_ENCODER_B_I_SHORT:
-          KiMotorB = data / 100.0;
-          UpdateControllerSettings();
-          break;
-
-        case PID_ENCODER_B_D_SHORT:
-          KdMotorB = data / 100.0;
-          UpdateControllerSettings();
-          break;
-
-        case PID_GYRO_P_SHORT:
-          AnglePCorr = data / 100.0;
           UpdateGyroPIDSettings();
           break;
+                    
+        case PID_SPEED_SHORT:
+          SpeedPCorr = dataArray[0] / 100.0;
+          SpeedICorr = dataArray[1] / 100.0;
+          SpeedDCorr = dataArray[2] / 100.0;
           
-        case PID_GYRO_I_SHORT:
-          AngleICorr = data / 100.0;
-          UpdateGyroPIDSettings();
-          break;
-          
-        case PID_GYRO_D_SHORT:
-          AngleDCorr = data / 100.0;
-          UpdateGyroPIDSettings();
-          break;
-          
-        case PID_SPEED_P_SHORT:
-          SpeedPCorr = data / 100.0;
           UpdateSpeedPIDSettings();
           break;
           
-        case PID_SPEED_I_SHORT:
-          SpeedICorr = data / 100.0;
-          UpdateSpeedPIDSettings();
-          break;
-          
-        case PID_SPEED_D_SHORT:
-          SpeedDCorr = data / 100.0;
-          UpdateSpeedPIDSettings();
-          break;
-
         case SPEED_CORR_LIMIT_SHORT:
           SpeedCorrLimit = data;
           break;
@@ -112,113 +88,107 @@ void handleRaspiData(uint8_t responseType, uint8_t commandId, int16_t data)
           SpeedPIDLimit = data;
           UpdateSpeedPIDSettings();
           break;
+
+        case TEST_SHORT:
+          TestShort = data;
+          break;
       }
-      break;
-  }
 }
 
-int16_t handleRaspiReply(uint8_t responseType, uint8_t commandId)
-{
-  switch(responseType)
-  {
-    case COMMAND_NO_DATA_BYTE_REPLY:
+void raspiHandleReplyChar(char commandId, char length, char data[]) {
+
       switch(commandId)
       {
         case SERVO_HORIZONTAL_BYTE:
-          return GetHorizontalAngle();
+          data[0] = GetHorizontalAngle();
           break;
           
         case SERVO_VERTICAL_BYTE:
-          return GetVerticalAngle();
+          data[0] = GetVerticalAngle();
           break;
           
         case SEGWAY_ENABLED_BYTE:
-          return GetSegwayEnabled();
+          data[0] = GetSegwayEnabled();
           break;
           
         case SEGWAY_SPEED_BYTE:
-          return TargetSpeedWanted + 127;
+          data[0] = TargetSpeedWanted + 127;
           break;
           
         case SEGWAY_TURN_BYTE:
-          return TargetTurnSpeedWanted + 127;
+          data[0] = TargetTurnSpeedWanted + 127;
+          break;
+
+        case TEST_BYTE:
+          data[0] = TestByte;
           break;
       }      
-      break;
-    
-    case COMMAND_NO_DATA_SHORT_REPLY:
+
+}
+
+void raspiHandleReplyShort(char commandId, char length, short data[]) {
+
       switch(commandId)
       {
         case ANGLE_OFFSET_SHORT:
-          return OffsetAngle;
-          break;
-          
-        case PID_ENCODER_A_P_SHORT:
-          return KpMotorA * 100.0;
+          data[0] = OffsetAngle;
           break;
 
-        case PID_ENCODER_A_I_SHORT:
-          return KiMotorA * 100.0;
+        case GYRO_MEASURE_SHORT:
+          data[0] = Angle;
+          data[1] = Angle_Acc;
           break;
           
-        case PID_ENCODER_A_D_SHORT:
-          return KdMotorA * 100.0;
+        case PID_ENCODER_A_SHORT:
+          data[0] = KpMotorA * 100.0;
+          data[1] = KiMotorA * 100.0;
+          data[2] = KdMotorA * 100.0;          
           break;
           
-        case PID_ENCODER_B_P_SHORT:
-          return KpMotorB * 100.0;
+        case PID_ENCODER_B_SHORT:
+          data[0] = KpMotorB * 100.0;
+          data[1] = KiMotorB * 100.0;
+          data[2] = KdMotorB * 100.0;
           break;
           
-        case PID_ENCODER_B_I_SHORT:
-          return KiMotorB * 100.0;
+        case PID_GYRO_SHORT:
+          data[0] = AnglePCorr * 100.0;
+          data[1] = AngleICorr * 100.0;
+          data[2] = AngleDCorr * 100.0;
           break;
           
-        case PID_ENCODER_B_D_SHORT:
-          return KdMotorB * 100.0;
+        case PID_SPEED_SHORT:
+          data[0] = SpeedPCorr * 100.0;
+          data[1] = SpeedICorr * 100.0;
+          data[2] = SpeedDCorr * 100.0;
           break;
-          
-        case PID_GYRO_P_SHORT:
-          return AnglePCorr * 100.0;
-          break;
-          
-        case PID_GYRO_I_SHORT:
-          return AngleICorr * 100.0;
-          break;
-          
-        case PID_GYRO_D_SHORT:
-          return AngleDCorr * 100.0;
-          break;
-          
-        case PID_SPEED_P_SHORT:
-          return SpeedPCorr * 100.0;
-          break;
-          
-        case PID_SPEED_I_SHORT:
-          return SpeedICorr * 100.0;
-          break;
-          
-        case PID_SPEED_D_SHORT:
-          return SpeedDCorr * 100.0;
+
+        case DISTANCE_MEASURE_SHORT:
+          data[0] = DistanceSensorMeasure();
           break;
 
         case DISTANCE:
-          return (DistanceEncoderCountA + DistanceEncoderCountB) / 20;
+          data[0] = DistanceEncoderCountA/10;
+          data[1] = DistanceEncoderCountB/10;
           break;
 
        case SPEED_CORR_LIMIT_SHORT:
-          return SpeedCorrLimit;
+          data[0] = SpeedCorrLimit;
           break;
 
         case SPEED_PID_LIMIT_SHORT:
-          return SpeedPIDLimit;
+          data[0] = SpeedPIDLimit;
+          break;
+
+        case TEST_SHORT:
+          data[0] = TestShort;
           break;
       }
-      break;    
-  }
-  return 0;
+
 }
 
-SerialCommandProtocol serialCommandRaspi(&Serial2, handleRaspiCommand, handleRaspiData, handleRaspiReply);
+ArduinoDataHandler raspiDataHandler(raspiHandleDataChar, raspiHandleDataShort, raspiHandleReplyChar, raspiHandleReplyShort);
+MessageDataProtocol serialCommandRaspi = MessageDataFactory::Create(&Serial2, &raspiDataHandler);
 
 void InitializeRaspiSerial()
 {
@@ -227,11 +197,12 @@ void InitializeRaspiSerial()
 
 void ReadRaspiCommand()
 {
-  serialCommandRaspi.handleResponse();
+  serialCommandRaspi.Update();
 }
 
 void SendCommandToSerial(int data)
 {
-  serialCommandRaspi.sendCommandAndData((uint8_t) 0, (uint8_t) data);
+  char d[1] = {data};
+  serialCommandRaspi.SendData(0, 1, d);
 }
 

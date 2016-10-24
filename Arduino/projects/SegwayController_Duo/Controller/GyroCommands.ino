@@ -2,54 +2,35 @@
 short Angle;
 short Angle_Acc;
 
-void handleCommand(uint8_t commandId)
-{
+void handleDataChar(char commandId, char length, char data[]) {
 }
 
-void handleData(uint8_t responseType, uint8_t commandId, int16_t data)
-{
-  switch(responseType)
-  {
-    case COMMAND_DATA_BYTE_NO_REPLY:
-      break;
-       
-    case COMMAND_DATA_SHORT_NO_REPLY:
-      switch(commandId)
+void handleDataShort(char commandId, char length, short data[]) {
+  switch(commandId)
       {
         case 0:
-          Angle = data;
-          break;
-
-        case 1:
-          Angle_Acc = data;
+          Angle = data[0];
+          Angle_Acc = data[1];
           break;
       }
-      break;
-  }
 }
 
-int16_t handleReply(uint8_t responseType, uint8_t commandId)
-{
-  switch(responseType)
-  {
-    case COMMAND_NO_DATA_BYTE_REPLY:
-      return 13;
-      break;
-    
-    case COMMAND_NO_DATA_SHORT_REPLY:
-      return 17;
-      break;    
-  }
-  return 0;
+void handleReplyChar(char commandId, char length, char data[]) {
 }
 
-SerialCommandProtocol serialCommand(&Serial3, handleCommand, handleData, handleReply);
+void handleReplyShort(char commandId, char length, short data[]) {
+}
+
+
+ArduinoDataHandler dataHandler(handleDataChar, handleDataShort, handleReplyChar, handleReplyShort);
+MessageDataProtocol messageDataProtocol = MessageDataFactory::Create(&Serial3, &dataHandler);
+
+
 
 void InitializeGyro()
 {
   Serial3.begin(115200);
   delay(500);
-  //serialFlush();
 }
 
 void serialFlush(){
@@ -60,11 +41,10 @@ void serialFlush(){
 
 void HandleGyroCommands()
 {
-  serialCommand.handleResponse();
+  messageDataProtocol.Update();
 }
 
 short GetAngle()
 {
-  serialCommand.getShortData(0);
+  return messageDataProtocol.RequestCharData(0);
 }
-
