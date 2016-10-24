@@ -17,7 +17,7 @@
 #include "SettingReader.h"
 #include "Logging.h"
 #include "CommandScript.h"
-#include "DetectFace.h"
+#include "MessageDataProtocol.h"
 
 class Robot {
 public:
@@ -35,12 +35,11 @@ public:
     ComPort* _ComPort;
     ComStream* _ComStream;
     CommunicationHandler* _CommunicationHandler;
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
     CommandScript* _CommandScript;
 
 private:    
-    PiCamera* _Camera;    
-    DetectFace* _DetectFace;
+    PiCamera* _Camera;
     LineDetect* _LineDetect;
     LineDetectSetting* _LineDetectSetting;
     LineDetect* _SensorLineDetect;

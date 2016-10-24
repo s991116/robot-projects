@@ -7,7 +7,6 @@
       <itemPath>CameraState.h</itemPath>
       <itemPath>ComState.h</itemPath>
       <itemPath>ContinuousPresentation.h</itemPath>
-      <itemPath>FaceDetectionPresentation.h</itemPath>
       <itemPath>GyroState.h</itemPath>
       <itemPath>LineDetectionPresentation.h</itemPath>
       <itemPath>MainState.h</itemPath>
@@ -30,7 +29,6 @@
       </logicalFolder>
       <itemPath>CameraState.cpp</itemPath>
       <itemPath>ComState.cpp</itemPath>
-      <itemPath>FaceDetectionPresentation.cpp</itemPath>
       <itemPath>GyroState.cpp</itemPath>
       <itemPath>LineDetectionPresentation.cpp</itemPath>
       <itemPath>MainState.cpp</itemPath>
@@ -76,6 +74,7 @@
             <pElem>../CommandScript</pElem>
             <pElem>../Command</pElem>
             <pElem>../Sensor</pElem>
+            <pElem>../SerialMessageDataProtocol</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>
@@ -242,10 +241,6 @@
       </item>
       <item path="ContinuousPresentation.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FaceDetectionPresentation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="FaceDetectionPresentation.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="GyroState.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GyroState.h" ex="false" tool="3" flavor2="0">
@@ -310,10 +305,6 @@
       <item path="ComState.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ContinuousPresentation.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="FaceDetectionPresentation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="FaceDetectionPresentation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GyroState.cpp" ex="false" tool="1" flavor2="0">
       </item>

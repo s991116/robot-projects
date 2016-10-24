@@ -42,6 +42,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Gyro.o \
 	${OBJECTDIR}/Motor.o \
 	${OBJECTDIR}/Navigate.o \
+	${OBJECTDIR}/SerialComRaspi.o \
 	${OBJECTDIR}/SerialProtocol.o \
 	${OBJECTDIR}/Servo.o
 
@@ -112,6 +113,11 @@ ${OBJECTDIR}/Navigate.o: Navigate.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Navigate.o Navigate.cpp
+
+${OBJECTDIR}/SerialComRaspi.o: SerialComRaspi.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SerialComRaspi.o SerialComRaspi.cpp
 
 ${OBJECTDIR}/SerialProtocol.o: SerialProtocol.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -228,6 +234,19 @@ ${OBJECTDIR}/Navigate_nomain.o: ${OBJECTDIR}/Navigate.o Navigate.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Navigate_nomain.o Navigate.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Navigate.o ${OBJECTDIR}/Navigate_nomain.o;\
+	fi
+
+${OBJECTDIR}/SerialComRaspi_nomain.o: ${OBJECTDIR}/SerialComRaspi.o SerialComRaspi.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SerialComRaspi.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SerialComRaspi_nomain.o SerialComRaspi.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SerialComRaspi.o ${OBJECTDIR}/SerialComRaspi_nomain.o;\
 	fi
 
 ${OBJECTDIR}/SerialProtocol_nomain.o: ${OBJECTDIR}/SerialProtocol.o SerialProtocol.cpp 

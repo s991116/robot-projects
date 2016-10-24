@@ -73,37 +73,37 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommand.a: ${OBJECTFILES}
 ${OBJECTDIR}/CalibrateGyro.o: CalibrateGyro.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CalibrateGyro.o CalibrateGyro.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CalibrateGyro.o CalibrateGyro.cpp
 
 ${OBJECTDIR}/Command.o: Command.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Command.o Command.cpp
 
 ${OBJECTDIR}/FollowLineAndWaitCommand.o: FollowLineAndWaitCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineAndWaitCommand.o FollowLineAndWaitCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineAndWaitCommand.o FollowLineAndWaitCommand.cpp
 
 ${OBJECTDIR}/FollowLineCommand.o: FollowLineCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FollowLineCommand.o FollowLineCommand.cpp
 
 ${OBJECTDIR}/NavigateCommand.o: NavigateCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateCommand.o NavigateCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateCommand.o NavigateCommand.cpp
 
 ${OBJECTDIR}/SegwayCommand.o: SegwayCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SegwayCommand.o SegwayCommand.cpp
 
 ${OBJECTDIR}/WaitCommand.o: WaitCommand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WaitCommand.o WaitCommand.cpp
+	$(COMPILE.cc) -g -I../RobotController -I../Sensor -I../RobotHead -I../Vision -I../Setting -I../PiCamera -I../Logging -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WaitCommand.o WaitCommand.cpp
 
 # Subprojects
 .build-subprojects:

@@ -18,24 +18,29 @@
 #include "PressKeyInfo.h"
 #include "LineDetected.h"
 
+#include "DataPackets.h"
+#include "SerialCom.h"
+#include "SerialComRaspi.h"
+
 Robot::Robot() {
   _ComPort = new ComPort();
   _ComStream = new ComStream(_ComPort);
   _CommunicationHandler = new CommunicationHandler();
-  _SerialProtocol = new SerialCommandProtocol(_ComStream, _CommunicationHandler);
+  SerialComRaspi* serialCom = new SerialComRaspi(_ComStream);
+  DataPackets* dataPackets = new DataPackets(serialCom);
+  _SerialProtocol = new MessageDataProtocol(dataPackets, _CommunicationHandler);
   _Navigate = new Navigate(_SerialProtocol);
   _Motor = new Motor(_SerialProtocol);
   _Gyro = new Gyro(_SerialProtocol);
   _Servo = new Servo(_SerialProtocol);
   _Camera = new PiCamera();
-  _DetectFace = new DetectFace();
   _LineDetectSetting = new LineDetectSetting();  
   _LineDetect = new LineDetect(_LineDetectSetting, new EmptyLog());//new FileLogger("Log.txt"));
   _SensorLineDetectSetting = new LineDetectSetting();  
   _SensorLineDetect = new LineDetect(_SensorLineDetectSetting, new EmptyLog());//new FileLogger("Log.txt"));
 
   //  _LineDetect = new LineDetect(_LineDetectSetting, new FileLogger("Log.txt"));
-  _CameraSensor = new CameraSensor(_Camera, _DetectFace, _LineDetect, _SensorLineDetect, _Servo);
+  _CameraSensor = new CameraSensor(_Camera, _LineDetect, _SensorLineDetect, _Servo);
   
   std::map<std::string, int> parseCommands;
   ParseCommandLine* parseCommandLine = new ParseCommandLine(parseCommands);

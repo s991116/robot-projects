@@ -35,15 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/DetectColoredObject.o \
-	${OBJECTDIR}/DetectFace.o \
-	${OBJECTDIR}/DetectObject.o \
-	${OBJECTDIR}/DetectSurfObject.o \
-	${OBJECTDIR}/DetectTemplateObject.o \
 	${OBJECTDIR}/LineDetect.o \
 	${OBJECTDIR}/LineDetectSetting.o \
 	${OBJECTDIR}/LineInfo.o \
-	${OBJECTDIR}/ObjectPosition.o \
 	${OBJECTDIR}/Position.o
 
 
@@ -73,31 +67,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libvision.a: ${OBJECTFILES}
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libvision.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libvision.a
 
-${OBJECTDIR}/DetectColoredObject.o: DetectColoredObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectColoredObject.o DetectColoredObject.cpp
-
-${OBJECTDIR}/DetectFace.o: DetectFace.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectFace.o DetectFace.cpp
-
-${OBJECTDIR}/DetectObject.o: DetectObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectObject.o DetectObject.cpp
-
-${OBJECTDIR}/DetectSurfObject.o: DetectSurfObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectSurfObject.o DetectSurfObject.cpp
-
-${OBJECTDIR}/DetectTemplateObject.o: DetectTemplateObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DetectTemplateObject.o DetectTemplateObject.cpp
-
 ${OBJECTDIR}/LineDetect.o: LineDetect.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -112,11 +81,6 @@ ${OBJECTDIR}/LineInfo.o: LineInfo.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineInfo.o LineInfo.cpp
-
-${OBJECTDIR}/ObjectPosition.o: ObjectPosition.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Logging -I../StringUtil -I../Setting -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ObjectPosition.o ObjectPosition.cpp
 
 ${OBJECTDIR}/Position.o: Position.cpp 
 	${MKDIR} -p ${OBJECTDIR}

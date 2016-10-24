@@ -37,7 +37,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/CameraState.o \
 	${OBJECTDIR}/ComState.o \
-	${OBJECTDIR}/FaceDetectionPresentation.o \
 	${OBJECTDIR}/GyroState.o \
 	${OBJECTDIR}/LineDetectionPresentation.o \
 	${OBJECTDIR}/MainState.o \
@@ -100,62 +99,57 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/remotecontrol: ${OBJECTFILES}
 ${OBJECTDIR}/CameraState.o: CameraState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CameraState.o CameraState.cpp
 
 ${OBJECTDIR}/ComState.o: ComState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComState.o ComState.cpp
-
-${OBJECTDIR}/FaceDetectionPresentation.o: FaceDetectionPresentation.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FaceDetectionPresentation.o FaceDetectionPresentation.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ComState.o ComState.cpp
 
 ${OBJECTDIR}/GyroState.o: GyroState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GyroState.o GyroState.cpp
 
 ${OBJECTDIR}/LineDetectionPresentation.o: LineDetectionPresentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineDetectionPresentation.o LineDetectionPresentation.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LineDetectionPresentation.o LineDetectionPresentation.cpp
 
 ${OBJECTDIR}/MainState.o: MainState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MainState.o MainState.cpp
 
 ${OBJECTDIR}/MotorState.o: MotorState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MotorState.o MotorState.cpp
 
 ${OBJECTDIR}/NavigateState.o: NavigateState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateState.o NavigateState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NavigateState.o NavigateState.cpp
 
 ${OBJECTDIR}/ScriptRunnerState.o: ScriptRunnerState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ScriptRunnerState.o ScriptRunnerState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ScriptRunnerState.o ScriptRunnerState.cpp
 
 ${OBJECTDIR}/ServoState.o: ServoState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServoState.o ServoState.cpp
 
 ${OBJECTDIR}/State.o: State.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../StringUtil -I../SoundPlayer -I../PiCamera -I../RobotController -I../RobotHead -I../Robot -I../Setting -I../Logging -I../Vision -I../CommandScript -I../Command -I../Sensor -I../SerialMessageDataProtocol -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

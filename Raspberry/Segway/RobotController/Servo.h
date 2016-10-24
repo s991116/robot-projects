@@ -1,11 +1,11 @@
 #ifndef SERVO_H
 #define	SERVO_H
 
-#include "SerialProtocol.h"
+#include "MessageDataProtocol.h"
 
 class Servo {
 public:
-    Servo(SerialCommandProtocol* serialProtocol);
+    Servo(MessageDataProtocol* serialProtocol);
 
     short GetHorizontalPosition();
     short GetVerticalPosition();
@@ -26,7 +26,7 @@ public:
 
     virtual ~Servo();
 private:
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
     short _VerticalPos;
     short _HorizontalPos;
 };

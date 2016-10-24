@@ -1,4 +1,5 @@
 #include "ComStream.h"
+#include <iostream>
 
 ComStream::ComStream(ComPort* comPort) {
     _ComPort = comPort;
@@ -42,5 +43,6 @@ int ComStream::read() {
 
 void ComStream::write(int data) {
     _ComPort->Send(data);
+    std::cout << "Sent to Raspi:" << data << std::endl;
 }
 

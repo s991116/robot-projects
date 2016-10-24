@@ -1,11 +1,11 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
 
-#include "SerialProtocol.h"
+#include "MessageDataProtocol.h"
 
 class Motor {
 public:
-    Motor(SerialCommandProtocol* serialProtocol);
+    Motor(MessageDataProtocol* serialProtocol);
     void SetLeftP(short p);
     void SetLeftI(short i);
     void SetLeftD(short d);
@@ -25,7 +25,7 @@ public:
     
     virtual ~Motor();
 private:
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
 };
 
 #endif	/* MOTOR_H */

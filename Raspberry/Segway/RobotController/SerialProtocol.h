@@ -1,9 +1,12 @@
+/*
 #ifndef SerialProtocol
 #define SerialProtocol
 #include "CommandTypes.h"
 #include "ComStream.h"
 #include "CommunicationHandler.h"
 #include "CommandType.h"
+
+#include "MessageDataProtocol.h"
 
 class SerialCommandProtocol
 {
@@ -54,4 +57,6 @@ class SerialCommandProtocol
 	  void (*_HandleData)(unsigned char responseType, unsigned char commandId, char16_t data);
 	  char16_t (*_HandleReply)(unsigned char responseType, unsigned char commandId);
 };
+
 #endif
+ */ 

@@ -47,6 +47,7 @@
             <pElem>../CommandScript</pElem>
             <pElem>../Command</pElem>
             <pElem>../Sensor</pElem>
+            <pElem>../SerialMessageDataProtocol</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>

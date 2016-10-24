@@ -4,7 +4,6 @@
 #include "CameraSensor.h"
 #include "State.h"
 #include "Position.h"
-#include "FaceDetectionPresentation.h"
 #include "LineDetectionPresentation.h"
 
 class CameraState : public State {
@@ -16,7 +15,6 @@ public:
 private:
     CameraSensor* _CameraSensor;
     Position* _Position;
-    FaceDetectionPresentation* _FaceDetectionPresentation;
     LineDetectionPresentation* _LineDetectionPresentation;
     int kbhit(void);
     int _PictureCount;

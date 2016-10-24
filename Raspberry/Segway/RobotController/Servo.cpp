@@ -1,21 +1,22 @@
 #include "Servo.h"
+#include "CommandType.h"
 
-Servo::Servo(SerialCommandProtocol* serialProtocol) {
+Servo::Servo(MessageDataProtocol* serialProtocol) {
     _SerialProtocol = serialProtocol;
 }
 
 short Servo::GetHorizontalPosition() {
-    return _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
+    return _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
 }
 
 short Servo::GetVerticalPosition() {
-    return _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_VERTICAL);
+    return _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_VERTICAL);
 }
 
 void Servo::SetHorizontalPosition(short pos) {
     if(pos != _HorizontalPos)
     {
-        _SerialProtocol->sendCommandAndData(HardwareControllerCommandTypeByte::SERVO_HORIZONTAL, pos);
+        _SerialProtocol->SendData((char)HardwareControllerCommandTypeByte::SERVO_HORIZONTAL, pos);
         _HorizontalPos = pos;
     }
 }
@@ -23,7 +24,7 @@ void Servo::SetHorizontalPosition(short pos) {
 void Servo::SetVerticalPosition(short pos) {
     if(pos != _VerticalPos)
     {
-      _SerialProtocol->sendCommandAndData(HardwareControllerCommandTypeByte::SERVO_VERTICAL, pos);
+      _SerialProtocol->SendData((char)HardwareControllerCommandTypeByte::SERVO_VERTICAL, pos);
       _VerticalPos = pos;
     }
 }
@@ -45,25 +46,25 @@ void Servo::StepRight() {
 }
 
 void Servo::StepUp(int steps) {
-    short pos = _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_VERTICAL);
+    short pos = _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_VERTICAL);
     pos = pos - steps;
     SetVerticalPosition(pos);
 }
 
 void Servo::StepDown(int steps) {
-    short pos = _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_VERTICAL);
+    short pos = _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_VERTICAL);
     pos = pos + steps;
     SetVerticalPosition(pos);
 }
 
 void Servo::StepLeft(int steps) {
-    short pos = _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
+    short pos = _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
     pos = pos - steps;
     SetHorizontalPosition(pos);
 }
 
 void Servo::StepRight(int steps) {
-    short pos = _SerialProtocol->getByteData(HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
+    short pos = _SerialProtocol->RequestCharData((char)HardwareControllerCommandTypeByte::SERVO_HORIZONTAL);
     pos = pos + steps;
     SetHorizontalPosition(pos);
 }

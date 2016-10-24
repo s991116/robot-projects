@@ -1,11 +1,11 @@
 #ifndef NAVIGATE_H
 #define	NAVIGATE_H
 
-#include "SerialProtocol.h"
+#include "MessageDataProtocol.h"
 
 class Navigate {
 public:
-    Navigate(SerialCommandProtocol* serialProtocol);
+    Navigate(MessageDataProtocol* serialProtocol);
     void ForwardSpeed(short speed);
     void TurnSpeed(short turn);
     short GetForwardSpeed();
@@ -26,7 +26,7 @@ public:
     virtual ~Navigate();
     
 private:
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
 };
 
 #endif	/* NAVIGATE_H */

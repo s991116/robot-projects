@@ -57,6 +57,7 @@
             <pElem>../Setting</pElem>
             <pElem>../PiCamera</pElem>
             <pElem>../Logging</pElem>
+            <pElem>../SerialMessageDataProtocol</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>

@@ -1,15 +1,19 @@
 #include "Distance.h"
+#include "CommandType.h"
 
-Distance::Distance(SerialCommandProtocol* serialProtocol) {
+Distance::Distance(MessageDataProtocol* serialProtocol) {
     _SerialProtocol = serialProtocol;
 }
 
 int Distance::GetDistance() {
-    return _SerialProtocol->getShortSignedData(HardwareControllerCommandTypeShort::DISTANCE);
+    short data[1];
+    _SerialProtocol->RequestData((char)HardwareControllerCommandTypeShort::DISTANCE, 0,data);
+    return data[1];
 }
 
 void Distance::ResetDistance() {
-  _SerialProtocol->sendCommand(HardwareControllerCommand::RESET_DISTANCE);
+    char data[1];
+    _SerialProtocol->SendData((char)HardwareControllerCommand::RESET_DISTANCE, 0,data);
 }
 
 Distance::~Distance() {

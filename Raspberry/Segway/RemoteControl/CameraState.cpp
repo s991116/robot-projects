@@ -8,8 +8,6 @@
 CameraState::CameraState(CameraSensor* cameraSensor) {
     _CameraSensor = cameraSensor;
     _Position = new Position();
-    
-    _FaceDetectionPresentation = new FaceDetectionPresentation(_CameraSensor, _Position);
     _LineDetectionPresentation = new LineDetectionPresentation(_CameraSensor, _Position);
     _PictureCount = 1;
 }
@@ -18,7 +16,6 @@ State* CameraState::View() {
     clear();
     printw("*** Camera ***\n");
     printw("P         - Take Picture\n");
-    printw("F         - Facedetection\n");
     printw("L         - Linedetection\n");
     printw("I         - Linedetection from picture\n");
     printw("Q         - Return\n");
@@ -51,10 +48,6 @@ State* CameraState::View() {
 
         case 'l':
             LoopDisplayFunction(_LineDetectionPresentation);
-            break;
-
-        case 'f':
-            LoopDisplayFunction(_FaceDetectionPresentation);
             break;
     }
     return this;

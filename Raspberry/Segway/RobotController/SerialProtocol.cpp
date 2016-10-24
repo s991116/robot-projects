@@ -1,5 +1,5 @@
 #include "SerialProtocol.h"
-
+/*
 SerialCommandProtocol::SerialCommandProtocol(ComStream *serial, CommunicationHandler* communicationHandler) {
     _Serial = serial;
     _CommunicationHandler = communicationHandler;
@@ -191,3 +191,4 @@ unsigned char SerialCommandProtocol::getDataByte() {
     return result;
 }
 
+*/

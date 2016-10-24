@@ -8,6 +8,23 @@ CommunicationHandler::CommunicationHandler() {
 CommunicationHandler::~CommunicationHandler() {
 }
 
+void CommunicationHandler::HandleData(char commandId, char length, char data[]) {
+    
+}
+
+void CommunicationHandler::HandleData(char commandId, char length, short data[]) {
+    
+}
+
+void CommunicationHandler::HandleReply(char commandId, char length, char data[]) {
+    
+}
+
+void CommunicationHandler::HandleReply(char commandId, char length, short data[]) {
+    
+}    
+
+/*
 void CommunicationHandler::handleCommand(unsigned char commandId) {
     this->lastCommandId = commandId;
 }
@@ -20,3 +37,4 @@ void CommunicationHandler::handleData(unsigned char responseType, unsigned char 
 char16_t CommunicationHandler::handleReply(unsigned char responseType, unsigned char commandId) {
     return 0;
 }
+*/

@@ -1,14 +1,18 @@
 #ifndef COMMUNICATIONHANDLER_H
 #define	COMMUNICATIONHANDLER_H
 
-class CommunicationHandler {
+#include "DataHandlerInterface.h"
+
+class CommunicationHandler : public DataHandlerInterface {
 public:
     CommunicationHandler();
     virtual ~CommunicationHandler();
     
-    void handleCommand(unsigned char commandId);
-    void handleData(unsigned char responseType, unsigned char commandId, char16_t data);
-    char16_t handleReply(unsigned char responseType, unsigned char commandId);
+    void HandleData(char commandId, char length, char data[]);
+    void HandleData(char commandId, char length, short data[]);
+    void HandleReply(char commandId, char length, char data[]);
+    void HandleReply(char commandId, char length, short data[]);
+    
     
     int lastCommandId;
     int lastData;

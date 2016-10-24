@@ -1,11 +1,11 @@
 #ifndef GYRO_H
 #define	GYRO_H
 
-#include "SerialProtocol.h"
+#include "MessageDataProtocol.h"
 
 class Gyro {
 public:
-    Gyro(SerialCommandProtocol* serialProtocol);
+    Gyro(MessageDataProtocol* serialProtocol);
     
     short GetAngle();
     
@@ -18,7 +18,7 @@ public:
         
     virtual ~Gyro();
 private:
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
 };
 
 #endif	/* GYRO_H */

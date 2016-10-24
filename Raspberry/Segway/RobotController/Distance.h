@@ -1,11 +1,11 @@
 #ifndef DISTANCE_H
 #define	DISTANCE_H
 
-#include "SerialProtocol.h"
+#include "MessageDataProtocol.h"
 
 class Distance {
 public:
-    Distance(SerialCommandProtocol* serialProtocol);
+    Distance(MessageDataProtocol* serialProtocol);
     
     int GetDistance();
     
@@ -13,7 +13,7 @@ public:
     
     virtual ~Distance();
 private:
-    SerialCommandProtocol* _SerialProtocol;
+    MessageDataProtocol* _SerialProtocol;
 
 };
 

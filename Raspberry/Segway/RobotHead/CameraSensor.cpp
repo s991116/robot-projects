@@ -1,8 +1,7 @@
 #include "CameraSensor.h"
 
-CameraSensor::CameraSensor(PiCamera* piCamera, DetectFace* detectFace, LineDetect* lineDetect, LineDetect* sensorLineDetect, Servo* servo) {
+CameraSensor::CameraSensor(PiCamera* piCamera, LineDetect* lineDetect, LineDetect* sensorLineDetect, Servo* servo) {
     _PiCamera = piCamera;
-    _DetectFace = detectFace;
     _LineDetect = lineDetect;
     _SensorLineDetect = sensorLineDetect;
     _Servo = servo;
@@ -20,14 +19,6 @@ void CameraSensor::UpdateFrameSize(int width, int height)
       _Width = width;
       _Height = height;
     }
-}
-
-void CameraSensor::GetFacePosition(Position* position) {
-    UpdateFrameSize(320,240);
-    cv::Mat image = _PiCamera->GetNextFrame();
-    _DetectFace->GetFacePosition(image, position);
-
-    MoveCamera(position);
 }
 
 std::string CameraSensor::GetStatus() {
