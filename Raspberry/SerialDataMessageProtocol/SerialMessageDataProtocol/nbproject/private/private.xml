@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>3</activeConfTypeElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/tests/testRunner.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/Mocks/HandlerMock.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/MessageDataProtocol.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/DataPackets.cpp</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/MessageDataProtocol.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/DataPackets.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/SerialCom.h</file>
+            <file>file:/Z:/robot-projects/Raspberry/SerialDataMessageProtocol/SerialMessageDataProtocol/ArduinoSerial.cpp</file>
+        </group>
+    </open-files>
+</project-private>

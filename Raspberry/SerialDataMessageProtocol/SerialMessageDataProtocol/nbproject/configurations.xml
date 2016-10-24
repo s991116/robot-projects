@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>ArduinoDataHandler.h</itemPath>
+      <itemPath>ArduinoSerial.h</itemPath>
+      <itemPath>DataHandler.h</itemPath>
+      <itemPath>DataHandlerInterface.h</itemPath>
+      <itemPath>DataPackets.h</itemPath>
+      <itemPath>MessageDataFactory.h</itemPath>
+      <itemPath>MessageDataProtocol.h</itemPath>
+      <itemPath>SerialCom.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>ArduinoDataHandler.cpp</itemPath>
+      <itemPath>ArduinoSerial.cpp</itemPath>
+      <itemPath>DataHandler.cpp</itemPath>
+      <itemPath>DataPackets.cpp</itemPath>
+      <itemPath>MessageDataProtocol.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f1"
+                     displayName="ProtocolTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>Mocks/HandlerMock.cpp</itemPath>
+        <itemPath>Mocks/HandlerMock.h</itemPath>
+        <itemPath>Mocks/SerialBufferMock.cpp</itemPath>
+        <itemPath>Mocks/SerialBufferMock.h</itemPath>
+        <itemPath>Mocks/SerialComMock.cpp</itemPath>
+        <itemPath>Mocks/SerialComMock.h</itemPath>
+        <itemPath>Mocks/SerialConnectorMock.cpp</itemPath>
+        <itemPath>Mocks/SerialConnectorMock.h</itemPath>
+        <itemPath>../../gtest-1.7.0/src/gtest-all.cc</itemPath>
+        <itemPath>tests/testRunner.cpp</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-std=c++0x</commandLine>
+        </ccTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../../gtest-1.7.0/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoDataHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoDataHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ArduinoSerial.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoSerial.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DataHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataHandlerInterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataPackets.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DataPackets.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MessageDataFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MessageDataProtocol.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MessageDataProtocol.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/HandlerMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/HandlerMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialBufferMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialBufferMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialComMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialComMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialConnectorMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialConnectorMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SerialCom.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <folder path="TestFiles">
+        <ccTool>
+          <incDir>
+            <pElem>../../gtest-1.7.0/include</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../../gtest-1.7.0/make</pElem>
+          </linkerAddLib>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>../../gtest-1.7.0/src</pElem>
+            <pElem>../../gtest-1.7.0</pElem>
+            <pElem>Mocks</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../../gtest-1.7.0/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoDataHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoDataHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ArduinoSerial.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ArduinoSerial.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DataHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataHandlerInterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DataPackets.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DataPackets.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MessageDataFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MessageDataProtocol.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MessageDataProtocol.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/HandlerMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/HandlerMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialBufferMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialBufferMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialComMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialComMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Mocks/SerialConnectorMock.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Mocks/SerialConnectorMock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SerialCom.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,0 +1,33 @@
+Cmd Id: 42 = 0101010
+data: 13 = 00001011
+Type: char = 0
+Length: 1 = 0
+Direction: SendData = 00
+DataReceived [26,0,15]
+
+<ReceivedInput>    ::= [<StartBit><CmdId>][<FollowBit><Direction><DataType><DataLow>][<FollowBit><Length><DataHigh>]
+<StartBit>         ::= 1
+<FollowBit>        ::= 0
+<CmdId>            ::= 7-bit
+<Direction>        ::= <SendData> | <RequestData> | <ReceiveData>
+<SendData>         ::= 00
+<RequestData>      ::= 11
+<ReceiveData>      ::= 01
+<DataType>         ::= <Uchar>| >Short>
+<Uchar>            ::= <1-bit> 0
+<Short>            ::= <1-bit> 1
+<Length>           ::= 3-bit
+<DataHight>        ::= 4-bit
+<DataLow>          ::= 4-bit
+
+
+10101010 - 00000000 - 00001011
+
+Handle data char
+command id 2
+
+
+100000010 | 00000001 | 00000000
+
+Enable: 130 , 1 , 0
+Disable: 130 , 0 , 0
