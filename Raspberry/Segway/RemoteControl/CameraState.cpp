@@ -19,7 +19,7 @@ State* CameraState::View() {
     printw("L         - Linedetection\n");
     printw("I         - Linedetection from picture\n");
     printw("Q         - Return\n");
-    printw("\n");    
+    printw("\n");
     printw("\n");
 
     noecho();
@@ -31,14 +31,14 @@ State* CameraState::View() {
         case 'q':
             return this->ReturnState;
             break;
-        
-        case 'p':            
+
+        case 'p':
             filename = "TakePicture_" + Convert::IntToString(_PictureCount) + ".jpg";
             _PictureCount++;
             _CameraSensor->TakePicture(filename.c_str());
             WriteMessage("Picture taken.");
             break;
-            
+
         case 'i':
             number = this->ReadInteger("Picture no.:");
             filename = filename = "TakePicture_" + Convert::IntToString(number) + ".jpg";
