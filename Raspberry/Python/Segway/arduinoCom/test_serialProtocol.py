@@ -1,5 +1,5 @@
 import unittest
-import SerialProtocol
+import serialProtocol
 import mock
 import array
 
@@ -27,7 +27,7 @@ class SerialMock():
 class SerialFixture():
     def CreateTarget(self):
         self.serialMock = SerialMock()
-        return SerialProtocol.SerialProtocol(self.serialMock)
+        return serialProtocol.serialProtocol(self.serialMock)
 
     def SetupReceivedShortDataFromSerial(self, commandId, expectedResponse):
         length = len(expectedResponse)-1
@@ -97,14 +97,14 @@ class Test(unittest.TestCase):
 
         #Assert
         expectedData = [128+commandId,
-                        (data[0] & 255) & 15 + 16,
-                        (data[0] & 255) >> 4 + 16,
-                        (data[0] >> 8) & 15 + 16,
-                        (data[0] >> 8) >> 4 + 16,
-                        (data[1] & 255) & 15 + 16,
-                        (data[1] & 255) >> 4 + 16,
-                        (data[1] >> 8) & 15 + 16,
-                        (data[1] >> 8) >> 4 + 16]
+                        ((data[0] & 255) & 15) + 16,
+                        ((data[0] & 255) >> 4) + 16,
+                        ((data[0] >> 8) & 15),
+                        ((data[0] >> 8) >> 4),
+                        ((data[1] & 255) & 15) + 16,
+                        ((data[1] & 255) >> 4) + 16,
+                        ((data[1] >> 8) & 15),
+                        ((data[1] >> 8) >> 4)]
                 
         written = fixture.WrittenDataToSerial()
         self.assertListEqual(written, expectedData)

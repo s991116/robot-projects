@@ -1,5 +1,5 @@
 import unittest
-import SerialProtocol
+import serialProtocol
 import mock
 import array
 
@@ -27,7 +27,7 @@ class SerialMock():
 class SerialFixture():
     def CreateTarget(self):
         self.serialMock = SerialMock()
-        return SerialProtocol.SerialProtocol(self.serialMock)
+        return serialProtocol.serialProtocol(self.serialMock)
 
     def SetupReceivedShortDataFromSerial(self, commandId, expectedResponse):
         length = len(expectedResponse)-1

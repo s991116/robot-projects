@@ -1,6 +1,6 @@
 import array
 
-class SerialProtocol(object):
+class serialProtocol(object):
     
     def __init__(self, serial):
         self.serial = serial
@@ -18,10 +18,10 @@ class SerialProtocol(object):
         request = [0] * (1 + 4*len(data))
         request[0] = commandId + 128
         for index in range(0, len(data)):
-            request[4*index+1] = (data[index] & 31)
-            request[4*index+2] = ((data[index] & 255) >> 4 + ((len(data)-1) << 4))
-            request[4*index+3] = ((data[index] >> 8) & 31)
-            request[4*index+4] = (data[index] >> 12 + ((len(data)-1) << 4))
+            request[4*index+1] = (data[index] & 15) + 16
+            request[4*index+2] = ((data[index] & 255) >> 4) + ((len(data)-1) << 4)
+            request[4*index+3] = ((data[index] >> 8) & 15)
+            request[4*index+4] = data[index] >> 12
         self.__writeDataToSerial(request)
 
     def RequestChar(self, commandId, length):
@@ -43,14 +43,14 @@ class SerialProtocol(object):
         return self.__getResponse(response)
     
     def __readSerialResponse(self):
-        firstPart = self.serial.read(3)
+        firstPart = bytearray(self.serial.read(3))
         dataType = (firstPart[1] >> 4) & 1
         length = firstPart[2] >> 4
         if(dataType == 0):
             bytesToRead = length*2
         else:
             bytesToRead = 2+length*4        
-        secondPart = self.serial.read(bytesToRead)
+        secondPart = bytearray(self.serial.read(bytesToRead))
         result = firstPart + secondPart
         return bytearray(result)
     
