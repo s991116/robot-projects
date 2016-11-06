@@ -13,17 +13,17 @@
 #define HORIZONTAL_SERVO_PIN (3)
 #define SWITCH_BUTTON_PIN (4)
 
-#define ENCODER_A_INTERRUPT_PIN (10)
-#define ENCODER_A_DIRECTION_PIN (11)
-#define ENCODER_B_INTERRUPT_PIN (12)
-#define ENCODER_B_DIRECTION_PIN (13)
+#define ENCODER_B_INTERRUPT_PIN (10)
+#define ENCODER_B_DIRECTION_PIN (11)
+#define ENCODER_A_INTERRUPT_PIN (12)
+#define ENCODER_A_DIRECTION_PIN (13)
 
 #define DISTANCE_ECHO_PIN (6)
 
-#define MOTOR_B_DIR_PIN (5)
-#define MOTOR_A_DIR_PIN (7)
-#define MOTOR_B_SPEED_PIN (8)
-#define MOTOR_A_SPEED_PIN (9)
+#define MOTOR_A_DIR_PIN (5)
+#define MOTOR_B_DIR_PIN (7)
+#define MOTOR_A_SPEED_PIN (8)
+#define MOTOR_B_SPEED_PIN (9)
 
 #define DISTANCE_TRIGGER_PIN (21)
 
@@ -99,4 +99,5 @@ void loop()
   
   HandleButtonSwitch();
   DistanceSensorUpdate();
+  ServoUpdate();
 }

@@ -13,7 +13,14 @@ void raspiHandleDataChar(char commandId, char length, char dataArray[]) {
         case SERVO_VERTICAL_BYTE:
           SetVerticalAngle(data);
           break;
-          
+
+        case SERVO_SPEED_BYTE:
+          setVerticalServoSpeed(dataArray[0]);
+          Serial.println((byte)dataArray[0]);
+          Serial.println((byte)dataArray[1]);
+          setHorizontalServoSpeed(dataArray[1]);
+          break;
+            
         case SEGWAY_ENABLED_BYTE:
           SetSegwayEnabled(data);
           break;
@@ -106,6 +113,11 @@ void raspiHandleReplyChar(char commandId, char length, char data[]) {
         case SERVO_VERTICAL_BYTE:
           data[0] = GetVerticalAngle();
           break;
+
+        case SERVO_SPEED_BYTE:
+          data[0] = getVerticalServoSpeed();
+          data[1] = getHorizontalServoSpeed();
+          break;
           
         case SEGWAY_ENABLED_BYTE:
           data[0] = GetSegwayEnabled();
@@ -123,7 +135,6 @@ void raspiHandleReplyChar(char commandId, char length, char data[]) {
           data[0] = TestByte;
           break;
       }      
-
 }
 
 void raspiHandleReplyShort(char commandId, char length, short data[]) {

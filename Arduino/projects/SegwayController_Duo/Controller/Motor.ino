@@ -17,7 +17,7 @@ void SetMotorPowerA(int power)
 
 void SetMotorPowerB(int power)
 {
-  SetMotorPower(power, MOTOR_B_SPEED_PIN, MOTOR_B_DIR_PIN);
+  SetMotorPower(-power, MOTOR_B_SPEED_PIN, MOTOR_B_DIR_PIN);
 }
 
 void SetMotorPower(int speed, short speed_pin, short dir_pin)

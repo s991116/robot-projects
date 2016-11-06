@@ -7,6 +7,7 @@
 #define SEGWAY_TURN_BYTE             (4)
 #define TEST_BYTE                    (5)
 #define DISTANCE_SENSOR_ENABLE_BYTE  (6)
+#define SERVO_SPEED_BYTE             (7)
 
 #define ANGLE_OFFSET_SHORT      (0)
 #define PID_ENCODER_A_SHORT     (1)
