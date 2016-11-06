@@ -78,9 +78,9 @@ class Test(unittest.TestCase):
         #Assert
         expectedData = [128+commandId, 
                         data[0] & 15,
-                        data[0] >> 4 + 16,
+                        (data[0] >> 4) + 16,
                         data[1] & 15,
-                        data[1] >> 4 + 16]
+                        (data[1] >> 4) + 16]
         written = fixture.WrittenDataToSerial()
         self.assertListEqual(written, expectedData)
                 

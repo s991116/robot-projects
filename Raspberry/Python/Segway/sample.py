@@ -4,6 +4,10 @@ from components.servo import servo
 from components.distance import distance
 from components.gyro import gyro
 from components.sound import sound
+from components.segway import segway
+from components.motor import motor
+
+import time
 
 port = serial.Serial("/dev/ttyAMA0", baudrate=115200, timeout=3.0)
 dataProtocol = serialProtocol(port)
@@ -12,7 +16,7 @@ dataProtocol = serialProtocol(port)
 #servo.setVerticalPosition(90)
 #servo.setHorizontalPosition(90)
 
-#gyro = gyro(dataProtocol);
+gyro = gyro(dataProtocol);
 #gyro.enableGyro()
 #print str(gyro.measure());
 #gyro.disableGyro()
@@ -21,6 +25,18 @@ dataProtocol = serialProtocol(port)
 #distance.enable(1)
 #print str(distance.measure())
 
-sound.play("test.wav")
+segway = segway(dataProtocol)
+gyro.setPidGyroSpeed(100, 0, 0)
+gyro.setPidGyroAccelration(100, 0, 0)
+
+motor = motor(dataProtocol)
+motor.setPidMotorA(3000, 1000, 0)
+motor.setPidMotorB(3000, 1000, 0)
+
+segway.enable()
+time.sleep(5)
+segway.disable()
+
+#sound.play("test.wav")
 
 port.close()

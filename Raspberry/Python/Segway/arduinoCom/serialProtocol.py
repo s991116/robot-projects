@@ -11,7 +11,7 @@ class serialProtocol(object):
         request[0] = commandId + 128
         for index in range(0, len(data)):
             request[2*index+1] = (data[index] & 15)
-            request[2*index+2] = (data[index] >> 4 + ((len(data)-1) << 4))
+            request[2*index+2] = ((data[index] >> 4) + ((len(data)-1) << 4))
         self.__writeDataToSerial(request)
         
     def sendShortData(self, commandId, data):

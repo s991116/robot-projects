@@ -21,6 +21,9 @@ class arduinoCommands(object):
     def DISTANCE_SENSOR_ENABLE_BYTE():              
         return 6
     @staticmethod
+    def SERVO_SPEED_BYTE():
+        return 7
+    @staticmethod
     def ANGLE_OFFSET_SHORT():     
         return 0
     @staticmethod
