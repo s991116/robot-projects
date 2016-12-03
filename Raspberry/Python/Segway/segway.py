@@ -59,6 +59,6 @@ class segway(object):
 
     def setMotorBPid(self, p, i, d):
         self.dataProtocol.sendShortData(arduinoCommands.PID_ENCODER_B_SHORT(), [p,i,d])
-                
+        
     def __del__(self):
         self.port.close()
