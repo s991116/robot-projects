@@ -47,6 +47,18 @@ class segway(object):
     
     def SetSpeedPid(self, p, i, d):
         self.dataProtocol.sendShortData(arduinoCommands.PID_SPEED_SHORT(), [p,i,d])
+
+    def pidMotorA(self):
+        return self.dataProtocol.RequestShort(arduinoCommands.PID_ENCODER_A_SHORT(), 3)
         
+    def setMotorAPid(self, p, i, d):
+        self.dataProtocol.sendShortData(arduinoCommands.PID_ENCODER_A_SHORT(), [p,i,d])
+
+    def pidMotorB(self):
+        return self.dataProtocol.RequestShort(arduinoCommands.PID_ENCODER_B_SHORT(), 3)
+
+    def setMotorBPid(self, p, i, d):
+        self.dataProtocol.sendShortData(arduinoCommands.PID_ENCODER_B_SHORT(), [p,i,d])
+                
     def __del__(self):
         self.port.close()
