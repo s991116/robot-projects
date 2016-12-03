@@ -11,8 +11,9 @@ myscreen = curses.initscr()
 
 control = control(myscreen, segway)
 servo = servo(myscreen, segway.servo)
+motor = motor(myscreen, segway)
 
-displayStates = {'control': control, 'servo': servo}
+displayStates = {'control': control, 'servo': servo, 'motor': motor}
 
 main = main(myscreen, displayStates)
 main.display()

@@ -89,7 +89,7 @@ void HandleSegway()
   {
     NextSegwayUpdateTime = t + NEXTSEGWAYUPDATETIME;
     UpdateSegway();
-  }  
+  }
 }
 
 void UpdateSegway()
@@ -104,6 +104,7 @@ void UpdateSegway()
   LimitSpeedTargetChange();
   
   PIDSpeed.Compute();
+
   
   if(CorrectionSpeed > SpeedCorrLimit)
     TargetAngle = SpeedCorrLimit;

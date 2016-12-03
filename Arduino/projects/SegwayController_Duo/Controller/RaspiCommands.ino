@@ -16,6 +16,7 @@
 #define PID_GYRO_SHORT          (7)
 #define PID_SPEED_SHORT        (10)
 #define DISTANCE_MEASURE_SHORT (11)
+#define DISTANCE_RESET         (12)
 #define DISTANCE               (13)
 #define SPEED_CORR_LIMIT_SHORT (14)
 #define SPEED_PID_LIMIT_SHORT  (15)

@@ -1,4 +1,4 @@
-// I2Cdev library collection - MPU6050 I2C device class, 6-axis MotionApps 2.0 implementation
+ // I2Cdev library collection - MPU6050 I2C device class, 6-axis MotionApps 2.0 implementation
 // Based on InvenSense MPU-6050 register map document rev. 2.0, 5/19/2011 (RM-MPU-6000A-00)
 // 5/20/2013 by Jeff Rowberg <jeff@rowberg.net>
 // Updates should (hopefully) always be available at https://github.com/jrowberg/i2cdevlib
@@ -400,7 +400,7 @@ uint8_t MPU6050::dmpInitialize() {
             setIntEnabled(0x12);
 
             DEBUG_PRINTLN(F("Setting sample rate to 200Hz..."));
-            setRate(4); // 1khz / (1 + 4) = 200 Hz
+            setRate(2); // 1khz / (1 + 4) = 200 Hz
 
             DEBUG_PRINTLN(F("Setting external frame sync to TEMP_OUT_L[0]..."));
             setExternalFrameSync(MPU6050_EXT_SYNC_TEMP_OUT_L);

@@ -3,6 +3,7 @@ from arduinoCom.serialProtocol import serialProtocol
 from arduinoCom.commands import arduinoCommands
 from components.servo import servo
 from components.distance import distance
+from components.wheelDistance import wheelDistance
 from components.gyro import gyro
 from components.sound import sound
 from components.motor import motor
@@ -16,6 +17,7 @@ class segway(object):
         self.servo = servo(self.dataProtocol)
         self.gyro = gyro(self.dataProtocol)
         self.distance = distance(self.dataProtocol)
+        self.wheelDistance = wheelDistance(self.dataProtocol)
         self.motor = motor(self.dataProtocol)
         self.wii = wii()
 
@@ -45,6 +47,6 @@ class segway(object):
     
     def SetSpeedPid(self, p, i, d):
         self.dataProtocol.sendShortData(arduinoCommands.PID_SPEED_SHORT(), [p,i,d])
-
+        
     def __del__(self):
         self.port.close()

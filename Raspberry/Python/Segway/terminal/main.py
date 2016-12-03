@@ -9,6 +9,7 @@ class main(object):
         escapeKeycode = 27
         choices = {ord('1') : self.displayStates['control'].display,
                    ord('2') : self.displayStates['servo'].display }
+                   ord('3') : self.displayStates['motor'].display }
         
         while True:
 
@@ -25,8 +26,9 @@ class main(object):
             
             self.myscreen.addstr(11, 1, " 1. Control")
             self.myscreen.addstr(12, 1, " 2. Servo")
+            self.myscreen.addstr(13, 1, " 3. Motor")
 
-            self.myscreen.addstr(14, 1, " Esc. Exit")
+            self.myscreen.addstr(16, 1, " Esc. Exit")
             
             self.myscreen.addstr(20, 1, " Choice: ")
 

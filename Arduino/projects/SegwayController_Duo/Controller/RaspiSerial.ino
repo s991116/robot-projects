@@ -183,6 +183,13 @@ void raspiHandleReplyShort(char commandId, char length, short data[]) {
           data[1] = DistanceEncoderCountB/10;
           break;
 
+        case DISTANCE_RESET:
+          data[0] = DistanceEncoderCountA/10;
+          ResetDistanceEncoderCountA();
+          data[1] = DistanceEncoderCountB/10;
+          ResetDistanceEncoderCountB();
+          break;
+
        case SPEED_CORR_LIMIT_SHORT:
           data[0] = SpeedCorrLimit;
           break;
