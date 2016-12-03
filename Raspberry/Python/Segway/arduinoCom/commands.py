@@ -44,6 +44,9 @@ class arduinoCommands(object):
     @staticmethod
     def DISTANCE_MEASURE_SHORT():      
         return 11
+   @staticmethod
+    def DISTANCE_RESET():               
+        return 12
     @staticmethod
     def DISTANCE():               
         return 13

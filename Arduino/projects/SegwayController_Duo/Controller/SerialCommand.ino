@@ -24,6 +24,7 @@ void InitializeSerialCommand() {
   // Setup callbacks for SerialCommand commands
   AddCommand("s", segway_command, "Start segway");
   AddCommand("g", gyro_command, "Gyro info");
+  AddCommand("mp", motor_command, "Set Motor Power");
   AddCommand("distance", distance_command);
   AddCommand("dSensorEnable", distanceSensorEnable_command);  
   AddCommand("dSensor", distanceSensor_command);
@@ -135,6 +136,15 @@ void error_command()
   Serial.print(" , Speed error B: ");
   Serial.print(errorB);  
   Serial.println("");  
+}
+
+void motor_command()
+{
+  int mPowerA, mPowerB;
+  TryGetNextArgumentAsInt("Motor power A", &mPowerA);
+  TryGetNextArgumentAsInt("Motor power B", &mPowerB);
+  SetMotorPowerA(mPowerA);
+  SetMotorPowerB(mPowerB);
 }
 
 void pidA_command()

@@ -1,7 +1,6 @@
 
 short Angle;
 short Angle_Acc;
-
 void handleDataChar(char commandId, char length, char data[]) {
 }
 
