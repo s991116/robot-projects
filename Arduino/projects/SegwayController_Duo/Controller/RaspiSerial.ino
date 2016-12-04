@@ -33,6 +33,10 @@ void raspiHandleDataChar(char commandId, char length, char dataArray[]) {
           TargetTurnSpeedWanted = data-127;
           break;
 
+        case SEGWAY_SPEED_FACTOR_BYTE:
+          ControlSpeedFactor = data;
+          break;
+
         case TEST_BYTE:
           TestByte = data;
           break;
@@ -131,6 +135,10 @@ void raspiHandleReplyChar(char commandId, char length, char data[]) {
           data[0] = TargetTurnSpeedWanted + 127;
           break;
 
+        case SEGWAY_SPEED_FACTOR_BYTE:
+          data[0] = ControlSpeedFactor;
+          break;
+
         case TEST_BYTE:
           data[0] = TestByte;
           break;
@@ -148,6 +156,10 @@ void raspiHandleReplyShort(char commandId, char length, short data[]) {
         case GYRO_MEASURE_SHORT:
           data[0] = Angle;
           data[1] = Angle_Acc;
+          break;
+
+        case ANGLE_RADIAN:
+          data[0] = coSpeed;
           break;
           
         case PID_ENCODER_A_SHORT:

@@ -92,28 +92,29 @@ void HandleSegway()
   }
 }
 
+int LastAngle;
+
 void UpdateSegway()
 {
 
   UpdateCurrentEncoderA();
   UpdateCurrentEncoderB();
-  double tempSpeed = (CurrentEncoderCountA + CurrentEncoderCountB) / 2;
-  UpdateSpeedAverage(tempSpeed);
-  CurrentSpeed = CurrentSpeedBufferAverage;
+  UpdateAngle();
+  coSpeed = GetCOSpeed(CurrentAngle, LastAngle, CurrentEncoderCountA, CurrentEncoderCountB);
+  LastAngle = CurrentAngle;
+  //UpdateSpeedAverage(tempSpeed);
+  CurrentSpeed = coSpeed;//CurrentSpeedBufferAverage;
 
   LimitSpeedTargetChange();
   
   PIDSpeed.Compute();
-
   
   if(CorrectionSpeed > SpeedCorrLimit)
     TargetAngle = SpeedCorrLimit;
   else if(CorrectionSpeed < -SpeedCorrLimit)
      TargetAngle = -SpeedCorrLimit;
   else TargetAngle = CorrectionSpeed;
-  
-  UpdateAngle();
-  
+    
   PIDGyro.Compute();
   
   TargetEncoderCountA = -(CorrectionAngle*GyroOutputFactor);
@@ -212,7 +213,7 @@ void SetTargetEncoderWithTurn()
 
 void UpdateAngle()
 {
-  CurrentAngle = (Angle - OffsetAngle)*10;
+  CurrentAngle = (Angle - OffsetAngle);
 }
 
 void UpdateGyroPIDSettings()

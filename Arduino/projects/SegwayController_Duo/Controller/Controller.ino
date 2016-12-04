@@ -54,6 +54,8 @@ double TargetTurnSpeed = 0;
 double TargetTurnSpeedWanted = 0;
 double TargetTurnSpeedStepSizeChange = 0.1;
 
+int ControlSpeedFactor = 0;
+
 int CurrentEncoderCountB;
 int MotorPowerB;
 int TargetEncoderCountB;
@@ -61,11 +63,12 @@ float KpMotorB = 30;
 float KiMotorB = 0;
 float KdMotorB = 0;
 
-double AnglePCorr = 1.0;
-double AngleICorr = 1.2;
-double AngleDCorr = 0;
+double AnglePCorr = 10.0;
+double AngleICorr = 12.0;
+double AngleDCorr = 0.0;
 
 short OffsetAngle;
+int coSpeed;
 
 double SpeedPCorr = 0;
 double SpeedICorr = 0;
@@ -87,6 +90,8 @@ void setup()
   //InitializeSpeedControl();  
   InitializeGyro();
   InitializeSegway();
+  UpdateSinTable(1300.0, 0.0018925);
+  UpdateWheelDistanceCount(550.0, 1890);
   Serial.println("Setup complete.");
 } 
 
