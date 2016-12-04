@@ -7,6 +7,7 @@ from components.wheelDistance import wheelDistance
 from components.gyro import gyro
 from components.sound import sound
 from components.motor import motor
+from components.segwayControl import segwayControl
 from components.wii import wii
 
 class segway(object):
@@ -19,16 +20,8 @@ class segway(object):
         self.distance = distance(self.dataProtocol)
         self.wheelDistance = wheelDistance(self.dataProtocol)
         self.motor = motor(self.dataProtocol)
+        self.segwayControl = segwayControl(self.dataProtocol)
         self.wii = wii()
-
-    def enable(self):
-        self.dataProtocol.sendCharData(arduinoCommands.SEGWAY_ENABLED_BYTE(), [1])
-
-    def disable(self):
-        self.dataProtocol.sendCharData(arduinoCommands.SEGWAY_ENABLED_BYTE(), [0])
-    
-    def isEnabled(self):
-        return self.dataProtocol.RequestChar(arduinoCommands.SEGWAY_ENABLED_BYTE(),1)[0]
 
     def wiiControl(self):
         if(self.wii.tryConnect(5)):

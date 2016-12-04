@@ -1,4 +1,5 @@
 from arduinoCom.commands import arduinoCommands
+from arduinoCom.numericalConverter import numericalConverter
 
 class wheelDistance(object):
 
@@ -7,7 +8,7 @@ class wheelDistance(object):
         return
 
     def getDistance(self):
-        self.protocol.RequestShort(arduinoCommands.DISTANCE(), 2)
-
+        return map(numericalConverter.ToSignedShort, self.protocol.RequestShort(arduinoCommands.DISTANCE(), 2))
+        
     def getDistanceAndReset(self):
-        self.protocol.RequestShort(arduinoCommands.DISTANCE_RESET(), 2)
+        return map(numericalConverter.ToSignedShort, self.protocol.RequestShort(arduinoCommands.DISTANCE_RESET(), 2))

@@ -1,4 +1,4 @@
-class control(object):
+class motor(object):
     
     
     def __init__(self, myscreen, segway):
@@ -20,7 +20,9 @@ class control(object):
             self.myscreen.addstr(5, 1, "| |  | | | (_) | | |_  | (_) | | |   ")
             self.myscreen.addstr(6, 1, "|_|  |_|  \___/   \__|  \___/  |_|   ")
                                                                   
-            self.myscreen.addstr(10, 1, " Distance (" + str(wheelDistanceTotal[0]) + " , " + str(wheelDistanceTotal[1]))
+            self.myscreen.addstr(10, 1, " Distance ( " + str(wheelDistanceTotal[0]) + " , " + str(wheelDistanceTotal[1]) + " )")
+            self.myscreen.addstr(12, 1, " 1. Update Mesaure")
+            self.myscreen.addstr(13, 1, " 2. Reset and update Mesaure")
                             
             self.myscreen.addstr(17, 1, " Esc. Back")
             
@@ -30,3 +32,6 @@ class control(object):
             
             if(choise == escapeKeycode):
                 return
+                                
+            if(choise == ord('2')):
+                self.segway.wheelDistance.getDistanceAndReset()
