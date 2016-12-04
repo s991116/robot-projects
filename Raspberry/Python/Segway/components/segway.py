@@ -13,4 +13,10 @@ class segway(object):
         self.protocol.sendCharData(arduinoCommands.SEGWAY_ENABLED_BYTE(), [0])
         
     def isEnabled(self):
-        return self.dataProtocol.RequestChar(arduinoCommands.SEGWAY_ENABLED_BYTE(),1)[0]
+        return self.protocol.RequestChar(arduinoCommands.SEGWAY_ENABLED_BYTE(),1)[0]
+
+    def setSpeedFactor(self, speedFactor):
+        self.protocol.sendCharData(arduinoCommands.SEGWAY_SPEED_FACTOR(), [speedFactor])
+        
+    def getSpeedFactor(self):
+        return self.protocol.RequestChar(arduinoCommands.SEGWAY_SPEED_FACTOR(), 1)[0]

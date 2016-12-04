@@ -30,3 +30,6 @@ class gyro(object):
         
     def measure(self):
         return map(numericalConverter.ToSignedShort, self.protocol.RequestShort(arduinoCommands.GYRO_MEASURE_SHORT(), 2))
+
+    def measureAngle(self):
+        return map(numericalConverter.ToSignedShort, self.protocol.RequestShort(arduinoCommands.ANGLE_RADIAN_SHORT(), 1))[0]

@@ -24,6 +24,9 @@ class arduinoCommands(object):
     def SERVO_SPEED_BYTE():
         return 7
     @staticmethod
+    def SEGWAY_SPEED_FACTOR_BYTE(): 
+        return 8
+    @staticmethod
     def ANGLE_OFFSET_SHORT():     
         return 0
     @staticmethod
@@ -39,12 +42,15 @@ class arduinoCommands(object):
     def PID_GYRO_SHORT():       
         return 7
     @staticmethod
+    def ANGLE_RADIAN_SHORT():      
+        return 8
+    @staticmethod
     def PID_SPEED_SHORT():      
         return 10
     @staticmethod
     def DISTANCE_MEASURE_SHORT():      
         return 11
-   @staticmethod
+    @staticmethod
     def DISTANCE_RESET():               
         return 12
     @staticmethod
