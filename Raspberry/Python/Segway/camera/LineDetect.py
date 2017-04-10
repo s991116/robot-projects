@@ -5,16 +5,29 @@ from LineDetectInfo import LineDetectInfo
 
 class LineDetect():
     
-    def __init__(self):        
-        self.detectMaxValue = 20
-        self.detectMinValue = -20
+    def __init__(self, settingsOverride={}):
+        
+        self.__DefaultSettings__()
+        self.settings.update(settingsOverride)
+        self.UpdateSettings(settingsOverride)
+            
+    def __DefaultSettings__(self):
+        self.settings = {
+            'SensorHeightStart': 101,
+            'SensorHeightEnd': 105,
+            'ImageWidth': 320,
+            'FilterLineLength': 31,
+            'FilterNonLineLength': 5,
+            'Blackline': True,
+            'FilterThresshold': 100            
+        }
+    def UpdateSettings(self, settingsOverride):
+        self.SetDetectHeight(self.settings['SensorHeightStart'], self.settings['SensorHeightEnd'])
+        self.imageWidth = self.settings['ImageWidth']
+        self.SetFilter(self.settings['FilterLineLength'], self.settings['FilterNonLineLength'], self.settings['Blackline'])
+        self.SetImageWidth(self.settings['ImageWidth'])
+        self.SetFilterThresshold(self.settings['FilterThresshold'])
 
-        self.SetDetectHeight(101, 105)
-        self.imageWidth = 320
-        self.SetFilter(31, 5, True)
-        self.SetImageWidth(self.imageWidth)
-        self.SetFilterThresshold(100)
-    
     def SetImageWidth(self, imageWidth):
         self.imageWidth = imageWidth
         self.__UpdateFilter__()

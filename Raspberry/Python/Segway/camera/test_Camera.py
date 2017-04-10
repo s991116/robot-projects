@@ -3,7 +3,7 @@ import unittest
 from imutils.video.pivideostream import PiVideoStream
 import imutils
 import time
-import numpy
+import numpy 
 
 class Test(unittest.TestCase):
 
@@ -22,6 +22,10 @@ class Test(unittest.TestCase):
         
         #Assert
         self.assertTrue(isinstance(frame, numpy.ndarray))
-        
+
+def TestSuite():
+    return unittest.TestLoader().loadTestsFromTestCase(Test)
+
+    
 if __name__ == '__main__':
     unittest.main()

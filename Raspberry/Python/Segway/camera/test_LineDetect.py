@@ -4,6 +4,7 @@ from LineDetect import LineDetect
 import SplitLineDirection
 from LineDetectInfo import LineDetectInfo
 import timeit
+import os
 
 class Test(unittest.TestCase):
         
@@ -101,7 +102,10 @@ class Test(unittest.TestCase):
 
         
     def __TestImageLoader__(self, filename):
-        img = cv2.imread(filename)
+        CurrentDir = os.path.dirname(os.path.abspath(__file__))
+        fullFilename = os.path.join(CurrentDir, 'TestData', filename)
+        
+        img = cv2.imread(fullFilename)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         return img
         
