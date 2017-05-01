@@ -23,7 +23,6 @@ private:
     unsigned long _StartTime;
     bool _Finished;
 	Servo* _Servo;
-	ExpoData* _ExpoData;
 };
 
 #endif	/* SERVOPOSITION_H */

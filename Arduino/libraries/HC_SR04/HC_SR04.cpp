@@ -73,7 +73,7 @@ void HC_SR04::start(){
     digitalWrite(_trigger, HIGH);
     delayMicroseconds(10);
     digitalWrite(_trigger, LOW);
-    _minDurationNext = micros()+1000;
+    _minDurationNext = micros()+PING_MEASURE_DELAY;
 	_state = READING_MEASURE_STATE;
   }
 }

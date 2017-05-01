@@ -2,11 +2,11 @@
 #include "Math.h"
 #include <Arduino.h>
 
+
 ServoExpoMotion::ServoExpoMotion(Servo* servo, int startPos, int speed) {
     _StartPosition = startPos;
 	_EndPosition = startPos;
     _Distance = 0;
-	_ExpoData = new ExpoData();
     SetSpeed(speed);
     _Position = startPos;
 	_Servo = servo;
@@ -23,7 +23,7 @@ int ServoExpoMotion::GetEndPosition() {
 
 void ServoExpoMotion::SetSpeed(int speed) {
     _Speed = 10*speed;
-    _ExpoData->Initialize(_Speed);
+    ExpoData::Initialize(_Speed);
 }
 
 int ServoExpoMotion::GetSpeed() {
@@ -42,7 +42,7 @@ void ServoExpoMotion::SetPosition(int pos) {
 void ServoExpoMotion::UpdatePosition() {
     if(!_Finished) {
         long dt = _StartTime - millis();    
-        double frac = _ExpoData->GetData(dt);
+        float frac = ExpoData::GetData(dt);
         if(frac >0.995) {
             frac = 1.0;
             _Finished = true;        
