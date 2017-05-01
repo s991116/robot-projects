@@ -23,5 +23,5 @@ class Test(unittest.TestCase):
         #Assert
         self.assertTrue(isinstance(frame, numpy.ndarray))
         
-#if __name__ == '__main__':
-#    unittest.main()
+if __name__ == '__main__':
+    unittest.main()

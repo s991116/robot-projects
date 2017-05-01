@@ -29,7 +29,7 @@ class ArduinoFixture():
         dataProtocol = serialProtocol(port)
         return ArduinoTester(dataProtocol)
 
-class Test(unittest.TestCase):
+class ArduinoComTest(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -59,3 +59,6 @@ class Test(unittest.TestCase):
         #Assert
         result = sut.getTestCharValue()
         self.assertEqual(result, testValue)
+
+def TestSuite():
+    return unittest.TestLoader().loadTestsFromTestCase(ArduinoComTest)

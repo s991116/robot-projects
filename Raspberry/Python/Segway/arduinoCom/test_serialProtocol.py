@@ -153,6 +153,9 @@ class Test(unittest.TestCase):
         written = fixture.WrittenDataToSerial()
         self.assertListEqual(written, expectedData)
 
+def TestSuite():
+    return unittest.TestLoader().loadTestsFromTestCase(Test)
+
         
 if __name__ == '__main__':
     unittest.main()
