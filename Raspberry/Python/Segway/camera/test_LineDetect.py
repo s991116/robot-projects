@@ -9,7 +9,8 @@ from logging import FileHandler
 import logging
 
 def setUpModule():
-    EnableVisualDebug('LineDetectTest.html')
+    #-- Enable to show images with debug information on --
+    #EnableVisualDebug('LineDetectTest.html')
         
 class Test(unittest.TestCase):
     def setUp(self):
@@ -125,8 +126,6 @@ def EnableVisualDebug(filename):
     logger.setLevel(logging.DEBUG)
     handler = FileHandler(filename, mode = "w")
     handler.setLevel(logging.DEBUG)
-    
-    # add the handlers to the logger
     logger.addHandler(handler)
     
 class LineDetectFixture():
