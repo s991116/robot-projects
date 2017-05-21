@@ -1,4 +1,5 @@
-from PiVideoStream import PiVideoStream
+from imutils.video.pivideostream import PiVideoStream
+import imutils
 import cv2
 import time
 pvs = PiVideoStream(resolution=(320, 240))

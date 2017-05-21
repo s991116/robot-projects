@@ -25,7 +25,7 @@ class ArduinoTester(object):
 class ArduinoFixture():
 
     def CreateTarget(self):
-        port = serial.Serial("/dev/ttyAMA0", baudrate=115200, timeout=3.0)
+        port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
         dataProtocol = SerialProtocol.SerialProtocol(port)
         return ArduinoTester(dataProtocol)
 
@@ -59,3 +59,6 @@ class Test(unittest.TestCase):
         #Assert
         result = sut.getTestCharValue()
         self.assertEqual(result, testValue)
+
+if __name__ == '__main__':
+    unittest.main()

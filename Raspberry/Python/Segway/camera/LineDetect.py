@@ -2,11 +2,13 @@ from picamera.array import PiRGBArray
 import SplitLineDirection
 import numpy
 from LineDetectInfo import LineDetectInfo
+import logging
+from vlogging import VisualRecord
 
 class LineDetect():
     
     def __init__(self, settingsOverride={}):
-        
+        self.logger = logging.getLogger('Segway')
         self.__DefaultSettings__()
         self.settings.update(settingsOverride)
         self.UpdateSettings(settingsOverride)
@@ -61,15 +63,18 @@ class LineDetect():
         
         self.imageFilterWidth = self.imageWidth-self.filterLength
             
-    def GetLinePosition(self, image, direction):        
+    def GetLinePosition(self, image, direction, enableLog=True):        
 
         scanArea =  image[[self.sensorHeightStart, self.sensorHeightEnd],:]
         intensityLine = numpy.sum(scanArea, axis=0)
-        
         lineDetect = numpy.convolve(intensityLine, self.filter,'valid')
 
         linePositionAbs = self.__GetLinePosition__(direction, lineDetect)
         
+        if self.logger.isEnabledFor(logging.DEBUG) & enableLog:
+            debugImage = self.__CreateDebugImage__(image, lineDetect, linePositionAbs)
+            self.logger.debug(VisualRecord(("Max filter value = %d , Thresshold = %d" % (numpy.amax(lineDetect), self.FilterThresshold)), [debugImage], fmt = "png"))
+            
         if(lineDetect[int(linePositionAbs)] > self.FilterThresshold):
             linePositionAbs = linePositionAbs + self.filterHalfLength - 0.5                        
             linePosition = ((linePositionAbs)/float(self.imageWidth))*2.0-1.0
@@ -86,3 +91,24 @@ class LineDetect():
         else:
             linePositionAbs = numpy.argmax(lineDetect)
         return linePositionAbs
+        
+    def __CreateDebugImage__(self, image, lineDetect, linePositionAbs):
+        import cv2
+        debugImage = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+        cv2.rectangle(debugImage, (0, self.sensorHeightStart), (self.imageWidth-1, self.sensorHeightEnd), (255,0,0), 2)
+        
+        lineDetectMax = max(self.FilterThresshold, numpy.amax(lineDetect))
+        lineDetectMin = min(self.FilterThresshold, numpy.amin(lineDetect))
+        lineDetectRange = float(lineDetectMax - lineDetectMin)
+        lineOffsetX = (self.imageWidth-len(lineDetect))/2
+        height, width = image.shape[:2]
+
+        cv2.rectangle(debugImage, (linePositionAbs+lineOffsetX,self.sensorHeightStart), (linePositionAbs+lineOffsetX, self.sensorHeightEnd), (255,0,255), 3)
+
+        for index in range(0, len(lineDetect)-1):
+            x = index + lineOffsetX
+            y = int(((lineDetect[index] - lineDetectMin)/lineDetectRange) * height)
+            cv2.line(debugImage,(x,y),(x,y),(0,0,255),2)
+        thressholdCoordinateY = y = int(((self.FilterThresshold - lineDetectMin)/lineDetectRange) * height)
+        cv2.line(debugImage, (0,thressholdCoordinateY), (self.imageWidth-1,thressholdCoordinateY), (0,255,255),2)
+        return debugImage

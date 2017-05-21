@@ -13,7 +13,7 @@ from components.wii import wii
 class segway(object):
 
     def __init__(self):
-        self.port = serial.Serial("/dev/ttyAMA0", baudrate=115200, timeout=3.0)
+        self.port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
         self.dataProtocol = serialProtocol(self.port)
         self.servo = servo(self.dataProtocol)
         self.gyro = gyro(self.dataProtocol)

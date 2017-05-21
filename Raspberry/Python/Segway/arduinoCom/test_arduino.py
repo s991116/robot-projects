@@ -25,7 +25,7 @@ class ArduinoTester(object):
 class ArduinoFixture():
 
     def CreateTarget(self):
-        port = serial.Serial("/dev/ttyAMA0", baudrate=115200, timeout=3.0)
+        port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
         dataProtocol = serialProtocol(port)
         return ArduinoTester(dataProtocol)
 

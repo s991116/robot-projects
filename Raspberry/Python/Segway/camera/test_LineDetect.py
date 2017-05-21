@@ -5,11 +5,19 @@ import SplitLineDirection
 from LineDetectInfo import LineDetectInfo
 import timeit
 import os
+from logging import FileHandler
+import logging
 
+def setUpModule():
+    EnableVisualDebug('LineDetectTest.html')
+        
 class Test(unittest.TestCase):
+    def setUp(self):
+        logger = logging.getLogger('Segway')
+        logger.debug("Testname: '" + self._testMethodName + "' ")
         
     def test_LineAtCenter_PositionReturnIsCenter(self):
-
+        
         #Arrange
         sut = LineDetectFixture().CreateTarget()
         img = self.__TestImageLoader__('VerticalLineCenter.jpg')
@@ -31,7 +39,7 @@ class Test(unittest.TestCase):
                 return func(*args, **kwargs)
             return wrapped
         direction = SplitLineDirection.SplitCenter()
-        wrapped = wrapper(sut.GetLinePosition, img, direction)
+        wrapped = wrapper(sut.GetLinePosition, img, direction, False)
         
         #Act        
         executionTime = timeit.timeit(wrapped, number=1000)
@@ -108,11 +116,19 @@ class Test(unittest.TestCase):
         img = cv2.imread(fullFilename)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         return img
-        
+                    
 def TestSuite():
     return unittest.TestLoader().loadTestsFromTestCase(Test)
 
-        
+def EnableVisualDebug(filename):
+    logger = logging.getLogger('Segway')
+    logger.setLevel(logging.DEBUG)
+    handler = FileHandler(filename, mode = "w")
+    handler.setLevel(logging.DEBUG)
+    
+    # add the handlers to the logger
+    logger.addHandler(handler)
+    
 class LineDetectFixture():
     def CreateTarget(self):
         ld = LineDetect()
