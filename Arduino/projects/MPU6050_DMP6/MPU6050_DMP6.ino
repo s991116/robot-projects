@@ -170,7 +170,7 @@ void loop() {
     if (!dmpReady) return;
 
     // wait for MPU interrupt or extra packet(s) available
-    while (!mpuInterrupt && fifoCount < packetSize) {
+    //while (!mpuInterrupt && fifoCount < packetSize) {
         // other program behavior stuff here
         // .
         // .
@@ -181,7 +181,7 @@ void loop() {
         // .
         // .
         // .
-    }
+    //}
 
     // reset interrupt flag and get INT_STATUS byte
     mpuInterrupt = false;

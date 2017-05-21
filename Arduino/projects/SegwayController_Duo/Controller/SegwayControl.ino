@@ -15,11 +15,11 @@ double CorrectionAngle;
 double CurrentSpeed;
 double CorrectionSpeed;
 
-#define CurrentSpeedBufferSize 10
+#define CurrentSpeedBufferSize 5
 double CurrentSpeedBuffer[CurrentSpeedBufferSize];
 int CurrenSpeedBufferIndex = 0;
 double CurrentSpeedBufferAverage = 0;
-
+double SpeedScale = 4;
 
 PIDFloat PIDSpeed(&CurrentSpeed, &CorrectionSpeed, &TargetSpeed, SpeedPCorr, SpeedICorr, SpeedDCorr, DIRECT);
 
@@ -99,21 +99,34 @@ void UpdateSegway()
 
   UpdateCurrentEncoderA();
   UpdateCurrentEncoderB();
-  UpdateAngle();
-  coSpeed = GetCOSpeed(CurrentAngle, LastAngle, CurrentEncoderCountA, CurrentEncoderCountB);
+  //UpdateAngle();
+  //coSpeed = GetCOSpeed(CurrentAngle, LastAngle, CurrentEncoderCountA, CurrentEncoderCountB);
   LastAngle = CurrentAngle;
-  //UpdateSpeedAverage(tempSpeed);
-  CurrentSpeed = coSpeed;//CurrentSpeedBufferAverage;
+  //UpdateSpeedAverage(coSpeed);
+  //CurrentSpeed = CurrentSpeedBufferAverage;
+  //LimitSpeedTargetChange();
+  //PIDSpeed.Compute();
 
-  LimitSpeedTargetChange();
+  CurrentSpeed = CurrentEncoderCountA + CurrentEncoderCountB;
+  CurrentSpeed = UpdateSpeedAverage(CurrentSpeed);
+  TargetSpeed = TargetSpeedWanted;
+  if(TargetSpeed > 0) {
+    TargetSpeed += CurrentSpeed / ((double)ControlSpeedFactor);
+    TargetAngle -= TargetSpeed;   
+  }
+  else if(TargetSpeed < 0) {
+    TargetSpeed -= CurrentSpeed / ((double)ControlSpeedFactor);
+    TargetAngle += TargetSpeed;    
+  }
+  else {
+    TargetAngle = 0;
+  }
   
-  PIDSpeed.Compute();
-  
-  if(CorrectionSpeed > SpeedCorrLimit)
-    TargetAngle = SpeedCorrLimit;
-  else if(CorrectionSpeed < -SpeedCorrLimit)
-     TargetAngle = -SpeedCorrLimit;
-  else TargetAngle = CorrectionSpeed;
+  //if(CorrectionSpeed > SpeedCorrLimit)
+  //  TargetAngle = SpeedCorrLimit;
+  //else if(CorrectionSpeed < -SpeedCorrLimit)
+  //   TargetAngle = -SpeedCorrLimit;
+  //else TargetAngle = CorrectionSpeed;
     
   PIDGyro.Compute();
   
@@ -136,7 +149,7 @@ void UpdateSegway()
   }
 }
 
-void UpdateSpeedAverage(double segwaySpeed)
+double UpdateSpeedAverage(double segwaySpeed)
 {
   CurrentSpeedBufferAverage -= CurrentSpeedBuffer[CurrenSpeedBufferIndex];
   CurrentSpeedBuffer[CurrenSpeedBufferIndex] = (segwaySpeed / CurrentSpeedBufferSize);
@@ -146,6 +159,8 @@ void UpdateSpeedAverage(double segwaySpeed)
   {
     CurrenSpeedBufferIndex = 0;
   }
+
+  return CurrentSpeedBufferAverage;
 }
 
 int TurnSpeedLimit = 12;

@@ -5,6 +5,7 @@
 
 #define DURATION_TO_MM (57)
 #define PING_DELAY (30)
+#define PING_MEASURE_DELAY (1000)
 
 #define START_MEASURE_STATE   (0)
 #define READING_MEASURE_STATE (1)
