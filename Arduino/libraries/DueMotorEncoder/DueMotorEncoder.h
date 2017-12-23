@@ -3,34 +3,22 @@
 
 class DueMotorEncoder {
     public:
-      DueMotorEncoder(short encoderLeft1Pin, short encoderLeft2Pin, short encoderRight1Pin, short encoderRight2Pin, short updateEncoderTime);
+      DueMotorEncoder(short encoderPin1, short encoderPin2);
     
-      void Update();
+      void Compute();
 
-      short GetSpeedLeft();
-      short GetSpeedRight();
-
-      long GetDistanceLeft();
-      long GetDistanceRight();
+      short GetSpeed();
+      long GetDistance();
 
     private:
-      static short _encoderLeft1Pin;
-      static short _encoderLeft2Pin;
-      static short _encoderRight1Pin;
-      static short _encoderRight2Pin;
+      static short _encoderPin1;
+      static short _encoderPin2;
 
-      static volatile short _encoderLeftSteps;
-      static volatile short _encoderRightSteps;
-      long _distanceLeft;
-      short _speedLeft;
-      long _distanceRight;
-      short _speedRight;
+      static volatile short _encoderSteps;
+      long _distance;
+      short _speed;
       
-      unsigned long _updateEncoderTime;
-      short _encoderUpdatePeriod;
-
-      static void LeftEncoderInterrupt();
-      static void RightEncoderInterrupt();
+      static void EncoderInterrupt();
 };
 
 #endif
