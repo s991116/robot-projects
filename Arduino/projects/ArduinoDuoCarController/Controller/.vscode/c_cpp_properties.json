@@ -4,7 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "/Users/philipjuhl/Library/Arduino15/packages/arduino/hardware/sam/1.6.11/cores/arduino",
-                "/Users/philipjuhl/Documents/Arduino/libraries"
+                "/Users/philipjuhl/Documents/Arduino/libraries/PID_v1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
