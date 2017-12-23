@@ -27,6 +27,7 @@ void setup() {
 void loop() {
 //  dueMotorEncoder.Update();
 //  Serial.println(dueMotorEncoder.GetSpeedLeft());
+  
   dueMotor1Controller.SetSpeed(255);
   dueMotor2Controller.SetSpeed(255);
   delay(500);
