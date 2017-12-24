@@ -6,16 +6,27 @@
 #include "PinsSetup.h"
 
 short updatePeriod = 10;
+double PID_p = 1.0;
+double PID_i = 0.0;
+double PID_d = 0.0;
 
-MotorEncoder motor1Encoder(ENCODER_LEFT_1_PIN, ENCODER_LEFT_2_PIN);
-MotorController motor1Controller(MOTOR_1_SPEED_PIN, MOTOR_1_CONTROL_1_PIN, MOTOR_1_CONTROL_2_PIN, false);
-MotorPidController motor1PidController(updatePeriod, &motor1Encoder, &motor1Controller, 1.0, 0.0, 0.0, REVERSE);
+MotorEncoder motorLeftEncoder(ENCODER_LEFT_PIN_1, ENCODER_LEFT_PIN_2);
+MotorController motorLeftController(MOTOR_LEFT_SPEED_PIN, MOTOR_LEFT_CONTROL_PIN_1, MOTOR_LEFT_CONTROL_PIN_2, false);
+MotorPidController motorLeftPidController(updatePeriod, &motorLeftEncoder, &motorLeftController, PID_p, PID_i, PID_d, REVERSE);
 
-void setup() {
-  Serial.begin(9600);
-  motor1PidController.TargetSpeed = 5;
+void motorLeftEncoderInterrupt() {
+  motorLeftEncoder.EncoderInterrupt();
 }
 
-void loop() {
-  motor1PidController.Compute();
+void setup()
+{
+  Serial.begin(9600);
+  attachInterrupt(ENCODER_LEFT_PIN_1, motorLeftEncoderInterrupt, CHANGE);
+
+  motorLeftPidController.TargetSpeed = 5;
+}
+
+void loop()
+{
+  motorLeftPidController.Update();
 }
