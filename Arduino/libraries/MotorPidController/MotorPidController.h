@@ -9,7 +9,7 @@ class MotorPidController {
     public:
       MotorPidController(short updatePeriod, MotorEncoder *encoder, MotorController *motorController, double p, double i, double d, int direction);
     
-      void Compute();
+      void Update();
 
       PID* MotorPID;
       int TargetSpeed;
@@ -17,13 +17,11 @@ class MotorPidController {
     private:
       volatile int _PIDInput;
       int _PIDOutput;
-      
-      
-      MotorEncoder* _encoder;
-      MotorController* _motorController;
-
       short _updatePeriod;
       unsigned long _nextUpdateTime;
+            
+      MotorEncoder* _encoder;
+      MotorController* _motorController;
 };
 
 #endif

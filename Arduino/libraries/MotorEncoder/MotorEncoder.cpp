@@ -15,7 +15,6 @@
       _encoderPin1 = encoderPin1;
       _encoderPin2 = encoderPin2;
 
-      attachInterrupt(encoderPin1, MotorEncoder::EncoderInterrupt, CHANGE);
     }
     
     void MotorEncoder::Compute() {
@@ -25,11 +24,11 @@
     }
 
     short MotorEncoder::GetSpeed() {
-      return MotorEncoder::_speed;
+      return _speed;
     }
 
     long MotorEncoder::GetDistance() {
-      return MotorEncoder::_distance;
+      return _distance;
     }
 
     void MotorEncoder::EncoderInterrupt() {

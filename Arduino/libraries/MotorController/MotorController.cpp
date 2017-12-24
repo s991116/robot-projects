@@ -6,36 +6,36 @@
 
 #include <MotorController.h>
 
-MotorController::MotorController(short speedPin, short control1Pin, short control2Pin, bool direction) {
-  MotorController::_SpeedPin = speedPin;
-  MotorController::_Control1Pin = control1Pin;
-  MotorController::_Control2Pin = control2Pin;
-  MotorController::_Direction = direction;
+MotorController::MotorController(short speedPin, short controlPin1, short controlPin2, bool direction) {
+  _SpeedPin = speedPin;
+  _ControlPin1 = controlPin1;
+  _ControlPin2 = controlPin2;
+  _Direction = direction;
 
-  pinMode(MotorController::_SpeedPin, OUTPUT);
-  pinMode(MotorController::_Control1Pin, OUTPUT);
-  pinMode(MotorController::_Control2Pin, OUTPUT);
+  pinMode(_SpeedPin, OUTPUT);
+  pinMode(_ControlPin1, OUTPUT);
+  pinMode(_ControlPin2, OUTPUT);
 }
 
 void MotorController::SetSpeed(short speed) {
-  MotorController::_Speed = speed;
-  if(MotorController::_Speed > 0) {
-    digitalWrite(MotorController::_Control1Pin, MotorController::_Direction);
-    digitalWrite(MotorController::_Control2Pin, !MotorController::_Direction);
-    analogWrite(MotorController::_SpeedPin, MotorController::_Speed);
+  _Speed = speed;
+  if(_Speed > 0) {
+    digitalWrite(_ControlPin1, _Direction);
+    digitalWrite(_ControlPin2, !_Direction);
+    analogWrite(_SpeedPin, _Speed);
   }
-  else if(MotorController::_Speed < 0) {
-    digitalWrite(MotorController::_Control1Pin, !MotorController::_Direction);
-    digitalWrite(MotorController::_Control2Pin, MotorController::_Direction);
-    analogWrite(MotorController::_SpeedPin, -MotorController::_Speed);
+  else if(_Speed < 0) {
+    digitalWrite(_ControlPin1, !_Direction);
+    digitalWrite(_ControlPin2, _Direction);
+    analogWrite(_SpeedPin, -_Speed);
   }
   else {
-    digitalWrite(MotorController::_Control1Pin, LOW);
-    digitalWrite(MotorController::_Control2Pin, LOW);
-    analogWrite(MotorController::_SpeedPin, 0);
+    digitalWrite(_ControlPin1, LOW);
+    digitalWrite(_ControlPin2, LOW);
+    analogWrite(_SpeedPin, 0);
   }
 }
 
 short MotorController::GetSpeed() {
-    return MotorController::_Speed;
+    return _Speed;
 }

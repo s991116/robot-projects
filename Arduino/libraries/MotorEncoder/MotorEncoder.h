@@ -9,6 +9,7 @@ class MotorEncoder {
 
       short GetSpeed();
       long GetDistance();
+      void EncoderInterrupt();
 
     private:
       static short _encoderPin1;
@@ -16,9 +17,7 @@ class MotorEncoder {
 
       static volatile short _encoderSteps;
       long _distance;
-      short _speed;
-      
-      static void EncoderInterrupt();
+      short _speed;      
 };
 
 #endif

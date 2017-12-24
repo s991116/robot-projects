@@ -3,7 +3,7 @@
 
 class MotorController {
     public:
-      MotorController(short speedPin, short control1Pin, short control2Pin, bool direction);
+      MotorController(short speedPin, short controlPin1, short controlPin2, bool direction);
 
       void SetSpeed(short speed);
       short GetSpeed();
@@ -11,8 +11,8 @@ class MotorController {
     private:
       short _Speed;
       short _SpeedPin;
-      short _Control1Pin;
-      short _Control2Pin;
+      short _ControlPin1;
+      short _ControlPin2;
       bool _Direction;
 };
 

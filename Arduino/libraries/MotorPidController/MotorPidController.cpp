@@ -14,7 +14,7 @@ MotorPidController::MotorPidController(short updatePeriod, MotorEncoder *encoder
     MotorPID->SetOutputLimits(-255.0, 255.0);
 }
 
-void MotorPidController::Compute() {
+void MotorPidController::Update() {
   if(millis() > _nextUpdateTime) {
     _encoder->Compute();
     _PIDInput = _encoder->GetSpeed();
