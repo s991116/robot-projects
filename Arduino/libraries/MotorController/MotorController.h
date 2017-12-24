@@ -1,9 +1,9 @@
-#ifndef DUEMOTORCONTROLLER_H
-#define DUEMOTORCONTROLLER_H
+#ifndef MotorController_H
+#define MotorController_H
 
-class DueMotorController {
+class MotorController {
     public:
-      DueMotorController(short speedPin, short control1Pin, short control2Pin, bool direction);
+      MotorController(short speedPin, short control1Pin, short control2Pin, bool direction);
 
       void SetSpeed(short speed);
       short GetSpeed();

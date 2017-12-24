@@ -1,9 +1,9 @@
-#ifndef DUEMOTORENCODER_H
-#define DUEMOTORENCODER_H
+#ifndef MotorEncoder_H
+#define MotorEncoder_H
 
-class DueMotorEncoder {
+class MotorEncoder {
     public:
-      DueMotorEncoder(short encoderPin1, short encoderPin2);
+      MotorEncoder(short encoderPin1, short encoderPin2);
     
       void Compute();
 
