@@ -33,7 +33,7 @@ PID::PID(volatile int* Input, int* Output, int* Setpoint,
 
     PID::SetControllerDirection(ControllerDirection);
     PID::SetTunings(Kp, Ki, Kd);
-
+    PID::ResetErrors();
     lastTime = millis()-SampleTime;				
 }
  
@@ -52,7 +52,7 @@ void PID::ResetErrors()
 void PID::Compute()
 {
     /*Compute all the working error variables*/
-	  int input = *myInput;
+	int input = *myInput;
     int error = *mySetpoint - input;
     ITerm+= (ki * error);
     if(ITerm > outMax) 
@@ -64,13 +64,13 @@ void PID::Compute()
  
     /*Compute PID Output*/
     int output = kp * error + ITerm- kd * dInput;
-      
-	  if(output > outMax) 
-	  	output = outMax;
+
+    if(output > outMax) 
+	    output = outMax;
     else if(output < outMin) 
     	output = outMin;
 	  
-	  *myOutput = output;
+	*myOutput = output;
 	  
     /*Remember some variables for next time*/
     lastInput = input;

@@ -53,7 +53,7 @@ class PID
 	int GetMode();						  //  inside the PID.
 	int GetDirection();					  //
     void Initialize();
-	
+
   private:
 	
 	double dispKp;				// * we'll hold on to the tuning parameters in user-entered 
