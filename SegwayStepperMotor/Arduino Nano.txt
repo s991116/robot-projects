@@ -1,0 +1,22 @@
+Arduino Nano
+A0 -> Battery level
+A4 (SDA) -> MPU6050 SDA
+A5 (SCL) -> MPU6050 SCL
+RX0 -> LevelConvert RX 
+TX0 -> LevelConvert TX
+D7  -> Stepper1 In1
+D8  -> Stepper1 In2
+D9 (PWM)  -> Servo1
+D10 (PWM)-> Servo2
+D11 -> Stepper2 In1
+D12 -> Stepper2 In2
+3V3 -> LevelConvert 3V3
+
+MPU6050
+SDA -> Arduino SDA
+SCL -> Arduino SCL
+
+LevelConvert
+3V3 -> Arduino 3V3
+Low RX -> Arduino RX
+Low TX -> Arduino TX
