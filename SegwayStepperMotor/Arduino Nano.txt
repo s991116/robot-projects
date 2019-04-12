@@ -4,12 +4,12 @@ A4 (SDA) -> MPU6050 SDA
 A5 (SCL) -> MPU6050 SCL
 RX0 -> LevelConvert RX 
 TX0 -> LevelConvert TX
-D7  -> Stepper1 In1
-D8  -> Stepper1 In2
+D7  -> Stepper1 DIR
+D8  -> Stepper1 STEP
 D9 (PWM)  -> Servo1
 D10 (PWM)-> Servo2
-D11 -> Stepper2 In1
-D12 -> Stepper2 In2
+D11 -> Stepper2 DIR
+D12 -> Stepper2 STEP
 3V3 -> LevelConvert 3V3
 
 MPU6050
