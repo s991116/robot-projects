@@ -1,0 +1,31 @@
+Arduino Nano
+A7 -> Battery level (OK)
+A4 (SDA) -> MPU6050 SDA (OK)
+A5 (SCL) -> MPU6050 SCL (OK)
+RX0 -> LevelConvert RX 
+TX0 -> LevelConvert TX
+D2 -> MPU6050 INT (OK)
+D3 -> DISTANCE ECHO (OK)
+D4 -> DISTANCE TRIGGER (OK)
+D5 (PWM) -> Servo1 (OK)
+D6 (PWM) -> Servo2 (OK)
+D7  -> Stepper1 STEP (OK)
+D8  -> Stepper1 DIR (OK)
+D9  -> Stepper1 /2 SLEEP (OK)
+D10 -> PowerLED (OK)
+D11 -> Stepper2 STEP (OK)
+D12 -> Stepper2 DIR (OK)
+3V3 -> LevelConvert 3V3
+
+MPU6050
+SDA -> Arduino SDA
+SCL -> Arduino SCL
+
+LevelConvert
+3V3 -> Arduino 3V3
+Low RX -> Arduino RX
+Low TX -> Arduino TX
+
+Distance
+ECHO -> Arduino D3
+TRIGGER -> Arduino D4
