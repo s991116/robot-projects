@@ -11,6 +11,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <Wire.h>                                            //Include the Wire.h library so we can communicate with the gyro
+#include "PinSetup.h"
 
 int gyro_address = 0x68;                                     //MPU-6050 I2C address (0x68 or 0x69)
 int acc_calibration_value = 1000;                            //Enter the accelerometer calibration value
@@ -79,10 +80,11 @@ void setup(){
   Wire.write(0x03);                                                         //Set the register bits as 00000011 (Set Digital Low Pass Filter to ~43Hz)
   Wire.endTransmission();                                                   //End the transmission with the gyro 
 
-  pinMode(2, OUTPUT);                                                       //Configure digital poort 2 as output
-  pinMode(3, OUTPUT);                                                       //Configure digital poort 3 as output
-  pinMode(4, OUTPUT);                                                       //Configure digital poort 4 as output
-  pinMode(5, OUTPUT);                                                       //Configure digital poort 5 as output
+  pinMode(PIN_STEPPERMOTOR_LEFT_STEP, OUTPUT);
+  pinMode(PIN_STEPPERMOTOR_LEFT_DIR, OUTPUT);
+  pinMode(PIN_STEPPERMOTOR_RIGHT_STEP, OUTPUT);
+  pinMode(PIN_STEPPERMOTOR_RIGHT_DIR, OUTPUT);
+
   pinMode(13, OUTPUT);                                                      //Configure digital poort 6 as output
 
   for(receive_counter = 0; receive_counter < 500; receive_counter++){       //Create 500 loops
@@ -120,7 +122,7 @@ void loop(){
   //12.5V equals 1023 analogRead(0).
   //1250 / 1023 = 1.222.
   //The variable battery_voltage holds 1050 if the battery voltage is 10.5V.
-  battery_voltage = (analogRead(0) * 1.222) + 85;
+  battery_voltage = (analogRead(PIN_ANALOG_BATTERY_VOLTAGE) * 1.222) + 85;
   
   if(battery_voltage < 1050 && battery_voltage > 800){                      //If batteryvoltage is below 10.5V and higher than 8.0V
     digitalWrite(13, HIGH);                                                 //Turn on the led if battery voltage is to low
@@ -275,28 +277,35 @@ ISR(TIMER2_COMPA_vect){
   if(throttle_counter_left_motor > throttle_left_motor_memory){             //If the number of loops is larger then the throttle_left_motor_memory variable
     throttle_counter_left_motor = 0;                                        //Reset the throttle_counter_left_motor variable
     throttle_left_motor_memory = throttle_left_motor;                       //Load the next throttle_left_motor variable
-    if(throttle_left_motor_memory < 0){                                     //If the throttle_left_motor_memory is negative
-      PORTD &= 0b11110111;                                                  //Set output 3 low to reverse the direction of the stepper controller
+    if(throttle_left_motor_memory < 0){                                     //If the throttle_left_motor_memory is negative                                                 //Set output 3 low to reverse the direction of the stepper controller
+      STEPPERMOTOR_LEFT_REVERSE;
       throttle_left_motor_memory *= -1;                                     //Invert the throttle_left_motor_memory variable
     }
-    else PORTD |= 0b00001000;                                               //Set output 3 high for a forward direction of the stepper motor
+    else STEPPERMOTOR_LEFT_FORWARD;                                               //Set output 11 high for a forward direction of the stepper motor
   }
-  else if(throttle_counter_left_motor == 1)PORTD |= 0b00000100;             //Set output 2 high to create a pulse for the stepper controller
-  else if(throttle_counter_left_motor == 2)PORTD &= 0b11111011;             //Set output 2 low because the pulse only has to last for 20us 
-  
+  else if(throttle_counter_left_motor == 1){
+    STEPPERMOTOR_LEFT_HIGH;
+  }
+  else if(throttle_counter_left_motor == 2) {
+    STEPPERMOTOR_LEFT_LOW;
+  }
   //right motor pulse calculations
   throttle_counter_right_motor ++;                                          //Increase the throttle_counter_right_motor variable by 1 every time the routine is executed
   if(throttle_counter_right_motor > throttle_right_motor_memory){           //If the number of loops is larger then the throttle_right_motor_memory variable
     throttle_counter_right_motor = 0;                                       //Reset the throttle_counter_right_motor variable
     throttle_right_motor_memory = throttle_right_motor;                     //Load the next throttle_right_motor variable
     if(throttle_right_motor_memory < 0){                                    //If the throttle_right_motor_memory is negative
-      PORTD |= 0b00100000;                                                  //Set output 5 low to reverse the direction of the stepper controller
+      STEPPERMOTOR_RIGHT_REVERSE;
       throttle_right_motor_memory *= -1;                                    //Invert the throttle_right_motor_memory variable
     }
-    else PORTD &= 0b11011111;                                               //Set output 5 high for a forward direction of the stepper motor
+    else STEPPERMOTOR_RIGHT_FORWARD;
   }
-  else if(throttle_counter_right_motor == 1)PORTD |= 0b00010000;            //Set output 4 high to create a pulse for the stepper controller
-  else if(throttle_counter_right_motor == 2)PORTD &= 0b11101111;            //Set output 4 low because the pulse only has to last for 20us
+  else if(throttle_counter_right_motor == 1){
+     STEPPERMOTOR_RIGHT_HIGH;
+  }
+  else if(throttle_counter_right_motor == 2){
+     STEPPERMOTOR_RIGHT_LOW;
+  }
 }
 
 
