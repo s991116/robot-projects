@@ -1,0 +1,49 @@
+Fejl der skal rettes:
+
+Robothoved:
++ Afstand til 2 tværstænger skal være 35 mm på indersiden. Gøres ved at ændre monteringshuller i frontplade.
+  Den højre side skal rykkes, mens den venstre skal være uændret (ift. centrum)
++ Kamera skal vendes 180 grader. Top huller skal være i samme højde. Betyder kameraet-hullet kommer et par mm længere ned.
++ Vinkel på stænger ændres til 45 grader
++ Stænger skal gøres 8mm kortere
++ Huller til afstandsmåler rykkes 1 mm op
++ Tilføj monteringshuller til afstandsmåler 3mm i diameter. Afstand 41mm i bredde og 16.5mm i højde 
+
+Topplade (Plade 1):
++ Hul til servo i topplade skal gøres 4 mm længere i begge ender.
++ Mellemstykke under topplade til Servo skal gøres 3 mm længere i begge ender.
++ Hul til kamerakabel skal vendes 90 grader og skal være 1 cm væk fra servomonteringshul i topplade, på den side der er tættest på midten.
+
+
+Batteriplade (Plade 2)
++ Huller til strøm i højre og venstre side
++ Batterikammer skal gøres 2 mm længere
++ Hul til kamerakabel.  Sættes i midten og skal være på tværs af pladen
+
+RaspberryPi-plade (Plade 3)
++ Huller til ledninger skal rykkes3 mm ud til siderne
+
+Arduino-plade (Plade 4)
++ Ryk motor-huller 4 mm længere væk fra centrum
+
+Sideplader:
++ Monterings i alle sideplader skal rykkes 3mm ind mod midten
++ Montering til strøm-firkant skal rykkes 3mm ned. (Ift. monteringshuller i siden. dvs 5 mm yderligere)
++ Monteringshuller til stik skal diameteren være 1.5 mm større 
++ Monteringshuller til batteriplade skal rykkes 5 mm ned.
++ Monterringshuller til RaspberryPi plade skal rykkes 5 mm ned (inkl de 3 stik huller)
++ Monteringshuller til motor udvides med 1 mm i diameter
++ Monteringshuller til motor 26 mm imellem både vandret og lodret
+% Huller til 12V stik i sideplade til RaspberryPi
+
+Tværvinkelplader:
++ Sættes sammen til en lang plade. Afrunding er afsluttet efter 115 mm
+
+Frontplade:
++ Øverste taphul skal rykkes op, så det passer til tapper på sideplader
++ 14 mm kortere i bunden
+
+Segway holder:
++ Robo tekst skrives som Stencyl
++ 5mm højere sider
++ 3mm smallere på hver side (plade med navnet på)
