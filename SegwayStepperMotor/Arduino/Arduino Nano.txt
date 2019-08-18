@@ -29,4 +29,29 @@ Low TX -> Arduino TX
 
 Distance
 ECHO -> Arduino D3
-TRIGGER -> Arduino D4
+TRIGGER -> Arduino D8
+
+
+Commands
+Navigation commandgroup (0000 XXXX)
+    0000 000X : Set_Turn_Left
+    0000 00X0 : Set_Turn_Right
+    0000 0X00 : Set_Forward
+    0000 X000 : Set_Backwards
+
+    0001 0000 : Set_Light_on
+    0001 0001 : Set_Light_off
+
+    0001 0010 + ValueByte : Set_Servo_1
+    0001 0011 + ValueByte : Set_Servo_2
+
+    0001 0100 + ValueByte : Set_BatteryLevel
+
+    0001 0100 + ValueByte : Set_PID_P_Value
+    0001 0101 + ValueByte : Set_PID_I_Value
+    0001 0110 + ValueByte : Set_PID_D_Value
+
+    0001 1000 : Get_Distance
+    0001 1001 : Get_Battery_Level
+    0001 1010 : Get_Angle
+    0001 1011 : Get_Angle_Acc

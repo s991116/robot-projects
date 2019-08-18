@@ -1,5 +1,6 @@
 {
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328",
-    "sketch": "Balancing_robot.ino"
+    "sketch": "Balancing_robot/Balancing_robot.ino",
+    "port": "/dev/cu.usbserial-A603R65Y"
 }

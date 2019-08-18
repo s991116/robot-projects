@@ -14,19 +14,19 @@
 #include "PinSetup.h"
 
 int gyro_address = 0x68;                                     //MPU-6050 I2C address (0x68 or 0x69)
-int acc_calibration_value = 1000;                            //Enter the accelerometer calibration value
+int acc_calibration_value = -8120;                            //Enter the accelerometer calibration value
 
 //Various settings
-float pid_p_gain = 15;                                       //Gain setting for the P-controller (15)
-float pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
-float pid_d_gain = 30;                                       //Gain setting for the D-controller (30)
+float pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
+float pid_i_gain = 0.0;                                      //Gain setting for the I-controller (1.5)
+float pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
 float turning_speed = 30;                                    //Turning speed (20)
 float max_target_speed = 150;                                //Max target speed (100)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-byte start, received_byte, low_bat;
+byte start, navigationReceived, low_bat;
 
 int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
 int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
@@ -47,6 +47,7 @@ float pid_output_left, pid_output_right;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
   Serial.begin(9600);                                                       //Start the serial port at 9600 kbps
+  Serial.println("Setup started.");
   Wire.begin();                                                             //Start the I2C bus as master
   TWBR = 12;                                                                //Set the I2C clock speed to 400kHz
 
@@ -85,10 +86,8 @@ void setup(){
   pinMode(PIN_STEPPERMOTOR_RIGHT_STEP, OUTPUT);
   pinMode(PIN_STEPPERMOTOR_RIGHT_DIR, OUTPUT);
 
-  pinMode(13, OUTPUT);                                                      //Configure digital poort 6 as output
-
   for(receive_counter = 0; receive_counter < 500; receive_counter++){       //Create 500 loops
-    if(receive_counter % 15 == 0)digitalWrite(13, !digitalRead(13));        //Change the state of the LED every 15 loops to make the LED blink fast
+    //if(receive_counter % 15 == 0)digitalWrite(13, !digitalRead(13));        //Change the state of the LED every 15 loops to make the LED blink fast
     Wire.beginTransmission(gyro_address);                                   //Start communication with the gyro
     Wire.write(0x43);                                                       //Start reading the Who_am_I register 75h
     Wire.endTransmission();                                                 //End the transmission
@@ -102,18 +101,25 @@ void setup(){
 
   loop_timer = micros() + 4000;                                             //Set the loop_timer variable at the next end loop time
 
+  pinMode(PIN_STEPPERMOTOR_SLEEP, OUTPUT);
+  digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
+
+  Serial.println("Setup complete.");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
-  if(Serial.available()){                                                   //If there is serial data available
-    received_byte = Serial.read();                                          //Load the received serial data in the received_byte variable
-    receive_counter = 0;                                                    //Reset the receive_counter variable
+  if(Serial.available()>0){                                                   //If there is serial data available
+    byte cmd = Serial.read();
+    if(!(cmd >> 4)){ //0000 XXXX is navigation byte
+      navigationReceived = cmd;                                     //Load the received serial data in the navigationReceived variable
+      receive_counter = 0;                                                    //Reset the receive_counter variable
+    }
   }
   if(receive_counter <= 25)receive_counter ++;                              //The received byte will be valid for 25 program loops (100 milliseconds)
-  else received_byte = 0x00;                                                //After 100 milliseconds the received byte is deleted
+  else navigationReceived = 0x00;                                                //After 100 milliseconds the received byte is deleted
   
   //Load the battery voltage to the battery_voltage variable.
   //85 is the voltage compensation for the diode.
@@ -125,7 +131,7 @@ void loop(){
   battery_voltage = (analogRead(PIN_ANALOG_BATTERY_VOLTAGE) * 1.222) + 85;
   
   if(battery_voltage < 1050 && battery_voltage > 800){                      //If batteryvoltage is below 10.5V and higher than 8.0V
-    digitalWrite(13, HIGH);                                                 //Turn on the led if battery voltage is to low
+    //digitalWrite(13, HIGH);                                                 //Turn on the led if battery voltage is to low
     low_bat = 1;                                                            //Set the low_bat variable to 1
   }
 
@@ -138,23 +144,23 @@ void loop(){
   Wire.requestFrom(gyro_address, 2);                                        //Request 2 bytes from the gyro
   accelerometer_data_raw = Wire.read()<<8|Wire.read();                      //Combine the two bytes to make one integer
   accelerometer_data_raw += acc_calibration_value;                          //Add the accelerometer calibration value
+
   if(accelerometer_data_raw > 8200)accelerometer_data_raw = 8200;           //Prevent division by zero by limiting the acc data to +/-8200;
   if(accelerometer_data_raw < -8200)accelerometer_data_raw = -8200;         //Prevent division by zero by limiting the acc data to +/-8200;
 
   angle_acc = asin((float)accelerometer_data_raw/8200.0)* 57.296;           //Calculate the current angle according to the accelerometer
-
   if(start == 0 && angle_acc > -0.5&& angle_acc < 0.5){                     //If the accelerometer angle is almost 0
     angle_gyro = angle_acc;                                                 //Load the accelerometer angle in the angle_gyro variable
     start = 1;                                                              //Set the start variable to start the PID controller
   }
-  
+
   Wire.beginTransmission(gyro_address);                                     //Start communication with the gyro
   Wire.write(0x43);                                                         //Start reading at register 43
   Wire.endTransmission();                                                   //End the transmission
   Wire.requestFrom(gyro_address, 4);                                        //Request 4 bytes from the gyro
   gyro_yaw_data_raw = Wire.read()<<8|Wire.read();                           //Combine the two bytes to make one integer
   gyro_pitch_data_raw = Wire.read()<<8|Wire.read();                         //Combine the two bytes to make one integer
-  
+
   gyro_pitch_data_raw -= gyro_pitch_calibration_value;                      //Add the gyro calibration value
   angle_gyro += gyro_pitch_data_raw * 0.000031;                             //Calculate the traveled during this loop angle and add this to the angle_gyro variable
   
@@ -206,25 +212,25 @@ void loop(){
   pid_output_left = pid_output;                                             //Copy the controller output to the pid_output_left variable for the left motor
   pid_output_right = pid_output;                                            //Copy the controller output to the pid_output_right variable for the right motor
 
-  if(received_byte & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
+  if(navigationReceived & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
     pid_output_left += turning_speed;                                       //Increase the left motor speed
     pid_output_right -= turning_speed;                                      //Decrease the right motor speed
   }
-  if(received_byte & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigationReceived & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
     pid_output_left -= turning_speed;                                       //Decrease the left motor speed
     pid_output_right += turning_speed;                                      //Increase the right motor speed
   }
 
-  if(received_byte & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigationReceived & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint > -2.5)pid_setpoint -= 0.05;                            //Slowly change the setpoint angle so the robot starts leaning forewards
     if(pid_output > max_target_speed * -1)pid_setpoint -= 0.005;            //Slowly change the setpoint angle so the robot starts leaning forewards
   }
-  if(received_byte & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigationReceived & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint < 2.5)pid_setpoint += 0.05;                             //Slowly change the setpoint angle so the robot starts leaning backwards
     if(pid_output < max_target_speed)pid_setpoint += 0.005;                 //Slowly change the setpoint angle so the robot starts leaning backwards
   }   
 
-  if(!(received_byte & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
+  if(!(navigationReceived & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
     if(pid_setpoint > 0.5)pid_setpoint -=0.05;                              //If the PID setpoint is larger then 0.5 reduce the setpoint with 0.05 every loop
     else if(pid_setpoint < -0.5)pid_setpoint +=0.05;                        //If the PID setpoint is smaller then -0.5 increase the setpoint with 0.05 every loop
     else pid_setpoint = 0;                                                  //If the PID setpoint is smaller then 0.5 or larger then -0.5 set the setpoint to 0
