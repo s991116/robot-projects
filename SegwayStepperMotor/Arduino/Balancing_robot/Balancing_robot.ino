@@ -12,6 +12,7 @@
 
 #include <Wire.h>                                            //Include the Wire.h library so we can communicate with the gyro
 #include "PinSetup.h"
+#include "SerialCommunication.h"
 
 int gyro_address = 0x68;                                     //MPU-6050 I2C address (0x68 or 0x69)
 int acc_calibration_value = -8120;                            //Enter the accelerometer calibration value
@@ -26,7 +27,9 @@ float max_target_speed = 150;                                //Max target speed 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-byte start, navigationReceived, low_bat;
+byte start, low_bat;
+
+SerialCommunication serialCom(&Serial);
 
 int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
 int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
@@ -46,8 +49,6 @@ float pid_output_left, pid_output_right;
 //Setup basic functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
-  Serial.begin(9600);                                                       //Start the serial port at 9600 kbps
-  Serial.println("Setup started.");
   Wire.begin();                                                             //Start the I2C bus as master
   TWBR = 12;                                                                //Set the I2C clock speed to 400kHz
 
@@ -104,23 +105,15 @@ void setup(){
   pinMode(PIN_STEPPERMOTOR_SLEEP, OUTPUT);
   digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
 
-  Serial.println("Setup complete.");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
-  if(Serial.available()>0){                                                   //If there is serial data available
-    byte cmd = Serial.read();
-    if(!(cmd >> 4)){ //0000 XXXX is navigation byte
-      navigationReceived = cmd;                                     //Load the received serial data in the navigationReceived variable
-      receive_counter = 0;                                                    //Reset the receive_counter variable
-    }
-  }
-  if(receive_counter <= 25)receive_counter ++;                              //The received byte will be valid for 25 program loops (100 milliseconds)
-  else navigationReceived = 0x00;                                                //After 100 milliseconds the received byte is deleted
-  
+
+  serialCom.ReceiveData();
+
   //Load the battery voltage to the battery_voltage variable.
   //85 is the voltage compensation for the diode.
   //Resistor voltage divider => (3.3k + 3.3k)/2.2k = 2.5
@@ -212,25 +205,25 @@ void loop(){
   pid_output_left = pid_output;                                             //Copy the controller output to the pid_output_left variable for the left motor
   pid_output_right = pid_output;                                            //Copy the controller output to the pid_output_right variable for the right motor
 
-  if(navigationReceived & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
+  if(serialCom.GetNavigation() & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
     pid_output_left += turning_speed;                                       //Increase the left motor speed
     pid_output_right -= turning_speed;                                      //Decrease the right motor speed
   }
-  if(navigationReceived & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(serialCom.GetNavigation() & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
     pid_output_left -= turning_speed;                                       //Decrease the left motor speed
     pid_output_right += turning_speed;                                      //Increase the right motor speed
   }
 
-  if(navigationReceived & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(serialCom.GetNavigation() & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint > -2.5)pid_setpoint -= 0.05;                            //Slowly change the setpoint angle so the robot starts leaning forewards
     if(pid_output > max_target_speed * -1)pid_setpoint -= 0.005;            //Slowly change the setpoint angle so the robot starts leaning forewards
   }
-  if(navigationReceived & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(serialCom.GetNavigation() & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint < 2.5)pid_setpoint += 0.05;                             //Slowly change the setpoint angle so the robot starts leaning backwards
     if(pid_output < max_target_speed)pid_setpoint += 0.005;                 //Slowly change the setpoint angle so the robot starts leaning backwards
   }   
 
-  if(!(navigationReceived & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
+  if(!(serialCom.GetNavigation() & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
     if(pid_setpoint > 0.5)pid_setpoint -=0.05;                              //If the PID setpoint is larger then 0.5 reduce the setpoint with 0.05 every loop
     else if(pid_setpoint < -0.5)pid_setpoint +=0.05;                        //If the PID setpoint is smaller then -0.5 increase the setpoint with 0.05 every loop
     else pid_setpoint = 0;                                                  //If the PID setpoint is smaller then 0.5 or larger then -0.5 set the setpoint to 0

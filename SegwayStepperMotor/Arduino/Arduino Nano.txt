@@ -47,9 +47,9 @@ Navigation commandgroup (0000 XXXX)
 
     0001 0100 + ValueByte : Set_BatteryLevel
 
-    0001 0100 + ValueByte : Set_PID_P_Value
-    0001 0101 + ValueByte : Set_PID_I_Value
-    0001 0110 + ValueByte : Set_PID_D_Value
+    0001 0101 + ValueByte : Set_PID_P_Value
+    0001 0110 + ValueByte : Set_PID_I_Value
+    0001 0111 + ValueByte : Set_PID_D_Value
 
     0001 1000 : Get_Distance
     0001 1001 : Get_Battery_Level

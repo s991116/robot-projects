@@ -1,0 +1,18 @@
+#define CMD_TURN_LEFT_BIT        (0b00000001)
+#define CMD_TURN_RIGHT_BIT       (0b00000010)
+#define CMD_MOVE_FORWARD_BIT     (0b00000100)
+#define CMD_MOVE_BACKWARDS_BIT   (0b00001000)
+
+#define CMD_SET_LIGHT            (0x10)
+#define CMD_SET_SERVO_1_POSITION (0x11)
+#define CMD_SET_SERVO_2_POSITION (0x12)
+#define CMD_SET_BATTERY_ALARM    (0x13)
+#define CMD_SET_PID_P_LEVEL      (0x14)
+#define CMD_SET_PID_I_LEVEL      (0x15)
+#define CMD_SET_PID_D_LEVEL      (0x16)
+#define CMD_SET_DISTANCESENSOR   (0x17)
+
+#define CMD_GET_DISTANCE         (0x20)
+#define CMD_GET_BATTERY_LEVEL    (0x21)
+#define CMD_GET_ANGLE            (0x22)
+#define CMD_GET_ANGLE_ACC        (0x23)
