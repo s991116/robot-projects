@@ -1,21 +1,20 @@
 #include <Arduino.h>
 //#include <Serial.h>
 
+typedef void (**receiveFunctionsP)(unsigned char);
+typedef void (*receiveFunctionsArray)(unsigned char);
+
+typedef unsigned char (**transmitFunctionsP)(void);
+typedef unsigned char (*transmitFunctionsArray)(void);
+
 class SerialCommunication {
 	public:
-	    SerialCommunication(HardwareSerial *serial);
-        void ReceiveData();
-        byte GetNavigation();
-        byte GetReceivedCmd();
-        byte GetReceivedData();
-        void SendData(byte data);
- 
+	    SerialCommunication(HardwareSerial *serial, receiveFunctionsP receiveFunctions, transmitFunctionsP transmitFunctions);
+        void Initialize();
+		void HandleCommunication(); 
 
 	private:
 	    HardwareSerial *uart;
-        byte _recivedCmd;
-        byte _navigationReceived;
-        byte _navigationReceiveCounter;
-        byte _receivedData;
-        bool _waitingForData;
+        receiveFunctionsP _receiveFunctions;
+        transmitFunctionsP _transmitFunctions;
 };

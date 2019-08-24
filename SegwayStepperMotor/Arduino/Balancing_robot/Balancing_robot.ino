@@ -24,12 +24,40 @@ float pid_d_gain = 10.0;                                       //Gain setting fo
 float turning_speed = 30;                                    //Turning speed (20)
 float max_target_speed = 150;                                //Max target speed (100)
 
+//////////////
+//Declaring Communication handling functions
+//////////////
+byte testData;
+
+void ReceiveTestData(byte data) {
+  testData = data;
+}
+
+byte TransmitTestData() {
+  return testData; 
+}
+
+byte navigation = 0;
+byte navigationReceiveCounter = 0;
+void ReceiveNavigation(byte data) {
+    navigation = data;
+    navigationReceiveCounter = 0;
+}
+
+void UpdateNavigation() {
+    if(navigationReceiveCounter <= 25) navigationReceiveCounter ++;        //The received byte will be valid for 25 program loops (100 milliseconds)
+    else navigation = 0x00;                                                //After 100 milliseconds the received byte is deleted 
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 byte start, low_bat;
 
-SerialCommunication serialCom(&Serial);
+receiveFunctionsArray ReceiveFunctions[2] = {ReceiveTestData, ReceiveNavigation};
+transmitFunctionsArray TransmitFunctions[1] = {TransmitTestData};
+
+SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 
 int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
 int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
@@ -105,6 +133,7 @@ void setup(){
   pinMode(PIN_STEPPERMOTOR_SLEEP, OUTPUT);
   digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
 
+  serialCom.Initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,8 +141,8 @@ void setup(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
 
-  serialCom.ReceiveData();
-
+  serialCom.HandleCommunication();
+  UpdateNavigation();
   //Load the battery voltage to the battery_voltage variable.
   //85 is the voltage compensation for the diode.
   //Resistor voltage divider => (3.3k + 3.3k)/2.2k = 2.5
@@ -205,25 +234,25 @@ void loop(){
   pid_output_left = pid_output;                                             //Copy the controller output to the pid_output_left variable for the left motor
   pid_output_right = pid_output;                                            //Copy the controller output to the pid_output_right variable for the right motor
 
-  if(serialCom.GetNavigation() & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
+  if(navigation & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
     pid_output_left += turning_speed;                                       //Increase the left motor speed
     pid_output_right -= turning_speed;                                      //Decrease the right motor speed
   }
-  if(serialCom.GetNavigation() & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigation & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
     pid_output_left -= turning_speed;                                       //Decrease the left motor speed
     pid_output_right += turning_speed;                                      //Increase the right motor speed
   }
 
-  if(serialCom.GetNavigation() & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigation & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint > -2.5)pid_setpoint -= 0.05;                            //Slowly change the setpoint angle so the robot starts leaning forewards
     if(pid_output > max_target_speed * -1)pid_setpoint -= 0.005;            //Slowly change the setpoint angle so the robot starts leaning forewards
   }
-  if(serialCom.GetNavigation() & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
+  if(navigation & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint < 2.5)pid_setpoint += 0.05;                             //Slowly change the setpoint angle so the robot starts leaning backwards
     if(pid_output < max_target_speed)pid_setpoint += 0.005;                 //Slowly change the setpoint angle so the robot starts leaning backwards
   }   
 
-  if(!(serialCom.GetNavigation() & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
+  if(!(navigation & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
     if(pid_setpoint > 0.5)pid_setpoint -=0.05;                              //If the PID setpoint is larger then 0.5 reduce the setpoint with 0.05 every loop
     else if(pid_setpoint < -0.5)pid_setpoint +=0.05;                        //If the PID setpoint is smaller then -0.5 increase the setpoint with 0.05 every loop
     else pid_setpoint = 0;                                                  //If the PID setpoint is smaller then 0.5 or larger then -0.5 set the setpoint to 0

@@ -1,56 +1,34 @@
 #include "SerialCommunication.h"
 #include "SerialCommands.h"
 
-SerialCommunication::SerialCommunication(HardwareSerial *serial) {
+SerialCommunication::SerialCommunication(HardwareSerial *serial, receiveFunctionsP receiveFunctions, transmitFunctionsP transmitFunctions) {
     this->uart = serial;
-    this->uart->begin(9600);                                                       //Start the serial port at 9600 kbps
-    this->uart->println("Setup started.");
-
-    this->_waitingForData = false;
+    this->_receiveFunctions = receiveFunctions;
+    this->_transmitFunctions = transmitFunctions;
 }
 
-void SerialCommunication::ReceiveData() {
-    if(uart->available()>0){                                                   //If there is serial data available
-        byte cmd = this->uart->read();
-        byte cmdType = cmd >> 4;
+void SerialCommunication::Initialize() {
+    this->uart->begin(9600);
+}
+
+void SerialCommunication::HandleCommunication() {
+    if(uart->available()>0){
+        unsigned char data = this->uart->read();
+        unsigned char cmdType = data >> 4;
+        unsigned char cmd = data & 0x0F;
+        unsigned char receivedData;
+
         switch(cmdType) {
-            case 0:
-                this->_navigationReceived = cmd;                                     //Load the received serial data in the navigationReceived variable
-                this->_navigationReceiveCounter = 0;                                                    //Reset the receive_counter variable
-                this->_recivedCmd = cmd;
-                break;
-
-            case 1:
-                this->_recivedCmd = cmd;
+            case CMD_TYPE_SET_VALUE:
                 while(this->uart->available() == 0);
-                this->_receivedData = uart->read();
+                receivedData = uart->read();
+                this->_receiveFunctions[cmd](receivedData);
                 break;
 
-            case 2:
-                this->_recivedCmd = cmd;
-                this->_waitingForData = true;
+            case CMD_TYPE_GET_VALUE:
+                data = this->_transmitFunctions[cmd]();
+                this->uart->write(data);
                 break;
         }
-    }
-  if(_navigationReceiveCounter <= 25)_navigationReceiveCounter ++;                              //The received byte will be valid for 25 program loops (100 milliseconds)
-  else _navigationReceiveCounter = 0x00;                                                //After 100 milliseconds the received byte is deleted 
-}
-
-byte SerialCommunication::GetNavigation() {
-    return this->_navigationReceived;
-}
-
-byte SerialCommunication::GetReceivedCmd() {
-    return this->_recivedCmd;
-}
-
-byte SerialCommunication::GetReceivedData() {
-    return this->_receivedData;
-}
-
-void SerialCommunication::SendData(byte data) {
-    if(this->_waitingForData) {
-        this->uart->write(data);
-        this->_waitingForData = false;
     }
 }
