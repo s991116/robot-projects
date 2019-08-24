@@ -37,8 +37,19 @@ byte TransmitTestData() {
   return testData; 
 }
 
+byte GetAngle() {
+  return 0; 
+}
+byte GetAngleAcc() {
+  return 0; 
+}
+byte GetDistance() {
+  return 0; 
+}
+
 byte navigation = 0;
 byte navigationReceiveCounter = 0;
+
 void ReceiveNavigation(byte data) {
     navigation = data;
     navigationReceiveCounter = 0;
@@ -49,13 +60,53 @@ void UpdateNavigation() {
     else navigation = 0x00;                                                //After 100 milliseconds the received byte is deleted 
 }
 
+void Servo1Position(byte data) {
+}
+void Servo2Position(byte data) {
+}
+void BatteryAlarmLevel(byte data) {
+}
+void PidPLevel(byte data) {
+  pid_p_gain = data/4.0;
+}
+void PidILevel(byte data) {
+  pid_i_gain = data/4.0;
+}
+void PidDLevel(byte data) {
+  pid_d_gain = data/4.0;
+}
+void DistanceSensorMode(byte data) {
+}
+void BalanceMode(byte data) {
+}
+void LightMode(byte data) {
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 byte start, low_bat;
 
-receiveFunctionsArray ReceiveFunctions[2] = {ReceiveTestData, ReceiveNavigation};
-transmitFunctionsArray TransmitFunctions[1] = {TransmitTestData};
+receiveFunctionsArray ReceiveFunctions[] = {
+  ReceiveTestData, 
+  ReceiveNavigation,
+  Servo1Position,
+  Servo2Position,
+  BatteryAlarmLevel,
+  PidPLevel,
+  PidILevel,
+  PidDLevel,
+  DistanceSensorMode,
+  BalanceMode,
+  LightMode
+};
+
+transmitFunctionsArray TransmitFunctions[] = {
+  TransmitTestData,
+  GetAngle,
+  GetAngleAcc,
+  GetDistance,
+};
 
 SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 
