@@ -14,3 +14,22 @@ class Arduino:
 
     def GetTest(self):
         return self.communication.GetData(Commands.CMD_GET_TEST_VALUE)
+
+    def GetBatteryLevel(self):
+        return self.communication.GetData(Commands.CMD_GET_BATTERY_LEVEL)
+
+    def Direction(self, forward, leftRight):
+        directionData = 0
+        if(forward == 1):
+            directionData = 4
+        
+        if(forward == -1):
+            directionData = 8
+
+        if(leftRight == -1):
+            directionData = directionData + 1
+
+        if(leftRight == 1):
+            directionData = directionData + 2
+
+        self.communication.SendData(Commands.CMD_SET_MOVEMENT,directionData)
