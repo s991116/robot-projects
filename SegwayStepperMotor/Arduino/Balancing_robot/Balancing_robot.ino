@@ -19,11 +19,33 @@ int acc_calibration_value = -8120;                            //Enter the accele
 
 //Various settings
 float pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
-float pid_i_gain = 0.0;                                      //Gain setting for the I-controller (1.5)
+float pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
 float pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
 float turning_speed = 30;                                    //Turning speed (20)
 float max_target_speed = 150;                                //Max target speed (100)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Declaring global variables
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+byte start, low_bat;
+
+int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
+int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
+int battery_voltage;
+int receive_counter;
+int gyro_pitch_data_raw, gyro_yaw_data_raw, accelerometer_data_raw;
+
+long gyro_yaw_calibration_value, gyro_pitch_calibration_value;
+
+unsigned long loop_timer;
+
+float angle_gyro, angle_acc, angle, self_balance_pid_setpoint;
+float pid_error_temp, pid_i_mem, pid_setpoint, gyro_input, pid_output, pid_last_d_error;
+float pid_output_left, pid_output_right;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//Communication functions
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////
 //Declaring Communication handling functions
 //////////////
@@ -37,11 +59,14 @@ byte TransmitTestData() {
   return testData; 
 }
 
+byte GetBatteryLevel() {
+  return analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+}
 byte GetAngle() {
-  return 0; 
+  return angle; 
 }
 byte GetAngleAcc() {
-  return 0; 
+  return angle_acc; 
 }
 byte GetDistance() {
   return 0; 
@@ -82,11 +107,6 @@ void BalanceMode(byte data) {
 void LightMode(byte data) {
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Declaring global variables
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-byte start, low_bat;
-
 receiveFunctionsArray ReceiveFunctions[] = {
   ReceiveTestData, 
   ReceiveNavigation,
@@ -103,26 +123,13 @@ receiveFunctionsArray ReceiveFunctions[] = {
 
 transmitFunctionsArray TransmitFunctions[] = {
   TransmitTestData,
+  GetBatteryLevel,
   GetAngle,
   GetAngleAcc,
   GetDistance,
 };
 
 SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
-
-int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
-int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
-int battery_voltage;
-int receive_counter;
-int gyro_pitch_data_raw, gyro_yaw_data_raw, accelerometer_data_raw;
-
-long gyro_yaw_calibration_value, gyro_pitch_calibration_value;
-
-unsigned long loop_timer;
-
-float angle_gyro, angle_acc, angle, self_balance_pid_setpoint;
-float pid_error_temp, pid_i_mem, pid_setpoint, gyro_input, pid_output, pid_last_d_error;
-float pid_output_left, pid_output_right;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Setup basic functions
