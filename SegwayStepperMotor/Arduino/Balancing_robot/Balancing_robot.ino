@@ -58,9 +58,6 @@ byte ledMode;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //Communication functions
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////
-//Declaring Communication handling functions
-//////////////
 byte testData;
 
 void ReceiveTestData(byte data) {
@@ -71,8 +68,13 @@ byte TransmitTestData() {
   return testData; 
 }
 
-byte GetBatteryLevel() {
-  return analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+byte GetBatteryLevelH() {
+  int level = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return level >> 8;
+}
+byte GetBatteryLevelL() {
+  int level = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return level & 0xFF;
 }
 byte GetAngle() {
   return angle; 
@@ -142,7 +144,8 @@ receiveFunctionsArray ReceiveFunctions[] = {
 
 transmitFunctionsArray TransmitFunctions[] = {
   TransmitTestData,
-  GetBatteryLevel,
+  GetBatteryLevelH,
+  GetBatteryLevelL,
   GetAngle,
   GetAngleAcc,
   GetDistance,

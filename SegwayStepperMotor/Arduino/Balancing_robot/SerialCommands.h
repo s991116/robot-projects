@@ -19,7 +19,8 @@
 #define CMD_SET_LIGHT            (0x0A)
 
 #define CMD_GET_TEST_VALUE       (0x00)
-#define CMD_GET_BATTERY_LEVEL    (0x01)
-#define CMD_GET_ANGLE            (0x02)
-#define CMD_GET_ANGLE_ACC        (0x03)
-#define CMD_GET_DISTANCE         (0x04)
+#define CMD_GET_BATTERY_LEVEL_H  (0x01)
+#define CMD_GET_BATTERY_LEVEL_L  (0x02)
+#define CMD_GET_ANGLE            (0x03)
+#define CMD_GET_ANGLE_ACC        (0x04)
+#define CMD_GET_DISTANCE         (0x05)
