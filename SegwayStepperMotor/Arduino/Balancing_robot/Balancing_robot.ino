@@ -11,19 +11,53 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <Wire.h>                                            //Include the Wire.h library so we can communicate with the gyro
+#include <Servo.h>
 #include "PinSetup.h"
 #include "SerialCommunication.h"
+
+#define LED_BLINK_TIME (300) //Blink timer in MS
+#define LEDMode_OFF              (0)
+#define LEDMode_ON               (1)
+#define LEDMode_BLINK            (2)
 
 int gyro_address = 0x68;                                     //MPU-6050 I2C address (0x68 or 0x69)
 int acc_calibration_value = -8120;                            //Enter the accelerometer calibration value
 
 //Various settings
 float pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
-float pid_i_gain = 0.0;                                      //Gain setting for the I-controller (1.5)
+float pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
 float pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
 float turning_speed = 30;                                    //Turning speed (20)
 float max_target_speed = 150;                                //Max target speed (100)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Declaring global variables
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+byte start, low_bat;
+
+int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
+int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
+int battery_voltage;
+int receive_counter;
+int gyro_pitch_data_raw, gyro_yaw_data_raw, accelerometer_data_raw;
+
+long gyro_yaw_calibration_value, gyro_pitch_calibration_value;
+
+unsigned long loop_timer;
+
+float angle_gyro, angle_acc, angle, self_balance_pid_setpoint;
+float pid_error_temp, pid_i_mem, pid_setpoint, gyro_input, pid_output, pid_last_d_error;
+float pid_output_left, pid_output_right;
+
+Servo verticalServo, horizontalServo;
+
+bool ledBlink;
+long ledTimer;
+byte ledMode;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//Communication functions
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////
 //Declaring Communication handling functions
 //////////////
@@ -37,11 +71,14 @@ byte TransmitTestData() {
   return testData; 
 }
 
+byte GetBatteryLevel() {
+  return analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+}
 byte GetAngle() {
-  return 0; 
+  return angle; 
 }
 byte GetAngleAcc() {
-  return 0; 
+  return angle_acc; 
 }
 byte GetDistance() {
   return 0; 
@@ -61,8 +98,10 @@ void UpdateNavigation() {
 }
 
 void Servo1Position(byte data) {
+  verticalServo.write(data);
 }
 void Servo2Position(byte data) {
+  horizontalServo.write(data);
 }
 void BatteryAlarmLevel(byte data) {
 }
@@ -78,14 +117,14 @@ void PidDLevel(byte data) {
 void DistanceSensorMode(byte data) {
 }
 void BalanceMode(byte data) {
+  if(data==0)
+    digitalWrite(PIN_STEPPERMOTOR_SLEEP, LOW);
+  else
+    digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
 }
 void LightMode(byte data) {
+  ledMode = data;
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Declaring global variables
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-byte start, low_bat;
 
 receiveFunctionsArray ReceiveFunctions[] = {
   ReceiveTestData, 
@@ -103,26 +142,13 @@ receiveFunctionsArray ReceiveFunctions[] = {
 
 transmitFunctionsArray TransmitFunctions[] = {
   TransmitTestData,
+  GetBatteryLevel,
   GetAngle,
   GetAngleAcc,
   GetDistance,
 };
 
 SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
-
-int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
-int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
-int battery_voltage;
-int receive_counter;
-int gyro_pitch_data_raw, gyro_yaw_data_raw, accelerometer_data_raw;
-
-long gyro_yaw_calibration_value, gyro_pitch_calibration_value;
-
-unsigned long loop_timer;
-
-float angle_gyro, angle_acc, angle, self_balance_pid_setpoint;
-float pid_error_temp, pid_i_mem, pid_setpoint, gyro_input, pid_output, pid_last_d_error;
-float pid_output_left, pid_output_right;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Setup basic functions
@@ -181,19 +207,48 @@ void setup(){
 
   loop_timer = micros() + 4000;                                             //Set the loop_timer variable at the next end loop time
 
+  pinMode(PIN_POWERLED, OUTPUT);
+  digitalWrite(PIN_POWERLED, LOW);
+
   pinMode(PIN_STEPPERMOTOR_SLEEP, OUTPUT);
   digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
 
+  verticalServo.attach(PIN_SERVO_1);
+  horizontalServo.attach(PIN_SERVO_2);
+
   serialCom.Initialize();
 }
+
+void UpdateLEDMode() {
+  switch(ledMode) {
+    case LEDMode_OFF:
+      digitalWrite(PIN_POWERLED, LOW);
+      break;
+    
+    case LEDMode_ON:
+      digitalWrite(PIN_POWERLED, HIGH);
+      break;
+
+    case LEDMode_BLINK:
+      if(ledTimer < millis()) {
+        ledTimer = millis() + LED_BLINK_TIME;
+        ledBlink = !ledBlink;
+        digitalWrite(PIN_POWERLED, ledBlink);
+      }
+      break;
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
-
+  
   serialCom.HandleCommunication();
   UpdateNavigation();
+  UpdateLEDMode();
+
   //Load the battery voltage to the battery_voltage variable.
   //85 is the voltage compensation for the diode.
   //Resistor voltage divider => (3.3k + 3.3k)/2.2k = 2.5
