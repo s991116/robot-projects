@@ -5,6 +5,10 @@ class ArduinoCommunication:
     def __init__(self):
         self.port = serial.Serial(port='/dev/serial0')
 
+    def Reset(self):
+        self.port.reset_input_buffer()
+        self.port.reset_output_buffer()
+
     def SendData(self,cmd,data):
         cmd = cmd+Commands.CMD_TYPE_SET_VALUE
         cmd = self.__byteRange__(cmd)
