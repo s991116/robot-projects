@@ -2,16 +2,13 @@
 <html>
   <head>
       <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/main.css">
+      <script src="js/socket.io.js"></script>
   </head>
 <body>
-  <script src="js/jquery.slim.min.js"></script>
-  <!-- <script src="js/popper.min.js"></script> -->
-  <script src="js/bootstrap.min.js"></script>
-
-<!--   <h1>Control LED light</h1>
+  <h1>Control LED light</h1>
   <p><input type="checkbox" id="light"></p>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script>
   var socket = io(); //load socket.io-client and connect to the host that serves the page
   window.addEventListener("load", function(){ //when page loads
@@ -24,18 +21,31 @@
     document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
     socket.emit("light", data); //send push button status to back to server
   });
-  </script> -->
-
-  <div id="zone_joystick" style="background-color:lightblue; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
-
+  </script>
+  <div class="description">
+    <h1>Navigation</h1>
+   <div id="zone_joystick" style="background-color:lightblue; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
+  </div>
   <script src="js/nipplejs.js"></script>
   <script type="text/javascript">
-    var static = nipplejs.create({
+    var joystick = nipplejs.create({
       zone: document.getElementById('zone_joystick'),
       mode: 'static',
       position: {left: '50%', top: '50%'},
       color: 'red'
     });
+    joystick.on('move', (evt, data) => {
+      var angle = data.angle.radian;
+      var distance = data.distance/50.0;
+      var positionX = distance * Math.cos(angle);
+      var positionY = distance * Math.sin(angle);
+      var posX = Math.round((3/2)*positionX);
+      var posY = Math.round((3/2)*positionY);
+    });
   </script>
 </body>
+<script src="js/jquery.slim.min.js"></script>
+<!-- <script src="js/popper.min.js"></script> -->
+<script src="js/bootstrap.min.js"></script>
+
 </html>

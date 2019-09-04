@@ -13,6 +13,7 @@ app.use('/js',express.static(path.join(__dirname,'/node_modules/bootstrap/dist/j
 app.use('/js',express.static(path.join(__dirname,'/node_modules/jquery/dist')));
 app.use('/js',express.static(path.join(__dirname,'/node_modules/nipplejs/dist')));
 app.use('/js',express.static(path.join(__dirname,'/node_modules/popper.js/dist')));
+app.use('/js',express.static(path.join(__dirname,'/node_modules/socket.io-client/dist')));
 
 app.get('/', function(req,res){
   res.sendFile(path.join(__dirname,'public/index.html'));
