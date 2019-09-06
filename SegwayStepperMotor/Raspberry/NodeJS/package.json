@@ -17,9 +17,15 @@
     "socket.io-client": "^2.2.0",
     "bootstrap": "^4.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "jest": {
+    "testMatch": ["**/*test.js"],
+    "moduleFileExtension": ["js", "ts"]
+  },
   "scripts": {
-    "test": "mocha"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC"
