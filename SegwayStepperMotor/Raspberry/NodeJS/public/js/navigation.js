@@ -16,8 +16,8 @@ joystick.on('move', (evt, data) => {
     var x = Math.round((3/2)*positionX);
     var y = Math.round((3/2)*positionY);
     if(x !== posX || y !== posY) {
-    posX = x;
-    posY = y;
-    socket.emit('navigation', [posX, posY]);
+        posX = x;
+        posY = y;
+        socket.emit('navigation', [posY, posX]);
     }
 });

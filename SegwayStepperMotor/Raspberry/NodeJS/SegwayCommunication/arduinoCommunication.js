@@ -1,19 +1,20 @@
-function arduino() {
+module.exports = function(port) {
   var chalk = require('chalk');
   var debug = require('debug')('app');
-  
-  var SerialPort = require('serialport');
-  var port = new SerialPort('/dev/serial0', { baudRate: 9600 });
-  port.on('open', function() {
-      debug(chalk.green('Port open'));
-  });
+  if(port == undefined) {
+    var SerialPort = require('serialport');
+    var port = new SerialPort('/dev/serial0', { baudRate: 9600 });
+    port.on('open', function() {
+        debug(chalk.green('Port open'));
+    });
 
-  port.on('error', function(err) {
-    debug(chalk.red('Error: ', err.message));
-  });
+    port.on('error', function(err) {
+      debug(chalk.red('Error: ', err.message));
+    });
+  }
   
-  function sendData(cmd,data) {
-    port.write([cmd,data], function(err) {
+  let sendData = (cmd,data) => {
+    port.write([cmd,data], (err) => {
       if (err) {
         return debug(chalk.red('Error: ', err.message));
       }
@@ -23,7 +24,7 @@ function arduino() {
   let getData = (cmd) => {
     return new Promise(
       (resolve, reject) => {
-        port.write([cmd], function(err) {
+        port.write([cmd], (err) => {
           if (err) {
             reject(err);
           }
