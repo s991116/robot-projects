@@ -32,7 +32,10 @@ ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
   socket.on('navigation', (data) => {
     console.log(data);
     navigation.navigate(data[0], data[1]);
-  })
+  });
+  socket.on('disconnect', (data) => {
+    navigation.navigate(data[0], data[0]);
+  });
 });
 
 var server = httpApp.listen(8080, function() {
