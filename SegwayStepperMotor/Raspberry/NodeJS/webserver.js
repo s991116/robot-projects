@@ -6,7 +6,7 @@ var path = require('path');
 var http = require('http');
 var io = require('socket.io');//(express) //require socket.io module and pass the http object (server)
 
-var arduinoCom = require('./SegwayCommunication/arduinoCommunication');
+var arduinoCom = require('./SegwayCommunication/arduinoCommunication')();
 var navigation = require('./SegwayCommunication/navigation')(arduinoCom);
 
 var app = express();
@@ -26,15 +26,14 @@ app.use('/js',express.static(path.join(__dirname,'/node_modules/socket.io-client
 app.get('/', function(req,res){
   res.sendFile(path.join(__dirname,'public/index.html'));
 })
-
+console.log(arduinoCom);
 ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
   debug(chalk.green('Client connected.'));
   socket.on('navigation', (data) => {
-    console.log(data);
     navigation.navigate(data[0], data[1]);
   });
   socket.on('disconnect', (data) => {
-    navigation.navigate(data[0], data[0]);
+    navigation.navigate(0,0);
   });
 });
 
