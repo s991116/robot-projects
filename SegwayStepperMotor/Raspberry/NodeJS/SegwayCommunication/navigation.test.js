@@ -5,7 +5,7 @@ createFixture = () => {
   const navigation = require('./navigation')(comMock);
   return  {
     navigation: navigation,
-    sendData: sendData
+    sendData: sendData,
   }
 }
 
@@ -28,3 +28,12 @@ test('Send forward and left cmd', () => {
   expect(fixture.sendData).toHaveBeenCalledTimes(1);
   expect(fixture.sendData).toHaveBeenCalledWith(0x11, 0b00000101);
 });
+
+test('PID Settings updated', () => {
+  const fixture = createFixture();
+  const navigation = fixture.navigation;
+  
+  navigation.pidSetting(1,2,3);
+
+  expect(fixture.sendData).toHaveBeenCalledTimes(3);
+})

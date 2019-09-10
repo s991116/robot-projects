@@ -1,6 +1,7 @@
 module.exports = function(port) {
   var chalk = require('chalk');
   var debug = require('debug')('app');
+  
   if(port == undefined) {
     var SerialPort = require('serialport');
     var port = new SerialPort('/dev/serial0', { baudRate: 9600 });
@@ -14,7 +15,8 @@ module.exports = function(port) {
   }
   
   let sendData = (cmd,data) => {
-    port.write([cmd,data], (err) => {
+    
+    port.write([Math.round(cmd),Math.round(data)], (err) => {
       if (err) {
         return debug(chalk.red('Error: ', err.message));
       }

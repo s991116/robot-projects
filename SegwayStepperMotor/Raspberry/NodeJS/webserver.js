@@ -8,6 +8,7 @@ var io = require('socket.io');//(express) //require socket.io module and pass th
 
 var arduinoCom = require('./SegwayCommunication/arduinoCommunication')();
 var navigation = require('./SegwayCommunication/navigation')(arduinoCom);
+var testCommunication = require('./SegwayCommunication/testCommunication')(arduinoCom);
 
 var app = express();
 var httpApp = http.Server(app);
@@ -26,15 +27,20 @@ app.use('/js',express.static(path.join(__dirname,'/node_modules/socket.io-client
 app.get('/', function(req,res){
   res.sendFile(path.join(__dirname,'public/index.html'));
 })
-console.log(arduinoCom);
+
 ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
   debug(chalk.green('Client connected.'));
   socket.on('navigation', (data) => {
     navigation.navigate(data[0], data[1]);
   });
-  socket.on('disconnect', (data) => {
-    navigation.navigate(0,0);
+  socket.on('PIDUpdate', (data) => {
+    navigation.pidSetting(data[0], data[1], data[2]);
   });
+  socket.on('TestCommunication', () => {
+    testCommunication.testCommunication().then(function(result) {
+      socket.emit('TestResult', result);
+    })
+  })
 });
 
 var server = httpApp.listen(8080, function() {
