@@ -1,4 +1,3 @@
-
 createFixture = () => {
   const sendData = jest.fn((cmd,data) => {});
   comMock = {sendData: sendData};

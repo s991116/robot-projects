@@ -10,6 +10,8 @@ var arduinoCom = require('./SegwayCommunication/arduinoCommunication')();
 var navigation = require('./SegwayCommunication/navigation')(arduinoCom);
 var testCommunication = require('./SegwayCommunication/testCommunication')(arduinoCom);
 
+var relay = require('./websocketRelay')('supersecret', 8081, 8082);
+
 var app = express();
 var httpApp = http.Server(app);
 var ioApp = io(httpApp);
