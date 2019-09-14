@@ -4,6 +4,7 @@
   "description": "Segway",
   "main": "webserver.js",
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
     "express": "^4.17.1",
@@ -14,15 +15,19 @@
     "raspi-serial": "^5.1.1",
     "serialport": "^7.1.5",
     "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0",
-    "bootstrap": "^4.3.1"
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "jest": "^24.9.0"
   },
   "jest": {
-    "testMatch": ["**/*test.js"],
-    "moduleFileExtension": ["js", "ts"]
+    "testMatch": [
+      "**/*test.js"
+    ],
+    "moduleFileExtension": [
+      "js",
+      "ts"
+    ]
   },
   "scripts": {
     "test": "jest"
