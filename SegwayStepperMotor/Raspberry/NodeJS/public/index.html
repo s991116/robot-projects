@@ -20,6 +20,13 @@
   <div class="tab-pane fade show active" id="control" role="tabpanel" aria-labelledby="control-tab">  <div class="description">
     <h1>Navigation</h1>
    <div id="zone_joystick" style="background-color:lightblue; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
+    <canvas id="video-canvas"></canvas>
+   <script type="text/javascript" src="js/jsmpeg.min.js"></script>
+   <script type="text/javascript">
+     var canvas = document.getElementById('video-canvas');
+     var url = 'ws://'+document.location.hostname+':8082/';
+     var player = new JSMpeg.Player(url, {canvas: canvas});
+   </script>
   </div>
   <script src="js/nipplejs.js"></script>
   <script src="js/navigation.js"></script>
@@ -43,8 +50,7 @@
         <button onclick="buttonClicked()">Send PID</button>
       </div>
       <button onclick="buttonTestCommunicationClicked()">Test communication</button>
-  </div>
-
+  </div>  
 </body>
 <script src="js/jquery.slim.min.js"></script>
 <!-- <script src="js/popper.min.js"></script> -->
