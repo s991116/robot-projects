@@ -10,6 +10,9 @@ class Arduino:
         arduinoCom = ArduinoCommunication.ArduinoCommunication()
         return cls(arduinoCom)
 
+    def ResetCommunication(self):
+        self.communication.Reset()
+
     def SetPID(self, p,i,d):
         self.communication.SendData(Commands.CMD_SET_PID_P_LEVEL, p*4)
         self.communication.SendData(Commands.CMD_SET_PID_I_LEVEL, i*4)
@@ -25,7 +28,9 @@ class Arduino:
         return self.communication.GetData(Commands.CMD_GET_TEST_VALUE)
 
     def GetBatteryLevel(self):
-        return self.communication.GetData(Commands.CMD_GET_BATTERY_LEVEL)
+        level = self.communication.GetData(Commands.CMD_GET_BATTERY_LEVEL_H) << 8
+        level = level + self.communication.GetData(Commands.CMD_GET_BATTERY_LEVEL_L)
+        return level
 
     def Direction(self, forward, leftRight):
         directionData = 0
