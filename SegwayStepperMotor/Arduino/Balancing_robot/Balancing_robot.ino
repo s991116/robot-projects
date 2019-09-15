@@ -14,14 +14,12 @@
 #include <Servo.h>
 #include "PinSetup.h"
 #include "SerialCommunication.h"
+#include "Gyroscope.h"
 
 #define LED_BLINK_TIME (300) //Blink timer in MS
 #define LEDMode_OFF              (0)
 #define LEDMode_ON               (1)
 #define LEDMode_BLINK            (2)
-
-int gyro_address = 0x68;                                     //MPU-6050 I2C address (0x68 or 0x69)
-int acc_calibration_value = -8120;                            //Enter the accelerometer calibration value
 
 //Various settings
 float pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
@@ -33,117 +31,181 @@ float max_target_speed = 150;                                //Max target speed 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-byte start, low_bat;
+byte low_bat;
 
 int left_motor, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
 int right_motor, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
 int battery_voltage;
-int receive_counter;
-int gyro_pitch_data_raw, gyro_yaw_data_raw, accelerometer_data_raw;
-
-long gyro_yaw_calibration_value, gyro_pitch_calibration_value;
 
 unsigned long loop_timer;
 
-float angle_gyro, angle_acc, angle, self_balance_pid_setpoint;
+float angle, self_balance_pid_setpoint;
 float pid_error_temp, pid_i_mem, pid_setpoint, gyro_input, pid_output, pid_last_d_error;
 float pid_output_left, pid_output_right;
 
+byte navigation = 0;
+byte navigationReceiveCounter = 0;
+
 Servo verticalServo, horizontalServo;
+byte servo1Position, servo2Position;
+
+byte balanceMode;
 
 bool ledBlink;
 long ledTimer;
 byte ledMode;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//Communication functions
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-byte testData;
-
-void ReceiveTestData(byte data) {
-  testData = data;
-}
-
-byte TransmitTestData() {
-  return testData; 
-}
-
-byte GetBatteryLevelH() {
-  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
-  return batteryLevel >> 8;
-}
-byte GetBatteryLevelL() {
-  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
-  return batteryLevel & 0xFF;
-}
-byte GetAngle() {
-  return angle; 
-}
-byte GetAngleAcc() {
-  return angle_acc; 
-}
-byte GetDistance() {
-  return 0; 
-}
-
-byte navigation = 0;
-byte navigationReceiveCounter = 0;
-
-void ReceiveNavigation(byte data) {
-    navigation = data;
-    navigationReceiveCounter = 0;
-}
+Gyroscope gyroscope;
 
 void UpdateNavigation() {
     if(navigationReceiveCounter <= 25) navigationReceiveCounter ++;        //The received byte will be valid for 25 program loops (100 milliseconds)
     else navigation = 0x00;                                                //After 100 milliseconds the received byte is deleted 
 }
 
-void Servo1Position(byte data) {
-  verticalServo.write(data);
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//Communication functions
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//SET FUNCTIONS//////////////////////////////////////////////////////////////////////////////////////
+byte testData;
+
+void SetTestData(byte data) {
+  testData = data;
 }
-void Servo2Position(byte data) {
-  horizontalServo.write(data);
+
+void SetNavigation(byte data) {
+    navigation = data;
+    navigationReceiveCounter = 0;
 }
-void BatteryAlarmLevel(byte data) {
+
+void SetServo1Position(byte data) {
+  servo1Position = data;
+  verticalServo.write(servo1Position);
 }
-void PidPLevel(byte data) {
+
+void SetServo2Position(byte data) {
+  servo2Position = data;
+  horizontalServo.write(servo2Position);
+}
+
+void SetBatteryAlarmLevel(byte data) {
+}
+
+void SetPidPLevel(byte data) {
   pid_p_gain = data/4.0;
 }
-void PidILevel(byte data) {
+void SetPidILevel(byte data) {
   pid_i_gain = data/4.0;
 }
-void PidDLevel(byte data) {
+void SetPidDLevel(byte data) {
   pid_d_gain = data/4.0;
 }
-void DistanceSensorMode(byte data) {
+void SetDistanceSensorMode(byte data) {
 }
-void BalanceMode(byte data) {
-  if(data==0)
+void SetBalanceMode(byte data) {
+  balanceMode = data;
+  if(balanceMode==0)
     digitalWrite(PIN_STEPPERMOTOR_SLEEP, LOW);
   else
     digitalWrite(PIN_STEPPERMOTOR_SLEEP, HIGH);
 }
-void LightMode(byte data) {
+void SetLightMode(byte data) {
   ledMode = data;
 }
 
+//GET FUNCTIONS////////////////////////////////////////////////////////////////////////
+byte GetTestData() {
+  return testData; 
+}
+
+byte GetNavigation() {
+    return navigation;
+}
+
+byte GetServo1Position() {
+    return servo1Position;
+}
+
+byte GetServo2Position(){
+    return servo2Position;
+}
+
+byte GetBatteryAlarmLevel() {
+    return 0;
+}
+
+byte GetPidPLevel() {
+    return 4*pid_p_gain;
+}
+
+byte GetPidILevel() {
+    return 4*pid_i_gain;
+}
+
+byte GetPidDLevel() {
+    return 4*pid_d_gain;
+}
+
+byte GetDistanceSensorMode() {
+    return 0;
+}
+
+byte GetBalanceMode() {
+    return balanceMode;
+}
+
+byte GetLightMode() {
+    return ledMode;
+}
+
+byte GetBatteryLevelH() {
+  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return batteryLevel >> 8;
+}
+
+byte GetBatteryLevelL() {
+  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return batteryLevel & 0xFF;
+}
+
+byte GetAngle() {
+  return angle; 
+}
+
+byte GetAngleAcc() {
+  return gyroscope.angle_acc; 
+}
+
+byte GetDistance() {
+  return 0; 
+}
+
 receiveFunctionsArray ReceiveFunctions[] = {
-  ReceiveTestData, 
-  ReceiveNavigation,
-  Servo1Position,
-  Servo2Position,
-  BatteryAlarmLevel,
-  PidPLevel,
-  PidILevel,
-  PidDLevel,
-  DistanceSensorMode,
-  BalanceMode,
-  LightMode
+  SetTestData, 
+  SetNavigation,
+  SetServo1Position,
+  SetServo2Position,
+  SetBatteryAlarmLevel,
+  SetPidPLevel,
+  SetPidILevel,
+  SetPidDLevel,
+  SetDistanceSensorMode,
+  SetBalanceMode,
+  SetLightMode,
 };
 
 transmitFunctionsArray TransmitFunctions[] = {
-  TransmitTestData,
+  GetTestData,
+  GetNavigation,
+  GetServo1Position,
+  GetServo2Position,
+  GetBatteryAlarmLevel,
+  GetPidPLevel,
+  GetPidILevel,
+  GetPidDLevel,
+  GetDistanceSensorMode,
+  GetBalanceMode,
+  GetLightMode,
   GetBatteryLevelH,
   GetBatteryLevelL,
   GetAngle,
@@ -151,15 +213,15 @@ transmitFunctionsArray TransmitFunctions[] = {
   GetDistance,
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Setup basic functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
-  Wire.begin();                                                             //Start the I2C bus as master
-  TWBR = 12;                                                                //Set the I2C clock speed to 400kHz
-
+  gyroscope.Initialize();
   //To create a variable pulse for controlling the stepper motors a timer is created that will execute a piece of code (subroutine) every 20us
   //This subroutine is called TIMER2_COMPA_vect
   TCCR2A = 0;                                                               //Make sure that the TCCR2A register is set to zero
@@ -169,44 +231,10 @@ void setup(){
   OCR2A = 39;                                                               //The compare register is set to 39 => 20us / (1s / (16.000.000MHz / 8)) - 1
   TCCR2A |= (1 << WGM21);                                                   //Set counter 2 to CTC (clear timer on compare) mode
   
-  //By default the MPU-6050 sleeps. So we have to wake it up.
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the address found during search.
-  Wire.write(0x6B);                                                         //We want to write to the PWR_MGMT_1 register (6B hex)
-  Wire.write(0x00);                                                         //Set the register bits as 00000000 to activate the gyro
-  Wire.endTransmission();                                                   //End the transmission with the gyro.
-  //Set the full scale of the gyro to +/- 250 degrees per second
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the address found during search.
-  Wire.write(0x1B);                                                         //We want to write to the GYRO_CONFIG register (1B hex)
-  Wire.write(0x00);                                                         //Set the register bits as 00000000 (250dps full scale)
-  Wire.endTransmission();                                                   //End the transmission with the gyro
-  //Set the full scale of the accelerometer to +/- 4g.
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the address found during search.
-  Wire.write(0x1C);                                                         //We want to write to the ACCEL_CONFIG register (1A hex)
-  Wire.write(0x08);                                                         //Set the register bits as 00001000 (+/- 4g full scale range)
-  Wire.endTransmission();                                                   //End the transmission with the gyro
-  //Set some filtering to improve the raw data.
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the address found during search
-  Wire.write(0x1A);                                                         //We want to write to the CONFIG register (1A hex)
-  Wire.write(0x03);                                                         //Set the register bits as 00000011 (Set Digital Low Pass Filter to ~43Hz)
-  Wire.endTransmission();                                                   //End the transmission with the gyro 
-
   pinMode(PIN_STEPPERMOTOR_LEFT_STEP, OUTPUT);
   pinMode(PIN_STEPPERMOTOR_LEFT_DIR, OUTPUT);
   pinMode(PIN_STEPPERMOTOR_RIGHT_STEP, OUTPUT);
   pinMode(PIN_STEPPERMOTOR_RIGHT_DIR, OUTPUT);
-
-  for(receive_counter = 0; receive_counter < 500; receive_counter++){       //Create 500 loops
-    //if(receive_counter % 15 == 0)digitalWrite(13, !digitalRead(13));        //Change the state of the LED every 15 loops to make the LED blink fast
-    Wire.beginTransmission(gyro_address);                                   //Start communication with the gyro
-    Wire.write(0x43);                                                       //Start reading the Who_am_I register 75h
-    Wire.endTransmission();                                                 //End the transmission
-    Wire.requestFrom(gyro_address, 4);                                      //Request 2 bytes from the gyro
-    gyro_yaw_calibration_value += Wire.read()<<8|Wire.read();               //Combine the two bytes to make one integer
-    gyro_pitch_calibration_value += Wire.read()<<8|Wire.read();             //Combine the two bytes to make one integer
-    delayMicroseconds(3700);                                                //Wait for 3700 microseconds to simulate the main program loop time
-  }
-  gyro_pitch_calibration_value /= 500;                                      //Divide the total value by 500 to get the avarage gyro offset
-  gyro_yaw_calibration_value /= 500;                                        //Divide the total value by 500 to get the avarage gyro offset
 
   loop_timer = micros() + 4000;                                             //Set the loop_timer variable at the next end loop time
 
@@ -222,8 +250,6 @@ void setup(){
   serialCom.Initialize();
 
   unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
-  serialCom.PrintLn(batteryLevel >> 8);
-  serialCom.PrintLn(batteryLevel & 0xFF);
 }
 
 void UpdateLEDMode() {
@@ -270,48 +296,7 @@ void loop(){
     low_bat = 1;                                                            //Set the low_bat variable to 1
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //Angle calculations
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the gyro
-  Wire.write(0x3F);                                                         //Start reading at register 3F
-  Wire.endTransmission();                                                   //End the transmission
-  Wire.requestFrom(gyro_address, 2);                                        //Request 2 bytes from the gyro
-  accelerometer_data_raw = Wire.read()<<8|Wire.read();                      //Combine the two bytes to make one integer
-  accelerometer_data_raw += acc_calibration_value;                          //Add the accelerometer calibration value
-
-  if(accelerometer_data_raw > 8200)accelerometer_data_raw = 8200;           //Prevent division by zero by limiting the acc data to +/-8200;
-  if(accelerometer_data_raw < -8200)accelerometer_data_raw = -8200;         //Prevent division by zero by limiting the acc data to +/-8200;
-
-  angle_acc = asin((float)accelerometer_data_raw/8200.0)* 57.296;           //Calculate the current angle according to the accelerometer
-  if(start == 0 && angle_acc > -0.5&& angle_acc < 0.5){                     //If the accelerometer angle is almost 0
-    angle_gyro = angle_acc;                                                 //Load the accelerometer angle in the angle_gyro variable
-    start = 1;                                                              //Set the start variable to start the PID controller
-  }
-
-  Wire.beginTransmission(gyro_address);                                     //Start communication with the gyro
-  Wire.write(0x43);                                                         //Start reading at register 43
-  Wire.endTransmission();                                                   //End the transmission
-  Wire.requestFrom(gyro_address, 4);                                        //Request 4 bytes from the gyro
-  gyro_yaw_data_raw = Wire.read()<<8|Wire.read();                           //Combine the two bytes to make one integer
-  gyro_pitch_data_raw = Wire.read()<<8|Wire.read();                         //Combine the two bytes to make one integer
-
-  gyro_pitch_data_raw -= gyro_pitch_calibration_value;                      //Add the gyro calibration value
-  angle_gyro += gyro_pitch_data_raw * 0.000031;                             //Calculate the traveled during this loop angle and add this to the angle_gyro variable
-  
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //MPU-6050 offset compensation
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //Not every gyro is mounted 100% level with the axis of the robot. This can be cause by misalignments during manufacturing of the breakout board. 
-  //As a result the robot will not rotate at the exact same spot and start to make larger and larger circles.
-  //To compensate for this behavior a VERY SMALL angle compensation is needed when the robot is rotating.
-  //Try 0.0000003 or -0.0000003 first to see if there is any improvement.
-
-  gyro_yaw_data_raw -= gyro_yaw_calibration_value;                          //Add the gyro calibration value
-  //Uncomment the following line to make the compensation active
-  //angle_gyro -= gyro_yaw_data_raw * 0.0000003;                            //Compensate the gyro offset when the robot is rotating
-
-  angle_gyro = angle_gyro * 0.9996 + angle_acc * 0.0004;                    //Correct the drift of the gyro angle with the accelerometer angle
+  gyroscope.CalculateAngle();
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //PID controller calculations
@@ -319,7 +304,7 @@ void loop(){
   //The balancing robot is angle driven. First the difference between the desired angel (setpoint) and actual angle (process value)
   //is calculated. The self_balance_pid_setpoint variable is automatically changed to make sure that the robot stays balanced all the time.
   //The (pid_setpoint - pid_output * 0.015) part functions as a brake function.
-  pid_error_temp = angle_gyro - self_balance_pid_setpoint - pid_setpoint;
+  pid_error_temp = gyroscope.angle_gyro - self_balance_pid_setpoint - pid_setpoint;
   if(pid_output > 10 || pid_output < -10)pid_error_temp += pid_output * 0.015 ;
 
   pid_i_mem += pid_i_gain * pid_error_temp;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
@@ -334,10 +319,10 @@ void loop(){
 
   if(pid_output < 5 && pid_output > -5)pid_output = 0;                      //Create a dead-band to stop the motors when the robot is balanced
 
-  if(angle_gyro > 30 || angle_gyro < -30 || start == 0 || low_bat == 1){    //If the robot tips over or the start variable is zero or the battery is empty
+  if(gyroscope.angle_gyro > 30 || gyroscope.angle_gyro < -30 || gyroscope.start == 0 || low_bat == 1){    //If the robot tips over or the start variable is zero or the battery is empty
     pid_output = 0;                                                         //Set the PID controller output to 0 so the motors stop moving
     pid_i_mem = 0;                                                          //Reset the I-controller memory
-    start = 0;                                                              //Set the start variable to 0
+    gyroscope.start = 0;                                                              //Set the start variable to 0
     self_balance_pid_setpoint = 0;                                          //Reset the self_balance_pid_setpoint variable
   }
 
@@ -448,29 +433,3 @@ ISR(TIMER2_COMPA_vect){
      STEPPERMOTOR_RIGHT_LOW;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
