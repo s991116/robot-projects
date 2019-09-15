@@ -36,7 +36,7 @@ ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
     navigation.navigate(data[0], data[1]);
   });
   socket.on('PIDUpdate', (data) => {
-    navigation.pidSetting(data[0], data[1], data[2]);
+    navigation.setPidSetting(data[0], data[1], data[2]);
   });
   socket.on('TestCommunication', () => {
     testCommunication.testCommunication().then(function(result) {

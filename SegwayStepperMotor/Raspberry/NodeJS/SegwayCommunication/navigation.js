@@ -22,17 +22,33 @@ module.exports = function(communication) {
 
     let navigate = (forwardBackwards, side) => {
         navigationData = forwardBackardsData[forwardBackwards] | leftRightData[side];
-        sendNavigation();
+        communication.sendData(0x11,navigationData);
     }
 
     var tid = setInterval(sendNavigation, 100);
 
-    let pidSetting = (pValue, iValue, dValue) => {
+    let setPidSetting = (pValue, iValue, dValue) => {
         communication.sendData(serialCommands.CMD_SET_PID_P_LEVEL, pValue * 4);
         communication.sendData(serialCommands.CMD_SET_PID_I_LEVEL, iValue * 4);
         communication.sendData(serialCommands.CMD_SET_PID_D_LEVEL, dValue * 4);
     }
+
+    let getPidSetting = () => {
+        return new Promise((resolve) => {
+            communication.getData(serialCommands.CMD_GET_PID_P_LEVEL)
+            .then( (pValue) => {
+                communication.getData(serialCommands.CMD_GET_PID_I_LEVEL)
+            .then( (iValue) => {
+                communication.getData(serialCommands.CMD_GET_PID_D_LEVEL)
+            .then( (dValue) => {
+                resolve([pValue/4.0, iValue/4.0, dValue/4.0]);
+            });
+            });            
+            });
+        });
+    }
     
+
     return{
         navigate: navigate,
         stop:      0,
@@ -40,6 +56,7 @@ module.exports = function(communication) {
         right:     1,
         forward:   1,
         backwards: -1,
-        pidSetting, pidSetting,
+        setPidSetting: setPidSetting,
+        getPidSetting: getPidSetting,
     }
 }
