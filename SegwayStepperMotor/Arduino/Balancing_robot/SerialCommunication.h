@@ -12,6 +12,7 @@ class SerialCommunication {
 	    SerialCommunication(HardwareSerial *serial, receiveFunctionsP receiveFunctions, transmitFunctionsP transmitFunctions);
         void Initialize();
 		void HandleCommunication(); 
+		void PrintLn(int data);
 
 	private:
 	    HardwareSerial *uart;

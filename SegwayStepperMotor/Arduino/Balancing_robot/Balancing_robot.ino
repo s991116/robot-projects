@@ -69,12 +69,12 @@ byte TransmitTestData() {
 }
 
 byte GetBatteryLevelH() {
-  int level = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
-  return level >> 8;
+  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return batteryLevel >> 8;
 }
 byte GetBatteryLevelL() {
-  int level = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
-  return level & 0xFF;
+  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  return batteryLevel & 0xFF;
 }
 byte GetAngle() {
   return angle; 
@@ -220,6 +220,10 @@ void setup(){
   horizontalServo.attach(PIN_SERVO_2);
 
   serialCom.Initialize();
+
+  unsigned short batteryLevel = analogRead(PIN_ANALOG_BATTERY_VOLTAGE);
+  serialCom.PrintLn(batteryLevel >> 8);
+  serialCom.PrintLn(batteryLevel & 0xFF);
 }
 
 void UpdateLEDMode() {

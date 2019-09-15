@@ -11,6 +11,10 @@ void SerialCommunication::Initialize() {
     this->uart->begin(9600);
 }
 
+void SerialCommunication::PrintLn(int data) {
+    this->uart->println(data);
+}
+
 void SerialCommunication::HandleCommunication() {
     if(uart->available()>0){
         unsigned char data = this->uart->read();
