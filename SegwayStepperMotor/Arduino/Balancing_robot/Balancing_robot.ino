@@ -15,18 +15,12 @@
 #include "PinSetup.h"
 #include "SerialCommunication.h"
 #include "Gyroscope.h"
+#include "BalancingControl.h"
 
 #define LED_BLINK_TIME (300) //Blink timer in MS
 #define LEDMode_OFF              (0)
 #define LEDMode_ON               (1)
 #define LEDMode_BLINK            (2)
-
-//Various settings
-float pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
-float pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
-float pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
-float turning_speed = 30;                                    //Turning speed (20)
-float max_target_speed = 150;                                //Max target speed (100)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Declaring global variables
@@ -56,6 +50,7 @@ long ledTimer;
 byte ledMode;
 
 Gyroscope gyroscope;
+BalancingControl balancingControl;
 
 void UpdateNavigation() {
     if(navigationReceiveCounter <= 25) navigationReceiveCounter ++;        //The received byte will be valid for 25 program loops (100 milliseconds)
@@ -72,6 +67,19 @@ byte testData;
 void SetTestData(byte data) {
   testData = data;
 }
+
+void SetPidPLevel(byte data) {
+  balancingControl.SetPidPLevel(data);
+}
+
+void SetPidILevel(byte data) {
+  balancingControl.SetPidILevel(data);
+}
+
+void SetPidDLevel(byte data) {
+  balancingControl.SetPidDLevel(data);
+}
+
 
 void SetNavigation(byte data) {
     navigation = data;
@@ -91,15 +99,6 @@ void SetServo2Position(byte data) {
 void SetBatteryAlarmLevel(byte data) {
 }
 
-void SetPidPLevel(byte data) {
-  pid_p_gain = data/4.0;
-}
-void SetPidILevel(byte data) {
-  pid_i_gain = data/4.0;
-}
-void SetPidDLevel(byte data) {
-  pid_d_gain = data/4.0;
-}
 void SetDistanceSensorMode(byte data) {
 }
 void SetBalanceMode(byte data) {
@@ -135,15 +134,15 @@ byte GetBatteryAlarmLevel() {
 }
 
 byte GetPidPLevel() {
-    return 4*pid_p_gain;
+  return balancingControl.GetPidPLevel();
 }
 
 byte GetPidILevel() {
-    return 4*pid_i_gain;
+  return balancingControl.GetPidILevel();
 }
 
 byte GetPidDLevel() {
-    return 4*pid_d_gain;
+  return balancingControl.GetPidDLevel();
 }
 
 byte GetDistanceSensorMode() {
@@ -307,11 +306,11 @@ void loop(){
   pid_error_temp = gyroscope.angle_gyro - self_balance_pid_setpoint - pid_setpoint;
   if(pid_output > 10 || pid_output < -10)pid_error_temp += pid_output * 0.015 ;
 
-  pid_i_mem += pid_i_gain * pid_error_temp;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
+  pid_i_mem += balancingControl.pid_i_gain * pid_error_temp;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
   if(pid_i_mem > 400)pid_i_mem = 400;                                       //Limit the I-controller to the maximum controller output
   else if(pid_i_mem < -400)pid_i_mem = -400;
   //Calculate the PID output value
-  pid_output = pid_p_gain * pid_error_temp + pid_i_mem + pid_d_gain * (pid_error_temp - pid_last_d_error);
+  pid_output = balancingControl.pid_p_gain * pid_error_temp + pid_i_mem + balancingControl.pid_d_gain * (pid_error_temp - pid_last_d_error);
   if(pid_output > 400)pid_output = 400;                                     //Limit the PI-controller to the maximum controller output
   else if(pid_output < -400)pid_output = -400;
 
@@ -333,21 +332,21 @@ void loop(){
   pid_output_right = pid_output;                                            //Copy the controller output to the pid_output_right variable for the right motor
 
   if(navigation & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
-    pid_output_left += turning_speed;                                       //Increase the left motor speed
-    pid_output_right -= turning_speed;                                      //Decrease the right motor speed
+    pid_output_left += balancingControl.turning_speed;                                       //Increase the left motor speed
+    pid_output_right -= balancingControl.turning_speed;                                      //Decrease the right motor speed
   }
   if(navigation & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
-    pid_output_left -= turning_speed;                                       //Decrease the left motor speed
-    pid_output_right += turning_speed;                                      //Increase the right motor speed
+    pid_output_left -= balancingControl.turning_speed;                                       //Decrease the left motor speed
+    pid_output_right += balancingControl.turning_speed;                                      //Increase the right motor speed
   }
 
   if(navigation & B00000100){                                            //If the third bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint > -2.5)pid_setpoint -= 0.05;                            //Slowly change the setpoint angle so the robot starts leaning forewards
-    if(pid_output > max_target_speed * -1)pid_setpoint -= 0.005;            //Slowly change the setpoint angle so the robot starts leaning forewards
+    if(pid_output > balancingControl.max_target_speed * -1)pid_setpoint -= 0.005;            //Slowly change the setpoint angle so the robot starts leaning forewards
   }
   if(navigation & B00001000){                                            //If the forth bit of the receive byte is set change the left and right variable to turn the robot to the right
     if(pid_setpoint < 2.5)pid_setpoint += 0.05;                             //Slowly change the setpoint angle so the robot starts leaning backwards
-    if(pid_output < max_target_speed)pid_setpoint += 0.005;                 //Slowly change the setpoint angle so the robot starts leaning backwards
+    if(pid_output < balancingControl.max_target_speed)pid_setpoint += 0.005;                 //Slowly change the setpoint angle so the robot starts leaning backwards
   }   
 
   if(!(navigation & B00001100)){                                         //Slowly reduce the setpoint to zero if no foreward or backward command is given
