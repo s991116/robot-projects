@@ -1,3 +1,6 @@
+#ifndef GYROSCOPE_H
+#define GYROSCOPE_H
+
 #include <Arduino.h>
 #include <Wire.h>                                            //Include the Wire.h library so we can communicate with the gyro
 
@@ -17,3 +20,5 @@ class Gyroscope {
         int gyro_address;                                     //MPU-6050 I2C address (0x68 or 0x69)
         int acc_calibration_value;
 };
+
+#endif
