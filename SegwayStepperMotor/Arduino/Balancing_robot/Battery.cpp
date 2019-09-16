@@ -17,6 +17,10 @@ void Battery::UpdateBatteryLevel() {
     }
 }
 
+int Battery::GetVoltage() {
+    return this->_batteryVoltage;
+}
+
 bool Battery::LowBattery() {
     return this->_lowBattery;
 }

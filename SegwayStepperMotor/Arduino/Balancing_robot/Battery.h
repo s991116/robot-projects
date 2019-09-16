@@ -6,6 +6,7 @@
 class Battery {
     public:
         void UpdateBatteryLevel();
+        int GetVoltage();
         bool LowBattery();
         
     private:
