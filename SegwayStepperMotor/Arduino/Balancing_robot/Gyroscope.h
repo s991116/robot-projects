@@ -14,6 +14,7 @@ class Gyroscope {
         long gyro_pitch_calibration_value;
         float angle_gyro;
         float angle_acc;
+        float angle;
         byte start;
 
     private:

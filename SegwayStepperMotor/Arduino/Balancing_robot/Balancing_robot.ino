@@ -29,8 +29,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 unsigned long loop_timer;
 
-float angle;
-
 Servo verticalServo, horizontalServo;
 byte servo1Position, servo2Position;
 
@@ -154,7 +152,7 @@ byte GetBatteryLevelL() {
 }
 
 byte GetAngle() {
-  return angle; 
+  return gyroscope.angle; 
 }
 
 byte GetAngleAcc() {

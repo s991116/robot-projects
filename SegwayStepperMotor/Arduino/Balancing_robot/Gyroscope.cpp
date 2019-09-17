@@ -88,4 +88,5 @@ void Gyroscope::CalculateAngle() {
     //this->angle_gyro -= gyro_yaw_data_raw * 0.0000003;                            //Compensate the gyro offset when the robot is rotating
 
     this->angle_gyro = this->angle_gyro * 0.9996 + angle_acc * 0.0004;          //Correct the drift of the gyro angle with the accelerometer angle
+    this->angle = this->angle_gyro;
 }
