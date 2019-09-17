@@ -11,7 +11,7 @@ void StepperMotor::SetRightMotor(int throttle) {
 
 void StepperMotor::Update() {
   //Left motor pulse calculations
-  this->throttle_counter_left_motor ++;                                           //Increase the throttle_counter_left_motor variable by 1 every time this routine is executed
+  this->throttle_counter_left_motor++;                                           //Increase the throttle_counter_left_motor variable by 1 every time this routine is executed
   if(this->throttle_counter_left_motor > this->throttle_left_motor_memory){             //If the number of loops is larger then the throttle_left_motor_memory variable
     this->throttle_counter_left_motor = 0;                                        //Reset the throttle_counter_left_motor variable
     this->throttle_left_motor_memory = this->throttle_left_motor;                       //Load the next throttle_left_motor variable
@@ -28,7 +28,7 @@ void StepperMotor::Update() {
     STEPPERMOTOR_LEFT_LOW;
   }
   //right motor pulse calculations
-  this->throttle_counter_right_motor ++;                                          //Increase the throttle_counter_right_motor variable by 1 every time the routine is executed
+  this->throttle_counter_right_motor++;                                          //Increase the throttle_counter_right_motor variable by 1 every time the routine is executed
   if(this->throttle_counter_right_motor > this->throttle_right_motor_memory){           //If the number of loops is larger then the throttle_right_motor_memory variable
     this->throttle_counter_right_motor = 0;                                       //Reset the throttle_counter_right_motor variable
     this->throttle_right_motor_memory = this->throttle_right_motor;                     //Load the next throttle_right_motor variable
