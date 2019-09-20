@@ -43,6 +43,7 @@ void Gyroscope::Initialize() {
     }
     this->gyro_pitch_calibration_value /= 500;                                 //Divide the total value by 500 to get the avarage gyro offset
     this->gyro_yaw_calibration_value /= 500;                                   //Divide the total value by 500 to get the avarage gyro offset
+Serial.println("Gyro Initialized.");
 }
 
 void Gyroscope::CalculateAngle() {
@@ -55,7 +56,6 @@ void Gyroscope::CalculateAngle() {
     Wire.requestFrom(this->gyro_address, 2);                                   //Request 2 bytes from the gyro
     int accelerometer_data_raw = Wire.read()<<8|Wire.read();                  //Combine the two bytes to make one integer
     accelerometer_data_raw += this->acc_calibration_value;                     //Add the accelerometer calibration value
-
     if(accelerometer_data_raw > 8200)accelerometer_data_raw = 8200;           //Prevent division by zero by limiting the acc data to +/-8200;
     if(accelerometer_data_raw < -8200)accelerometer_data_raw = -8200;         //Prevent division by zero by limiting the acc data to +/-8200;
 

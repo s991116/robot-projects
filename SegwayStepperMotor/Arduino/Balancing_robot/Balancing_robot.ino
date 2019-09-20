@@ -204,6 +204,9 @@ SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 //Setup basic functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
+  serialCom.Initialize();
+  Serial.println("Initialization Started.");
+
   gyroscope.Initialize();
   //To create a variable pulse for controlling the stepper motors a timer is created that will execute a piece of code (subroutine) every 20us
   //This subroutine is called TIMER2_COMPA_vect
@@ -230,7 +233,8 @@ void setup(){
   verticalServo.attach(PIN_SERVO_1);
   horizontalServo.attach(PIN_SERVO_2);
 
-  serialCom.Initialize();
+  
+  Serial.println("Initialization Done.");
 }
 
 void UpdateLEDMode() {
@@ -265,7 +269,6 @@ void loop(){
   battery.UpdateBatteryLevel();
 
   balancingControl.Balance();
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Loop time timer
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
