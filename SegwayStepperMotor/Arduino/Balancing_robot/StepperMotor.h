@@ -4,6 +4,7 @@
 
 class StepperMotor {
     public:
+        void Initialize();
         void Update();
         void SetLeftMotor(int throttle);
         void SetRightMotor(int throttle);

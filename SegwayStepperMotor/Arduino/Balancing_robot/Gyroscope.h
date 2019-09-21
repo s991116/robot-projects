@@ -6,7 +6,7 @@
 
 class Gyroscope {
     public:
-        Gyroscope();
+        Gyroscope(const TwoWire& wire);
         void Initialize();
         void CalculateAngle();
 
@@ -18,6 +18,7 @@ class Gyroscope {
         byte start;
 
     private:
+        TwoWire _wire;
         int gyro_address;                                     //MPU-6050 I2C address (0x68 or 0x69)
         int acc_calibration_value;
 };

@@ -1,13 +1,14 @@
 #include "BalancingControl.h"
 
 
-BalancingControl::BalancingControl(Gyroscope gyroscope, StepperMotor stepperMotor, Battery battery) {
-    _gyroscope = gyroscope;
-    _stepperMotor = stepperMotor;
-    _battery = battery;
+BalancingControl::BalancingControl(const Gyroscope& gyroscope, const StepperMotor& stepperMotor, const Battery& battery) : 
+_gyroscope(gyroscope), _stepperMotor(stepperMotor), _battery(battery) {
 }
 
 void BalancingControl::Initialize() {
+    this->_gyroscope.Initialize();
+    this->_stepperMotor.Initialize();
+
     this->pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
     this->pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
     this->pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
@@ -112,7 +113,6 @@ void BalancingControl::Balance() {
     if(this->pid_output_right > 0) this->right_motor = 400 - this->pid_output_right;
     else if(this->pid_output_right < 0) this->right_motor = -400 - this->pid_output_right;
     else this->right_motor = 0;
-
     //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
     this->_stepperMotor.SetLeftMotor(this->left_motor);
     this->_stepperMotor.SetRightMotor(this->right_motor);

@@ -5,7 +5,7 @@
 
 class BalancingControl{
     public:
-        BalancingControl(Gyroscope gyroscope, StepperMotor stepperMotor, Battery battery);
+        BalancingControl(const Gyroscope& gyroscope, const StepperMotor& stepperMotor, const Battery& battery);
         void Initialize();
         void Balance();
         void SetNavigation(byte data);
@@ -19,8 +19,9 @@ class BalancingControl{
         unsigned char GetPidILevel();
         unsigned char GetPidDLevel();
 
-    private:
+        StepperMotor _stepperMotor;
 
+    private:
         void UpdateNavigation();
 
         float pid_p_gain;
@@ -42,7 +43,6 @@ class BalancingControl{
         int right_motor;
 
         Gyroscope _gyroscope;
-        StepperMotor _stepperMotor;
         Battery  _battery;
 
 };
