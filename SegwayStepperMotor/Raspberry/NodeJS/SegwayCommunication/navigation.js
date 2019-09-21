@@ -16,16 +16,19 @@ module.exports = function(communication) {
     };
 
     let sendNavigation = () => {
-        if(navigationData !== 0)
+        if(navigationData !== 0) {
+            debug("Send navigation automatic:" + navigationData);
             communication.sendData(0x11,navigationData);
+        }
     }
 
     let navigate = (forwardBackwards, side) => {
         navigationData = forwardBackardsData[forwardBackwards] | leftRightData[side];
+        debug("Send navigation moved:" + navigationData);
         communication.sendData(0x11,navigationData);
     }
 
-    var tid = setInterval(sendNavigation, 100);
+    setInterval(sendNavigation, 100);
 
     let setPidSetting = (pValue, iValue, dValue) => {
         communication.sendData(serialCommands.CMD_SET_PID_P_LEVEL, pValue * 4);

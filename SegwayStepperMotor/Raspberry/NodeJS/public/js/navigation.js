@@ -22,6 +22,11 @@ joystick.on('move', (evt, data) => {
     }
 });
 
+joystick.on('end', () => {
+        socket.emit('navigation', [0, 0]);
+});
+
+
 function buttonClicked(){
     var pValue = document.getElementById("pValue").value;
     var iValue = document.getElementById("iValue").value;
