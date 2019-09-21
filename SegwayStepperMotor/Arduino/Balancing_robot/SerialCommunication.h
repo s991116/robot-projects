@@ -14,6 +14,12 @@ class SerialCommunication {
 
 	private:
 	    HardwareSerial *uart;
+		enum State { getCmd, handleCmd, callFunction, respond};
+		State _state;
+		unsigned char _cmdType;
+		unsigned char _receivedData;
+		unsigned char _data;
+		unsigned char _cmd;
         receiveFunctionsP _receiveFunctions;
         transmitFunctionsP _transmitFunctions;
 };

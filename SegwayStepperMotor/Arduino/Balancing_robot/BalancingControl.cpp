@@ -46,7 +46,11 @@ void BalancingControl::Balance() {
     if(this->pid_i_mem > 400) this->pid_i_mem = 400;                                       //Limit the I-controller to the maximum controller output
     else if(this->pid_i_mem < -400) this->pid_i_mem = -400;
     //Calculate the PID output value
-    this->pid_output = this->pid_p_gain * this->pid_error_temp + this->pid_i_mem + this->pid_d_gain * (this->pid_error_temp - this->pid_last_d_error);
+    float p_Error = this->pid_p_gain * this->pid_error_temp;
+    float i_Error = this->pid_i_mem;
+    float d_Error = this->pid_d_gain * (this->pid_error_temp - this->pid_last_d_error);
+    this->pid_output = p_Error + i_Error + d_Error;
+
     if(this->pid_output > 400) this->pid_output = 400;                                     //Limit the PI-controller to the maximum controller output
     else if(this->pid_output < -400) this->pid_output = -400;
 
@@ -57,7 +61,7 @@ void BalancingControl::Balance() {
     if(_gyroscope->angle_gyro > 30 || _gyroscope->angle_gyro < -30 || _gyroscope->start == 0 || _battery->LowBattery() == 1){    //If the robot tips over or the start variable is zero or the battery is empty
         this->pid_output = 0;                                                         //Set the PID controller output to 0 so the motors stop moving
         this->pid_i_mem = 0;                                                          //Reset the I-controller memory
-        _gyroscope->start = 0;                                                              //Set the start variable to 0
+        _gyroscope->start = 0;                                                        //Set the start variable to 0
         this->self_balance_pid_setpoint = 0;                                          //Reset the self_balance_pid_setpoint variable
     }
 

@@ -44,5 +44,4 @@ class BalancingControl{
 
         Gyroscope* _gyroscope;
         Battery*  _battery;
-
 };

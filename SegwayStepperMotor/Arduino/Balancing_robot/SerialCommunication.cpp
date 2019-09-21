@@ -8,27 +8,41 @@ SerialCommunication::SerialCommunication(HardwareSerial *serial, receiveFunction
 }
 
 void SerialCommunication::Initialize() {
-    this->uart->begin(9600);
+    this->uart->begin(115200);
+    this->_state = State::getCmd;
 }
 
 void SerialCommunication::HandleCommunication() {
-    if(uart->available()>0){
-        unsigned char data = this->uart->read();
-        unsigned char cmdType = data >> 4;
-        unsigned char cmd = data & 0x0F;
-        unsigned char receivedData;
+    switch(this->_state)
+    {
+        case State::getCmd:
+            if(uart->available()>0){
+                unsigned char data = this->uart->read();
+                this->_cmdType = data >> 4;
+                this->_cmd = data & 0x0F;
+                this->_state = State::handleCmd;
+            }
+            break;
 
-        switch(cmdType) {
-            case CMD_TYPE_SET_VALUE:
-                while(this->uart->available() == 0);
-                receivedData = uart->read();
-                this->_receiveFunctions[cmd](receivedData);
-                break;
+        case State::handleCmd:
+            switch(this->_cmdType) {
+                case CMD_TYPE_SET_VALUE:
+                    while(this->uart->available() == 0);
+                    this->_receivedData = uart->read();
+                    this->_receiveFunctions[this->_cmd](this->_receivedData);
+                    this->_state = State::getCmd;
+                    break;
 
-            case CMD_TYPE_GET_VALUE:
-                data = this->_transmitFunctions[cmd]();
-                this->uart->write(data);
-                break;
-        }
+                case CMD_TYPE_GET_VALUE:
+                    this->_data = this->_transmitFunctions[this->_cmd]();
+                    this->_state = State::respond;
+                    break;
+            }            
+            break;
+
+        case State::respond:
+            this->uart->write(this->_data);
+            this->_state = State::getCmd;
+            break;
     }
 }
