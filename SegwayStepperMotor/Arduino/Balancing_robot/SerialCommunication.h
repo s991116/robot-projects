@@ -1,5 +1,4 @@
 #include <Arduino.h>
-//#include <Serial.h>
 
 typedef void (**receiveFunctionsP)(unsigned char);
 typedef void (*receiveFunctionsArray)(unsigned char);
