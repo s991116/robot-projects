@@ -4,7 +4,7 @@ module.exports = function(port) {
   
   if(port == undefined) {
     var SerialPort = require('serialport');
-    var port = new SerialPort('/dev/serial0', { baudRate: 9600 });
+    var port = new SerialPort('/dev/serial0', { baudRate: 115200 });
     port.on('open', function() {
         debug(chalk.green('Port open'));
     });
