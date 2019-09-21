@@ -260,48 +260,6 @@ void loop(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Interrupt routine  TIMER2_COMPA_vect
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int throttle_left_motor = 15;
-int throttle_counter_left_motor;
-int throttle_left_motor_memory;
-int throttle_right_motor = 25;
-int throttle_counter_right_motor;
-int throttle_right_motor_memory;
-
 ISR(TIMER2_COMPA_vect){
-  balancingControl._stepperMotor->Update();
-  /*
-    throttle_counter_left_motor++;                                           //Increase the throttle_counter_left_motor variable by 1 every time this routine is executed
-  if(throttle_counter_left_motor > throttle_left_motor_memory){             //If the number of loops is larger then the throttle_left_motor_memory variable
-    throttle_counter_left_motor = 0;                                        //Reset the throttle_counter_left_motor variable
-    throttle_left_motor_memory = throttle_left_motor;                       //Load the next throttle_left_motor variable
-    if(throttle_left_motor_memory < 0){                                     //If the throttle_left_motor_memory is negative                                                 //Set output 3 low to reverse the direction of the stepper controller
-      STEPPERMOTOR_LEFT_REVERSE;
-      throttle_left_motor_memory *= -1;                                     //Invert the throttle_left_motor_memory variable
-    }
-    else STEPPERMOTOR_LEFT_FORWARD;                                               //Set output 11 high for a forward direction of the stepper motor
-  }
-  else if(throttle_counter_left_motor == 1){
-    STEPPERMOTOR_LEFT_HIGH;
-  }
-  else if(throttle_counter_left_motor == 2) {
-    STEPPERMOTOR_LEFT_LOW;
-  }
-  //right motor pulse calculations
-  throttle_counter_right_motor++;                                          //Increase the throttle_counter_right_motor variable by 1 every time the routine is executed
-  if(throttle_counter_right_motor > throttle_right_motor_memory){           //If the number of loops is larger then the throttle_right_motor_memory variable
-    throttle_counter_right_motor = 0;                                       //Reset the throttle_counter_right_motor variable
-    throttle_right_motor_memory = throttle_right_motor;                     //Load the next throttle_right_motor variable
-    if(throttle_right_motor_memory < 0){                                    //If the throttle_right_motor_memory is negative
-      STEPPERMOTOR_RIGHT_REVERSE;
-      throttle_right_motor_memory *= -1;                                    //Invert the throttle_right_motor_memory variable
-    }
-    else STEPPERMOTOR_RIGHT_FORWARD;
-  }
-  else if(throttle_counter_right_motor == 1){
-     STEPPERMOTOR_RIGHT_HIGH;
-  }
-  else if(throttle_counter_right_motor == 2){
-     STEPPERMOTOR_RIGHT_LOW;
-  }
-  */
+  stepperMotor.Update();
 }
