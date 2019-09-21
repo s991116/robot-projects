@@ -41,7 +41,7 @@ byte ledMode;
 Gyroscope gyroscope(Wire);
 Battery battery;
 StepperMotor stepperMotor;
-BalancingControl balancingControl(gyroscope, stepperMotor, battery);
+BalancingControl balancingControl(&gyroscope, &stepperMotor, &battery);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //Communication functions
@@ -268,7 +268,7 @@ int throttle_counter_right_motor;
 int throttle_right_motor_memory;
 
 ISR(TIMER2_COMPA_vect){
-  balancingControl._stepperMotor.Update();
+  balancingControl._stepperMotor->Update();
   /*
     throttle_counter_left_motor++;                                           //Increase the throttle_counter_left_motor variable by 1 every time this routine is executed
   if(throttle_counter_left_motor > throttle_left_motor_memory){             //If the number of loops is larger then the throttle_left_motor_memory variable

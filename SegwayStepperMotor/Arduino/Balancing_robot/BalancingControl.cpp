@@ -1,13 +1,15 @@
 #include "BalancingControl.h"
 
 
-BalancingControl::BalancingControl(const Gyroscope& gyroscope, const StepperMotor& stepperMotor, const Battery& battery) : 
-_gyroscope(gyroscope), _stepperMotor(stepperMotor), _battery(battery) {
+BalancingControl::BalancingControl(Gyroscope* gyroscope, StepperMotor* stepperMotor, Battery* battery) {
+    _gyroscope = gyroscope;
+    _stepperMotor = stepperMotor;
+    _battery = battery;
 }
 
 void BalancingControl::Initialize() {
-    this->_gyroscope.Initialize();
-    this->_stepperMotor.Initialize();
+    this->_gyroscope->Initialize();
+    this->_stepperMotor->Initialize();
 
     this->pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
     this->pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
@@ -29,7 +31,7 @@ byte BalancingControl::GetNavigation() {
 
 void BalancingControl::Balance() {
       this->UpdateNavigation();
-      _gyroscope.CalculateAngle();
+      _gyroscope->CalculateAngle();
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //PID controller calculations
@@ -37,7 +39,7 @@ void BalancingControl::Balance() {
     //The balancing robot is angle driven. First the difference between the desired angel (setpoint) and actual angle (process value)
     //is calculated. The self_balance_pid_setpoint variable is automatically changed to make sure that the robot stays balanced all the time.
     //The (pid_setpoint - pid_output * 0.015) part functions as a brake function.
-    this->pid_error_temp = _gyroscope.angle_gyro - this->self_balance_pid_setpoint - this->pid_setpoint;
+    this->pid_error_temp = _gyroscope->angle_gyro - this->self_balance_pid_setpoint - this->pid_setpoint;
     if(this->pid_output > 10 || this->pid_output < -10) this->pid_error_temp += this->pid_output * 0.015 ;
 
     this->pid_i_mem += this->pid_i_gain * this->pid_error_temp;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
@@ -52,10 +54,10 @@ void BalancingControl::Balance() {
 
     if(this->pid_output < 5 && this->pid_output > -5) this->pid_output = 0;                      //Create a dead-band to stop the motors when the robot is balanced
 
-    if(_gyroscope.angle_gyro > 30 || _gyroscope.angle_gyro < -30 || _gyroscope.start == 0 || _battery.LowBattery() == 1){    //If the robot tips over or the start variable is zero or the battery is empty
+    if(_gyroscope->angle_gyro > 30 || _gyroscope->angle_gyro < -30 || _gyroscope->start == 0 || _battery->LowBattery() == 1){    //If the robot tips over or the start variable is zero or the battery is empty
         this->pid_output = 0;                                                         //Set the PID controller output to 0 so the motors stop moving
         this->pid_i_mem = 0;                                                          //Reset the I-controller memory
-        _gyroscope.start = 0;                                                              //Set the start variable to 0
+        _gyroscope->start = 0;                                                              //Set the start variable to 0
         this->self_balance_pid_setpoint = 0;                                          //Reset the self_balance_pid_setpoint variable
     }
 
@@ -114,8 +116,8 @@ void BalancingControl::Balance() {
     else if(this->pid_output_right < 0) this->right_motor = -400 - this->pid_output_right;
     else this->right_motor = 0;
     //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
-    this->_stepperMotor.SetLeftMotor(this->left_motor);
-    this->_stepperMotor.SetRightMotor(this->right_motor);
+    this->_stepperMotor->SetLeftMotor(this->left_motor);
+    this->_stepperMotor->SetRightMotor(this->right_motor);
 }
 
 void BalancingControl::UpdateNavigation() {
