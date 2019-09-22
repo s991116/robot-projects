@@ -6,7 +6,7 @@ module.exports = function(communication) {
         return communication.getData(serialCommands.CMD_GET_TEST_VALUE);
     }
 
-    testCommunication = () => {
+    testCommunication = () => {        
         return new Promise((resolve) => {
             promise(1).then((value1) => {
                 promise(2).then((value2) => {
