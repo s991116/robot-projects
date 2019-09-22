@@ -18,6 +18,7 @@
 #include "Battery.h"
 #include "BalancingControl.h"
 #include "StepperMotor.h"
+#include "HCSR04.h"
 
 #define LED_BLINK_TIME (300) //Blink timer in MS
 #define LEDMode_OFF              (0)
@@ -28,6 +29,8 @@
 //Declaring global variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 unsigned long loop_timer;
+
+HCSR04 distanceSensor(PIN_DISTANCE_TRIGGER, PIN_DISTANCE_ECHO);
 
 Servo verticalServo, horizontalServo;
 byte servo1Position, servo2Position;
@@ -84,6 +87,7 @@ void SetBatteryAlarmLevel(byte data) {
 }
 
 void SetDistanceSensorMode(byte data) {
+  distanceSensor.SetMeasureMode(data);  
 }
 void SetBalanceMode(byte data) {
   balanceMode = data;
@@ -130,7 +134,7 @@ byte GetPidDLevel() {
 }
 
 byte GetDistanceSensorMode() {
-    return 0;
+    return distanceSensor.IsEnabled();
 }
 
 byte GetBalanceMode() {
@@ -160,7 +164,7 @@ byte GetAngleAcc() {
 }
 
 byte GetDistance() {
-  return 0; 
+  return distanceSensor.GetDistance();
 }
 
 receiveFunctionsArray ReceiveFunctions[] = {
@@ -205,6 +209,7 @@ SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
   serialCom.Initialize();
+  distanceSensor.Initialize();
   balancingControl.Initialize();
 
   loop_timer = micros() + 4000;                                             //Set the loop_timer variable at the next end loop time
@@ -213,7 +218,7 @@ void setup(){
   digitalWrite(PIN_POWERLED, LOW);
 
   verticalServo.attach(PIN_SERVO_1);
-  horizontalServo.attach(PIN_SERVO_2);  
+  horizontalServo.attach(PIN_SERVO_2);
 }
 
 void UpdateLEDMode() {
@@ -236,7 +241,6 @@ void UpdateLEDMode() {
   }
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,6 +252,9 @@ void loop(){
   battery.UpdateBatteryLevel();
 
   balancingControl.Balance();
+
+  distanceSensor.UpdateDistanceMeasure();
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Loop time timer
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
