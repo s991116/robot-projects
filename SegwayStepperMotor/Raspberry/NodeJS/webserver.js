@@ -8,6 +8,7 @@ var io = require('socket.io');//(express) //require socket.io module and pass th
 
 var arduinoCom = require('./SegwayCommunication/arduinoCommunication')();
 var navigation = require('./SegwayCommunication/navigation')(arduinoCom);
+var head = require('./SegwayCommunication/head')(arduinoCom);
 var testCommunication = require('./SegwayCommunication/testCommunication')(arduinoCom);
 
 var relay = require('./websocketRelay')('supersecret', 8081, 8082);
@@ -34,6 +35,9 @@ ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
   debug(chalk.green('Client connected.'));
   socket.on('navigation', (data) => {
     navigation.navigate(data[0], data[1]);
+  });
+  socket.on('head', (data) => {
+    head.move(data[0], data[1]);
   });
   socket.on('PIDUpdate', (data) => {
     navigation.setPidSetting(data[0], data[1], data[2]);
