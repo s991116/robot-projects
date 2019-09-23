@@ -68,5 +68,15 @@ function buttonTestCommunicationClicked(){
         else {
             alert("Communication failed!");
         }
-    });
+    }); 
 };
+
+var canvas = document.getElementById('video-canvas');
+var url = 'ws://'+document.location.hostname+':8082/';
+var player = new JSMpeg.Player(url, {canvas: canvas});
+
+let toggleVideo = () => {
+    socket.emit('CameraToggle');
+}
+canvas.addEventListener('click', toggleVideo, false);
+ 

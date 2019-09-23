@@ -11,6 +11,8 @@ var navigation = require('./SegwayCommunication/navigation')(arduinoCom);
 var head = require('./SegwayCommunication/head')(arduinoCom);
 var testCommunication = require('./SegwayCommunication/testCommunication')(arduinoCom);
 
+var camera = require('./camera.js')();
+
 var relay = require('./websocketRelay')('supersecret', 8081, 8082);
 
 var app = express();
@@ -42,11 +44,14 @@ ioApp.sockets.on('connection', function (socket) {// WebSocket Connection
   socket.on('PIDUpdate', (data) => {
     navigation.setPidSetting(data[0], data[1], data[2]);
   });
+  socket.on('CameraToggle', () => {
+    camera.toggle();
+  });
   socket.on('TestCommunication', () => {
     testCommunication.testCommunication().then(function(result) {
       socket.emit('TestResult', result);
     })
-  })
+  });
 });
 
 var server = httpApp.listen(8080, function() {
