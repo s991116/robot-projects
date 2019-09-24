@@ -4,8 +4,8 @@ module.exports = function(communication) {
     var navigationData = 0;
 
     let percantageRotationToByte = (percentageRotation) => {
-        var value = (percentageRotation+100)*(255/200);
-        return Math.round(Math.max(0, Math.min(value)));
+        var value = (percentageRotation+100)*(180/200);
+        return Math.round(Math.max(0, Math.min(value,180)));
     }
 
     let move = (vertical, horizontal) => {
