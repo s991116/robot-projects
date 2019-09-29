@@ -40,9 +40,12 @@
 #define CMD_GET_DISTANCESENSOR   (0x08)
 #define CMD_GET_BALANCE_MODE     (0x09)
 #define CMD_GET_LIGHT            (0x0A)
-
 #define CMD_GET_BATTERY_LEVEL_H  (0x0B)
 #define CMD_GET_BATTERY_LEVEL_L  (0x0C)
 #define CMD_GET_ANGLE            (0x0D)
 #define CMD_GET_ANGLE_ACC        (0x0E)
 #define CMD_GET_DISTANCE         (0x0F)
+#define CMD_GET_SERVO_1_MIN      (0x10)
+#define CMD_GET_SERVO_1_MAX      (0x11)
+#define CMD_GET_SERVO_2_MIN      (0x12)
+#define CMD_GET_SERVO_2_MAX      (0x13)
