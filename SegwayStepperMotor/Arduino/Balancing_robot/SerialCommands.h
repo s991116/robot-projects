@@ -1,3 +1,13 @@
+//First byte is the command byte. 
+//Bit 7 and 6 is command type
+//Bit 5-0 is command sub-type
+//|76|543210|
+//Command type
+//00xB = 0 -> Navigation
+//01xB = 1 -> Set value
+//10xB = 2 -> Get Value
+
+
 #define CMD_TYPE_SET_VALUE       1
 #define CMD_TYPE_GET_VALUE       2
 

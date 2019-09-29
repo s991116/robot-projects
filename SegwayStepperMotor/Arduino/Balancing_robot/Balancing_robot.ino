@@ -18,6 +18,7 @@
 #include "Battery.h"
 #include "BalancingControl.h"
 #include "StepperMotor.h"
+#include "headControl.h"
 #include "HCSR04.h"
 
 #define LED_BLINK_TIME (300) //Blink timer in MS
@@ -31,10 +32,6 @@
 unsigned long loop_timer;
 
 HCSR04 distanceSensor(PIN_DISTANCE_TRIGGER, PIN_DISTANCE_ECHO);
-
-Servo verticalServo, horizontalServo;
-byte servo1Position, servo2Position;
-
 byte balanceMode;
 
 bool ledBlink;
@@ -45,6 +42,9 @@ Gyroscope gyroscope(Wire);
 Battery battery;
 StepperMotor stepperMotor;
 BalancingControl balancingControl(&gyroscope, &stepperMotor, &battery);
+
+Servo horizontalServo, verticalServo;
+HeadControl headControl(&verticalServo, &horizontalServo);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //Communication functions
@@ -74,13 +74,11 @@ void SetNavigation(byte data) {
 }
 
 void SetServo1Position(byte data) {
-  servo1Position = data;
-  verticalServo.write(servo1Position);
+  headControl.SetHorizontalPosition(data);
 }
 
 void SetServo2Position(byte data) {
-  servo2Position = data;
-  horizontalServo.write(servo2Position);
+  headControl.SetVerticalPosition(data);
 }
 
 void SetBatteryAlarmLevel(byte data) {
@@ -110,11 +108,11 @@ byte GetNavigation() {
 }
 
 byte GetServo1Position() {
-    return servo1Position;
+    return headControl.GetHorizontalPosition();
 }
 
 byte GetServo2Position(){
-    return servo2Position;
+    return headControl.GetVerticalPosition();
 }
 
 byte GetBatteryAlarmLevel() {
@@ -211,14 +209,13 @@ void setup(){
   serialCom.Initialize();
   distanceSensor.Initialize();
   balancingControl.Initialize();
+  headControl.Initialize();
 
   loop_timer = micros() + 4000;                                             //Set the loop_timer variable at the next end loop time
 
   pinMode(PIN_POWERLED, OUTPUT);
   digitalWrite(PIN_POWERLED, LOW);
 
-  verticalServo.attach(PIN_SERVO_1);
-  horizontalServo.attach(PIN_SERVO_2);
 }
 
 void UpdateLEDMode() {

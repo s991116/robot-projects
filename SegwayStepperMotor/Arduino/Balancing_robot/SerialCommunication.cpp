@@ -18,8 +18,8 @@ void SerialCommunication::HandleCommunication() {
         case State::getCmd:
             if(uart->available()>0){
                 unsigned char data = this->uart->read();
-                this->_cmdType = data >> 4;
-                this->_cmd = data & 0x0F;
+                this->_cmdType = data >> 6;
+                this->_cmd = data & 0x3F;
                 this->_state = State::handleCmd;
             }
             break;
