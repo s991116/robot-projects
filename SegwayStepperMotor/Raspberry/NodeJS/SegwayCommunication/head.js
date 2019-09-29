@@ -1,30 +1,46 @@
-module.exports = function(communication) {
+module.exports = async function(communication) {
     var debug = require('debug')('head');
     var serialCommands = require('./serialCommands');
-    var verticalPosition   = 0;
-    var horizontalPosition = 0;
+    
+    var horizontalPosition = await communication.getData(serialCommands.CMD_GET_SERVO_1_POSITION);
+    var verticalPosition   = await communication.getData(serialCommands.CMD_GET_SERVO_2_POSITION);
+
+    var horizontalMin = await communication.getData(serialCommands.CMD_GET_SERVO_1_MIN);
+    var horizontalMax = await communication.getData(serialCommands.CMD_GET_SERVO_1_MAX);
+
+    var verticalMin = await communication.getData(serialCommands.CMD_GET_SERVO_2_MIN);
+    var verticalMax = await communication.getData(serialCommands.CMD_GET_SERVO_2_MAX);
+
     var verticalMove = 0;
     var horizontalMove = 0;
 
-    let percantageRotationToByte = (percentageRotation) => {
-        var value = (percentageRotation+100)*(180/200);
+    let percantageVerticalRotationToByte = (percentageRotation) => {
+        var value = verticalMin + (percentageRotation+100)/200 * (verticalMax-verticalMin);
+        return Math.round(Math.max(0, Math.min(value,180)));
+    }
+
+    let percantageHorizontalRotationToByte = (percentageRotation) => {
+        var value = horizontalMin + (percentageRotation+100)/200 * (horizontalMax-horizontalMin);
         return Math.round(Math.max(0, Math.min(value,180)));
     }
 
     let updatePosition = () => {
+        debug("Start head position to " + verticalPosition + " , " + horizontalPosition);
         verticalPosition += -verticalMove/40.0;
         verticalPosition = Math.max(-100, Math.min(100, verticalPosition));
         horizontalPosition += horizontalMove/50.0;
         horizontalPosition = Math.max(-100, Math.min(100, horizontalPosition));
-        var verticalAngle = percantageRotationToByte(verticalPosition);
-        var horizontalAngle = percantageRotationToByte(horizontalPosition);
-        debug("Update head position to " + verticalAngle + " , " + horizontalAngle);
+        debug("Update head position to " + verticalPosition + " , " + horizontalPosition);
+
+        var verticalAngle = percantageVerticalRotationToByte(verticalPosition);
+        var horizontalAngle = percantageHorizontalRotationToByte(horizontalPosition);
+        debug("Update head angle to " + verticalAngle + " , " + horizontalAngle);
         communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, verticalAngle);
         communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, horizontalAngle);
     }
 
     updatePosition();
-    //setInterval(updatePosition, 100);
+    setInterval(updatePosition, 100);
 
     let move = (vertical, horizontal) => {
         verticalMove = vertical;

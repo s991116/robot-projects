@@ -28,6 +28,10 @@ const CMD_GET_BATTERY_LEVEL_L  = (0x0C)
 const CMD_GET_ANGLE            = (0x0D)
 const CMD_GET_ANGLE_ACC        = (0x0E)
 const CMD_GET_DISTANCE         = (0x0F)
+const CMD_GET_SERVO_1_MIN      = (0x10)
+const CMD_GET_SERVO_1_MAX      = (0x11)
+const CMD_GET_SERVO_2_MIN      = (0x12)
+const CMD_GET_SERVO_2_MAX      = (0x13)
 
 
 module.exports = {
@@ -61,4 +65,8 @@ module.exports = {
     CMD_GET_ANGLE: CMD_GET_ANGLE,
     CMD_GET_ANGLE_ACC: CMD_GET_ANGLE_ACC,
     CMD_GET_DISTANCE: CMD_GET_DISTANCE,
+    CMD_GET_SERVO_1_MIN: CMD_GET_SERVO_1_MIN,
+    CMD_GET_SERVO_1_MAX: CMD_GET_SERVO_1_MAX,
+    CMD_GET_SERVO_2_MIN: CMD_GET_SERVO_2_MIN,
+    CMD_GET_SERVO_2_MAX: CMD_GET_SERVO_2_MAX,
 }

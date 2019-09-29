@@ -1,20 +1,13 @@
-module.exports = function(port) {
+module.exports = async function(port) {
   var chalk = require('chalk');
   var debug = require('debug')('app');
   var serialCommands = require('./serialCommands');
-  
+
   if(port == undefined) {
     var SerialPort = require('serialport');
     var port = new SerialPort('/dev/serial0', { baudRate: 115200 });
-    port.on('open', function() {
-        debug(chalk.green('Port open'));
-    });
-
-    port.on('error', function(err) {
-      debug(chalk.red('Error: ', err.message));
-    });
   }
-  
+
   let sendData = (cmd,data) => {
     cmd = Math.round(cmd) + Math.round(serialCommands.CMD_SET_TYPE);
     data = Math.round(data);
@@ -44,8 +37,23 @@ module.exports = function(port) {
       }
     );
   }
-  return {
-    sendData: sendData,
-    getData: getData,
-  }
+
+  var serialCom =  new Promise(
+    (resolve, reject) => {
+        port.on('open', function() {
+            debug(chalk.green('Port open'));
+            resolve({
+              sendData: sendData,
+              getData: getData,      
+            })
+        });
+    
+        port.on('error', function(err) {
+          debug(chalk.red('Error: ', err.message));
+          reject(err);
+        });
+    }
+  )
+
+  return serialCom;
 }
