@@ -1,6 +1,7 @@
 module.exports = function(port) {
   var chalk = require('chalk');
   var debug = require('debug')('app');
+  var serialCommands = require('./serialCommands');
   
   if(port == undefined) {
     var SerialPort = require('serialport');
@@ -15,8 +16,10 @@ module.exports = function(port) {
   }
   
   let sendData = (cmd,data) => {
-    
-    port.write([Math.round(cmd),Math.round(data)], (err) => {
+    cmd = Math.round(cmd) + Math.round(serialCommands.CMD_SET_TYPE);
+    data = Math.round(data);
+    debug(chalk.green("Send cmd:" + cmd + " , data:" + data));
+    port.write([cmd,data], (err) => {
       if (err) {
         return debug(chalk.red('Error: ', err.message));
       }
@@ -24,6 +27,8 @@ module.exports = function(port) {
   }
 
   let getData = (cmd) => {
+    cmd = Math.round(cmd) + Math.round(serialCommands.CMD_GET_TYPE);
+    debug(chalk.green("Get cmd:" + cmd));
     return new Promise(
       (resolve, reject) => {
         port.write([cmd], (err) => {
@@ -33,6 +38,7 @@ module.exports = function(port) {
         });
         port.on('data', data => {
           response = data[0];
+          debug(chalk.green("Received data:" + response));
           resolve(response);
         })
       }

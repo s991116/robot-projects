@@ -20,17 +20,21 @@
 <div class="tab-content" id="navigationContent">
   <div class="tab-pane fade show active" id="control" role="tabpanel" aria-labelledby="control-tab">  
     <div class="text-center">
-      <canvas id="video-canvas" width="640" height="480" style="border:1px solid #000000;"></canvas>
-      <h1>Navigation</h1>
-      <div id="zone_joystick" style="background-color:lightblue; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
-      <script type="text/javascript" src="js/jsmpeg.min.js"></script>
-      <script type="text/javascript">
-        var canvas = document.getElementById('video-canvas');
-        var url = 'ws://'+document.location.hostname+':8082/';
-        var player = new JSMpeg.Player(url, {canvas: canvas});
-      </script>
-      <script src="js/nipplejs.js"></script>
-      <script src="js/navigation.js"></script>
+        <div class="row">
+          <div class="col-1">
+            <h1>Navigation</h1>
+            <div id="navigation_joystick" style="background-color:transparent; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
+          </div>    
+          <div class="col-10">
+            <canvas id="video-canvas" width="640" height="480" style="border:1px solid #000000;"></canvas>
+          </div>
+          <div class="col-1">
+            <h1>Head</h1>
+            <div id="head_joystick" style="background-color:transparent; width: 100px; height: 100px; margin: auto; position: relative;" ></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
@@ -57,5 +61,8 @@
 <script src="js/jquery.slim.min.js"></script>
 <!-- <script src="js/popper.min.js"></script> -->
 <script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jsmpeg.min.js"></script>
+<script src="js/nipplejs.js"></script>
+<script src="js/navigation.js"></script>
 
 </html>
