@@ -44,7 +44,7 @@ headJoystick.on('move', (evt, data) => {
     if(x !== posX || y !== posY) {
         posX = x;
         posY = y;
-        socket.emit('head', [posY, posX]);
+        socket.emit('head', [posY, -posX]);
     }
 });
 

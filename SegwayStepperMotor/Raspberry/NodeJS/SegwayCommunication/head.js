@@ -16,13 +16,15 @@ module.exports = function(communication) {
         verticalPosition = Math.max(-100, Math.min(100, verticalPosition));
         horizontalPosition += horizontalMove/50.0;
         horizontalPosition = Math.max(-100, Math.min(100, horizontalPosition));
-
-        communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, percantageRotationToByte(verticalPosition));
-        communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, percantageRotationToByte(horizontalPosition));
+        var verticalAngle = percantageRotationToByte(verticalPosition);
+        var horizontalAngle = percantageRotationToByte(horizontalPosition);
+        debug("Update head position to " + verticalAngle + " , " + horizontalAngle);
+        communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, verticalAngle);
+        communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, horizontalAngle);
     }
 
     updatePosition();
-    setInterval(updatePosition, 100);
+    //setInterval(updatePosition, 100);
 
     let move = (vertical, horizontal) => {
         verticalMove = vertical;
