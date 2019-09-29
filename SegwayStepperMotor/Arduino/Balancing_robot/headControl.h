@@ -12,6 +12,10 @@ class HeadControl {
         void SetVerticalPosition(byte position);
         byte GetHorizontalPosition();
         byte GetVerticalPosition();
+        byte GetHorizontalMin();
+        byte GetHorizontalMax();
+        byte GetVerticalMin();
+        byte GetVerticalMax();
 
     private:
         Servo* _verticalServo;

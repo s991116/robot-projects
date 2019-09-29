@@ -30,6 +30,19 @@ byte HeadControl::GetVerticalPosition() {
     return _verticalPosition;
 }
 
+byte HeadControl::GetHorizontalMin() {
+    return _horizontalLimitMin;
+}
+byte HeadControl::GetHorizontalMax() {
+    return _horizontalLimitMax;
+}
+byte HeadControl::GetVerticalMin() {
+    return _verticalLimitMin;
+}
+byte HeadControl::GetVerticalMax() {
+    return _verticalLimitMax;
+}
+
 byte HeadControl::LimitPosition(byte position, byte minPosition, byte maxPosition) {
     return max(minPosition, min(maxPosition, position));
 }

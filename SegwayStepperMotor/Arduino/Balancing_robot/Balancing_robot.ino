@@ -165,6 +165,20 @@ byte GetDistance() {
   return distanceSensor.GetDistance();
 }
 
+byte GetServo1Min() {
+  return headControl.GetVerticalMin();
+}
+byte GetServo1Max() {
+  return headControl.GetVerticalMax();
+}
+byte GetServo2Min() {
+  return headControl.GetHorizontalMin();
+}
+byte GetServo2Max() {
+  return headControl.GetHorizontalMax();
+}
+
+
 receiveFunctionsArray ReceiveFunctions[] = {
   SetTestData, 
   SetNavigation,
@@ -196,6 +210,10 @@ transmitFunctionsArray TransmitFunctions[] = {
   GetAngle,
   GetAngleAcc,
   GetDistance,
+  GetServo1Min,
+  GetServo1Max,
+  GetServo2Min,
+  GetServo2Max,
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
