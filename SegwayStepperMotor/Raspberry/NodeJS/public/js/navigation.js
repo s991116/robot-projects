@@ -56,7 +56,8 @@ function buttonClicked(){
     var pValue = document.getElementById("pValue").value;
     var iValue = document.getElementById("iValue").value;
     var dValue = document.getElementById("dValue").value;
-    socket.emit('PIDUpdate', [pValue,iValue,dValue]);
+    var balancingLevel = document.getElementById("balancingLevel").value
+    socket.emit('PIDUpdate', [pValue,iValue,dValue,balancingLevel]);
 };
 
 function buttonTestCommunicationClicked(){

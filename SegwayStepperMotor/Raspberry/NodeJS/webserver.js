@@ -44,7 +44,7 @@ arduinoComPromise.then ((arduinoCom) => {
           head.move(data[0], data[1]);
         });
         socket.on('PIDUpdate', (data) => {
-          navigation.setPidSetting(data[0], data[1], data[2]);
+          navigation.setPidSetting(data[0], data[1], data[2], data[3]);
         });
         socket.on('CameraToggle', () => {
           camera.toggle();

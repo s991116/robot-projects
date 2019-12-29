@@ -52,6 +52,10 @@
         <span class="input-group-text" id="inputGroup-sizing-default">D</span>
       </div>
       <input type="number" name="quantity" min="0" max="50" step="0.1" value="10.0" id="dValue" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Balance</span>
+      </div>
+      <input type="number" name="quantity" min="0" max="0.6" step="0.0025" value="0.015" id="balancingLevel" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       <button onclick="buttonClicked()">Send PID</button>
     </div>
       <button onclick="buttonTestCommunicationClicked()">Test communication</button>
