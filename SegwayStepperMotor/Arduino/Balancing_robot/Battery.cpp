@@ -1,6 +1,10 @@
 #include "Battery.h"
 #include "PinSetup.h"
 
+void Battery::Initialize() {
+    this->_lowBattery = 0;
+}
+
 void Battery::UpdateBatteryLevel() {
     //Load the battery voltage to the battery_voltage variable.
     //85 is the voltage compensation for the diode.
@@ -12,8 +16,8 @@ void Battery::UpdateBatteryLevel() {
     this->_batteryVoltage = (analogRead(PIN_ANALOG_BATTERY_VOLTAGE) * 1.222) + 85;
     
     if(this->_batteryVoltage < 1050 && this->_batteryVoltage > 800){                      //If batteryvoltage is below 10.5V and higher than 8.0V
-        //digitalWrite(13, HIGH);                                                 //Turn on the led if battery voltage is to low
-        this->_lowBattery = 1;                                                            //Set the low_bat variable to 1
+        //Battery voltage input is not working on pcb-board
+        //this->_lowBattery = 1;                                                          //Set the low_bat variable to 1
     }
 }
 

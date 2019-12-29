@@ -69,6 +69,10 @@ void SetPidDLevel(byte data) {
   balancingControl.SetPidDLevel(data);
 }
 
+void SetSelvBalanceLevel(byte data) {
+  balancingControl.SetSelfBalanceGain(data);
+}
+
 void SetNavigation(byte data) {
   balancingControl.SetNavigation(data);
 }
@@ -131,6 +135,10 @@ byte GetPidDLevel() {
   return balancingControl.GetPidDLevel();
 }
 
+byte GetSelfBalanceLevel() {
+  return balancingControl.GetSelfBalanceGain();
+}
+
 byte GetDistanceSensorMode() {
     return distanceSensor.IsEnabled();
 }
@@ -188,6 +196,7 @@ receiveFunctionsArray ReceiveFunctions[] = {
   SetPidPLevel,
   SetPidILevel,
   SetPidDLevel,
+  SetSelvBalanceLevel,
   SetDistanceSensorMode,
   SetBalanceMode,
   SetLightMode,
@@ -202,6 +211,7 @@ transmitFunctionsArray TransmitFunctions[] = {
   GetPidPLevel,
   GetPidILevel,
   GetPidDLevel,
+  GetSelfBalanceLevel,
   GetDistanceSensorMode,
   GetBalanceMode,
   GetLightMode,
@@ -224,6 +234,7 @@ SerialCommunication serialCom(&Serial, ReceiveFunctions, TransmitFunctions);
 //Setup basic functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
+  battery.Initialize();
   serialCom.Initialize();
   distanceSensor.Initialize();
   balancingControl.Initialize();

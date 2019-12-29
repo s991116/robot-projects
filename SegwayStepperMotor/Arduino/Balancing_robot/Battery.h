@@ -5,6 +5,7 @@
 
 class Battery {
     public:
+        void Initialize();
         void UpdateBatteryLevel();
         int GetVoltage();
         bool LowBattery();

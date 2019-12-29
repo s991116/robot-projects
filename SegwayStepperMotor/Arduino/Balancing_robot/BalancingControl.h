@@ -14,10 +14,12 @@ class BalancingControl{
         void SetPidPLevel(unsigned char);
         void SetPidILevel(unsigned char);
         void SetPidDLevel(unsigned char);
+        void SetSelfBalanceGain(unsigned char);
  
         unsigned char GetPidPLevel();
         unsigned char GetPidILevel();
         unsigned char GetPidDLevel();
+        unsigned char GetSelfBalanceGain();
 
         StepperMotor* _stepperMotor;
 
@@ -27,6 +29,7 @@ class BalancingControl{
         float pid_p_gain;
         float pid_i_gain;
         float pid_d_gain;
+        float selfbalance_gain;
         float turning_speed;
         float max_target_speed;
         float pid_error_temp, pid_i_mem;

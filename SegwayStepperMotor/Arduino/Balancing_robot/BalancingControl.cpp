@@ -11,9 +11,10 @@ void BalancingControl::Initialize() {
     this->_gyroscope->Initialize();
     this->_stepperMotor->Initialize();
 
-    this->pid_p_gain = 15.0;                                       //Gain setting for the P-controller (15)
+    this->pid_p_gain = 15.0;                                     //Gain setting for the P-controller (15)
     this->pid_i_gain = 1.5;                                      //Gain setting for the I-controller (1.5)
-    this->pid_d_gain = 10.0;                                       //Gain setting for the D-controller (30)
+    this->pid_d_gain = 10.0;                                     //Gain setting for the D-controller (30)
+    this->selfbalance_gain = 0.015;
     this->turning_speed = 30;                                    //Turning speed (20)
     this->max_target_speed = 150;                                //Max target speed (100)
 
@@ -42,8 +43,8 @@ void BalancingControl::Balance() {
     this->pid_error_temp = _gyroscope->angle_gyro - this->self_balance_pid_setpoint - this->pid_setpoint;
     if(this->pid_output > 10 || this->pid_output < -10) this->pid_error_temp += this->pid_output * 0.015 ;
 
-    this->pid_i_mem += this->pid_i_gain * this->pid_error_temp;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
-    if(this->pid_i_mem > 400) this->pid_i_mem = 400;                                       //Limit the I-controller to the maximum controller output
+    this->pid_i_mem += this->pid_i_gain * this->pid_error_temp;   //Calculate the I-controller value and add it to the pid_i_mem variable
+    if(this->pid_i_mem > 400) this->pid_i_mem = 400;              //Limit the I-controller to the maximum controller output
     else if(this->pid_i_mem < -400) this->pid_i_mem = -400;
     //Calculate the PID output value
     float p_Error = this->pid_p_gain * this->pid_error_temp;
@@ -51,12 +52,12 @@ void BalancingControl::Balance() {
     float d_Error = this->pid_d_gain * (this->pid_error_temp - this->pid_last_d_error);
     this->pid_output = p_Error + i_Error + d_Error;
 
-    if(this->pid_output > 400) this->pid_output = 400;                                     //Limit the PI-controller to the maximum controller output
+    if(this->pid_output > 400) this->pid_output = 400;            //Limit the PI-controller to the maximum controller output
     else if(this->pid_output < -400) this->pid_output = -400;
 
-    this->pid_last_d_error = this->pid_error_temp;                                        //Store the error for the next loop
+    this->pid_last_d_error = this->pid_error_temp;                //Store the error for the next loop
 
-    if(this->pid_output < 5 && this->pid_output > -5) this->pid_output = 0;                      //Create a dead-band to stop the motors when the robot is balanced
+    if(this->pid_output < 5 && this->pid_output > -5) this->pid_output = 0; //Create a dead-band to stop the motors when the robot is balanced
 
     if(_gyroscope->angle_gyro > 30 || _gyroscope->angle_gyro < -30 || _gyroscope->start == 0 || _battery->LowBattery() == 1){    //If the robot tips over or the start variable is zero or the battery is empty
         this->pid_output = 0;                                                         //Set the PID controller output to 0 so the motors stop moving
@@ -97,8 +98,8 @@ void BalancingControl::Balance() {
     
     //The self balancing point is adjusted when there is not forward or backwards movement from the transmitter. This way the robot will always find it's balancing point
     if(this->pid_setpoint == 0){                                                    //If the setpoint is zero degrees
-        if(this->pid_output < 0) this->self_balance_pid_setpoint += 0.0015;                  //Increase the self_balance_pid_setpoint if the robot is still moving forewards
-        if(this->pid_output > 0) this->self_balance_pid_setpoint -= 0.0015;                  //Decrease the self_balance_pid_setpoint if the robot is still moving backwards
+        if(this->pid_output < 0) this->self_balance_pid_setpoint += selfbalance_gain;                  //Increase the self_balance_pid_setpoint if the robot is still moving forewards
+        if(this->pid_output > 0) this->self_balance_pid_setpoint -= selfbalance_gain;                  //Decrease the self_balance_pid_setpoint if the robot is still moving backwards
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +140,10 @@ void BalancingControl::SetPidDLevel(byte data) {
   pid_d_gain = data/4.0;
 }
 
+void BalancingControl::SetSelfBalanceGain(byte data) {
+    selfbalance_gain = data/400.0;
+}
+
 byte BalancingControl::GetPidPLevel() {
     return 4*pid_p_gain;
 }
@@ -149,4 +154,8 @@ byte BalancingControl::GetPidILevel() {
 
 byte BalancingControl::GetPidDLevel() {
     return 4*pid_d_gain;
+}
+
+byte BalancingControl::GetSelfBalanceGain() {
+    return 400*selfbalance_gain;
 }
