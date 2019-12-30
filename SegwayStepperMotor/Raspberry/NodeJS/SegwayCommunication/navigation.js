@@ -30,12 +30,13 @@ module.exports = function(communication) {
 
     setInterval(sendNavigation, 100);
 
-    let setPidSetting = (pValue, iValue, dValue, balancingLevel) => {
+    let setPidSetting = (pValue, iValue, dValue, balancingLevel, deadBandLevel) => {
         communication.sendData(serialCommands.CMD_SET_PID_P_LEVEL, pValue * 4);
         communication.sendData(serialCommands.CMD_SET_PID_I_LEVEL, iValue * 4);
         communication.sendData(serialCommands.CMD_SET_PID_D_LEVEL, dValue * 4);
         communication.sendData(serialCommands.CMD_SET_BALANCING_LEVEL, balancingLevel * 400);
-        debug("PID and balance level set to: " + pValue + " , " + iValue + " , " + dValue + " , " + balancingLevel);
+        communication.sendData(serialCommands.CMD_SET_DEADBAND_LEVEL, deadBandLevel);
+        debug("PID and balance level set to: " + pValue + " , " + iValue + " , " + dValue + " , " + balancingLevel + " , " + deadBandLevel);
     }
 
     let getPidSetting = () => {
@@ -48,8 +49,11 @@ module.exports = function(communication) {
             .then( (dValue) => {
                 communication.getData(serialCommands.CMD_GET_BALANCING_LEVEL)
             .then( (balancingLevel) => {
-                resolve([pValue/4.0, iValue/4.0, dValue/4.0, balancingLevel/400.0]);
-                debug("PID and balance level received: " + pValue/4.0 + " , " + iValue/4.0 + " , " + dValue/4.0 + " , " + balancingLevel/400.0);
+                communication.getData(serialCommands.CMD_GET_DEADBAND_LEVEL)
+            .then ( (deadBandLevel) => {
+                resolve([pValue/4.0, iValue/4.0, dValue/4.0, balancingLevel/400.0, deadBandLevel]);
+                debug("PID and balance level received: " + pValue/4.0 + " , " + iValue/4.0 + " , " + dValue/4.0 + " , " + balancingLevel/400.0 + " , " + deadBandLevel);
+            });
             });
             });
             });            

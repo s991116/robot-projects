@@ -14,6 +14,9 @@ module.exports = async function(communication) {
     var verticalMove = 0;
     var horizontalMove = 0;
 
+    var previusHorizontalAngle = -1;
+    var previusVerticalAngle = -1;
+
     let percantageVerticalRotationToByte = (percentageRotation) => {
         var value = verticalMin + (percentageRotation+100)/200 * (verticalMax-verticalMin);
         return Math.round(Math.max(0, Math.min(value,180)));
@@ -35,8 +38,16 @@ module.exports = async function(communication) {
         var verticalAngle = percantageVerticalRotationToByte(verticalPosition);
         var horizontalAngle = percantageHorizontalRotationToByte(horizontalPosition);
         debug("Update head angle to " + verticalAngle + " , " + horizontalAngle);
-        communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, verticalAngle);
-        communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, horizontalAngle);
+        
+        if(previusVerticalAngle !== verticalAngle) {
+            communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, verticalAngle);
+            previusVerticalAngle = verticalAngle;
+        }
+
+        if(previusHorizontalAngle !== horizontalAngle) {
+            communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, horizontalAngle);
+            previusHorizontalAngle = horizontalAngle;
+        }
     }
 
     updatePosition();

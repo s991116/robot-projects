@@ -32,7 +32,7 @@ test('PID Settings updated', () => {
   const fixture = createFixture();
   const navigation = fixture.navigation;
   
-  navigation.setPidSetting(1,2,3,0.0125);
+  navigation.setPidSetting(1,2,3,0.0125,5);
 
-  expect(fixture.sendData).toHaveBeenCalledTimes(4);
+  expect(fixture.sendData).toHaveBeenCalledTimes(5);
 })
