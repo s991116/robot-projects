@@ -17,15 +17,15 @@ module.exports = function(communication) {
 
     let sendNavigation = () => {
         if(navigationData !== 0) {
-            debug("Send navigation automatic:" + navigationData);
-            communication.sendData(0x11,navigationData);
+            debug("Navigation automatic:" + navigationData);
+            communication.sendNavigation(navigationData);
         }
     }
 
     let navigate = (forwardBackwards, side) => {
         navigationData = forwardBackardsData[forwardBackwards] | leftRightData[side];
-        debug("Send navigation moved:" + navigationData);
-        communication.sendData(0x11,navigationData);
+        debug("Navigation move:" + navigationData);
+        communication.sendNavigation(navigationData);
     }
 
     setInterval(sendNavigation, 100);

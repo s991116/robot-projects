@@ -37,6 +37,7 @@ const CMD_GET_SERVO_1_MAX      = (0x13)
 const CMD_GET_SERVO_2_MIN      = (0x14)
 const CMD_GET_SERVO_2_MAX      = (0x15)
 
+const CMD_NAVIGATION_TYPE      = (0xC0)
 
 module.exports = {
     CMD_SET_TYPE: CMD_SET_TYPE,
@@ -77,4 +78,6 @@ module.exports = {
     CMD_GET_SERVO_1_MAX: CMD_GET_SERVO_1_MAX,
     CMD_GET_SERVO_2_MIN: CMD_GET_SERVO_2_MIN,
     CMD_GET_SERVO_2_MAX: CMD_GET_SERVO_2_MAX,
+
+    CMD_NAVIGATION_TYPE: CMD_NAVIGATION_TYPE,
 }

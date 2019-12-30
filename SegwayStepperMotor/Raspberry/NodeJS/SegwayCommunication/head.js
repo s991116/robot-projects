@@ -28,23 +28,22 @@ module.exports = async function(communication) {
     }
 
     let updatePosition = () => {
-        debug("Start head position to " + verticalPosition + " , " + horizontalPosition);
         verticalPosition += -verticalMove/40.0;
         verticalPosition = Math.max(-100, Math.min(100, verticalPosition));
         horizontalPosition += horizontalMove/50.0;
         horizontalPosition = Math.max(-100, Math.min(100, horizontalPosition));
-        debug("Update head position to " + verticalPosition + " , " + horizontalPosition);
-
+        
         var verticalAngle = percantageVerticalRotationToByte(verticalPosition);
         var horizontalAngle = percantageHorizontalRotationToByte(horizontalPosition);
-        debug("Update head angle to " + verticalAngle + " , " + horizontalAngle);
         
         if(previusVerticalAngle !== verticalAngle) {
+            debug("Update head position to " + verticalPosition + " , " + horizontalPosition);
             communication.sendData(serialCommands.CMD_SET_SERVO_2_POSITION, verticalAngle);
             previusVerticalAngle = verticalAngle;
         }
 
         if(previusHorizontalAngle !== horizontalAngle) {
+            debug("Update head angle to " + verticalAngle + " , " + horizontalAngle);
             communication.sendData(serialCommands.CMD_SET_SERVO_1_POSITION, horizontalAngle);
             previusHorizontalAngle = horizontalAngle;
         }
