@@ -56,8 +56,9 @@ function buttonClicked(){
     var pValue = document.getElementById("pValue").value;
     var iValue = document.getElementById("iValue").value;
     var dValue = document.getElementById("dValue").value;
-    var balancingLevel = document.getElementById("balancingLevel").value
-    socket.emit('PIDUpdate', [pValue,iValue,dValue,balancingLevel]);
+    var balancingLevel = document.getElementById("balancingLevel").value;
+    var deadbandLevel = document.getElementById("deadBandLevel").value;
+    socket.emit('PIDUpdate', [pValue,iValue,dValue,balancingLevel, deadbandLevel]);
 };
 
 function buttonTestCommunicationClicked(){

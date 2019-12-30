@@ -19,6 +19,16 @@ module.exports = async function(port) {
     });
   }
 
+  let sendNavigation = (navigation) => {
+    cmd = Math.round(navigation) + Math.round(serialCommands.CMD_NAVIGATION_TYPE);
+    debug(chalk.green("Send navigation:" + cmd));
+    port.write([cmd], (err) => {
+      if (err) {
+        return debug(chalk.red('Error: ', err.message));
+      }
+    });
+  }
+
   let getData = (cmd) => {
     cmd = Math.round(cmd) + Math.round(serialCommands.CMD_GET_TYPE);
     debug(chalk.green("Get cmd:" + cmd));
@@ -44,7 +54,8 @@ module.exports = async function(port) {
             debug(chalk.green('Port open'));
             resolve({
               sendData: sendData,
-              getData: getData,      
+              getData: getData,
+              sendNavigation: sendNavigation,      
             })
         });
     
