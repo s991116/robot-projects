@@ -6,9 +6,11 @@ typedef void (*receiveFunctionsArray)(unsigned char);
 typedef unsigned char (**transmitFunctionsP)(void);
 typedef unsigned char (*transmitFunctionsArray)(void);
 
+typedef void (*navigationFunctionP)(byte);
+
 class SerialCommunication {
 	public:
-	    SerialCommunication(HardwareSerial *serial, receiveFunctionsP receiveFunctions, transmitFunctionsP transmitFunctions);
+	    SerialCommunication(HardwareSerial *serial, receiveFunctionsP receiveFunctions, transmitFunctionsP transmitFunctions, navigationFunctionP navigationFunction);
         void Initialize();
 		void HandleCommunication(); 
 
@@ -22,4 +24,5 @@ class SerialCommunication {
 		unsigned char _cmd;
         receiveFunctionsP _receiveFunctions;
         transmitFunctionsP _transmitFunctions;
+		navigationFunctionP _navigationFunction;
 };

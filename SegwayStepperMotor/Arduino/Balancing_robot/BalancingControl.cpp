@@ -1,6 +1,5 @@
 #include "BalancingControl.h"
 
-
 BalancingControl::BalancingControl(Gyroscope* gyroscope, StepperMotor* stepperMotor, Battery* battery) {
     _gyroscope = gyroscope;
     _stepperMotor = stepperMotor;
@@ -73,10 +72,20 @@ void BalancingControl::Balance() {
     this->pid_output_left = this->pid_output;                                             //Copy the controller output to the pid_output_left variable for the left motor
     this->pid_output_right = this->pid_output;                                            //Copy the controller output to the pid_output_right variable for the right motor
 
+    if(this->navigation != 0) {
+        digitalWrite(13, HIGH);
+    }
+    else
+    {
+        digitalWrite(13, LOW);
+    }
+    
+
     if(this->navigation & B00000001){                                            //If the first bit of the receive byte is set change the left and right variable to turn the robot to the left
         this->pid_output_left += this->turning_speed;                                       //Increase the left motor speed
         this->pid_output_right -= this->turning_speed;                                      //Decrease the right motor speed
     }
+    
     if(this->navigation & B00000010){                                            //If the second bit of the receive byte is set change the left and right variable to turn the robot to the right
         this->pid_output_left -= this->turning_speed;                                       //Decrease the left motor speed
         this->pid_output_right += this->turning_speed;                                      //Increase the right motor speed

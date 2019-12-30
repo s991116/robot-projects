@@ -10,6 +10,7 @@
 
 #define CMD_TYPE_SET_VALUE       1
 #define CMD_TYPE_GET_VALUE       2
+#define CMD_TYPE_NAVIGATION      3
 
 #define TURN_LEFT_BIT        (0b00000001)
 #define TURN_RIGHT_BIT       (0b00000010)
