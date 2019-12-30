@@ -73,6 +73,10 @@ void SetSelvBalanceLevel(byte data) {
   balancingControl.SetSelfBalanceGain(data);
 }
 
+void SetDeadBandLevel(byte data) {
+  balancingControl.SetDeadBandLevel(data);
+}
+
 void SetNavigation(byte data) {
   balancingControl.SetNavigation(data);
 }
@@ -139,6 +143,10 @@ byte GetSelfBalanceLevel() {
   return balancingControl.GetSelfBalanceGain();
 }
 
+byte GetDeadBandLevel() {
+  return balancingControl.GetDeadBandLevel();
+}
+
 byte GetDistanceSensorMode() {
     return distanceSensor.IsEnabled();
 }
@@ -197,6 +205,7 @@ receiveFunctionsArray ReceiveFunctions[] = {
   SetPidILevel,
   SetPidDLevel,
   SetSelvBalanceLevel,
+  SetDeadBandLevel,
   SetDistanceSensorMode,
   SetBalanceMode,
   SetLightMode,
@@ -212,6 +221,7 @@ transmitFunctionsArray TransmitFunctions[] = {
   GetPidILevel,
   GetPidDLevel,
   GetSelfBalanceLevel,
+  GetDeadBandLevel,
   GetDistanceSensorMode,
   GetBalanceMode,
   GetLightMode,

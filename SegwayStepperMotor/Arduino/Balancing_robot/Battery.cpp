@@ -13,11 +13,14 @@ void Battery::UpdateBatteryLevel() {
     //12.5V equals 1023 analogRead(0).
     //1250 / 1023 = 1.222.
     //The variable battery_voltage holds 1050 if the battery voltage is 10.5V.
+    
+    //Battery voltage input is not working on pcb-board
+    return;
+    
     this->_batteryVoltage = (analogRead(PIN_ANALOG_BATTERY_VOLTAGE) * 1.222) + 85;
     
     if(this->_batteryVoltage < 1050 && this->_batteryVoltage > 800){                      //If batteryvoltage is below 10.5V and higher than 8.0V
-        //Battery voltage input is not working on pcb-board
-        //this->_lowBattery = 1;                                                          //Set the low_bat variable to 1
+        this->_lowBattery = 1;                                                          //Set the low_bat variable to 1
     }
 }
 
