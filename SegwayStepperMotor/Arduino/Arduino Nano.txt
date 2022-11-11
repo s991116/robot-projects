@@ -1,3 +1,6 @@
+Board Config
+Arduino Nano (Arduino AVR Boards) , ATmega328P (Old bootloader)
+
 Arduino Nano
 A7 -> Battery level (OK)
 A4 (SDA) -> MPU6050 SDA (OK)

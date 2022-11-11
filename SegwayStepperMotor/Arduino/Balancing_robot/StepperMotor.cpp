@@ -32,10 +32,10 @@ void StepperMotor::Update() {
 
   //Left motor pulse calculations
   this->throttle_counter_left_motor++;                                           //Increase the throttle_counter_left_motor variable by 1 every time this routine is executed
-  if(this->throttle_counter_left_motor > this->throttle_left_motor_memory){             //If the number of loops is larger then the throttle_left_motor_memory variable
-    this->throttle_counter_left_motor = 0;                                        //Reset the throttle_counter_left_motor variable
-    this->throttle_left_motor_memory = this->throttle_left_motor;                       //Load the next throttle_left_motor variable
-    if(this->throttle_left_motor_memory < 0){                                     //If the throttle_left_motor_memory is negative                                                 //Set output 3 low to reverse the direction of the stepper controller
+  if(this->throttle_counter_left_motor > this->throttle_left_motor_memory){      //If the number of loops is larger then the throttle_left_motor_memory variable
+    this->throttle_counter_left_motor = 0;                                       //Reset the throttle_counter_left_motor variable
+    this->throttle_left_motor_memory = this->throttle_left_motor;                //Load the next throttle_left_motor variable
+    if(this->throttle_left_motor_memory < 0){                                    //If the throttle_left_motor_memory is negative                                                 //Set output 3 low to reverse the direction of the stepper controller
       STEPPERMOTOR_LEFT_REVERSE;
       this->throttle_left_motor_memory *= -1;                                     //Invert the throttle_left_motor_memory variable
     }
